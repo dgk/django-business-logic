@@ -6,7 +6,7 @@ from django.utils.encoding import smart_unicode
 from django.utils.translation import gettext as _
 
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 #import mptt
 from .. import signals
