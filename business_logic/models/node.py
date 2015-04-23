@@ -8,8 +8,8 @@ from django.utils.translation import gettext as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 
-import mptt
-from program import signals
+#import mptt
+from .. import signals
 
 from treebeard.ns_tree import NS_Node
 

@@ -5,7 +5,7 @@ from django.test import TestCase
 from ..models import *
 
 class MessageTest(TestCase):
-    fixtures = ['contenttypes.json', 'messages.json', ]
+    fixtures = ['messages.json', ]
     def test_interpret(self):
         context = Context()
         message = Message.objects.get(id=1)

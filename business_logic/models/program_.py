@@ -11,26 +11,22 @@ from node import Node
 
 class Program(models.Model):
     title = models.CharField(_('Title'), max_length=255)
-    type = models.ForeignKey('program.ProgramType', related_name='programs')
+    type = models.ForeignKey('ProgramType', related_name='programs')
 
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
 
-    active_version = models.ForeignKey('program.ProgramVersion',
+    active_version = models.ForeignKey('ProgramVersion',
             related_name='active', verbose_name=_('Active version'),
             null=True, blank=True)
 
-    testing_version = models.ForeignKey('program.ProgramVersion',
+    testing_version = models.ForeignKey('ProgramVersion',
             related_name='testing', verbose_name=_('Testing version'),
             null=True, blank=True)
 
     class Meta:
         verbose_name = _('Program')
         verbose_name_plural = _('Programs')
-
-    class __amf__:
-        exclude = ('type', 'active_version', 'testing_version', )
-        static = ('id', )
 
     def __unicode__(self):
         return smart_unicode(self.title)
@@ -50,9 +46,6 @@ class ProgramVersion(models.Model):
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
 
-    class __amf__:
-        exclude = ('program', 'entry_point', )
-        static = ('id', )
     class Meta:
         verbose_name = _('Program version')
         verbose_name_plural = _('Program versions')
@@ -70,9 +63,9 @@ class ProgramVersion(models.Model):
 
 class ProgramType(models.Model):
     title = models.CharField(_('Title'), max_length=255)
-    input_argumets = models.ForeignKey('program.ArgumentSet',
+    input_argumets = models.ForeignKey('ArgumentSet',
             related_name='inputs', verbose_name=_('Input arguments'))
-    output_argumets = models.ForeignKey('program.ArgumentSet',
+    output_argumets = models.ForeignKey('ArgumentSet',
             related_name='outputs', verbose_name=_('Output arguments'))
     class Meta:
         verbose_name = _('Program type')

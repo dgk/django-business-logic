@@ -31,7 +31,7 @@ def create_test_data():
 
 if __name__ == '__main__':
     import settings # Assumed to be in the same directory.
-    from program import models
+    from .. import models
     import django.conf
     create_test_data()
 

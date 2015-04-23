@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 
-from program import signals
+from .. import signals
 from log import Logger
 from frame import Frame
 from node import Node, NodeCacheHolder
@@ -44,7 +44,7 @@ class Context(NodeCacheHolder):
                     sender=self)
             signals.interpret_leave.connect(self.logger.interpret_leave,
                     sender=self)
-            
+
     def _frame(self):
         if not self.frames:
             return None

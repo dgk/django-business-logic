@@ -15,7 +15,7 @@ class FunctionTest(TestCase):
     def test_import(self):
         context = Context()
         root = Node.add_root()
-        func_def = FunctionDefinition(module='program.tests.function', function='_bin')
+        func_def = FunctionDefinition(module='business_logic.tests.function', function='_bin')
         root.add_child(content_object=func_def)
         root = Node.objects.get(id=root.id)
         func = Function(definition=func_def)
@@ -28,7 +28,7 @@ class FunctionTest(TestCase):
     def test_context_in_function(self):
         context = Context()
         root = Node.add_root()
-        func_def = FunctionDefinition(module='program.tests.function',
+        func_def = FunctionDefinition(module='business_logic.tests.function',
                 function='context_bin', context_required=True)
         root.add_child(content_object=func_def)
         root = Node.objects.get(id=root.id)
