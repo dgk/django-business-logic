@@ -3,7 +3,7 @@
 
 from django.test import TestCase
 
-from models import *
+from ..models import *
 from .. import signals
 
 class TestException(Exception):
