@@ -1,0 +1,384 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-24 00:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: models/assignment.py:12
+msgid "Assignment"
+msgstr "Присвоение"
+
+#: models/assignment.py:13
+msgid "Assignments"
+msgstr "Присвоения"
+
+#: models/constant.py:20 models/constant.py:28 models/constant.py:35
+#: models/constant.py:42 models/constant.py:49 models/constant.py:56
+#: models/constant.py:63
+msgid "Value"
+msgstr "Значение"
+
+#: models/constant.py:23
+msgid "Integer constant"
+msgstr "Целая константа"
+
+#: models/constant.py:24
+msgid "Integer constants"
+msgstr "Целые константы"
+
+#: models/constant.py:31
+msgid "Decimal constant"
+msgstr ""
+
+#: models/constant.py:32
+msgid "Decimal constants"
+msgstr ""
+
+#: models/constant.py:38
+msgid "Float constant"
+msgstr ""
+
+#: models/constant.py:39
+msgid "Float constants"
+msgstr ""
+
+#: models/constant.py:45
+msgid "String constant"
+msgstr "Строковая константа"
+
+#: models/constant.py:46
+msgid "String constants"
+msgstr "Строковые константы"
+
+#: models/constant.py:52
+msgid "Boolean constant"
+msgstr ""
+
+#: models/constant.py:53
+msgid "Boolean constants"
+msgstr ""
+
+#: models/constant.py:59
+msgid "Date constant"
+msgstr ""
+
+#: models/constant.py:60
+msgid "Date constants"
+msgstr ""
+
+#: models/constant.py:66
+msgid "Model constant"
+msgstr ""
+
+#: models/constant.py:67
+msgid "Model constants"
+msgstr ""
+
+#: models/constant.py:71
+msgid "List constant"
+msgstr ""
+
+#: models/constant.py:72
+msgid "List constants"
+msgstr ""
+
+#: models/foreach.py:10
+msgid "Foreach statement"
+msgstr ""
+
+#: models/foreach.py:11
+msgid "Foreach statements"
+msgstr ""
+
+#: models/function.py:10
+msgid "Module name"
+msgstr ""
+
+#: models/function.py:13
+msgid "Function name"
+msgstr ""
+
+#: models/function.py:14
+msgid "Context required"
+msgstr ""
+
+#: models/function.py:16
+msgid "Function title"
+msgstr ""
+
+#: models/function.py:19
+msgid "Function definition"
+msgstr ""
+
+#: models/function.py:20
+msgid "Function definitions"
+msgstr ""
+
+#: models/function.py:39
+msgid "Function"
+msgstr ""
+
+#: models/function.py:40
+msgid "Functions"
+msgstr ""
+
+#: models/ifstatement.py:10
+msgid "If statement"
+msgstr ""
+
+#: models/ifstatement.py:11
+msgid "If statements"
+msgstr ""
+
+#: models/log.py:57 models/node.py:25
+msgid "Program node"
+msgstr "Узел программы"
+
+#: models/log.py:58
+msgid "Previous value"
+msgstr ""
+
+#: models/log.py:59
+msgid "Current value"
+msgstr ""
+
+#: models/message.py:11 models/program_.py:13 models/program_.py:45
+#: models/program_.py:65 models/program_.py:78 models/program_.py:87
+#: models/reference.py:11
+msgid "Title"
+msgstr "Название"
+
+#: models/message.py:14
+msgid "Message type"
+msgstr ""
+
+#: models/message.py:15
+msgid "Message types"
+msgstr ""
+
+#: models/message.py:21 models/message.py:28
+msgid "Message"
+msgstr ""
+
+#: models/message.py:29
+msgid "Messages"
+msgstr ""
+
+#: models/message.py:36
+msgid "Result message"
+msgstr ""
+
+#: models/message.py:37
+msgid "Result messages"
+msgstr ""
+
+#: models/node.py:17
+msgid "Comment"
+msgstr "Комментарий"
+
+#: models/node.py:26
+msgid "Program nodes"
+msgstr "Узлы программы"
+
+#: models/operator_.py:13
+msgid "Operator"
+msgstr "Оператор"
+
+#: models/operator_.py:58
+msgid "Binary operator"
+msgstr "Бинарный оператор"
+
+#: models/operator_.py:59
+msgid "Binary operators"
+msgstr "Бинарные операторы"
+
+#: models/operator_.py:64
+msgid "Unary operator"
+msgstr "Унарный оператор"
+
+#: models/operator_.py:65
+msgid "Unary operators"
+msgstr "Унарные операторы"
+
+#: models/program_.py:20
+msgid "Active version"
+msgstr ""
+
+#: models/program_.py:24
+msgid "Testing version"
+msgstr ""
+
+#: models/program_.py:28
+msgid "Program"
+msgstr "Программа"
+
+#: models/program_.py:29
+msgid "Programs"
+msgstr "Программы"
+
+#: models/program_.py:44
+msgid "Entry point"
+msgstr "Точка входа"
+
+#: models/program_.py:50
+msgid "Program version"
+msgstr "Версия программы"
+
+#: models/program_.py:51
+msgid "Program versions"
+msgstr "Версии программ"
+
+#: models/program_.py:67
+msgid "Input arguments"
+msgstr "Входные аргументы"
+
+#: models/program_.py:69
+msgid "Output arguments"
+msgstr ""
+
+#: models/program_.py:71
+msgid "Program type"
+msgstr "Тип программы"
+
+#: models/program_.py:72
+msgid "Program types"
+msgstr "Типы программ"
+
+#: models/program_.py:80 models/program_.py:90
+msgid "Program argument set"
+msgstr "Узел программы"
+
+#: models/program_.py:81
+#, fuzzy
+#| msgid "Program nodes"
+msgid "Program argument sets"
+msgstr "Узлы программы"
+
+#: models/program_.py:91
+msgid "Order"
+msgstr "Сортировка"
+
+#: models/program_.py:97
+#, fuzzy
+#| msgid "Program node"
+msgid "Program argument"
+msgstr "Узел программы"
+
+#: models/program_.py:98
+#, fuzzy
+#| msgid "Program nodes"
+msgid "Program arguments"
+msgstr "Узлы программы"
+
+#: models/reference.py:14
+msgid "Reference"
+msgstr "Справочник"
+
+#: models/reference.py:15
+msgid "References"
+msgstr "Справочники"
+
+#: models/result.py:9
+msgid "Result"
+msgstr "Результат"
+
+#: models/result.py:10
+msgid "Results"
+msgstr "Результаты"
+
+#: models/stop.py:17
+msgid "Stop instruction"
+msgstr "Инструкция остановки"
+
+#: models/stop.py:18
+msgid "Stop instructions"
+msgstr "Инструкции остановки"
+
+#: models/stop.py:25
+msgid "Break instruction"
+msgstr "Инструкция выхода из цикла"
+
+#: models/stop.py:26
+msgid "Break instructions"
+msgstr "Инструкции выхода из цикла"
+
+#: models/table.py:10
+msgid "Table"
+msgstr "Таблица"
+
+#: models/table.py:11
+msgid "Tables"
+msgstr "Таблицы"
+
+#: models/types_.py:25
+msgid "Boolean"
+msgstr ""
+
+#: models/types_.py:26
+msgid "Decimal"
+msgstr ""
+
+#: models/types_.py:27
+msgid "Float"
+msgstr ""
+
+#: models/types_.py:28
+msgid "Integer"
+msgstr ""
+
+#: models/types_.py:29
+msgid "String"
+msgstr ""
+
+#: models/types_.py:30
+msgid "Model"
+msgstr ""
+
+#: models/types_.py:34 models/types_.py:40
+msgid "Type"
+msgstr ""
+
+#: models/types_.py:36
+msgid "Model type"
+msgstr ""
+
+#: models/types_.py:37
+msgid "Is list"
+msgstr "Является списком"
+
+#: models/types_.py:41
+msgid "Types"
+msgstr "Типы"
+
+#: models/variable.py:10
+msgid "Variable name"
+msgstr "Имя переменной"
+
+#: models/variable.py:12
+msgid "Variable definition"
+msgstr "Определение переменной"
+
+#: models/variable.py:13
+msgid "Variable definitions"
+msgstr "Определения переменной"
+
+#: models/variable.py:25
+msgid "Variable"
+msgstr "Переменная"
+
+#: models/variable.py:26
+msgid "Variables"
+msgstr "Переменные"
