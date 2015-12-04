@@ -2,3 +2,6 @@
 /.idea
 /venv
 *.sqlite3
+MANIFEST
+build/
+dist/
