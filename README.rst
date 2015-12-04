@@ -28,6 +28,7 @@ Getting Started
        INSTALLED_APPS = (
          ...
          'business_logic',
+         'rest_framework', # optional, for browsable API only
          ...
        )
 
@@ -35,7 +36,7 @@ Getting Started
 
    ::
 
-       # settings.py
+       # urls.py
        urlpatterns = (
          ...
          url('^business-logic', include('business_logic.urls')),
