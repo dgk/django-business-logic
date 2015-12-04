@@ -6,13 +6,15 @@ from distutils.core import setup
 from setuptools import find_packages
 from pip.req import parse_requirements
 
-VERSION='0.014'
 
 PACKAGE = "business_logic"
 NAME = "django-business-logic"
 DESCRIPTION = "django business logic programming made easy"
 AUTHOR = "Dmitry Kuksinsky"
 AUTHOR_EMAIL = "dgk@dgk.su"
+
+VERSION = __import__(PACKAGE).VERSION
+
 
 URL = "https://github.com/dgk/django-business-logic"
 
