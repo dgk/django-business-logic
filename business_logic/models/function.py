@@ -4,7 +4,7 @@
 from importlib import import_module
 
 from django.db import models
-from django.utils.translation import gettext as _
+from django.utils.translation import ugettext_lazy as _
 
 class FunctionDefinition(models.Model):
     module = models.CharField(_('Module name'), max_length=255,
