@@ -16,7 +16,6 @@ import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-sys.path.append(os.path.join(BASE_DIR, os.pardir))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -91,7 +90,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-locale_dir = os.path.join(BASE_DIR, '../business_logic/locale')
+locale_dir = os.path.join(BASE_DIR, 'business_logic/locale')
 LANGUAGES = (
     (x, x) for x
         in os.listdir(locale_dir)
