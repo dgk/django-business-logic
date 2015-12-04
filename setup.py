@@ -28,7 +28,7 @@ setup(
         packages=find_packages(exclude=('demo',)),
         version=VERSION,
         description=DESCRIPTION,
-        long_description=codecs.open(path('README.md'), encoding='utf-8').read(),
+        long_description=codecs.open(path('README.rst'), encoding='utf-8').read(),
         author=AUTHOR,
         author_email=AUTHOR_EMAIL,
         url=URL,
