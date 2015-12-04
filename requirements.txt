@@ -1,4 +1,4 @@
-Django==1.8
+Django<1.9
 argparse==1.2.1
 django-treebeard==3.0
 pyparsing==2.0.3

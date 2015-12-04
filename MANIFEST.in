@@ -1,0 +1,2 @@
+recursive-include business_logic *.mo *.po *.json
+include requirements.txt
