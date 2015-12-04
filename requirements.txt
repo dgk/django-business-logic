@@ -3,3 +3,6 @@ argparse==1.2.1
 django-treebeard==3.0
 pyparsing==2.0.3
 wsgiref==0.1.2
+djangorestframework<4.0
+django-filter==0.11.0
+Markdown<3.0

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# pandoc --from=markdown --to=rst README.md -o README.rst
+
 import os
 import codecs
 from distutils.core import setup
@@ -51,7 +53,7 @@ setup(
             "Programming Language :: Python",
             "Framework :: Django",
         ],
-            zip_safe=False,
+        zip_safe=False,
         install_requires=[str(x.req)
                           for x in parse_requirements(path('requirements.txt'))],
 )
