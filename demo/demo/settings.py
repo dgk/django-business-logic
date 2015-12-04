@@ -16,7 +16,7 @@ import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-sys.path.append(os.path.abspath(os.path.join(BASE_DIR, os.pardir,  )))
+sys.path.append(os.path.join(BASE_DIR, os.pardir))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'business_logic'
+    'business_logic',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -89,6 +89,13 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+
+locale_dir = os.path.join(BASE_DIR, '../business_logic/locale')
+LANGUAGES = (
+    (x, x) for x
+        in os.listdir(locale_dir)
+            if os.path.isdir(os.path.join(locale_dir, x))
+)
 
 TIME_ZONE = 'UTC'
 
