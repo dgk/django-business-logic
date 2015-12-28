@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-#
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 
 from django.contrib.contenttypes.models import ContentType
+
+from ..fields import DeepAttributeField
 
 from node import Node
 
@@ -16,7 +17,6 @@ class ProgramType(models.Model):
 
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
-
 
     class Meta:
         verbose_name = _('Program type')
@@ -41,12 +41,13 @@ class ProgramArgument(models.Model):
 
 class ProgramArgumentField(models.Model):
     program_argument = models.ForeignKey(ProgramArgument)
-    name = models.SlugField(_('Name'), max_length=255)
+    name = DeepAttributeField(_('Name'), max_length=255)
 
     class Meta:
         verbose_name = _('Program argument field')
         verbose_name_plural = _('Program argument fields')
         ordering = ('name', )
+
 
 class Program(models.Model):
     title = models.CharField(_('Title'), max_length=255)
@@ -56,7 +57,6 @@ class Program(models.Model):
 
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
-
 
     class Meta:
         verbose_name = _('Program')
