@@ -30,7 +30,7 @@ class ProgramArgument(models.Model):
     content_type = models.ForeignKey(ContentType)
 
     class Meta:
-        #unique_together = (('program_type', 'name'),)
+        unique_together = (('program_type', 'name'),)
         verbose_name = _('Program argument')
         verbose_name_plural = _('Program arguments')
 
