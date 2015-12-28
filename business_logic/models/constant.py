@@ -2,16 +2,17 @@
 #
 
 from django.db import models
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 
+@python_2_unicode_compatible
 class Constant(models.Model):
     class Meta:
         abstract = True
 
-    def __unicode__(self):
-        return smart_unicode(self.value)
+    def __str__(self):
+        return str(self.value)
 
     def interpret(self, ctx):
         return self.value

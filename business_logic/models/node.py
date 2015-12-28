@@ -2,7 +2,7 @@
 #
 
 from django.db import models
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.contenttypes.models import ContentType
@@ -13,6 +13,8 @@ from .. import signals
 
 from treebeard.ns_tree import NS_Node
 
+
+@python_2_unicode_compatible
 class Node(NS_Node):
     comment = models.CharField(_('Comment'), max_length=255, null=True, blank=True)
     content_type = models.ForeignKey(ContentType, null=True)
@@ -25,8 +27,8 @@ class Node(NS_Node):
         verbose_name = _('Program node')
         verbose_name_plural = _('Program nodes')
 
-    def __unicode__(self):
-        return 'Node: %s' % self.id
+    def __str__(self):
+        return 'Node: {}'.format(self.id)
 
 
 

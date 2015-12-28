@@ -4,11 +4,13 @@
 import operator
 
 from django.db import models
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import python_2_unicode_compatible
+
 from django.utils.translation import ugettext_lazy as _
 
 from node import NodeAccessor
 
+@python_2_unicode_compatible
 class Operator(NodeAccessor):
     operator = models.CharField(_('Operator'), null=False, max_length=3)
     operator_table = {}
@@ -27,8 +29,8 @@ class Operator(NodeAccessor):
         self._check_operator()
         return super(Operator, self).save(*args, **kwargs)
 
-    def __unicode__(self):
-        return smart_unicode(self.operator)
+    def __str__(self):
+        return self.operator
 
     class Meta:
         abstract = True

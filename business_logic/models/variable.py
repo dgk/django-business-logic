@@ -2,18 +2,19 @@
 #
 
 from django.db import models
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 
+@python_2_unicode_compatible
 class VariableDefinition(models.Model):
     name = models.TextField(_('Variable name'), blank=False, null=False)
     class Meta:
         verbose_name = _('Variable definition')
         verbose_name_plural = _('Variable definitions')
 
-    def __unicode__(self):
-        return smart_unicode(self.value)
+    def __str__(self):
+        return self.value
 
     def interpret(self, ctx):
         pass
@@ -25,8 +26,6 @@ class Variable(models.Model):
         verbose_name = _('Variable')
         verbose_name_plural = _('Variables')
 
-    def __unicode__i(self):
-        return smart_unicode(self.value)
 
     def interpret(self, ctx):
         return ctx.get_variable(self.definition_id)
