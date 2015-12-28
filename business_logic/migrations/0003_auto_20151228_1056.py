@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='programargument',
-            unique_together=set([('program_type', 'name')]),
+            unique_together=set([]),
         ),
         migrations.RemoveField(
             model_name='programargument',
