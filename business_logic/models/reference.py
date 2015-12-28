@@ -1,25 +1,15 @@
 # -*- coding: utf-8 -*-
 #
-
-import re
-
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-class Reference(models.Model):
-    title = models.CharField(_('Title'), max_length=255, null=False, blank=False)
+
+class ReferenceDescriptor(models.Model):
+    content_type = models.ForeignKey(ContentType, unique=True)
+    search_fields = models.TextField()
 
     class Meta:
-        verbose_name = _('Reference')
-        verbose_name_plural = _('References')
+        verbose_name = _('Reference descriptor')
+        verbose_name_plural = _('Reference descriptors')
 
-    def __unicode__(self):
-        return unicode(self.title)
-
-    def save(self, *args, **kwargs):
-        self.title = Reference.normalize_string(self.title)
-        super(Reference, self).save(*args, **kwargs)
-
-    @classmethod
-    def normalize_string(cls, str):
-        return re.sub(r"\s+", " ", str).strip()
