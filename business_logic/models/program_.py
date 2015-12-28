@@ -40,7 +40,7 @@ class ProgramArgument(models.Model):
 
 
 class ProgramArgumentField(models.Model):
-    program_type = models.ForeignKey(ProgramArgument)
+    program_argument = models.ForeignKey(ProgramArgument)
     name = models.SlugField(_('Name'), max_length=255)
 
     class Meta:
