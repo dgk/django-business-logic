@@ -16,7 +16,7 @@ def url(_url):
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({
-        'program_type': reverse(url('program_type'), request=request, format=format),
+        'program-type': reverse(url('program-type-list'), request=request, format=format),
         #'users': reverse(url('user-list'), request=request, format=format),
     })
 
