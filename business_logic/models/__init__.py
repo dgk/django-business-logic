@@ -10,7 +10,6 @@ from .frame import *
 from .function import *
 from .ifstatement import *
 from .log import *
-from .message import *
 from .node import *
 from .operator_ import *
 from .program_ import *
