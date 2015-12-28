@@ -3,7 +3,7 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import python_2_unicode_compatible
 
 from django.contrib.contenttypes.models import ContentType
 
@@ -19,10 +19,11 @@ class ProgramType(models.Model):
 
 
     class Meta:
-        verbose_name = _('Program')
-        verbose_name_plural = _('Programs')
+        verbose_name = _('Program type')
+        verbose_name_plural = _('Program types')
 
 
+@python_2_unicode_compatible
 class ProgramArgument(models.Model):
     program_type = models.ForeignKey(ProgramType)
     name = models.SlugField(_('Name'), max_length=255)
@@ -34,14 +35,18 @@ class ProgramArgument(models.Model):
         verbose_name = _('Program argument')
         verbose_name_plural = _('Program arguments')
 
-    def __unicode__(self):
-        return smart_unicode(self.title)
+    def __str__(self):
+        return self.title
 
 
-# class ProgramArgumentField(models.Model):
-#     program_type = models.ForeignKey(ProgramArgument)
-#     name = models.SlugField(_('Name'), max_length=255)
+class ProgramArgumentField(models.Model):
+    program_type = models.ForeignKey(ProgramArgument)
+    name = models.SlugField(_('Name'), max_length=255)
 
+    class Meta:
+        verbose_name = _('Program argument field')
+        verbose_name_plural = _('Program argument fields')
+        ordering = ('name', )
 
 class Program(models.Model):
     title = models.CharField(_('Title'), max_length=255)
@@ -58,7 +63,7 @@ class Program(models.Model):
         verbose_name_plural = _('Programs')
 
 
-
+@python_2_unicode_compatible
 class ProgramVersion(models.Model):
     program = models.ForeignKey(Program, related_name='versions')
     entry_point = models.ForeignKey(Node, verbose_name=_('Entry point'))
@@ -73,9 +78,8 @@ class ProgramVersion(models.Model):
         verbose_name = _('Program version')
         verbose_name_plural = _('Program versions')
 
-    def __unicode__(self):
-        return smart_unicode(self.title)
-        return smart_unicode('%s: %s' % (self.program.title, self.title))
+    def __str__(self):
+        return self.title
 
     def copy(self, new_title):
         entry_point = self.entry_point.clone()
