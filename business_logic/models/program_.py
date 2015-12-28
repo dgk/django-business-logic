@@ -25,7 +25,7 @@ class ProgramType(models.Model):
 
 @python_2_unicode_compatible
 class ProgramArgument(models.Model):
-    program_type = models.ForeignKey(ProgramType)
+    program_type = models.ForeignKey(ProgramType, related_name='argument')
     name = models.SlugField(_('Name'), max_length=255)
 
     content_type = models.ForeignKey(ContentType)
@@ -40,7 +40,7 @@ class ProgramArgument(models.Model):
 
 
 class ProgramArgumentField(models.Model):
-    program_argument = models.ForeignKey(ProgramArgument)
+    program_argument = models.ForeignKey(ProgramArgument, related_name='field')
     name = DeepAttributeField(_('Name'), max_length=255)
 
     class Meta:
