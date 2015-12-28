@@ -10,9 +10,9 @@ from django.contrib.contenttypes.models import ContentType
 from node import Node
 
 
-class Program(models.Model):
-    title = models.CharField(_('Title'), max_length=255)
-    name = models.SlugField(_('Name'), max_length=255)
+class ProgramType(models.Model):
+    title = models.CharField(_('Title'), max_length=255, db_index=True)
+    name = models.SlugField(_('Name'), max_length=255, null=True, blank=True, unique=True, db_index=True)
 
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
@@ -24,18 +24,39 @@ class Program(models.Model):
 
 
 class ProgramArgument(models.Model):
-    program  = models.ForeignKey(Program)
+    program_type = models.ForeignKey(ProgramType)
     name = models.SlugField(_('Name'), max_length=255)
 
     content_type = models.ForeignKey(ContentType)
 
     class Meta:
-        unique_together = (('program', 'name'), )
+        unique_together = (('program_type', 'name'),)
         verbose_name = _('Program argument')
         verbose_name_plural = _('Program arguments')
 
     def __unicode__(self):
         return smart_unicode(self.title)
+
+
+# class ProgramArgumentField(models.Model):
+#     program_type = models.ForeignKey(ProgramArgument)
+#     name = models.SlugField(_('Name'), max_length=255)
+
+
+class Program(models.Model):
+    title = models.CharField(_('Title'), max_length=255)
+    name = models.SlugField(_('Name'), max_length=255)
+
+    program_type = models.ForeignKey(ProgramType)
+
+    creation_time = models.DateTimeField(auto_now_add=True)
+    modification_time = models.DateTimeField(auto_now=True)
+
+
+    class Meta:
+        verbose_name = _('Program')
+        verbose_name_plural = _('Programs')
+
 
 
 class ProgramVersion(models.Model):
