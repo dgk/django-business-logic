@@ -36,7 +36,7 @@ class ProgramArgument(models.Model):
         verbose_name_plural = _('Program arguments')
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class ProgramArgumentField(models.Model):
