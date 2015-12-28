@@ -10,6 +10,6 @@ router = routers.SimpleRouter()
 urlpatterns = router.urls
 urlpatterns = [
     url('^$', api_root, name='root'),
-    url('program-type', ProgramTypeList.as_view(), name='program_type')
+    url('program-type', ProgramTypeList.as_view(), name='program-type-list')
 ]
 
