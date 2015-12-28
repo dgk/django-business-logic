@@ -11,19 +11,24 @@ class ProgramTypeListSerializer(serializers.ModelSerializer):
 
 
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
+    data_description = serializers.SerializerMethodField()
+
     class Meta:
         model = ProgramArgumentField
+        exclude = ('program_argument', 'id')
 
-
+    def get_data_description(self, obj):
+        pass
+    
 class ProgramArgumentSerializer(serializers.ModelSerializer):
-    fields = ProgramArgumentFieldSerializer(many=True)
+    field = ProgramArgumentFieldSerializer(many=True)
 
     class Meta:
         model = ProgramArgument
 
 
 class ProgramTypeSerializer(serializers.ModelSerializer):
-
+    argument = ProgramArgumentSerializer(many=True)
 
     class Meta:
         model = ProgramType

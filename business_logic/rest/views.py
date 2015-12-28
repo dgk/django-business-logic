@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from business_logic.models import ProgramType
-from .serializers import ProgramTypeListSerializer
+from .serializers import ProgramTypeListSerializer, ProgramTypeSerializer
 
 
 def url(_url):
@@ -32,4 +32,4 @@ class ProgramTypeList(generics.ListAPIView):
 
 class ProgramTypeView(generics.RetrieveAPIView):
     queryset = ProgramType.objects.all()
-    serializer_class = ProgramTypeListSerializer
+    serializer_class = ProgramTypeSerializer
