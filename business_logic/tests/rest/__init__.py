@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from .common import *
 
+from .program_type import *
+
 
 class RestTestCase(TestCase):
     def test_urls(self):
