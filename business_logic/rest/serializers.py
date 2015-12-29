@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.contenttypes.models import ContentType
 
 from rest_framework import serializers
 
@@ -24,13 +25,12 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
         field_name = obj.name
         field = model._meta.get_field(field_name)
         schema['data_type'] = TYPES_FOR_DJANGO_FIELDS[field.__class__]
-        print dir(field)
 
         if field.__class__ in DJANGO_FIELDS_FOR_TYPES['model']:
-            model = '{}.{}'.format(field.related_model._meta.app_label,
-            field.related_model.__class__.__name__)
-
+            related_model_content_type = ContentType.objects.get_for_model(field.related_model)
+            model = '{}.{}'.format(related_model_content_type.app_label, related_model_content_type.model_class().__name__)
             schema['model'] = model
+
         return schema
 
 class ProgramArgumentSerializer(serializers.ModelSerializer):

@@ -47,7 +47,7 @@ class ProgramTypeTest(TestCase):
             string_value=dict(data_type='string'),
             foreign_value=dict(
                 data_type='model',
-                model='test_app.TestRelatedModel',
+                model='business_logic.TestRelatedModel',
                 ),
         )
 
