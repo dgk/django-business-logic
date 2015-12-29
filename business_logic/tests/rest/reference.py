@@ -10,6 +10,8 @@ class ReferenceTest(TestCase):
         )
         self.client = JSONClient()
 
+        self.test_model = TestModel.objects.create(string_value='str')
+
     def test_reference_descriptor_list(self):
         url = reverse('business-logic:rest:reference-descriptor-list')
         response = self.client.get(url)
@@ -23,3 +25,18 @@ class ReferenceTest(TestCase):
         self.assertEqual(model, descriptor['name'])
         self.assertEqual('test model', descriptor['verbose_name'])
         self.assertEqual(reverse('business-logic:rest:reference-list', kwargs=dict(model=model)), descriptor['url'])
+
+    def test_reference_list(self):
+        model = 'business_logic.TestModel'
+        url = reverse('business-logic:rest:reference-list', kwargs=dict(model=model))
+
+        response = self.client.get(url)
+        self.assertEqual(200, response.status_code)
+        _json = json.loads(response.content)
+        self.assertIsInstance(_json, list)
+        self.assertEqual(1, len(_json))
+
+
+        descriptor = _json[0]
+        self.assertEqual(self.test_model.id, descriptor['id'])
+        self.assertEqual(str(self.test_model), descriptor['name'])
