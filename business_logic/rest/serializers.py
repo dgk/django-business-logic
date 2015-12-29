@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+import copy
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
+from django.db import models
 
 from rest_framework import serializers
 
@@ -33,6 +35,18 @@ class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
 
     def get_url(self, obj):
         return reverse('business-logic:rest:reference-list', kwargs=dict(model=get_model_name(obj.content_type)))
+
+
+class ReferenceListSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+    name = serializers.SerializerMethodField()
+    def get_fields(self):
+        declared_fields = copy.deepcopy(self._declared_fields)
+        return declared_fields
+
+    def get_name(self, obj):
+        #print self.context['view'].get_reference_model()
+        return unicode(obj)
 
 
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):

@@ -13,6 +13,6 @@ urlpatterns = [
     url('^program-type$', ProgramTypeList.as_view(), name='program-type-list'),
     url('^program-type/(?P<pk>\d+)$', ProgramTypeView.as_view(), name='program-type'),
     url('^reference/descriptor$', ReferenceDescriptorList.as_view(), name='reference-descriptor-list'),
-    url('^reference/list/(?P<model>[\w.]+)$', ReferenceDescriptorList.as_view(), name='reference-list'),
+    url('^reference/list/(?P<model>[\w.]+)$', ReferenceList.as_view(), name='reference-list'),
 ]
 
