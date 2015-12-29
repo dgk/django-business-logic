@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 try:
     from django.apps import apps
     get_model = apps.get_model
@@ -7,7 +8,7 @@ except ImportError:
 
 
 from rest_framework.decorators import api_view
-from rest_framework import generics
+from rest_framework import generics, exceptions
 from rest_framework.response import Response
 
 
@@ -45,8 +46,16 @@ class ReferenceList(generics.ListAPIView):
         return self.get_reference_model().objects.all()
 
     def get_reference_model(self):
-        app_name, model_name = self.kwargs['model'].split('.')
-        return get_model(app_name, model_name)
+        try:
+            app_name, model_name = self.kwargs['model'].split('.')
+            model = get_model(app_name, model_name)
+        except:
+            raise exceptions.NotFound()
+
+        content_type = ContentType.objects.get_for_model(model)
+        return model
+
+
 
 
 class ProgramTypeView(generics.RetrieveAPIView):

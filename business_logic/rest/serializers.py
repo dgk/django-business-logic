@@ -40,6 +40,7 @@ class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
 class ReferenceListSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
     name = serializers.SerializerMethodField()
+
     def get_fields(self):
         declared_fields = copy.deepcopy(self._declared_fields)
         return declared_fields
