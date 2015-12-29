@@ -43,11 +43,18 @@ class ProgramTypeTest(TestCase):
         fields = dict((x['name'], x) for x in argument['field'])
 
         expected = dict(
-            int_value=dict(data_type='int'),
-            string_value=dict(data_type='string'),
+            int_value=dict(
+                data_type='int',
+                verbose_name='Integer value',
+                ),
+            string_value=dict(
+                data_type='string',
+                verbose_name='string value',
+                ),
             foreign_value=dict(
                 data_type='model',
                 model='business_logic.TestRelatedModel',
+                verbose_name='foreign value',
                 ),
         )
 
@@ -64,5 +71,10 @@ class ProgramTypeTest(TestCase):
             model = data.get('model')
             if model:
                 self.assertEqual(model, schema['model'])
+
+            verbose_name = data.get('verbose_name')
+            if verbose_name:
+                self.assertEqual(verbose_name, schema['verbose_name'])
+
 
 

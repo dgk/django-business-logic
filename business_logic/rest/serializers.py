@@ -31,6 +31,8 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
             model = '{}.{}'.format(related_model_content_type.app_label, related_model_content_type.model_class().__name__)
             schema['model'] = model
 
+        schema['verbose_name'] = field.verbose_name
+
         return schema
 
 class ProgramArgumentSerializer(serializers.ModelSerializer):
