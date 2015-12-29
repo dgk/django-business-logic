@@ -36,7 +36,19 @@ class ReferenceTest(TestCase):
         self.assertIsInstance(_json, list)
         self.assertEqual(1, len(_json))
 
-
         descriptor = _json[0]
         self.assertEqual(self.test_model.id, descriptor['id'])
         self.assertEqual(str(self.test_model), descriptor['name'])
+
+    def test_unregistered_reference_list_not_found(self):
+        model = 'business_logic.ReferenceDescriptor'
+        url = reverse('business-logic:rest:reference-list', kwargs=dict(model=model))
+        response = self.client.get(url)
+        self.assertEqual(404, response.status_code)
+
+    def test_notexists_model_not_found(self):
+        model = 'ooo.XXX'
+        url = reverse('business-logic:rest:reference-list', kwargs=dict(model=model))
+        response = self.client.get(url)
+        self.assertEqual(404, response.status_code)
+
