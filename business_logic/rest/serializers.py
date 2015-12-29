@@ -2,8 +2,8 @@
 
 from rest_framework import serializers
 
-from business_logic.models import ProgramType, ProgramArgumentField, ProgramArgument
-
+from ..models import ProgramType, ProgramArgumentField, ProgramArgument
+from ..models.types_ import TYPES_FOR_DJANGO_FIELDS
 
 class ProgramTypeListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,15 +11,21 @@ class ProgramTypeListSerializer(serializers.ModelSerializer):
 
 
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
-    data_description = serializers.SerializerMethodField()
+    schema = serializers.SerializerMethodField()
 
     class Meta:
         model = ProgramArgumentField
         exclude = ('program_argument', 'id')
 
-    def get_data_description(self, obj):
-        pass
-    
+    def get_schema(self, obj):
+        schema = {}
+        argument = obj.program_argument
+        model = argument.content_type.model_class()
+        field_name = obj.name
+        field = model._meta.get_field(field_name)
+        schema['data_type'] = TYPES_FOR_DJANGO_FIELDS[field.__class__]
+        return schema
+
 class ProgramArgumentSerializer(serializers.ModelSerializer):
     field = ProgramArgumentFieldSerializer(many=True)
 
