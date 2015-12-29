@@ -3,13 +3,31 @@ from django.contrib.contenttypes.models import ContentType
 
 from rest_framework import serializers
 
-from ..models import ProgramType, ProgramArgumentField, ProgramArgument
+from ..models import ProgramType, ProgramArgumentField, ProgramArgument, ReferenceDescriptor
 from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
+
+
+def get_model_name(content_type):
+    return '{}.{}'.format(content_type.app_label, content_type.model_class().__name__)
 
 
 class ProgramTypeListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProgramType
+
+
+class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    verbose_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ReferenceDescriptor
+
+    def get_name(self, obj):
+        return get_model_name(obj.content_type)
+
+    def get_verbose_name(self, obj):
+        return obj.content_type.model_class()._meta.verbose_name
 
 
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
@@ -33,7 +51,7 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
             if field.__class__ in DJANGO_FIELDS_FOR_TYPES['model']:
                 model = field.related_model
                 related_model_content_type = ContentType.objects.get_for_model(model)
-                model_name = '{}.{}'.format(related_model_content_type.app_label, related_model_content_type.model_class().__name__)
+                model_name = get_model_name(related_model_content_type)
                 schema['model'] = model_name
 
             verbose_name.append(field.verbose_name)
