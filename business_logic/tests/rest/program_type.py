@@ -10,14 +10,17 @@ class ProgramTypeTest(TestCase):
             program_type=self.program_type,
             content_type=ContentType.objects.get_for_model(TestModel)
         )
-        ProgramArgumentField.objects.create(
-            name='int_value',
-            program_argument=self.argument,
+
+        field_list = (
+            'int_value',
+            'string_value',
+            'foreign_value',
         )
-        ProgramArgumentField.objects.create(
-            name='string_value',
-            program_argument=self.argument,
-        )
+        for field in field_list:
+            ProgramArgumentField.objects.create(
+                name=field,
+                program_argument=self.argument,
+            )
 
         self.client = JSONClient()
 
@@ -37,26 +40,29 @@ class ProgramTypeTest(TestCase):
         self.assertIsInstance(_json, dict)
         arguments = _json['argument']
         argument = arguments[0]
-        fields = argument['field']
+        fields = dict((x['name'], x) for x in argument['field'])
 
-        int_field = fields[0]
-        self.assertNotIn('program_argument', int_field)
-        self.assertIn('schema', int_field)
+        expected = dict(
+            int_value=dict(data_type='int'),
+            string_value=dict(data_type='string'),
+            foreign_value=dict(
+                data_type='model',
+                model='test_app.TestRelatedModel',
+                ),
+        )
 
-        schema = int_field['schema']
-        self.assertIsInstance(schema, dict)
-        self.assertIn('data_type', schema)
-        self.assertEqual('int', schema['data_type'])
+        for field_name, data in expected.items():
+            field = fields[field_name]
+            self.assertNotIn('program_argument', field)
+            self.assertIn('schema', field)
+            self.assertEqual(field_name, field['name'])
 
-        string_field = fields[1]
-        self.assertNotIn('program_argument', string_field)
-        self.assertIn('schema', string_field)
-
-        schema = string_field['schema']
-        self.assertIsInstance(schema, dict)
-        self.assertIn('data_type', schema)
-        self.assertEqual('string', schema['data_type'])
-
-
+            schema = field['schema']
+            self.assertIsInstance(schema, dict)
+            self.assertIn('data_type', schema)
+            self.assertEqual(data['data_type'], schema['data_type'])
+            model = data.get('model')
+            if model:
+                self.assertEqual(model, schema['model'])
 
 
