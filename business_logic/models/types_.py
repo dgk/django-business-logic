@@ -30,6 +30,37 @@ TYPE_CHOICES = (
         ('model', _('Model')),
         )
 
+DJANGO_FIELDS_FOR_TYPES = {
+    'bool': (
+        models.BooleanField,
+        models.NullBooleanField,
+    ),
+    'decimal': (
+        models.DecimalField,
+    ),
+    'float': (
+        models.FloatField,
+    ),
+    'int': (
+        models.SmallIntegerField,
+        models.PositiveSmallIntegerField,
+        models.IntegerField,
+        models.PositiveIntegerField,
+        models.BigIntegerField,
+    ),
+    'string': (
+        models.CharField,
+        models.TextField,
+    ),
+}
+
+TYPES_FOR_DJANGO_FIELDS = {}
+
+for type, fields in DJANGO_FIELDS_FOR_TYPES.items():
+    for field in fields:
+        TYPES_FOR_DJANGO_FIELDS[field] = type
+
+
 class Type(models.Model):
     type = models.CharField(_('Type'), max_length=12, choices=TYPE_CHOICES,
             blank=False, null=False)

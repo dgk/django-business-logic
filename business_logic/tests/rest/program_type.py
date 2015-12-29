@@ -11,7 +11,11 @@ class ProgramTypeTest(TestCase):
             content_type=ContentType.objects.get_for_model(TestModel)
         )
         ProgramArgumentField.objects.create(
-            name='value',
+            name='int_value',
+            program_argument=self.argument,
+        )
+        ProgramArgumentField.objects.create(
+            name='string_value',
             program_argument=self.argument,
         )
 
@@ -35,10 +39,24 @@ class ProgramTypeTest(TestCase):
         argument = arguments[0]
         fields = argument['field']
 
-        field = fields[0]
-        print field
-        self.assertNotIn('program_argument', field)
-        self.assertIn('data_description', field)
+        int_field = fields[0]
+        self.assertNotIn('program_argument', int_field)
+        self.assertIn('schema', int_field)
+
+        schema = int_field['schema']
+        self.assertIsInstance(schema, dict)
+        self.assertIn('data_type', schema)
+        self.assertEqual('int', schema['data_type'])
+
+        string_field = fields[1]
+        self.assertNotIn('program_argument', string_field)
+        self.assertIn('schema', string_field)
+
+        schema = string_field['schema']
+        self.assertIsInstance(schema, dict)
+        self.assertIn('data_type', schema)
+        self.assertEqual('string', schema['data_type'])
+
 
 
 
