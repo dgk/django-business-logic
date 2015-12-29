@@ -47,8 +47,8 @@ class ReferenceTest(TestCase):
         self.assertEqual(404, response.status_code)
 
     def test_notexists_model_not_found(self):
-        model = 'ooo.XXX'
-        url = reverse('business-logic:rest:reference-list', kwargs=dict(model=model))
-        response = self.client.get(url)
-        self.assertEqual(404, response.status_code)
+        for model in ('ooo.XXX', 'password'):
+            url = reverse('business-logic:rest:reference-list', kwargs=dict(model=model))
+            response = self.client.get(url)
+            self.assertEqual(404, response.status_code)
 
