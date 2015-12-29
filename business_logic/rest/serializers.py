@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
 
 from rest_framework import serializers
 
@@ -19,6 +20,7 @@ class ProgramTypeListSerializer(serializers.ModelSerializer):
 class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
     verbose_name = serializers.SerializerMethodField()
+    url = serializers.SerializerMethodField()
 
     class Meta:
         model = ReferenceDescriptor
@@ -28,6 +30,9 @@ class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
 
     def get_verbose_name(self, obj):
         return obj.content_type.model_class()._meta.verbose_name
+
+    def get_url(self, obj):
+        return reverse('business-logic:rest:reference-list', kwargs=dict(model=get_model_name(obj.content_type)))
 
 
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
