@@ -3,7 +3,7 @@
 from rest_framework import serializers
 
 from ..models import ProgramType, ProgramArgumentField, ProgramArgument
-from ..models.types_ import TYPES_FOR_DJANGO_FIELDS
+from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
 
 class ProgramTypeListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,6 +24,13 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
         field_name = obj.name
         field = model._meta.get_field(field_name)
         schema['data_type'] = TYPES_FOR_DJANGO_FIELDS[field.__class__]
+        print dir(field)
+
+        if field.__class__ in DJANGO_FIELDS_FOR_TYPES['model']:
+            model = '{}.{}'.format(field.related_model._meta.app_label,
+            field.related_model.__class__.__name__)
+
+            schema['model'] = model
         return schema
 
 class ProgramArgumentSerializer(serializers.ModelSerializer):

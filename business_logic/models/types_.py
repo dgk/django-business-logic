@@ -52,6 +52,9 @@ DJANGO_FIELDS_FOR_TYPES = {
         models.CharField,
         models.TextField,
     ),
+    'model': (
+        models.ForeignKey,
+    )
 }
 
 TYPES_FOR_DJANGO_FIELDS = {}
