@@ -5,31 +5,32 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-from business_logic.models import ProgramType
-from .serializers import ProgramTypeListSerializer, ProgramTypeSerializer
+from .serializers import *
 
 
-def url(_url):
+def format_url(_url):
     return 'business-logic:rest:{}'.format(_url)
 
 
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({
-        'program-type': reverse(url('program-type-list'), request=request, format=format),
-        #'users': reverse(url('user-list'), request=request, format=format),
+        'program-type': reverse(format_url('program-type-list'), request=request, format=format),
+        'reference-descriptor': reverse(format_url('reference-descriptor-list'), request=request, format=format),
     })
 
 
 class ProgramTypeList(generics.ListAPIView):
-    """
-    Список типов программ
-
-    """
     queryset = ProgramType.objects.all()
     serializer_class = ProgramTypeListSerializer
+
+
+class ReferenceDescriptorList(generics.ListAPIView):
+    queryset = ReferenceDescriptor.objects.all()
+    serializer_class = ReferenceDescriptorListSerializer
 
 
 class ProgramTypeView(generics.RetrieveAPIView):
     queryset = ProgramType.objects.all()
     serializer_class = ProgramTypeSerializer
+
