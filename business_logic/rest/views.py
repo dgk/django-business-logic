@@ -49,10 +49,10 @@ class ReferenceList(generics.ListAPIView):
         try:
             app_name, model_name = self.kwargs['model'].split('.')
             model = get_model(app_name, model_name)
-        except:
+            ReferenceDescriptor.objects.get(content_type=ContentType.objects.get_for_model(model))
+        except (ValueError, LookupError, ReferenceDescriptor.DoesNotExist):
             raise exceptions.NotFound()
 
-        content_type = ContentType.objects.get_for_model(model)
         return model
 
 
