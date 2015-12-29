@@ -15,6 +15,7 @@ class ProgramTypeTest(TestCase):
             'int_value',
             'string_value',
             'foreign_value',
+            'foreign_value.string_value',
         )
         for field in field_list:
             ProgramArgumentField.objects.create(
@@ -42,22 +43,26 @@ class ProgramTypeTest(TestCase):
         argument = arguments[0]
         fields = dict((x['name'], x) for x in argument['field'])
 
-        expected = dict(
-            int_value=dict(
+        expected = {
+            'int_value': dict(
                 data_type='int',
                 verbose_name='Integer value',
                 ),
-            string_value=dict(
+            'string_value': dict(
                 data_type='string',
                 verbose_name='string value',
                 ),
-            foreign_value=dict(
+            'foreign_value': dict(
                 data_type='model',
                 model='business_logic.TestRelatedModel',
                 verbose_name='foreign value',
                 ),
-        )
+            'foreign_value.string_value': dict(
+                data_type='string',
+                verbose_name='foreign value.string value',
+                ),
 
+        }
         for field_name, data in expected.items():
             field = fields[field_name]
             self.assertNotIn('program_argument', field)

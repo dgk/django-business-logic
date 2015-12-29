@@ -6,6 +6,7 @@ from rest_framework import serializers
 from ..models import ProgramType, ProgramArgumentField, ProgramArgument
 from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
 
+
 class ProgramTypeListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProgramType
@@ -22,16 +23,22 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
         schema = {}
         argument = obj.program_argument
         model = argument.content_type.model_class()
-        field_name = obj.name
-        field = model._meta.get_field(field_name)
-        schema['data_type'] = TYPES_FOR_DJANGO_FIELDS[field.__class__]
+        field_names = obj.name.split('.')
+        verbose_name = []
+        for field_name in field_names:
+            field = model._meta.get_field(field_name)
 
-        if field.__class__ in DJANGO_FIELDS_FOR_TYPES['model']:
-            related_model_content_type = ContentType.objects.get_for_model(field.related_model)
-            model = '{}.{}'.format(related_model_content_type.app_label, related_model_content_type.model_class().__name__)
-            schema['model'] = model
+            schema['data_type'] = TYPES_FOR_DJANGO_FIELDS[field.__class__]
 
-        schema['verbose_name'] = field.verbose_name
+            if field.__class__ in DJANGO_FIELDS_FOR_TYPES['model']:
+                model = field.related_model
+                related_model_content_type = ContentType.objects.get_for_model(model)
+                model_name = '{}.{}'.format(related_model_content_type.app_label, related_model_content_type.model_class().__name__)
+                schema['model'] = model_name
+
+            verbose_name.append(field.verbose_name)
+
+        schema['verbose_name'] = '.'.join(verbose_name)
 
         return schema
 
