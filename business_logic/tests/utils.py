@@ -100,6 +100,22 @@ def get_test_tree():
         root = Node.objects.get(id=root.id)
         return root
 
+def var_A_assign_1():
+        root = Node.add_root()
+
+        var_def = VariableDefinition(name='A')
+        root.add_child(content_object=var_def)
+        root = Node.objects.get(id=root.id)
+
+        assignment_node = root.add_child(content_object=Assignment())
+        var = Variable(definition=var_def)
+        var_node = assignment_node.add_child(content_object=var)
+        integer_const1 = IntegerConstant(value=1)
+        integer_const_node1 = assignment_node.add_child(content_object=integer_const1)
+
+        root = Node.objects.get(id=root.id)
+        return root
+
 
 def print_tree_details(nodes):
     # mptt/tests/doctests.py

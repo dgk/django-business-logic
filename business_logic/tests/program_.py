@@ -51,6 +51,8 @@ class ProgramTest(TestCase):
         result = self.program_version.interpret(test_model=self.test_model)
         self.assertIsInstance(result, Context)
         self.assertIs(self.test_model, result.get_variable(self.argument.variable_definition_id))
+        variable_definition = VariableDefinition.objects.get(name='A')
+        self.assertEqual(1 + 2 * 3, result.get_variable(variable_definition.id))
 
     def test_program_args_check(self):
         for kwargs in [

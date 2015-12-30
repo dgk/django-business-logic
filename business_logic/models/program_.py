@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from lxml import etree
+
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 
 from .context import Context
-from .node import Node
+from .node import Node, NodeVisitor
 from .variable import VariableDefinition
 
 from ..fields import DeepAttributeField
@@ -118,3 +120,9 @@ class ProgramVersion(models.Model):
         self.entry_point.interpret(context)
 
         return context
+
+    def xml(self):
+        root = etree.Element("xml")
+        root.append(etree.Element('block'))
+        #root.append(self.entry_point.xml_export())
+        return etree.tostring(root)

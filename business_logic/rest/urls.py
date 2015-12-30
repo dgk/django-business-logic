@@ -14,5 +14,6 @@ urlpatterns = [
     url('^program-type/(?P<pk>\d+)$', ProgramTypeView.as_view(), name='program-type'),
     url('^reference/descriptor$', ReferenceDescriptorList.as_view(), name='reference-descriptor-list'),
     url('^reference/list/(?P<model>[\w.]+)$', ReferenceList.as_view(), name='reference-list'),
+    url('^program-version/(?P<pk>\d+)$', program_version_view, name='program-version'),
 ]
 
