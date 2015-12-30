@@ -19,13 +19,13 @@ class VariableDefinition(models.Model):
     def interpret(self, ctx):
         pass
 
+
 class Variable(models.Model):
     definition = models.ForeignKey(VariableDefinition, related_name='variables')
 
     class Meta:
         verbose_name = _('Variable')
         verbose_name_plural = _('Variables')
-
 
     def interpret(self, ctx):
         return ctx.get_variable(self.definition_id)

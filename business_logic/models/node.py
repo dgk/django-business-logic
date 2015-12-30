@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#
 
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
@@ -21,7 +20,6 @@ class Node(NS_Node):
     object_id = models.PositiveIntegerField(null=True)
     content_object = GenericForeignKey('content_type', 'object_id')
 
-
     class Meta:
         ordering = ['tree_id', 'lft']
         verbose_name = _('Program node')
@@ -29,8 +27,6 @@ class Node(NS_Node):
 
     def __str__(self):
         return 'Node: {}'.format(self.id)
-
-
 
     @classmethod
     def add_root(cls, **kwargs):
@@ -53,7 +49,6 @@ class Node(NS_Node):
             if not content_object.id:
                 content_object.save()
         return super(Node, self).add_child(**kwargs)
-
 
     def clone(self):
         class CloneVisitor(NodeVisitor):
@@ -160,16 +155,16 @@ class NodeCache:
         for content_type in content_types:
             content_type_by_id[content_type.id] = content_type
             model = content_type.model_class()
-            objects_by_ct_id_by_id[content_type.id] = dict( [ (x.id, x) for x
+            objects_by_ct_id_by_id[content_type.id] = dict([(x.id, x) for x
                 in model.objects.filter(
                 id__in=tree.values_list('object_id',
                     flat=True).filter(content_type=content_type)
                 )])
 
         tree = list(tree)
-        tree[ [ x.id for x in tree ].index(node.id) ] = node
+        tree[[x.id for x in tree].index(node.id)] = node
 
-        self._node_by_id = dict( [ (x.id, x) for x in tree ] )
+        self._node_by_id = dict([(x.id, x) for x in tree])
 
         for node in tree:
             if node.content_type_id:
@@ -180,10 +175,11 @@ class NodeCache:
 
         self._child_by_parent_id = {}
         for parent in tree:
-            self._child_by_parent_id[parent.id] = [ node for node in tree
+            self._child_by_parent_id[parent.id] = [node for node in tree
                     if node.lft >= parent.lft
                         and node.lft <= parent.rgt - 1
-                        and node.depth == parent.depth + 1 ]
+                        and node.depth == parent.depth + 1]
+
 
 class NodeCacheHolder(object):
     def get_children(self, node):
@@ -191,8 +187,10 @@ class NodeCacheHolder(object):
             self._node_cache = NodeCache()
         return self._node_cache.get_children(node)
 
+
 class NodeVisitor(NodeCacheHolder):
     pass
+
 
 class NodeAccessor(models.Model):
     @property
@@ -203,6 +201,7 @@ class NodeAccessor(models.Model):
         return Node.objects.get(
                 content_type=ContentType.objects.get_for_model(self.__class__),
                 object_id=self.id)
+
     class Meta:
         abstract = True
 

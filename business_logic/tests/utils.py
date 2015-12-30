@@ -16,7 +16,6 @@ def tree_1plus2mul3(parent=None):
 
     mul_operator = BinaryOperator(operator='*')
 
-
     if parent is None:
         add_node = Node.add_root(content_object=add_operator)
     else:
@@ -53,8 +52,6 @@ def symmetric_tree(operator='+', value=1, count=2,
     else:
         root = Node.objects.get(id=parent.id).add_child(content_object=bin_operator)
 
-
-
     top = []
     bottom = []
     levels = int(math.log(count, 2))
@@ -78,7 +75,7 @@ def symmetric_tree(operator='+', value=1, count=2,
         if level == 1:
             top = bottom = level_objects
         else:
-            pairs = [ x for x in izip_longest(*[iter(level_objects)]*2) ]
+            pairs = [x for x in izip_longest(*[iter(level_objects)]*2)]
             def f(parent, children):
                 parent['children'] = children
             list(imap(f, bottom, pairs))
