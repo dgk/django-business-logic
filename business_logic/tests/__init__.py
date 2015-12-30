@@ -14,5 +14,6 @@ from .program_ import *
 from .signals import *
 from .types_ import *
 from .variable import *
+from .xml import *
 
 from .rest import *

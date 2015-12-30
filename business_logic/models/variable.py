@@ -14,7 +14,7 @@ class VariableDefinition(models.Model):
         verbose_name_plural = _('Variable definitions')
 
     def __str__(self):
-        return self.value
+        return self.name
 
     def interpret(self, ctx):
         pass

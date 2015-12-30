@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
 
 try:
@@ -7,13 +9,12 @@ try:
 except ImportError:
     from django.db.models.loading import get_model
 
-
 from rest_framework.decorators import api_view
 from rest_framework import generics, exceptions
 from rest_framework.response import Response
 
-
 from .serializers import *
+from ..models import ProgramVersion
 
 
 def format_url(_url):
@@ -68,3 +69,7 @@ class ProgramTypeView(generics.RetrieveAPIView):
     queryset = ProgramType.objects.all()
     serializer_class = ProgramTypeSerializer
 
+
+def program_version_view(request, pk):
+    program_version = get_object_or_404(ProgramVersion, pk=pk)
+    return HttpResponse(program_version.xml(), content_type="application/xml")

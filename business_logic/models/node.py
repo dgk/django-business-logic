@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from lxml import etree
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -125,6 +126,12 @@ class Node(NS_Node):
         visitor = PprintVisitor()
         self.traverse(visitor)
         print visitor._str
+
+    def xml(self):
+        if self.is_statement():
+            return etree.Element('block')
+        else:
+            pass
 
 #if self.object_id and content_object is not None \
 #        and hasattr(self.content_object, 'add_child') and callable(getattr(self.content_object, 'add_child')):

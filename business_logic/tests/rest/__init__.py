@@ -3,6 +3,7 @@ from .common import *
 
 from .program_type import *
 from .reference import *
+from .blockly_generate import *
 
 
 class RestTestCase(TestCase):
