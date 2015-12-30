@@ -78,7 +78,7 @@ class NodeTest(TestCase):
         children = root.get_descendants()
         self.failUnlessEqual(len(children), 2)
 
-        child_objects = [ x.content_object for x in children ]
+        child_objects = [x.content_object for x in children]
         self.failUnlessEqual(node1.content_object.value, child_objects[0].value)
         self.failUnlessEqual(node2.content_object.value, child_objects[1].value)
 
