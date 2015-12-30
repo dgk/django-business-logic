@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
-
-from django.contrib.contenttypes.models import ContentType
 
 from .context import Context
 from .node import Node
 from .variable import VariableDefinition
 
 from ..fields import DeepAttributeField
-
 
 
 class ProgramType(models.Model):
@@ -113,8 +111,10 @@ class ProgramVersion(models.Model):
                 assert program_argument.content_type.model_class() == argument.__class__
             except (KeyError, AssertionError, AttributeError):
                 raise
+            context.set_variable(program_argument.variable_definition_id, argument)
 
         assert not kwargs
 
         self.entry_point.interpret(context)
+
         return context
