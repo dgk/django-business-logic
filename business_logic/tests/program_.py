@@ -33,6 +33,20 @@ class ProgramTest(TestCase):
 
         self.test_model = TestModel.objects.create()
 
+    def test_program_argument_variable_definition(self):
+        self.assertIsNotNone(self.argument.variable_definition)
+
+    def test_save_program_argument_change_variable_definition(self):
+        self.argument.name = 'new_name'
+        self.argument.save()
+        variable_definition = VariableDefinition.objects.get(id=self.argument.variable_definition_id)
+        self.assertEqual(self.argument.name, variable_definition.name)
+
+    def test_program_argument_deletion_should_delete_variable_definition(self):
+        variable_definition = self.argument.variable_definition
+        self.argument.delete()
+        self.assertFalse(VariableDefinition.objects.filter(id=variable_definition.id).count())
+
     def test_program_interpret(self):
         result = self.program_version.interpret(test_model=self.test_model)
         self.assertIsInstance(result, Context)
