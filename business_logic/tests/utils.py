@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-#
-
 
 import math
 from itertools import izip_longest, imap
@@ -8,6 +6,7 @@ from itertools import izip_longest, imap
 from django.contrib.contenttypes.models import ContentType
 
 from ..models import *
+
 
 def tree_1plus2mul3(parent=None):
     # http://upload.wikimedia.org/wikipedia/ru/d/db/Parsing-example.png
@@ -37,6 +36,7 @@ def tree_1plus2mul3(parent=None):
     mul_node.add_child(content_object=integer_const3)
 
     return Node.objects.get(id=add_node.id)
+
 
 def symmetric_tree(operator='+', value=1, count=2,
         operand_cls=IntegerConstant, parent=None):
@@ -86,6 +86,23 @@ def symmetric_tree(operator='+', value=1, count=2,
 
     Node.load_bulk(top, root)
     return Node.objects.get(id=root.id)
+
+
+def get_test_tree():
+        root = Node.add_root()
+
+        var_def = VariableDefinition(name='A')
+        root.add_child(content_object=var_def)
+        root = Node.objects.get(id=root.id)
+
+        assignment_node = root.add_child(content_object=Assignment())
+        var = Variable(definition=var_def)
+        var_node = assignment_node.add_child(content_object=var)
+        tree_1plus2mul3(parent=assignment_node)
+
+        root = Node.objects.get(id=root.id)
+        return root
+
 
 def print_tree_details(nodes):
     # mptt/tests/doctests.py
