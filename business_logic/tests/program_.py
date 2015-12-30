@@ -50,7 +50,7 @@ class ProgramTest(TestCase):
     def test_program_interpret(self):
         result = self.program_version.interpret(test_model=self.test_model)
         self.assertIsInstance(result, Context)
-
+        self.assertIs(self.test_model, result.get_variable(self.argument.variable_definition_id))
 
     def test_program_args_check(self):
         for kwargs in [
