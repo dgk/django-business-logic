@@ -6,9 +6,11 @@ from django.utils.encoding import python_2_unicode_compatible
 
 from django.contrib.contenttypes.models import ContentType
 
+from .context import Context
+from .node import Node
+
 from ..fields import DeepAttributeField
 
-from node import Node
 
 
 class ProgramType(models.Model):
@@ -51,7 +53,7 @@ class ProgramArgumentField(models.Model):
 
 class Program(models.Model):
     title = models.CharField(_('Title'), max_length=255)
-    name = models.SlugField(_('Name'), max_length=255)
+    name = models.SlugField(_('Name'), max_length=255, unique=True, db_index=True)
 
     program_type = models.ForeignKey(ProgramType)
 
@@ -88,3 +90,16 @@ class ProgramVersion(models.Model):
         new_version.save()
         return new_version
 
+    def interpret(self, **kwargs):
+        context = kwargs.pop('context', Context())
+        for argument_type in self.program.program_type.argument.all():
+            try:
+                argument = kwargs.pop(argument_type.name)
+                assert argument_type.content_type.model_class() == argument.__class__
+            except (KeyError, AssertionError, AttributeError):
+                raise
+
+        assert not kwargs
+
+        self.entry_point.interpret(context)
+        return context

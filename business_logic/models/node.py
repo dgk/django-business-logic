@@ -93,7 +93,7 @@ class Node(NS_Node):
         signals.interpret_enter.send(sender=ctx, node=self, value=self.content_object)
         children = ctx.get_children(self)
 
-        children_interpreted = [ x.interpret(ctx) for x in children ]
+        children_interpreted = [x.interpret(ctx) for x in children]
 
         if self.is_statement():
             return_value = self.content_object.interpret(ctx, *children_interpreted)
