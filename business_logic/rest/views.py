@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from rest_framework.pagination import PageNumberPagination
 
 try:
     from django.apps import apps
@@ -39,8 +40,15 @@ class ReferenceDescriptorList(generics.ListAPIView):
     serializer_class = ReferenceDescriptorListSerializer
 
 
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 50
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+
 class ReferenceList(generics.ListAPIView):
     serializer_class = ReferenceListSerializer
+    pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
         return self.get_reference_model().objects.all()
@@ -54,8 +62,6 @@ class ReferenceList(generics.ListAPIView):
             raise exceptions.NotFound()
 
         return model
-
-
 
 
 class ProgramTypeView(generics.RetrieveAPIView):

@@ -33,12 +33,11 @@ class ReferenceTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
         _json = json.loads(response.content)
-        self.assertIsInstance(_json, list)
-        self.assertEqual(1, len(_json))
-
-        descriptor = _json[0]
-        self.assertEqual(self.test_model.id, descriptor['id'])
-        self.assertEqual(str(self.test_model), descriptor['name'])
+        self.assertIsInstance(_json, dict)
+        self.assertEqual(1, len(_json['results']))
+        reference = _json['results'][0]
+        self.assertEqual(self.test_model.id, reference['id'])
+        self.assertEqual(str(self.test_model), reference['name'])
 
     def test_unregistered_reference_list_not_found(self):
         model = 'business_logic.ReferenceDescriptor'
