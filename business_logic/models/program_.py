@@ -8,6 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from .context import Context
 from .node import Node
+from .variable import VariableDefinition
 
 from ..fields import DeepAttributeField
 
@@ -31,6 +32,7 @@ class ProgramArgument(models.Model):
     name = models.SlugField(_('Name'), max_length=255)
 
     content_type = models.ForeignKey(ContentType)
+    variable_definition = models.OneToOneField(VariableDefinition)
 
     class Meta:
         unique_together = (('program_type', 'name'),)
@@ -39,6 +41,19 @@ class ProgramArgument(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.id:
+            self.variable_definition = VariableDefinition.objects.create(name=self.name)
+        elif self.name != self.variable_definition.name:
+            self.variable_definition.name = self.name
+            self.variable_definition.save()
+
+        super(ProgramArgument, self).save(force_insert, force_update, using, update_fields)
+
+    def delete(self, using=None):
+        self.variable_definition.delete()
+        super(ProgramArgument, self).delete(using)
 
 
 class ProgramArgumentField(models.Model):
@@ -92,10 +107,10 @@ class ProgramVersion(models.Model):
 
     def interpret(self, **kwargs):
         context = kwargs.pop('context', Context())
-        for argument_type in self.program.program_type.argument.all():
+        for program_argument in self.program.program_type.argument.all():
             try:
-                argument = kwargs.pop(argument_type.name)
-                assert argument_type.content_type.model_class() == argument.__class__
+                argument = kwargs.pop(program_argument.name)
+                assert program_argument.content_type.model_class() == argument.__class__
             except (KeyError, AssertionError, AttributeError):
                 raise
 
