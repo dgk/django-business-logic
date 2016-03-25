@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from lxml import etree
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -8,10 +7,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
+from treebeard.ns_tree import NS_Node
+
 #import mptt
 from .. import signals
-
-from treebeard.ns_tree import NS_Node
 
 
 @python_2_unicode_compatible
@@ -127,11 +126,6 @@ class Node(NS_Node):
         self.traverse(visitor)
         print visitor._str
 
-    def xml(self):
-        if self.is_statement():
-            return etree.Element('block')
-        else:
-            pass
 
 #if self.object_id and content_object is not None \
 #        and hasattr(self.content_object, 'add_child') and callable(getattr(self.content_object, 'add_child')):
