@@ -8,7 +8,7 @@ class NodeXMLTest(TestCase):
     def test(self):
         entry_point = var_A_assign_1()
         assign_node = entry_point.get_children()[1]
-        xml = assign_node.xml()
+        xml = tree_to_blockly_xml(assign_node)
 
         print(etree.tostring(xml, pretty_print=True))
         class Visitor:
