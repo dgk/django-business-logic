@@ -94,28 +94,16 @@ class NodeTest(TestCase):
             def visit(self, visited):
                 self.visited.append(visited)
 
+        # preoder
         visitor = Visitor()
-
-        add_node.traverse(visitor)
-
+        visitor.preorder(add_node)
         self.failUnlessEqual(visitor.visited,
                 [add_node, node1, mul_node, node2, node3])
 
-        class Visitor:
-            def __init__(self):
-                self.visited = []
-
-            def visit(self, visited):
-                self.visited.append(visited.content_object)
-
         visitor = Visitor()
-
-        add_node.traverse(visitor)
-
+        visitor.postorder(add_node)
         self.failUnlessEqual(visitor.visited,
-                [add_node.content_object, node1.content_object,
-                    mul_node.content_object, node2.content_object,
-                    node3.content_object])
+                 [node1, node2, node3, mul_node, add_node, ])
 
     def test_recursive_delete(self):
         root = Node.add_root()

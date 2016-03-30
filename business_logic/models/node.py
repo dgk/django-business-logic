@@ -79,7 +79,7 @@ class Node(NS_Node):
                     clone.save()
 
         visitor = CloneVisitor()
-        self.traverse(visitor)
+        visitor.preorder(self)
         return Node.objects.get(id=visitor.clone.id)
 
     def interpret(self, ctx):
@@ -101,15 +101,6 @@ class Node(NS_Node):
 
         return return_value
 
-    def traverse(self, visitor):
-        visitor.visit(self)
-        if isinstance(visitor, NodeCacheHolder):
-            children = visitor.get_children(self)
-        else:
-            children = self.get_children()
-        for child in children:
-            child.traverse(visitor)
-
     def is_block(self):
         return not self.is_statement()
 
@@ -117,14 +108,16 @@ class Node(NS_Node):
         return self.object_id is not None
 
     def pprint(self):
-        class PprintVisitor:
+        class PprintVisitor(NodeVisitor):
             def __init__(self):
-                self._str = ''
+                self.str = ''
+
             def visit(self, node):
-                self._str += str(node.content_object)
+                self.str += str(node.content_object)
+
         visitor = PprintVisitor()
-        self.traverse(visitor)
-        print visitor._str
+        visitor.preorder(self)
+        print visitor.str
 
 
 #if self.object_id and content_object is not None \
@@ -190,7 +183,18 @@ class NodeCacheHolder(object):
 
 
 class NodeVisitor(NodeCacheHolder):
-    pass
+    def visit(self, node):
+        raise NotImplementedError()
+
+    def preorder(self, node):
+        self.visit(node)
+        for child in self.get_children(node):
+            self.preorder(child)
+
+    def postorder(self, node):
+        for child in self.get_children(node):
+            self.postorder(child)
+        self.visit(node)
 
 
 class NodeAccessor(models.Model):
