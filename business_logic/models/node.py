@@ -26,7 +26,7 @@ class Node(NS_Node):
         verbose_name_plural = _('Program nodes')
 
     def __str__(self):
-        return 'Node: {}'.format(self.id)
+        return 'Node {}({}): {}'.format(self.id, self.content_type, self.content_object)
 
     @classmethod
     def add_root(cls, **kwargs):
