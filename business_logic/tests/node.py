@@ -100,6 +100,7 @@ class NodeTest(TestCase):
         self.failUnlessEqual(visitor.visited,
                 [add_node, node1, mul_node, node2, node3])
 
+        # postorder
         visitor = Visitor()
         visitor.postorder(add_node)
         self.failUnlessEqual(visitor.visited,
