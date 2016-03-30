@@ -108,14 +108,14 @@ class Node(NS_Node):
         return self.object_id is not None
 
     def pprint(self):
-        class PprintVisitor(NodeVisitor):
+        class PrettyPrintVisitor(NodeVisitor):
             def __init__(self):
                 self.str = ''
 
             def visit(self, node):
                 self.str += str(node.content_object)
 
-        visitor = PprintVisitor()
+        visitor = PrettyPrintVisitor()
         visitor.preorder(self)
         print visitor.str
 

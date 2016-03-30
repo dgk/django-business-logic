@@ -1,23 +1,31 @@
 # -*- coding: utf-8 -*-
 
-from .models import NodeVisitor
+from .models import NodeCacheHolder
 
 
-class XmlBuilderVisitor(NodeVisitor):
-    def __init__(self):
-        self.clone = None
+class BlocklyXmlBuilder(NodeCacheHolder):
+    def __init__(self, tree_root):
+        self.tree_root = tree_root
+        self.stack = []
+        self.xml = None
 
     def visit(self, node):
-        #print node, 'visit'
+        print node.content_type, 'visit'
+
         pass
 
-def tree_to_blockly_xml(tree_root):
-    visitor = XmlBuilderVisitor()
-    visitor.postorder(tree_root)
+    def build(self):
+        for child in self.get_children(node):
+            self.postorder(child)
+        self.visit(node)
 
+
+def tree_to_blockly_xml(tree_root):
+    builder = BlocklyXmlBuilder(tree_root)
+    return builder.build()
     return '''<xml xmlns="http://www.w3.org/1999/xhtml">
         <block></block>
-        </xml>'''
+        </xml>'''#.format(builder.build())
 
 
 def blockly_xml_to_tree(xml):
