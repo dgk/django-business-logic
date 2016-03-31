@@ -1,23 +1,39 @@
 # -*- coding: utf-8 -*-
+import re
+from lxml import etree
 
-from .models import NodeCacheHolder
+from .models import NodeCacheHolder, NodeVisitor
 
 
-class BlocklyXmlBuilder(NodeCacheHolder):
+def camel_case_to_snake_case(name):
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
+
+class BlocklyXmlBuilder(NodeVisitor):
     def __init__(self, tree_root):
         self.tree_root = tree_root
         self.stack = []
-        self.xml = None
+        self.xml = etree.Element('xml')
 
-    def visit(self, node):
-        print node.content_type, 'visit'
+    def visit(self, node, parent_xml):
+        content_object = node.content_object
+        #method_name = 'visit_{}'.format(camel_case_to_snake_case(content_object.__class__.__name__))
+        block = etree.Element('block')
+        block.set('type', 'math_number')
 
-        pass
+        field = etree.Element('field')
+        block.append(field)
+        field.set('name', 'NUM')
+        field.text = str(node.content_object)
+
+        parent_xml.append(block)
+
 
     def build(self):
-        for child in self.get_children(node):
-            self.postorder(child)
-        self.visit(node)
+        self.preorder(self.tree_root, parent_xml=self.xml)
+        return etree.tostring(self.xml, pretty_print=True)
+
 
 
 def tree_to_blockly_xml(tree_root):

@@ -15,12 +15,12 @@ class TreeToBlocklyXmlTest(TestCase):
         root = Node.add_root()
         statement1 = IntegerConstant(value=1)
         node1 = root.add_child(content_object=statement1)
-        xml_str = tree_to_blockly_xml(node1)
+        xml_str = BlocklyXmlBuilder(node1).build()
 
         xml = etree.parse(StringIO(xml_str))
 
         #print(etree.tostring(xml, pretty_print=True))
-        block_node = xml.xpath('/block')
+        block_node = xml.xpath('/xml/block')
         self.assertEqual(1, len(block_node))
 
     def test_assignment(self):
