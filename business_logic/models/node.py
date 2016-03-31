@@ -183,18 +183,18 @@ class NodeCacheHolder(object):
 
 
 class NodeVisitor(NodeCacheHolder):
-    def visit(self, node):
+    def visit(self, node, *args, **kwargs):
         raise NotImplementedError()
 
-    def preorder(self, node):
-        self.visit(node)
+    def preorder(self, node, *args, **kwargs):
+        self.visit(node, *args, **kwargs)
         for child in self.get_children(node):
-            self.preorder(child)
+            self.preorder(child, *args, **kwargs)
 
-    def postorder(self, node):
+    def postorder(self, node, *args, **kwargs):
         for child in self.get_children(node):
-            self.postorder(child)
-        self.visit(node)
+            self.postorder(child, *args, **kwargs)
+        self.visit(node, *args, **kwargs)
 
 
 class NodeAccessor(models.Model):
