@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import re
+import inspect
 from lxml import etree
 
-from .models import NodeCacheHolder, NodeVisitor
+from django.db.models import Model
+
+from .models import *
 
 
 def camel_case_to_snake_case(name):
@@ -18,32 +21,34 @@ class BlocklyXmlBuilder(NodeVisitor):
 
     def visit(self, node, parent_xml):
         content_object = node.content_object
-        method_name = 'visit_{}'.format(camel_case_to_snake_case(content_object.__class__.__name__))
-        if hasattr(self, method_name):
-            getattr(self, method_name)(node, parent_xml)
+        for cls in inspect.getmro(content_object.__class__):
+            if cls == Model:
+                break
+            method_name = 'visit_{}'.format(camel_case_to_snake_case(cls.__name__))
+            if hasattr(self, method_name):
+                getattr(self, method_name)(node, parent_xml)
+                break
 
 
-    def visit_string_constant(self, node, parent_xml):
-
+    def visit_constant(self, node, parent_xml):
+        block_type = {
+            IntegerConstant: 'math_number',
+            StringConstant: 'text',
+        }
+        field_name = {
+            IntegerConstant: 'NUM',
+            StringConstant: 'TEXT',
+        }
+        content_object = node.content_object
+        cls = content_object.__class__
         block = etree.Element('block')
-        block.set('type', 'text')
+        block.set('type', block_type[cls])
         field = etree.Element('field')
         block.append(field)
-        field.set('name', 'TEXT')
+        field.set('name', field_name[cls])
         field.text = str(node.content_object)
-
         parent_xml.append(block)
 
-
-    def visit_integer_constant(self, node, parent_xml):
-        block = etree.Element('block')
-        block.set('type', 'math_number')
-        field = etree.Element('field')
-        block.append(field)
-        field.set('name', 'NUM')
-        field.text = str(node.content_object)
-
-        parent_xml.append(block)
 
     def build(self):
         self.preorder(self.tree_root, parent_xml=self.xml)
