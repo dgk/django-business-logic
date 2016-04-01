@@ -33,10 +33,12 @@ class BlocklyXmlBuilder(NodeVisitor):
     def visit_constant(self, node, parent_xml):
         block_type = {
             IntegerConstant: 'math_number',
+            FloatConstant: 'math_number',
             StringConstant: 'text',
         }
         field_name = {
             IntegerConstant: 'NUM',
+            FloatConstant: 'NUM',
             StringConstant: 'TEXT',
         }
         content_object = node.content_object
