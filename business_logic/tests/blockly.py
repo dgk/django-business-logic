@@ -13,15 +13,21 @@ class TreeToBlocklyXmlTest(TestCase):
 
     def test_integer_const(self):
         root = Node.add_root()
-        statement1 = IntegerConstant(value=1)
-        node1 = root.add_child(content_object=statement1)
-        xml_str = BlocklyXmlBuilder(node1).build()
+        statement = IntegerConstant(value=1)
+        node = root.add_child(content_object=statement)
+        xml_str = BlocklyXmlBuilder(node).build()
 
         xml = etree.parse(StringIO(xml_str))
 
         #print(etree.tostring(xml, pretty_print=True))
-        block_node = xml.xpath('/xml/block')
-        self.assertEqual(1, len(block_node))
+        block = xml.xpath('/xml/block')
+        self.assertEqual(1, len(block))
+        block = block[0]
+        self.assertEqual('math_number', block.get('type'))
+        field = block.find('field')
+        self.assertIsNotNone(field)
+        self.assertEqual('NUM', field.get('name'))
+        self.assertEqual('1', field.text)
 
     def test_assignment(self):
         entry_point = var_A_assign_1()
