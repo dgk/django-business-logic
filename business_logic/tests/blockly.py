@@ -19,7 +19,6 @@ class TreeToBlocklyXmlTest(TestCase):
 
         xml = etree.parse(StringIO(xml_str))
 
-        #print(etree.tostring(xml, pretty_print=True))
         block = xml.xpath('/xml/block')
         self.assertEqual(1, len(block))
         block = block[0]
@@ -28,6 +27,24 @@ class TreeToBlocklyXmlTest(TestCase):
         self.assertIsNotNone(field)
         self.assertEqual('NUM', field.get('name'))
         self.assertEqual('1', field.text)
+
+    def test_string_const(self):
+        root = Node.add_root()
+        statement = StringConstant(value='hello')
+        node = root.add_child(content_object=statement)
+        xml_str = BlocklyXmlBuilder(node).build()
+
+        xml = etree.parse(StringIO(xml_str))
+
+        #print(etree.tostring(xml, pretty_print=True))
+        block = xml.xpath('/xml/block')
+        self.assertEqual(1, len(block))
+        block = block[0]
+        self.assertEqual('text', block.get('type'))
+        field = block.find('field')
+        self.assertIsNotNone(field)
+        self.assertEqual('TEXT', field.get('name'))
+        self.assertEqual('hello', field.text)
 
     def test_assignment(self):
         entry_point = var_A_assign_1()
