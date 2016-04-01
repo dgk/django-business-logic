@@ -18,17 +18,32 @@ class BlocklyXmlBuilder(NodeVisitor):
 
     def visit(self, node, parent_xml):
         content_object = node.content_object
-        #method_name = 'visit_{}'.format(camel_case_to_snake_case(content_object.__class__.__name__))
+        method_name = 'visit_{}'.format(camel_case_to_snake_case(content_object.__class__.__name__))
+        if hasattr(self, method_name):
+            getattr(self, method_name)(node, parent_xml)
+
+
+    def visit_string_constant(self, node, parent_xml):
+
+        block = etree.Element('block')
+        block.set('type', 'text')
+        field = etree.Element('field')
+        block.append(field)
+        field.set('name', 'TEXT')
+        field.text = str(node.content_object)
+
+        parent_xml.append(block)
+
+
+    def visit_integer_constant(self, node, parent_xml):
         block = etree.Element('block')
         block.set('type', 'math_number')
-
         field = etree.Element('field')
         block.append(field)
         field.set('name', 'NUM')
         field.text = str(node.content_object)
 
         parent_xml.append(block)
-
 
     def build(self):
         self.preorder(self.tree_root, parent_xml=self.xml)
