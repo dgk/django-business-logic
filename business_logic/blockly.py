@@ -19,6 +19,15 @@ class BlocklyXmlBuilder(NodeVisitor):
         self.stack = []
         self.xml = etree.Element('xml')
 
+    def preorder(self, node, *args, **kwargs):
+        if not self.visit(node, *args, **kwargs):
+            for child in self.get_children(node):
+                self.preorder(child, *args, **kwargs)
+
+    def build(self):
+        self.preorder(self.tree_root, parent_xml=self.xml)
+        return etree.tostring(self.xml, pretty_print=True)
+
     def visit(self, node, parent_xml):
         content_object = node.content_object
         for cls in inspect.getmro(content_object.__class__):
@@ -26,9 +35,20 @@ class BlocklyXmlBuilder(NodeVisitor):
                 break
             method_name = 'visit_{}'.format(camel_case_to_snake_case(cls.__name__))
             if hasattr(self, method_name):
-                getattr(self, method_name)(node, parent_xml)
-                break
+                return getattr(self, method_name)(node, parent_xml)
 
+    def build_block(self, parent_xml, type):
+        block = etree.Element('block')
+        block.set('type', type)
+        parent_xml.append(block)
+        return block
+
+
+    def build_field(self, parent_xml, name):
+        field = etree.Element('field')
+        parent_xml.append(field)
+        field.set('name', name)
+        return field
 
     def visit_constant(self, node, parent_xml):
         block_type = {
@@ -43,19 +63,16 @@ class BlocklyXmlBuilder(NodeVisitor):
         }
         content_object = node.content_object
         cls = content_object.__class__
-        block = etree.Element('block')
-        block.set('type', block_type[cls])
-        field = etree.Element('field')
-        block.append(field)
-        field.set('name', field_name[cls])
+        block = self.build_block(parent_xml, block_type[cls])
+        field = self.build_field(block, field_name[cls])
         field.text = str(node.content_object)
-        parent_xml.append(block)
 
-
-    def build(self):
-        self.preorder(self.tree_root, parent_xml=self.xml)
-        return etree.tostring(self.xml, pretty_print=True)
-
+    def visit_assignment(self, node, parent_xml):
+        lhs_node, rhs_node = self.get_children(node)
+        #print lhs_node, rhs_node
+        assert isinstance(lhs_node.content_object, Variable)
+        return True
+        #ctx.set_variable(lhs_node.content_object.definition_id, rhs)
 
 
 def tree_to_blockly_xml(tree_root):
