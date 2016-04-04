@@ -16,8 +16,6 @@ def camel_case_to_snake_case(name):
 class BlocklyXmlBuilder(NodeVisitor):
     def __init__(self, tree_root):
         self.tree_root = tree_root
-        self.stack = []
-        self.xml = etree.Element('xml')
 
     def preorder(self, node, *args, **kwargs):
         if not self.visit(node, *args, **kwargs):
@@ -25,8 +23,9 @@ class BlocklyXmlBuilder(NodeVisitor):
                 self.preorder(child, *args, **kwargs)
 
     def build(self):
-        self.preorder(self.tree_root, parent_xml=self.xml)
-        return etree.tostring(self.xml, pretty_print=True)
+        xml = etree.Element('xml')
+        self.preorder(self.tree_root, parent_xml=xml)
+        return etree.tostring(xml, pretty_print=True)
 
     def visit(self, node, parent_xml):
         content_object = node.content_object
