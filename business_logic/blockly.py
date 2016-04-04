@@ -34,17 +34,23 @@ class BlocklyXmlBuilder(NodeCacheHolder):
                 return getattr(self, method_name)(node, parent_xml)
 
     def build_block(self, parent_xml, type):
-        block = etree.Element('block')
-        block.set('type', type)
-        parent_xml.append(block)
-        return block
+        element = etree.Element('block')
+        element.set('type', type)
+        parent_xml.append(element)
+        return element
 
 
     def build_field(self, parent_xml, name):
-        field = etree.Element('field')
-        parent_xml.append(field)
-        field.set('name', name)
-        return field
+        element = etree.Element('field')
+        parent_xml.append(element)
+        element.set('name', name)
+        return element
+
+    def build_value(self, parent_xml, name):
+        element = etree.Element('value')
+        parent_xml.append(element)
+        element.set('name', name)
+        return element
 
     def visit_constant(self, node, parent_xml):
         block_type = {
@@ -65,11 +71,14 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
     def visit_assignment(self, node, parent_xml):
         lhs_node, rhs_node = self.get_children(node)
-        #print lhs_node, rhs_node
-        assert isinstance(lhs_node.content_object, Variable)
-        
+        variable = lhs_node.content_object
+        assert isinstance(variable, Variable)
+        block = self.build_block(parent_xml, 'variables_set')
+        field = self.build_field(block, 'VAR')
+        field.text = variable.definition.name
+        value = self.build_value(block, 'VALUE')
+        self.visit(rhs_node, value)
         return True
-        #ctx.set_variable(lhs_node.content_object.definition_id, rhs)
 
 
 def tree_to_blockly_xml(tree_root):
