@@ -60,3 +60,33 @@ class BlocklyXmlBuilderAssignmentTest(TestCase):
         block_value, = value.getchildren()
         self.assertEqual('block', block_value.tag)
         self.assertEqual('math_number', block_value.get('type'))
+
+
+class BlocklyXmlBuilderBlockTest(TestCase):
+    def test_block(self):
+        root = Node.add_root()
+        vars = ('A', 'B')
+        var_defs = {}
+
+        for var in vars:
+            var_def = VariableDefinition(name=var)
+            var_defs[var] = var_def
+            root.add_child(content_object=var_def)
+            root = Node.objects.get(id=root.id)
+
+        for var in vars:
+            assignment_node = root.add_child(content_object=Assignment())
+            assignment_node.add_child(content_object=Variable(definition=var_defs[var]))
+            assignment_node.add_child(content_object=IntegerConstant(value=1))
+            root = Node.objects.get(id=root.id)
+
+        xml_str = BlocklyXmlBuilder().build(root)
+        xml = etree.parse(StringIO(xml_str))
+        print xml_str
+        block = xml.xpath('/xml/block')
+        self.assertEqual(1, len(block))
+        block = block[0]
+
+
+        block = xml.xpath('/xml/block/next/block')
+        self.assertEqual(1, len(block))
