@@ -13,19 +13,16 @@ def camel_case_to_snake_case(name):
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 
-class BlocklyXmlBuilder(NodeVisitor):
-    def __init__(self, tree_root):
-        self.tree_root = tree_root
-
-    def preorder(self, node, *args, **kwargs):
-        if not self.visit(node, *args, **kwargs):
-            for child in self.get_children(node):
-                self.preorder(child, *args, **kwargs)
-
-    def build(self):
+class BlocklyXmlBuilder(NodeCacheHolder):
+    def build(self, tree_root):
         xml = etree.Element('xml')
-        self.preorder(self.tree_root, parent_xml=xml)
+        self.preorder(tree_root, parent_xml=xml)
         return etree.tostring(xml, pretty_print=True)
+
+    def preorder(self, node, parent_xml):
+        if not self.visit(node, parent_xml):
+            for child in self.get_children(node):
+                self.preorder(child, parent_xml)
 
     def visit(self, node, parent_xml):
         content_object = node.content_object
@@ -70,6 +67,7 @@ class BlocklyXmlBuilder(NodeVisitor):
         lhs_node, rhs_node = self.get_children(node)
         #print lhs_node, rhs_node
         assert isinstance(lhs_node.content_object, Variable)
+        
         return True
         #ctx.set_variable(lhs_node.content_object.definition_id, rhs)
 
