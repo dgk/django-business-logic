@@ -26,6 +26,10 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
     def visit(self, node, parent_xml):
         content_object = node.content_object
+
+        if content_object is None:
+            return self.visit_block(node, parent_xml)
+
         for cls in inspect.getmro(content_object.__class__):
             if cls == Model:
                 break
@@ -52,6 +56,12 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         element.set('name', name)
         return element
 
+    def visit_block(self, node, parent_xml):
+        for i, child in enumerate(self.get_children(node)):
+            if i:
+                pass
+            self.visit(child, parent_xml)
+
     def visit_constant(self, node, parent_xml):
         block_type = {
             IntegerConstant: 'math_number',
@@ -68,6 +78,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         block = self.build_block(parent_xml, block_type[cls])
         field = self.build_field(block, field_name[cls])
         field.text = str(node.content_object)
+        return block
 
     def visit_assignment(self, node, parent_xml):
         lhs_node, rhs_node = self.get_children(node)
@@ -82,8 +93,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
 
 def tree_to_blockly_xml(tree_root):
-    builder = BlocklyXmlBuilder(tree_root)
-    return builder.build()
+    return BlocklyXmlBuilder().build(tree_root)
     return '''<xml xmlns="http://www.w3.org/1999/xhtml">
         <block></block>
         </xml>'''#.format(builder.build())
