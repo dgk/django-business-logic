@@ -42,7 +42,6 @@ class BlocklyXmlBuilderAssignmentTest(TestCase):
 
         xml_str = BlocklyXmlBuilder().build(assign_node)
         xml = etree.parse(StringIO(xml_str))
-        print(etree.tostring(xml, pretty_print=True))
 
         block = xml.xpath('/xml/block')
         self.assertEqual(1, len(block))
