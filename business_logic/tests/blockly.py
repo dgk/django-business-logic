@@ -5,7 +5,9 @@ from lxml import etree
 
 from .common import *
 
-NAMESPACES = {'xmlns': 'http://www.w3.org/1999/xhtml'}
+#NAMESPACES = {'xmlns': 'http://www.w3.org/1999/xhtml'}
+
+# https://blockly-demo.appspot.com/static/demos/code/index.html
 
 
 class BlocklyXmlBuilderConstantTest(TestCase):
@@ -34,14 +36,9 @@ class BlocklyXmlBuilderConstantTest(TestCase):
 
 
 class BlocklyXmlBuilderAssignmentTest(TestCase):
-    # https://blockly-demo.appspot.com/static/demos/code/index.html
-
-
     def test_assignment(self):
         entry_point = var_A_assign_1()
         assign_node = entry_point.get_children()[1]
-        print assign_node
-
 
         xml_str = BlocklyXmlBuilder().build(assign_node)
         xml = etree.parse(StringIO(xml_str))
@@ -51,7 +48,16 @@ class BlocklyXmlBuilderAssignmentTest(TestCase):
         self.assertEqual(1, len(block))
         block = block[0]
         self.assertEqual('variables_set', block.get('type'))
-        field = block.find('field')
-        self.assertIsNotNone(field)
-        self.assertEqual(field_name, field.get('name'))
-        self.assertEqual(str(statement.value), field.text)
+
+        field, value = block.getchildren()
+
+        self.assertEqual('field', field.tag)
+        self.assertEqual('VAR', field.get('name'))
+        self.assertEqual('A', field.text)
+
+        self.assertEqual('value', value.tag)
+        self.assertEqual('VALUE', value.get('name'))
+
+        block_value, = value.getchildren()
+        self.assertEqual('block', block_value.tag)
+        self.assertEqual('math_number', block_value.get('type'))
