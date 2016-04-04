@@ -12,7 +12,7 @@ class BlocklyXmlBuilderConstantTest(TestCase):
     def _constant_test(self, statement, block_type, field_name):
         root = Node.add_root()
         node = root.add_child(content_object=statement)
-        xml_str = BlocklyXmlBuilder(node).build()
+        xml_str = BlocklyXmlBuilder().build(node)
         xml = etree.parse(StringIO(xml_str))
         block = xml.xpath('/xml/block')
         self.assertEqual(1, len(block))
@@ -41,6 +41,17 @@ class BlocklyXmlBuilderAssignmentTest(TestCase):
         entry_point = var_A_assign_1()
         assign_node = entry_point.get_children()[1]
         print assign_node
-        xml_str = tree_to_blockly_xml(assign_node)
-        xml = etree.fromstring(xml_str)
+
+
+        xml_str = BlocklyXmlBuilder().build(assign_node)
+        xml = etree.parse(StringIO(xml_str))
         print(etree.tostring(xml, pretty_print=True))
+
+        block = xml.xpath('/xml/block')
+        self.assertEqual(1, len(block))
+        block = block[0]
+        self.assertEqual('variables_set', block.get('type'))
+        field = block.find('field')
+        self.assertIsNotNone(field)
+        self.assertEqual(field_name, field.get('name'))
+        self.assertEqual(str(statement.value), field.text)
