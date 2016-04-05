@@ -65,7 +65,7 @@ class BlocklyXmlBuilderAssignmentTest(TestCase):
 class BlocklyXmlBuilderBlockTest(TestCase):
     def test_block(self):
         root = Node.add_root()
-        vars = ('A', 'B')
+        vars = ('A', 'B', 'C')
         var_defs = {}
 
         for var in vars:
@@ -82,7 +82,6 @@ class BlocklyXmlBuilderBlockTest(TestCase):
 
         xml_str = BlocklyXmlBuilder().build(root)
         xml = etree.parse(StringIO(xml_str))
-        print xml_str
         block = xml.xpath('/xml/block')
         self.assertEqual(1, len(block))
         block = block[0]

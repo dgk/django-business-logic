@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import re
 import inspect
+
 from lxml import etree
 
 from django.db.models import Model
 
 from .models import *
-
 
 def camel_case_to_snake_case(name):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
@@ -16,26 +16,39 @@ def camel_case_to_snake_case(name):
 class BlocklyXmlBuilder(NodeCacheHolder):
     def build(self, tree_root):
         xml = etree.Element('xml')
-        self.preorder(tree_root, parent_xml=xml)
+        self.visit(tree_root, parent_xml=xml)
         return etree.tostring(xml, pretty_print=True)
-
-    def preorder(self, node, parent_xml):
-        if not self.visit(node, parent_xml):
-            for child in self.get_children(node):
-                self.preorder(child, parent_xml)
 
     def visit(self, node, parent_xml):
         content_object = node.content_object
 
         if content_object is None:
-            return self.visit_block(node, parent_xml)
+            last_xml = None
+            for child in self.get_children(node):
+                if last_xml is not None:
+                    next = etree.Element('next')
+                    last_xml.append(next)
+                    parent_xml = next
+                last_xml = self.visit(child, parent_xml)
+            return
 
         for cls in inspect.getmro(content_object.__class__):
             if cls == Model:
                 break
+
             method_name = 'visit_{}'.format(camel_case_to_snake_case(cls.__name__))
-            if hasattr(self, method_name):
-                return getattr(self, method_name)(node, parent_xml)
+            method = getattr(self, method_name, None)
+
+            if not method:
+                continue
+
+            node_xml = method(node, parent_xml)
+
+            if not getattr(method, 'process_children', None):
+                for child in self.get_children(node):
+                    self.visit(child, parent_xml)
+
+            return node_xml
 
     def build_block(self, parent_xml, type):
         element = etree.Element('block')
@@ -55,12 +68,6 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         parent_xml.append(element)
         element.set('name', name)
         return element
-
-    def visit_block(self, node, parent_xml):
-        for i, child in enumerate(self.get_children(node)):
-            if i:
-                pass
-            self.visit(child, parent_xml)
 
     def visit_constant(self, node, parent_xml):
         block_type = {
@@ -89,8 +96,9 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         field.text = variable.definition.name
         value = self.build_value(block, 'VALUE')
         self.visit(rhs_node, value)
-        return True
+        return block
 
+    visit_assignment.process_children = True
 
 def tree_to_blockly_xml(tree_root):
     return BlocklyXmlBuilder().build(tree_root)
