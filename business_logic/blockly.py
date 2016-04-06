@@ -100,6 +100,31 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
     visit_assignment.process_children = True
 
+    def visit_binary_operator(self, node, parent_xml):
+        operator_table = {
+            '+': 'ADD',
+            '-': 'MINUS',
+            '*': 'MULTIPLY',
+            '/': 'DIVIDE',
+        }
+
+        lhs_node, rhs_node = self.get_children(node)
+
+        block = self.build_block(parent_xml, 'math_arithmetic')
+        operator = node.content_object
+
+        field = self.build_field(block, 'OP')
+        field.text = operator_table[operator.operator]
+
+        for value_name, child_node in (('A', lhs_node), ('B', rhs_node)):
+            value = self.build_value(block, value_name)
+            self.visit(child_node, value)
+
+        return block
+
+    visit_binary_operator.process_children = True
+
+
 def tree_to_blockly_xml(tree_root):
     return BlocklyXmlBuilder().build(tree_root)
     return '''<xml xmlns="http://www.w3.org/1999/xhtml">
