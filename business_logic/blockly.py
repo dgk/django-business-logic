@@ -122,6 +122,10 @@ class BlocklyXmlBuilder(NodeCacheHolder):
                 '>': 'GT',
                 '>=': 'GTE',
             },
+            'logic_operation': {
+                '&': 'AND',
+                '|': 'OR',
+            },
 
         }
 
@@ -134,7 +138,8 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         for block_type, table in operator_table.items():
             if operator in table:
                 break
-
+        else:
+            assert False
         block = self.build_block(parent_xml, block_type)
 
         field = self.build_field(block, 'OP')

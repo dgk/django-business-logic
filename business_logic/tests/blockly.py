@@ -125,7 +125,7 @@ class BlocklyXmlBuilderBlockTest(TestCase):
 class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
     #def _constant_test(self, statement, block_type, field_name):
 
-    def _test_binary_operator(self, operator, block_type, field_value):
+    def _test_math_binary_operator(self, operator, block_type, operator_field_value):
         root = Node.add_root(content_object=BinaryOperator(operator=operator))
 
         for i in (1, 2):
@@ -140,7 +140,7 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
         self.assertEqual(block_type, block.get('type'))
         field = xml.xpath('/xml/block/field')[0]
         self.assertEqual('OP', field.get('name'))
-        self.assertEqual(field_value, field.text)
+        self.assertEqual(operator_field_value, field.text)
         for field_value, field_name in enumerate(('A', 'B'), 1):
             value = xml.xpath('/xml/block/value[@name="{}"]'.format(field_name))[0]
             math_number = value.find('block')
@@ -149,49 +149,82 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
             self.assertEqual('NUM', field.get('name'))
             self.assertEqual(str(field_value), field.text)
 
+    def _test_logic_binary_operator(self, operator, block_type, operator_field_value):
+        root = Node.add_root(content_object=BinaryOperator(operator=operator))
+
+        for i in (True, False):
+            root.add_child(content_object=BooleanConstant(value=i))
+            root = Node.objects.get(id=root.id)
+
+        xml_str = BlocklyXmlBuilder().build(root)
+        xml = etree.parse(StringIO(xml_str))
+        block = xml.xpath('/xml/block')
+        self.assertEqual(1, len(block))
+        block = block[0]
+        self.assertEqual(block_type, block.get('type'))
+        field = xml.xpath('/xml/block/field')[0]
+        self.assertEqual('OP', field.get('name'))
+        self.assertEqual(operator_field_value, field.text)
+        for field_value, field_name in ((True, 'A',), (False, 'B')):
+            value = xml.xpath('/xml/block/value[@name="{}"]'.format(field_name))[0]
+            math_number = value.find('block')
+            self.assertEqual('logic_boolean', math_number.get('type'))
+            field, = math_number.getchildren()
+            self.assertEqual('BOOL', field.get('name'))
+            self.assertEqual(str(field_value).upper(), field.text)
+
     def test_operator_add(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#mzvwas
-        self._test_binary_operator('+', 'math_arithmetic', 'ADD')
+        self._test_math_binary_operator('+', 'math_arithmetic', 'ADD')
 
     def test_operator_minus(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#ec7z5c
-        self._test_binary_operator('-', 'math_arithmetic', 'MINUS')
+        self._test_math_binary_operator('-', 'math_arithmetic', 'MINUS')
 
     def test_operator_mul(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#nzq3w5
-        self._test_binary_operator('*', 'math_arithmetic', 'MULTIPLY')
+        self._test_math_binary_operator('*', 'math_arithmetic', 'MULTIPLY')
 
     def test_operator_div(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#qzqt69
-        self._test_binary_operator('/', 'math_arithmetic', 'DIVIDE')
+        self._test_math_binary_operator('/', 'math_arithmetic', 'DIVIDE')
 
     def test_operator_pow(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#skakny
-        self._test_binary_operator('^', 'math_arithmetic', 'POWER')
+        self._test_math_binary_operator('^', 'math_arithmetic', 'POWER')
 
     def test_operator_eq(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#rzsfmb
-        self._test_binary_operator('==', 'logic_compare', 'EQ')
+        self._test_math_binary_operator('==', 'logic_compare', 'EQ')
 
     def test_operator_ne(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#xj34cw
-        self._test_binary_operator('!=', 'logic_compare', 'NEQ')
+        self._test_math_binary_operator('!=', 'logic_compare', 'NEQ')
 
     def test_operator_lt(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#oap9ne
-        self._test_binary_operator('<', 'logic_compare', 'LT')
+        self._test_math_binary_operator('<', 'logic_compare', 'LT')
 
     def test_operator_lte(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#qkk5jx
-        self._test_binary_operator('<=', 'logic_compare', 'LTE')
+        self._test_math_binary_operator('<=', 'logic_compare', 'LTE')
 
     def test_operator_gt(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#qxdp8u
-        self._test_binary_operator('>', 'logic_compare', 'GT')
+        self._test_math_binary_operator('>', 'logic_compare', 'GT')
 
     def test_operator_gte(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#kggfq9
-        self._test_binary_operator('>=', 'logic_compare', 'GTE')
+        self._test_math_binary_operator('>=', 'logic_compare', 'GTE')
+
+    def test_operator_and(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#n2uf8x
+        self._test_logic_binary_operator('&', 'logic_operation', 'AND')
+
+    def test_operator_or(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#baz5xq
+        self._test_logic_binary_operator('|', 'logic_operation', 'OR')
+
 
     def test_1plus2mul3(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#b8dsrg
