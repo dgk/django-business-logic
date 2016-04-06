@@ -154,6 +154,10 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#qzqt69
         self._test_binary_operator('/', 'DIVIDE')
 
+    def test_operator_pow(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#qzqt69
+        self._test_binary_operator('^', 'POWER')
+
     def test_1plus2mul3(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#b8dsrg
         root = tree_1plus2mul3()
