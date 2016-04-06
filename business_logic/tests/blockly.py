@@ -52,7 +52,7 @@ class BlocklyXmlBuilderConstantTest(TestCase):
 class BlocklyXmlBuilderAssignmentTest(TestCase):
     def test_assignment(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#b7driq
-        entry_point = var_A_assign_1()
+        entry_point = variable_assign_value()
         assign_node = entry_point.get_children()[1]
 
         xml_str = BlocklyXmlBuilder().build(assign_node)

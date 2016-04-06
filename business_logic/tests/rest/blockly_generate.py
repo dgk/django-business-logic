@@ -15,7 +15,7 @@ class BlocklyGenerateTest(TestCase):
                                               title='test',
                                               name='test')
 
-        self.program_version = ProgramVersion.objects.create(program=program, entry_point=var_A_assign_1())
+        self.program_version = ProgramVersion.objects.create(program=program, entry_point=variable_assign_value())
 
     def test_xml_A_assign_1(self):
         url = reverse('business-logic:rest:program-version', kwargs=dict(pk=self.program_version.id))
