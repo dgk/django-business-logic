@@ -107,6 +107,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
                 '-': 'MINUS',
                 '*': 'MULTIPLY',
                 '/': 'DIVIDE',
+                '^': 'POWER',
             },
         }
 
