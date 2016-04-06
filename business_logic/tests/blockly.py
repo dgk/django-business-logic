@@ -155,7 +155,7 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
         self._test_binary_operator('/', 'DIVIDE')
 
     def test_operator_pow(self):
-        # https://blockly-demo.appspot.com/static/demos/code/index.html#qzqt69
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#skakny
         self._test_binary_operator('^', 'POWER')
 
     def test_1plus2mul3(self):

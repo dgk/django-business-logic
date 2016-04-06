@@ -44,6 +44,7 @@ class BinaryOperator(Operator):
         '^': operator.pow,
 
         '%': operator.mod,
+
         '&': operator.and_,
         '|': operator.or_,
 
