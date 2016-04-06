@@ -6,7 +6,6 @@ from django.test import TestCase
 from ..models import *
 
 
-
 class BinaryOperatorTest(TestCase):
     def test_init(self):
         add_operator = BinaryOperator(operator='+')
@@ -99,6 +98,22 @@ class BinaryOperatorTest(TestCase):
         result = div_operator.interpret(ctx, float_const1.interpret(ctx),
                 float_const2.interpret(ctx))
         self.failUnlessEqual(1.2 / 2.3, result)
+
+    def test_interpret_pow(self):
+        pow_operator = BinaryOperator(operator='^')
+        integer_const1 = IntegerConstant(value=2)
+        integer_const2 = IntegerConstant(value=3)
+        ctx = Context()
+        result = pow_operator.interpret(ctx, integer_const1.interpret(ctx),
+                integer_const2.interpret(ctx))
+        self.failUnlessEqual(2 ** 3, result)
+
+        float_const1 = FloatConstant(value=1.2)
+        float_const2 = FloatConstant(value=2.3)
+        ctx = Context()
+        result = pow_operator.interpret(ctx, float_const1.interpret(ctx),
+                float_const2.interpret(ctx))
+        self.failUnlessEqual(1.2 ** 2.3, result)
 
 
 class UnaryOperatorTest(TestCase):

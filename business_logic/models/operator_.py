@@ -41,6 +41,7 @@ class BinaryOperator(Operator):
         '-': operator.sub,
         '*': operator.mul,
         '/': operator.div,
+        '^': operator.pow,
 
         '%': operator.mod,
         '&': operator.and_,
