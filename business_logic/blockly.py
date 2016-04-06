@@ -109,6 +109,15 @@ class BlocklyXmlBuilder(NodeCacheHolder):
                 '/': 'DIVIDE',
                 '^': 'POWER',
             },
+            'logic_compare': {
+                '==': 'EQ',
+                '!=': 'NEQ',
+                '<': 'LT',
+                '<=': 'LTE',
+                '>': 'GT',
+                '>=': 'GTE',
+            },
+
         }
 
 
