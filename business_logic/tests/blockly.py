@@ -106,10 +106,5 @@ class BlocklyXmlBuilderBlockTest(TestCase):
             self.assertEqual('NUM', field.get('name'))
             self.assertEqual(str(var_value), field.text)
 
-
-
             block = xml.xpath(variables_set_block_xpath + '[@type="variables_set"]')
             self.assertTrue(block)
-
-
-        #print etree.tostring(block[0], )
