@@ -102,20 +102,30 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
     def visit_binary_operator(self, node, parent_xml):
         operator_table = {
-            '+': 'ADD',
-            '-': 'MINUS',
-            '*': 'MULTIPLY',
-            '/': 'DIVIDE',
+            'math_arithmetic': {
+                '+': 'ADD',
+                '-': 'MINUS',
+                '*': 'MULTIPLY',
+                '/': 'DIVIDE',
+            },
         }
 
-        lhs_node, rhs_node = self.get_children(node)
 
-        block = self.build_block(parent_xml, 'math_arithmetic')
-        operator = node.content_object
+        # determine block_type
+        operator = node.content_object.operator
+        block_type = None
+        table = None
+
+        for block_type, table in operator_table.items():
+            if operator in table:
+                break
+
+        block = self.build_block(parent_xml, block_type)
 
         field = self.build_field(block, 'OP')
-        field.text = operator_table[operator.operator]
+        field.text = table[operator]
 
+        lhs_node, rhs_node = self.get_children(node)
         for value_name, child_node in (('A', lhs_node), ('B', rhs_node)):
             value = self.build_value(block, value_name)
             self.visit(child_node, value)
