@@ -26,17 +26,21 @@ class BlocklyXmlBuilderConstantTest(TestCase):
         self.assertEqual(str(statement.value), field.text)
 
     def test_integer_constant(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#hs3z8u
         self._constant_test(IntegerConstant(value=112), 'math_number', 'NUM')
 
     def test_float_constant(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#zv7x7e
         self._constant_test(FloatConstant(value=1.11456), 'math_number', 'NUM')
 
     def test_string_constant(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#94euw4
         self._constant_test(StringConstant(value='hello'), 'text', 'TEXT')
 
 
 class BlocklyXmlBuilderAssignmentTest(TestCase):
     def test_assignment(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#b7driq
         entry_point = var_A_assign_1()
         assign_node = entry_point.get_children()[1]
 
