@@ -74,17 +74,22 @@ class BlocklyXmlBuilder(NodeCacheHolder):
             IntegerConstant: 'math_number',
             FloatConstant: 'math_number',
             StringConstant: 'text',
+            BooleanConstant: 'logic_boolean',
         }
         field_name = {
             IntegerConstant: 'NUM',
             FloatConstant: 'NUM',
             StringConstant: 'TEXT',
+            BooleanConstant: 'BOOL',
         }
         content_object = node.content_object
         cls = content_object.__class__
         block = self.build_block(parent_xml, block_type[cls])
         field = self.build_field(block, field_name[cls])
-        field.text = str(node.content_object)
+        if isinstance(content_object, BooleanConstant):
+            field.text = str(content_object).upper()
+        else:
+            field.text = str(content_object)
         return block
 
     def visit_assignment(self, node, parent_xml):

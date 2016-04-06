@@ -11,7 +11,7 @@ from .common import *
 
 
 class BlocklyXmlBuilderConstantTest(TestCase):
-    def _constant_test(self, statement, block_type, field_name):
+    def _constant_test(self, statement, block_type, field_name, value=None):
         root = Node.add_root()
         node = root.add_child(content_object=statement)
         xml_str = BlocklyXmlBuilder().build(node)
@@ -23,7 +23,10 @@ class BlocklyXmlBuilderConstantTest(TestCase):
         field = block.find('field')
         self.assertIsNotNone(field)
         self.assertEqual(field_name, field.get('name'))
-        self.assertEqual(str(statement.value), field.text)
+        if value is not None:
+            self.assertEqual(value, field.text)
+        else:
+            self.assertEqual(str(statement.value), field.text)
 
     def test_integer_constant(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#hs3z8u
@@ -36,6 +39,14 @@ class BlocklyXmlBuilderConstantTest(TestCase):
     def test_string_constant(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#94euw4
         self._constant_test(StringConstant(value='hello'), 'text', 'TEXT')
+
+    def test_boolean_constant_true(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#fdboqf
+        self._constant_test(BooleanConstant(value=True), 'logic_boolean', 'BOOL', 'TRUE')
+
+    def test_boolean_constant_false(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#fksno2
+        self._constant_test(BooleanConstant(value=False), 'logic_boolean', 'BOOL', 'FALSE')
 
 
 class BlocklyXmlBuilderAssignmentTest(TestCase):
