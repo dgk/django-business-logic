@@ -64,8 +64,9 @@ class BlocklyXmlBuilderAssignmentTest(TestCase):
 
 class BlocklyXmlBuilderBlockTest(TestCase):
     def test_block(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#h333qt
         root = Node.add_root()
-        vars = ('A', 'B', 'C')
+        vars = ('A', 'B', 'C', 'D')
         var_defs = {}
 
         for var in vars:
@@ -74,18 +75,41 @@ class BlocklyXmlBuilderBlockTest(TestCase):
             root.add_child(content_object=var_def)
             root = Node.objects.get(id=root.id)
 
-        for var in vars:
+        for i, var in enumerate(vars, 1):
             assignment_node = root.add_child(content_object=Assignment())
             assignment_node.add_child(content_object=Variable(definition=var_defs[var]))
-            assignment_node.add_child(content_object=IntegerConstant(value=1))
+            assignment_node.add_child(content_object=IntegerConstant(value=i))
             root = Node.objects.get(id=root.id)
 
         xml_str = BlocklyXmlBuilder().build(root)
         xml = etree.parse(StringIO(xml_str))
-        block = xml.xpath('/xml/block')
-        self.assertEqual(1, len(block))
-        block = block[0]
+
+        for i, var in enumerate(vars):
+            var_value = i + 1
+            variables_set_block_xpath = '/xml/block' + '/next/block' * i
+            block = xml.xpath(variables_set_block_xpath)
+            self.assertEqual(1, len(block))
+            block = block[0]
+            self.assertEqual('variables_set', block.get('type'))
+
+            field = block.find('field')
+            self.assertEqual('VAR', field.get('name'))
+            self.assertEqual(var, field.text)
+
+            value = block.find('value')
+            self.assertEqual('VALUE', value.get('name'))
+
+            math_number, = value.getchildren()
+            self.assertEqual('math_number', math_number.get('type'))
+
+            field, = math_number.getchildren()
+            self.assertEqual('NUM', field.get('name'))
+            self.assertEqual(str(var_value), field.text)
 
 
-        block = xml.xpath('/xml/block/next/block')
-        self.assertEqual(1, len(block))
+
+            block = xml.xpath(variables_set_block_xpath + '[@type="variables_set"]')
+            self.assertTrue(block)
+
+
+        #print etree.tostring(block[0], )
