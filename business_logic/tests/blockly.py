@@ -110,5 +110,52 @@ class BlocklyXmlBuilderBlockTest(TestCase):
             self.assertEqual('NUM', field.get('name'))
             self.assertEqual(str(var_value), field.text)
 
-            block = xml.xpath(variables_set_block_xpath + '[@type="variables_set"]')
-            self.assertTrue(block)
+
+class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
+    #def _constant_test(self, statement, block_type, field_name):
+
+    def _test_binary_operator(self, operator, field_value):
+        root = Node.add_root(content_object=BinaryOperator(operator=operator))
+
+        for i in (1, 2):
+            root.add_child(content_object=IntegerConstant(value=i))
+            root = Node.objects.get(id=root.id)
+
+        xml_str = BlocklyXmlBuilder().build(root)
+        xml = etree.parse(StringIO(xml_str))
+        block = xml.xpath('/xml/block')
+        self.assertEqual(1, len(block))
+        block = block[0]
+        self.assertEqual('math_arithmetic', block.get('type'))
+        field = xml.xpath('/xml/block/field')[0]
+        self.assertEqual('OP', field.get('name'))
+        self.assertEqual(field_value, field.text)
+        for field_value, field_name in enumerate(('A', 'B'), 1):
+            value = xml.xpath('/xml/block/value[@name="{}"]'.format(field_name))[0]
+            math_number = value.find('block')
+            self.assertEqual('math_number', math_number.get('type'))
+            field, = math_number.getchildren()
+            self.assertEqual('NUM', field.get('name'))
+            self.assertEqual(str(field_value), field.text)
+
+    def test_operator_add(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#mzvwas
+        self._test_binary_operator('+', 'ADD')
+
+    def test_operator_minus(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#ec7z5c
+        self._test_binary_operator('-', 'MINUS')
+
+    def test_operator_mul(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#nzq3w5
+        self._test_binary_operator('*', 'MULTIPLY')
+
+    def test_operator_div(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#qzqt69
+        self._test_binary_operator('/', 'DIVIDE')
+
+    def test_1plus2mul3(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#b8dsrg
+        root = tree_1plus2mul3()
+        xml_str = BlocklyXmlBuilder().build(root)
+        #print xml_str
