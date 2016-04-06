@@ -10,6 +10,7 @@ from ..models import *
 
 def tree_1plus2mul3(parent=None):
     # http://upload.wikimedia.org/wikipedia/ru/d/db/Parsing-example.png
+    # https://blockly-demo.appspot.com/static/demos/code/index.html#b8dsrg
 
     add_operator = BinaryOperator(operator='+')
     add_operator.save()

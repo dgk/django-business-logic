@@ -123,8 +123,6 @@ class BlocklyXmlBuilderBlockTest(TestCase):
 
 
 class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
-    #def _constant_test(self, statement, block_type, field_name):
-
     def _test_math_binary_operator(self, operator, block_type, operator_field_value):
         root = Node.add_root(content_object=BinaryOperator(operator=operator))
 
@@ -224,10 +222,3 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
     def test_operator_or(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#baz5xq
         self._test_logic_binary_operator('|', 'logic_operation', 'OR')
-
-
-    def test_1plus2mul3(self):
-        # https://blockly-demo.appspot.com/static/demos/code/index.html#b8dsrg
-        root = tree_1plus2mul3()
-        xml_str = BlocklyXmlBuilder().build(root)
-        #print xml_str
