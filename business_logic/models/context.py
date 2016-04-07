@@ -81,12 +81,14 @@ class Context(NodeCacheHolder):
         return super(Context, self).get_children(node)
 
     def get_variable(self, vardef_id):
+        int(vardef_id)
         try:
             return self._vars[vardef_id]
         except KeyError:
             return None
 
     def set_variable(self, vardef_id, value):
+        int(vardef_id)
         self._vars[vardef_id] = value
 
 __all__ = ('Context', )
