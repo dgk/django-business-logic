@@ -92,12 +92,14 @@ class Node(NS_Node):
 
         children = ctx.get_children(self)
 
-        children_interpreted = [x.interpret(ctx) for x in children]
 
-        if self.is_statement():
-            return_value = self.content_object.interpret(ctx, *children_interpreted)
+        return_value = None
+
+        if is_block:
+            return_value = [x.interpret(ctx) for x in children]
         else:
-            return_value = children_interpreted
+            # is_statement
+            return_value = self.content_object.interpret(ctx, *[x.interpret(ctx) for x in children])
 
         signals.interpret_leave.send(sender=ctx, node=self, value=return_value)
 
