@@ -99,7 +99,11 @@ class Node(NS_Node):
             return_value = [x.interpret(ctx) for x in children]
         else:
             # is_statement
-            return_value = self.content_object.interpret(ctx, *[x.interpret(ctx) for x in children])
+            content_object = self.content_object
+            if getattr(content_object, 'interpret_children', False):
+                return_value = content_object.interpret(ctx)
+            else:
+                return_value = content_object.interpret(ctx, *[x.interpret(ctx) for x in children])
 
         signals.interpret_leave.send(sender=ctx, node=self, value=return_value)
 
