@@ -83,9 +83,13 @@ class Node(NS_Node):
         return Node.objects.get(id=visitor.clone.id)
 
     def interpret(self, ctx):
-        if self.is_block():
+        is_block = self.is_block()
+
+        if is_block:
             signals.block_interpret_enter.send(sender=ctx, node=self)
+
         signals.interpret_enter.send(sender=ctx, node=self, value=self.content_object)
+
         children = ctx.get_children(self)
 
         children_interpreted = [x.interpret(ctx) for x in children]
@@ -96,7 +100,8 @@ class Node(NS_Node):
             return_value = children_interpreted
 
         signals.interpret_leave.send(sender=ctx, node=self, value=return_value)
-        if self.is_block():
+
+        if is_block:
             signals.block_interpret_leave.send(sender=ctx, node=self)
 
         return return_value
