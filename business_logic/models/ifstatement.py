@@ -15,9 +15,15 @@ class IfStatement(NodeAccessor):
 
     def interpret(self, ctx):
         children = ctx.get_children(self.node)
-        if_node = children[0]
-        if if_node.interpret(ctx):
-            return children[1].interpret(ctx)
-        elif len(children) % 2:
-            return children[-1].interpret(ctx)
+
+        def pairs(l):
+            return [l[i:i + 2] for i in range(0, len(l), 2)]
+
+        for pair in pairs(children):
+            # last "else" branch
+            if len(pair) == 1:
+                return pair[0].interpret(ctx)
+
+            if pair[0].interpret(ctx):
+                return pair[1].interpret(ctx)
 
