@@ -8,6 +8,7 @@ from django.db.models import Model
 
 from .models import *
 
+
 def camel_case_to_snake_case(name):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
@@ -55,7 +56,6 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         element.set('type', type)
         parent_xml.append(element)
         return element
-
 
     def build_field(self, parent_xml, name):
         element = etree.Element('field')
@@ -129,7 +129,6 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
         }
 
-
         # determine block_type
         operator = node.content_object.operator
         block_type = None
@@ -157,9 +156,6 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
 def tree_to_blockly_xml(tree_root):
     return BlocklyXmlBuilder().build(tree_root)
-    return '''<xml xmlns="http://www.w3.org/1999/xhtml">
-        <block></block>
-        </xml>'''#.format(builder.build())
 
 
 def blockly_xml_to_tree(xml):
