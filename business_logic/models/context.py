@@ -2,10 +2,11 @@
 #
 
 from .. import signals
-from log import Logger
-from frame import Frame
-from node import Node, NodeCacheHolder
-from result import Result
+from .log import Logger
+from .frame import Frame
+from .node import Node, NodeCacheHolder
+from .result import Result
+from .variable import Variable
 
 class ContextConfig:
     defaults = dict(
@@ -85,7 +86,7 @@ class Context(NodeCacheHolder):
         try:
             return self._vars[vardef_id]
         except KeyError:
-            return None
+            return Variable.Undefined()
 
     def set_variable(self, vardef_id, value):
         int(vardef_id)

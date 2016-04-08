@@ -38,8 +38,10 @@ class IfStatementTest(TestCase):
         root = self.create_tree(2)
         context = Context()
         root.interpret(context)
-        self.failIf(context.get_variable(self.var_defs['IfCondition'].id))
-        self.failIf(context.get_variable(self.var_defs['IfEnter'].id))
+        self.assertIsInstance(context.get_variable(self.var_defs['IfCondition'].id),
+                              Variable.Undefined)
+        self.assertIsInstance(context.get_variable(self.var_defs['IfEnter'].id),
+                              Variable.Undefined)
 
 
         context = Context()
