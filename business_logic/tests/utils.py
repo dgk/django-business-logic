@@ -125,3 +125,51 @@ def print_tree_details(nodes):
                       getattr(n, opts.tree_id_attr), getattr(n, opts.level_attr),
                       getattr(n, opts.left_attr), getattr(n, opts.right_attr)) \
                      for n in nodes])
+
+
+
+def create_if_statement(branches_count):
+    var_defs = {}
+    def reload_node(node):
+        return Node.objects.get(id=node.id)
+
+    def pairs(l):
+        return [l[i:i + 2] for i in range(0, len(l), 2)]
+
+    root = Node.add_root()
+
+    vars = (
+        'IfCondition',
+        'IfEnter',
+        'ElseIfCondition1',
+        'ElseIfEnter1',
+        'ElseIfCondition2',
+        'ElseIfEnter2',
+        'ElseEnter',
+    )
+
+    for variable_name in vars:
+        var_def = VariableDefinition(name=variable_name)
+        var_defs[variable_name] = var_def
+        root.add_child(content_object=var_def)
+        root = reload_node(root)
+
+
+    for condition_var, assignment_var in pairs(vars[:branches_count - branches_count % 2]):
+
+        ifstatement = root.add_child(content_object=IfStatement())
+        ifstatement.add_child(content_object=Variable(definition=var_defs[condition_var]))
+        ifstatement = reload_node(ifstatement)
+        assignment = ifstatement.add_child(content_object=Assignment())
+
+        assignment.add_child(content_object=Variable(definition=var_defs[assignment_var]))
+        assignment = reload_node(assignment)
+        assignment.add_child(content_object=BooleanConstant(value=True))
+
+    if branches_count % 2:
+        assignment = ifstatement.add_child(content_object=Assignment())
+        assignment.add_child(content_object=Variable(definition=var_defs['ElseEnter']))
+        assignment = reload_node(assignment)
+        assignment.add_child(content_object=BooleanConstant(value=True))
+
+    return reload_node(root), var_defs
