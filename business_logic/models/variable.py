@@ -27,6 +27,13 @@ class Variable(models.Model):
         verbose_name = _('Variable')
         verbose_name_plural = _('Variables')
 
+    class Undefined(object):
+        def __nonzero__( self) :
+            return False
+
+        def __bool__(self):
+            return False
+
     def interpret(self, ctx):
         return ctx.get_variable(self.definition_id)
 
