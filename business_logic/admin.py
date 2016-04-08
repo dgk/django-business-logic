@@ -10,6 +10,7 @@ from business_logic.models import ProgramType, ProgramArgument, ProgramArgumentF
 # for model in apps.get_app_config('business_logic').get_models():
 #     admin.site.register(model)
 
+
 class ProgramArgumentFieldInline(NestedStackedInline):
     model = ProgramArgumentField
     extra = 1
