@@ -17,5 +17,7 @@ class IfStatement(NodeAccessor):
         children = ctx.get_children(self.node)
         if_node = children[0]
         if if_node.interpret(ctx):
-            children[1].interpret(ctx)
+            return children[1].interpret(ctx)
+        elif len(children) % 2:
+            return children[-1].interpret(ctx)
 
