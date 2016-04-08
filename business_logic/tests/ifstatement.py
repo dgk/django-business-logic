@@ -12,8 +12,8 @@ class IfStatementTest(TestCase):
         def reload_node(node):
             return Node.objects.get(id=node.id)
 
-        def chunks(l, n):
-            return [l[i:i + n] for i in range(0, len(l), n)]
+        def pairs(l):
+            return [l[i:i + 2] for i in range(0, len(l), 2)]
 
         root = Node.add_root()
 
@@ -33,19 +33,22 @@ class IfStatementTest(TestCase):
             root.add_child(content_object=var_def)
             root = reload_node(root)
 
-        ifstatement = root.add_child(content_object=IfStatement())
-        ifstatement.add_child(content_object=Variable(definition=self.var_defs['IfCondition']))
 
-        ifstatement = reload_node(ifstatement)
+        for condition_var, assignment_var in pairs(vars[:branches_count - branches_count % 2]):
 
-        assignment = ifstatement.add_child(content_object=Assignment())
+            ifstatement = root.add_child(content_object=IfStatement())
+            ifstatement.add_child(content_object=Variable(definition=self.var_defs[condition_var]))
+            ifstatement = reload_node(ifstatement)
+            assignment = ifstatement.add_child(content_object=Assignment())
 
-        assignment.add_child(content_object=Variable(definition=self.var_defs['IfEnter']))
-        assignment.add_child(content_object=BooleanConstant(value=True))
+            assignment.add_child(content_object=Variable(definition=self.var_defs[assignment_var]))
+            assignment = reload_node(assignment)
+            assignment.add_child(content_object=BooleanConstant(value=True))
 
         if branches_count % 2:
             assignment = ifstatement.add_child(content_object=Assignment())
             assignment.add_child(content_object=Variable(definition=self.var_defs['ElseEnter']))
+            assignment = reload_node(assignment)
             assignment.add_child(content_object=BooleanConstant(value=True))
 
         return reload_node(root)
@@ -60,7 +63,6 @@ class IfStatementTest(TestCase):
         self.assertIsInstance(context.get_variable(self.var_defs['IfEnter'].id),
                               Variable.Undefined)
 
-
     def test_interpret_if(self):
         root = self.create_tree(2)
         context = Context()
@@ -68,7 +70,7 @@ class IfStatementTest(TestCase):
         root.interpret(context)
         self.failUnless(context.get_variable(self.var_defs['IfCondition'].id))
         self.failUnless(context.get_variable(self.var_defs['IfEnter'].id))
-
+        self.failIf(context.get_variable(self.var_defs['ElseEnter'].id))
 
     def test_interpret_if_else(self):
         root = self.create_tree(3)
@@ -77,3 +79,24 @@ class IfStatementTest(TestCase):
         self.failIf(context.get_variable(self.var_defs['IfCondition'].id))
         self.failIf(context.get_variable(self.var_defs['IfEnter'].id))
         self.failUnless(context.get_variable(self.var_defs['ElseEnter'].id))
+
+    def test_interpret_elif(self):
+        root = self.create_tree(4)
+        context = Context()
+        context.set_variable(self.var_defs['ElseIfCondition1'].id, True)
+        root.interpret(context)
+        self.failIf(context.get_variable(self.var_defs['IfCondition'].id))
+        self.failIf(context.get_variable(self.var_defs['IfEnter'].id))
+        self.failIf(context.get_variable(self.var_defs['ElseEnter'].id))
+        self.failUnless(context.get_variable(self.var_defs['ElseIfEnter1'].id))
+
+    def test_interpret_elif_2(self):
+        root = self.create_tree(6)
+        context = Context()
+        context.set_variable(self.var_defs['ElseIfCondition2'].id, True)
+        root.interpret(context)
+        self.failIf(context.get_variable(self.var_defs['IfCondition'].id))
+        self.failIf(context.get_variable(self.var_defs['IfEnter'].id))
+        self.failIf(context.get_variable(self.var_defs['ElseEnter'].id))
+        self.failIf(context.get_variable(self.var_defs['ElseIfEnter1'].id))
+        self.failUnless(context.get_variable(self.var_defs['ElseIfEnter2'].id))
