@@ -141,21 +141,28 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         block = etree.SubElement(parent_xml, 'block', type='controls_if')
 
         if len(children) > 2:
-            mutation  =etree.SubElement(block, 'mutation')
+            mutation = etree.SubElement(block, 'mutation')
             if len(children) % 2:
-                pass
+                mutation.set('else', '1')
+            elifs = (len(children) - 2 - len(children) % 2) / 2
+            if elifs:
+                mutation.set('elseif', str(elifs))
 
-        #for i, () in pairs(children):
+        for i, pair in enumerate(pairs(children)):
+            # last "else" branch
+            if len(pair) == 1:
+                statement = etree.SubElement(block, 'statement', name='ELSE')
+                self.visit(pair[0], statement)
+                break
 
-        if_condition = children[0]
-        if_value = etree.SubElement(block, 'value', name='IF0')
-        if isinstance(if_condition.content_object, Variable):
-            variables_get_block = etree.SubElement(if_value, 'block', type='variables_get')
-            self.visit(if_condition, variables_get_block)
+            if_condition = pair[0]
+            if_value = etree.SubElement(block, 'value', name='IF{}'.format(i))
+            if isinstance(if_condition.content_object, Variable):
+                variables_get_block = etree.SubElement(if_value, 'block', type='variables_get')
+                self.visit(if_condition, variables_get_block)
 
-        statement = etree.SubElement(block, 'statement', name='DO0')
-        self.visit(children[1], statement)
-
+            statement = etree.SubElement(block, 'statement', name='DO{}'.format(i))
+            self.visit(pair[1], statement)
 
     visit_if_statement.process_children = True
 

@@ -298,8 +298,82 @@ class BlocklyXmlBuilderIfStatementTest(TestCase):
         children = block.getchildren()
         self.assertEqual(4, len(children))
 
-        if_value = children[1]
-        self._test_condition(if_value, 'IF0', 'IfCondition')
+        mutation = children[0]
+        self.assertEqual('mutation', mutation.tag)
+        self.assertEqual('1', mutation.get('else'))
+        self.assertEqual(None, mutation.get('elseif'))
 
-        if_statement = children[1]
-        self._test_statement(if_statement, 'DO0', 'IfEnter')
+        self._test_condition(children[1], 'IF0', 'IfCondition')
+
+        self._test_statement(children[2], 'DO0', 'IfEnter')
+
+        self._test_statement(children[3], 'ELSE', 'ElseEnter')
+
+    def test_elif(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#tqx7e5
+        node, _ = create_if_statement(4)
+        xml_str = BlocklyXmlBuilder().build(node)
+        xml = etree.parse(StringIO(xml_str))
+
+        block, = xml.getroot().getchildren()
+        self._test_block(block)
+
+        children = block.getchildren()
+        self.assertEqual(5, len(children))
+
+        mutation = children[0]
+        self.assertEqual('mutation', mutation.tag)
+        self.assertEqual(None, mutation.get('else'))
+        self.assertEqual('1', mutation.get('elseif'))
+
+        self._test_condition(children[1], 'IF0', 'IfCondition')
+        self._test_statement(children[2], 'DO0', 'IfEnter')
+        self._test_condition(children[3], 'IF1', 'ElseIfCondition1')
+        self._test_statement(children[4], 'DO1', 'ElseIfEnter1')
+
+    def test_elif_else(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#y8nw8p
+        node, _ = create_if_statement(5)
+        xml_str = BlocklyXmlBuilder().build(node)
+        xml = etree.parse(StringIO(xml_str))
+
+        block, = xml.getroot().getchildren()
+        self._test_block(block)
+
+        children = block.getchildren()
+        self.assertEqual(6, len(children))
+
+        mutation = children[0]
+        self.assertEqual('mutation', mutation.tag)
+        self.assertEqual('1', mutation.get('else'))
+        self.assertEqual('1', mutation.get('elseif'))
+
+        self._test_condition(children[1], 'IF0', 'IfCondition')
+        self._test_statement(children[2], 'DO0', 'IfEnter')
+        self._test_condition(children[3], 'IF1', 'ElseIfCondition1')
+        self._test_statement(children[4], 'DO1', 'ElseIfEnter1')
+        self._test_statement(children[5], 'ELSE', 'ElseEnter')
+
+    def test_elif_2(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#7iucn3
+        node, _ = create_if_statement(6)
+        xml_str = BlocklyXmlBuilder().build(node)
+        xml = etree.parse(StringIO(xml_str))
+
+        block, = xml.getroot().getchildren()
+        self._test_block(block)
+
+        children = block.getchildren()
+        self.assertEqual(7, len(children))
+
+        mutation = children[0]
+        self.assertEqual('mutation', mutation.tag)
+        self.assertEqual(None, mutation.get('else'))
+        self.assertEqual('2', mutation.get('elseif'))
+
+        self._test_condition(children[1], 'IF0', 'IfCondition')
+        self._test_statement(children[2], 'DO0', 'IfEnter')
+        self._test_condition(children[3], 'IF1', 'ElseIfCondition1')
+        self._test_statement(children[4], 'DO1', 'ElseIfEnter1')
+        self._test_condition(children[5], 'IF2', 'ElseIfCondition2')
+        self._test_statement(children[6], 'DO2', 'ElseIfEnter2')
