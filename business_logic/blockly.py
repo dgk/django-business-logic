@@ -136,7 +136,6 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
     visit_binary_operator.process_children = True
 
-
     def visit_if_statement(self, node, parent_xml):
         children = self.get_children(node)
         if_statement = children[0]
@@ -145,6 +144,10 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         if isinstance(if_statement.content_object, Variable):
             variables_get_block = etree.SubElement(if_value, 'block', type='variables_get')
             self.visit(if_statement, variables_get_block)
+
+        statement = etree.SubElement(block, 'statement', name='DO0')
+        self.visit(children[1], statement)
+
 
     visit_if_statement.process_children = True
 
