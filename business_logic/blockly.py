@@ -138,12 +138,20 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
     def visit_if_statement(self, node, parent_xml):
         children = self.get_children(node)
-        if_statement = children[0]
         block = etree.SubElement(parent_xml, 'block', type='controls_if')
+
+        if len(children) > 2:
+            mutation  =etree.SubElement(block, 'mutation')
+            if len(children) % 2:
+                pass
+
+        #for i, () in pairs(children):
+
+        if_condition = children[0]
         if_value = etree.SubElement(block, 'value', name='IF0')
-        if isinstance(if_statement.content_object, Variable):
+        if isinstance(if_condition.content_object, Variable):
             variables_get_block = etree.SubElement(if_value, 'block', type='variables_get')
-            self.visit(if_statement, variables_get_block)
+            self.visit(if_condition, variables_get_block)
 
         statement = etree.SubElement(block, 'statement', name='DO0')
         self.visit(children[1], statement)
