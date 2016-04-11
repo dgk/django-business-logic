@@ -154,17 +154,19 @@ def create_if_statement(branches_count):
         root.add_child(content_object=var_def)
         root = reload_node(root)
 
+    ifstatement = root.add_child(content_object=IfStatement())
 
     for condition_var, assignment_var in pairs(vars[:branches_count - branches_count % 2]):
-
-        ifstatement = root.add_child(content_object=IfStatement())
         ifstatement.add_child(content_object=Variable(definition=var_defs[condition_var]))
         ifstatement = reload_node(ifstatement)
+
         assignment = ifstatement.add_child(content_object=Assignment())
 
         assignment.add_child(content_object=Variable(definition=var_defs[assignment_var]))
         assignment = reload_node(assignment)
         assignment.add_child(content_object=BooleanConstant(value=True))
+
+        ifstatement = reload_node(ifstatement)
 
     if branches_count % 2:
         assignment = ifstatement.add_child(content_object=Assignment())
