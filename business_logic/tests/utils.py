@@ -6,6 +6,7 @@ from itertools import izip_longest, imap
 from django.contrib.contenttypes.models import ContentType
 
 from ..models import *
+from ..utils import *
 
 
 def tree_1plus2mul3(parent=None):
@@ -127,14 +128,11 @@ def print_tree_details(nodes):
                      for n in nodes])
 
 
-
 def create_if_statement(branches_count):
     var_defs = {}
+
     def reload_node(node):
         return Node.objects.get(id=node.id)
-
-    def pairs(l):
-        return [l[i:i + 2] for i in range(0, len(l), 2)]
 
     root = Node.add_root()
 
