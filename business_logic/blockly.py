@@ -51,24 +51,6 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
             return node_xml
 
-    def build_block(self, parent_xml, type):
-        element = etree.Element('block')
-        element.set('type', type)
-        parent_xml.append(element)
-        return element
-
-    def build_field(self, parent_xml, name):
-        element = etree.Element('field')
-        parent_xml.append(element)
-        element.set('name', name)
-        return element
-
-    def build_value(self, parent_xml, name):
-        element = etree.Element('value')
-        parent_xml.append(element)
-        element.set('name', name)
-        return element
-
     def visit_constant(self, node, parent_xml):
         block_type = {
             IntegerConstant: 'math_number',
@@ -84,8 +66,8 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         }
         content_object = node.content_object
         cls = content_object.__class__
-        block = self.build_block(parent_xml, block_type[cls])
-        field = self.build_field(block, field_name[cls])
+        block = etree.SubElement(parent_xml, 'block', type=block_type[cls])
+        field = etree.SubElement(block, 'field', name=field_name[cls])
         if isinstance(content_object, BooleanConstant):
             field.text = str(content_object).upper()
         else:
@@ -96,10 +78,10 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         lhs_node, rhs_node = self.get_children(node)
         variable = lhs_node.content_object
         assert isinstance(variable, Variable)
-        block = self.build_block(parent_xml, 'variables_set')
-        field = self.build_field(block, 'VAR')
+        block = etree.SubElement(parent_xml, 'block', type='variables_set')
+        field = etree.SubElement(block, 'field', name='VAR')
         field.text = variable.definition.name
-        value = self.build_value(block, 'VALUE')
+        value = etree.SubElement(block, 'value', name='VALUE')
         self.visit(rhs_node, value)
         return block
 
@@ -139,14 +121,13 @@ class BlocklyXmlBuilder(NodeCacheHolder):
                 break
         else:
             assert False
-        block = self.build_block(parent_xml, block_type)
-
-        field = self.build_field(block, 'OP')
+        block = etree.SubElement(parent_xml, 'block', type=block_type)
+        field = etree.SubElement(block, 'field', name='OP')
         field.text = table[operator]
 
         lhs_node, rhs_node = self.get_children(node)
         for value_name, child_node in (('A', lhs_node), ('B', rhs_node)):
-            value = self.build_value(block, value_name)
+            value = etree.SubElement(block, 'value', name=value_name)
             self.visit(child_node, value)
 
         return block
