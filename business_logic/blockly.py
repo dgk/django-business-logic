@@ -160,6 +160,8 @@ class BlocklyXmlBuilder(NodeCacheHolder):
             if isinstance(if_condition.content_object, Variable):
                 variables_get_block = etree.SubElement(if_value, 'block', type='variables_get')
                 self.visit(if_condition, variables_get_block)
+            else:
+                self.visit(if_condition, if_value)
 
             statement = etree.SubElement(block, 'statement', name='DO{}'.format(i))
             self.visit(pair[1], statement)

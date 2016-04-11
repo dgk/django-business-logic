@@ -251,18 +251,22 @@ class BlocklyXmlBuilderIfStatementTest(TestCase):
         self.assertEqual('BOOL', field.get('name'))
         self.assertEqual('TRUE', field.text)
 
-    def _test_condition(self, xml, condition_name, variable_name):
+    def _test_condition(self, xml, condition_name, variable_name, use_binary_operator=False):
         self.assertEqual('value', xml.tag)
         self.assertEqual(condition_name, xml.get('name'))
 
         if_value_block, = xml.getchildren()
         self.assertEqual('block', if_value_block.tag)
-        self.assertEqual('variables_get', if_value_block.get('type'))
+        if use_binary_operator:
+            self.assertEqual('logic_operation', if_value_block.get('type'))
 
-        if_condition_var_field, = if_value_block.getchildren()
-        self.assertEqual('field', if_condition_var_field.tag)
-        self.assertEqual('VAR', if_condition_var_field.get('name'))
-        self.assertEqual(variable_name, if_condition_var_field.text)
+        else:
+            self.assertEqual('variables_get', if_value_block.get('type'))
+
+            if_condition_var_field, = if_value_block.getchildren()
+            self.assertEqual('field', if_condition_var_field.tag)
+            self.assertEqual('VAR', if_condition_var_field.get('name'))
+            self.assertEqual(variable_name, if_condition_var_field.text)
 
     def _test_block(self, xml):
         self.assertEqual('block', xml.tag)
@@ -282,6 +286,24 @@ class BlocklyXmlBuilderIfStatementTest(TestCase):
 
         if_value = children[0]
         self._test_condition(if_value, 'IF0', 'IfCondition')
+
+        if_statement = children[1]
+        self._test_statement(if_statement, 'DO0', 'IfEnter')
+
+    def test_if_not_variable_condition(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#k5ygcz
+        node, _ = create_if_statement(2, use_binary_operator=True)
+        xml_str = BlocklyXmlBuilder().build(node)
+        xml = etree.parse(StringIO(xml_str))
+
+        block, = xml.getroot().getchildren()
+        self._test_block(block)
+
+        children = block.getchildren()
+        self.assertEqual(2, len(children))
+
+        if_value = children[0]
+        self._test_condition(if_value, 'IF0', 'IfCondition', use_binary_operator=True)
 
         if_statement = children[1]
         self._test_statement(if_statement, 'DO0', 'IfEnter')
