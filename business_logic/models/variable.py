@@ -20,6 +20,7 @@ class VariableDefinition(models.Model):
         pass
 
 
+@python_2_unicode_compatible
 class Variable(models.Model):
     definition = models.ForeignKey(VariableDefinition, related_name='variables')
 
@@ -33,6 +34,9 @@ class Variable(models.Model):
 
         def __bool__(self):
             return False
+
+    def __str__(self):
+        return self.definition.name
 
     def interpret(self, ctx):
         return ctx.get_variable(self.definition_id)
