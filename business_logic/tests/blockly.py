@@ -222,3 +222,33 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
     def test_operator_or(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#baz5xq
         self._test_logic_binary_operator('|', 'logic_operation', 'OR')
+
+
+class BlocklyXmlBuilderIfStatementTest(TestCase):
+
+    def test_if(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#k5ygcz
+        node, _ = create_if_statement(2)
+        xml_str = BlocklyXmlBuilder().build(node)
+        print xml_str
+        xml = etree.parse(StringIO(xml_str))
+
+        block = xml.xpath('/xml/block')
+        self.assertEqual(1, len(block))
+        block = block[0]
+        self.assertEqual('controls_if', block.get('type'))
+
+        children = block.getchildren()
+        if_value = children[0]
+        self.assertEqual('value', if_value.tag)
+        self.assertEqual('IF0', if_value.get('name'))
+
+        if_value_block, = if_value.getchildren()
+        self.assertEqual('block', if_value_block.tag)
+        self.assertEqual('variables_get', if_value_block.get('type'))
+
+        if_condition_var_field, = if_value_block.getchildren()
+        self.assertEqual('field', if_condition_var_field.tag)
+        self.assertEqual('VAR', if_condition_var_field.get('name'))
+        self.assertEqual('IfCondition', if_condition_var_field.text)
+
