@@ -2,7 +2,8 @@
 
 from django.test import TestCase
 
-from ..blockly import *
+from ..blockly.build import *
+
 from ..models import *
 from ..utils import *
 
