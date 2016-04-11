@@ -6,7 +6,7 @@ from lxml import etree
 
 from django.db.models import Model
 
-from .models import *
+from business_logic.models import *
 
 
 def camel_case_to_snake_case(name):
