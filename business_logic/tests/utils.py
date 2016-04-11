@@ -128,7 +128,7 @@ def print_tree_details(nodes):
                      for n in nodes])
 
 
-def create_if_statement(branches_count):
+def create_if_statement(branches_count, use_binary_operator=False):
     var_defs = {}
 
     def reload_node(node):
@@ -155,7 +155,14 @@ def create_if_statement(branches_count):
     ifstatement = root.add_child(content_object=IfStatement())
 
     for condition_var, assignment_var in pairs(vars[:branches_count - branches_count % 2]):
-        ifstatement.add_child(content_object=Variable(definition=var_defs[condition_var]))
+        if use_binary_operator:
+            binary_operator = ifstatement.add_child(content_object=BinaryOperator(operator='&'))
+            for _ in (0,0):
+                binary_operator.add_child(content_object=Variable(definition=var_defs[condition_var]))
+                binary_operator = reload_node(binary_operator)
+        else:
+            ifstatement.add_child(content_object=Variable(definition=var_defs[condition_var]))
+
         ifstatement = reload_node(ifstatement)
 
         assignment = ifstatement.add_child(content_object=Assignment())
