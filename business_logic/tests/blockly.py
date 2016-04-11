@@ -291,7 +291,7 @@ class BlocklyXmlBuilderIfStatementTest(TestCase):
         self._test_statement(if_statement, 'DO0', 'IfEnter')
 
     def test_if_not_variable_condition(self):
-        # https://blockly-demo.appspot.com/static/demos/code/index.html#k5ygcz
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#hzuarv
         node, _ = create_if_statement(2, use_binary_operator=True)
         xml_str = BlocklyXmlBuilder().build(node)
         xml = etree.parse(StringIO(xml_str))
