@@ -225,47 +225,18 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
 
 
 class BlocklyXmlBuilderIfStatementTest(TestCase):
+    def _test_statement(self, xml, statement_name, variable_name):
+        self.assertEqual('statement', xml.tag)
+        self.assertEqual(statement_name, xml.get('name'))
 
-    def test_if(self):
-        # https://blockly-demo.appspot.com/static/demos/code/index.html#k5ygcz
-        node, _ = create_if_statement(2)
-        xml_str = BlocklyXmlBuilder().build(node)
-        xml = etree.parse(StringIO(xml_str))
-
-        block = xml.xpath('/xml/block')
-        self.assertEqual(1, len(block))
-        block = block[0]
-        self.assertEqual('controls_if', block.get('type'))
-
-        children = block.getchildren()
-        self.assertEqual(2, len(children))
-
-        if_value = children[0]
-        self.assertEqual('value', if_value.tag)
-        self.assertEqual('IF0', if_value.get('name'))
-
-        if_value_block, = if_value.getchildren()
-        self.assertEqual('block', if_value_block.tag)
-        self.assertEqual('variables_get', if_value_block.get('type'))
-
-        if_condition_var_field, = if_value_block.getchildren()
-        self.assertEqual('field', if_condition_var_field.tag)
-        self.assertEqual('VAR', if_condition_var_field.get('name'))
-        self.assertEqual('IfCondition', if_condition_var_field.text)
-
-        if_statement = children[1]
-
-        self.assertEqual('statement', if_statement.tag)
-        self.assertEqual('DO0', if_statement.get('name'))
-
-        variables_set_block, = if_statement.getchildren()
+        variables_set_block, = xml.getchildren()
         self.assertEqual('variables_set', variables_set_block.get('type'))
 
         field, value = variables_set_block.getchildren()
 
         self.assertEqual('field', field.tag)
         self.assertEqual('VAR', field.get('name'))
-        self.assertEqual('IfEnter', field.text)
+        self.assertEqual(variable_name, field.text)
 
         self.assertEqual('value', value.tag)
         self.assertEqual('VALUE', value.get('name'))
@@ -273,3 +244,41 @@ class BlocklyXmlBuilderIfStatementTest(TestCase):
         block_value, = value.getchildren()
         self.assertEqual('block', block_value.tag)
         self.assertEqual('logic_boolean', block_value.get('type'))
+
+        field, = block_value.getchildren()
+
+        self.assertEqual('field', field.tag)
+        self.assertEqual('BOOL', field.get('name'))
+        self.assertEqual('TRUE', field.text)
+
+    def _test_condition(self, xml, condition_name, variable_name):
+        self.assertEqual('value', xml.tag)
+        self.assertEqual(condition_name, xml.get('name'))
+
+        if_value_block, = xml.getchildren()
+        self.assertEqual('block', if_value_block.tag)
+        self.assertEqual('variables_get', if_value_block.get('type'))
+
+        if_condition_var_field, = if_value_block.getchildren()
+        self.assertEqual('field', if_condition_var_field.tag)
+        self.assertEqual('VAR', if_condition_var_field.get('name'))
+        self.assertEqual(variable_name, if_condition_var_field.text)
+
+    def test_if(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#k5ygcz
+        node, _ = create_if_statement(2)
+        xml_str = BlocklyXmlBuilder().build(node)
+        xml = etree.parse(StringIO(xml_str))
+
+        block, = xml.getroot().getchildren()
+        self.assertEqual('block', block.tag)
+        self.assertEqual('controls_if', block.get('type'))
+
+        children = block.getchildren()
+        self.assertEqual(2, len(children))
+
+        if_value = children[0]
+        self._test_condition(if_value, 'IF0', 'IfCondition')
+
+        if_statement = children[1]
+        self._test_statement(if_statement, 'DO0', 'IfEnter')
