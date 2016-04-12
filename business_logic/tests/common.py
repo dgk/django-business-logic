@@ -3,6 +3,7 @@
 from django.test import TestCase
 
 from ..blockly.build import *
+from ..blockly.parse import *
 
 from ..models import *
 from ..utils import *
