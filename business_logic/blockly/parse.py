@@ -65,7 +65,7 @@ class BlocklyXmlParser(object):
             self.visit_children(node, data)
             return data
 
-        return self.visit(children[0])
+        return self.visit_single_child(node)
 
     def visit_children(self, node, data):
         data['children'] = []
@@ -83,11 +83,7 @@ class BlocklyXmlParser(object):
         return method(node)
 
     def visit_block_text(self, node):
-        return {
-            'data': {
-                'content_type': self.get_content_type_id(StringConstant)
-            }
-        }
+        return self.visit_single_child(node)
 
     def visit_block_variables_set(self, node):
         data = {
@@ -120,13 +116,20 @@ class BlocklyXmlParser(object):
         return data
 
     def visit_field_num(self, node):
-        data = {
+        return {
             'data': {
                 'content_type': self.get_content_type_id(FloatConstant),
                 'value': float(node.text)
             }
         }
 
-        return data
+    def visit_field_text(self, node):
+        return {
+            'data': {
+                'content_type': self.get_content_type_id(StringConstant),
+                'value': node.text
+            }
+        }
+
     def visit_value(self, node):
         return self.visit_single_child(node)
