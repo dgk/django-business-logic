@@ -16,25 +16,23 @@ class BlocklyXmlParserConstantTest(TestCase):
     def test_string_constant(self):
         root = Node.add_root()
         node = root.add_child(content_object=StringConstant(value='hello'))
-        print Node.dump_bulk(node)
         xml_str = self.build_xml(node)
         parsed = BlocklyXmlParser().parse(xml_str)
         self.assertIsInstance(parsed, list)
         self.assertEqual(1, len(parsed))
-        root = parsed[0]
-        self.assertIsInstance(root, dict)
-        pprint(root)
 
+        constant = parsed[0]
+        self.assertIsInstance(constant, dict)
+        constant_data = constant['data']
+        self.assertEqual(BlocklyXmlParser.get_content_type_id(StringConstant), constant_data['content_type'])
+        self.assertEqual('hello', constant_data['value'])
 
     def test_assignment(self):
         entry_point = variable_assign_value()
         node = entry_point.get_children()[1]
-        pprint(Node.dump_bulk(node))
 
         xml_str = self.build_xml(node)
         parsed = BlocklyXmlParser().parse(xml_str)
-        pprint(parsed)
-        print xml_str
 
         self.assertIsInstance(parsed, list)
         self.assertEqual(1, len(parsed))
