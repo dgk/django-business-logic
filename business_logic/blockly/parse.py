@@ -56,6 +56,29 @@ class BlocklyXmlParser(object):
 
         return data
 
+    def _visit_children(self, node, data, children=None):
+        data['children'] = []
+        for child in node.getchildren() if children is None else children:
+            data['children'].append(self.visit(child))
+
+    def _visit_single_child(self, node):
+        children = node.getchildren()
+        assert len(children) == 1
+        return self.visit(children[0])
+
+    def _visit_binary_operator(self, node):
+        operator, lft_operand, rgh_operand = node.getchildren()
+        data = {
+            'data': {
+                'content_type': self.get_content_type_id(BinaryOperator),
+                'operator': REVERSE_OPERATOR_TABLE[node.get('type')][operator.text]
+            }
+        }
+
+        self._visit_children(node, data, (lft_operand, rgh_operand))
+
+        return data
+
     def visit_xml(self, node):
         children = node.getchildren()
 
@@ -64,20 +87,10 @@ class BlocklyXmlParser(object):
 
         if len(children) > 1:
             data = {}
-            self.visit_children(node, data)
+            self._visit_children(node, data)
             return data
 
-        return self.visit_single_child(node)
-
-    def visit_children(self, node, data, children=None):
-        data['children'] = []
-        for child in node.getchildren() if children is None else children:
-            data['children'].append(self.visit(child))
-
-    def visit_single_child(self, node):
-        children = node.getchildren()
-        assert len(children) == 1
-        return self.visit(children[0])
+        return self._visit_single_child(node)
 
     def visit_block(self, node):
         method_name = 'visit_block_{}'.format(node.get('type'))
@@ -85,7 +98,7 @@ class BlocklyXmlParser(object):
         return method(node)
 
     def visit_block_text(self, node):
-        return self.visit_single_child(node)
+        return self._visit_single_child(node)
 
     def visit_block_variables_set(self, node):
         data = {
@@ -94,7 +107,7 @@ class BlocklyXmlParser(object):
             }
         }
 
-        self.visit_children(node, data)
+        self._visit_children(node, data)
 
         return data
 
@@ -107,24 +120,11 @@ class BlocklyXmlParser(object):
     def visit_block_math_arithmetic(self, node):
         return self._visit_binary_operator(node)
 
-    def _visit_binary_operator(self, node):
-        operator, lft_operand, rgh_operand = node.getchildren()
-        data = {
-            'data': {
-                'content_type': self.get_content_type_id(BinaryOperator),
-                'operator': REVERSE_OPERATOR_TABLE[node.get('type')][operator.text]
-            }
-        }
-
-        self.visit_children(node, data, (lft_operand, rgh_operand))
-
-        return data
-
     def visit_block_math_number(self, node):
-        return self.visit_single_child(node)
+        return self._visit_single_child(node)
 
     def visit_block_logic_boolean(self, node):
-        return self.visit_single_child(node)
+        return self._visit_single_child(node)
 
     def visit_field(self, node):
         method_name = 'visit_field_{}'.format(node.get('name').lower())
@@ -166,4 +166,4 @@ class BlocklyXmlParser(object):
         }
 
     def visit_value(self, node):
-        return self.visit_single_child(node)
+        return self._visit_single_child(node)
