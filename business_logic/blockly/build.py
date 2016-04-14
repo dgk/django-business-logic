@@ -8,6 +8,7 @@ from django.db.models import Model
 
 from business_logic.models import *
 
+from .data import OPERATOR_TABLE
 
 def camel_case_to_snake_case(name):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
@@ -90,35 +91,13 @@ class BlocklyXmlBuilder(NodeCacheHolder):
     visit_assignment.process_children = True
 
     def visit_binary_operator(self, node, parent_xml):
-        operator_table = {
-            'math_arithmetic': {
-                '+': 'ADD',
-                '-': 'MINUS',
-                '*': 'MULTIPLY',
-                '/': 'DIVIDE',
-                '^': 'POWER',
-            },
-            'logic_compare': {
-                '==': 'EQ',
-                '!=': 'NEQ',
-                '<': 'LT',
-                '<=': 'LTE',
-                '>': 'GT',
-                '>=': 'GTE',
-            },
-            'logic_operation': {
-                '&': 'AND',
-                '|': 'OR',
-            },
-
-        }
 
         # determine block_type
         operator = node.content_object.operator
         block_type = None
         table = None
 
-        for block_type, table in operator_table.items():
+        for block_type, table in OPERATOR_TABLE.items():
             if operator in table:
                 break
         else:
