@@ -7,15 +7,17 @@ from lxml import etree
 from business_logic.tests.common import *
 from pprint import pprint
 
-class BlocklyXmlParserConstantTest(TestCase):
+class BlocklyXmlParserTestCase(TestCase):
     def build_xml(self, node):
         xml_str = BlocklyXmlBuilder().build(node)
         xml_str = xml_str.replace('<xml>', '<xml xmlns="http://www.w3.org/1999/xhtml">')
         return xml_str
 
-    def test_string_constant(self):
+class BlocklyXmlParserConstantTest(BlocklyXmlParserTestCase):
+
+    def _test_constant(self, cls, value):
         root = Node.add_root()
-        node = root.add_child(content_object=StringConstant(value='hello'))
+        node = root.add_child(content_object=cls(value=value))
         xml_str = self.build_xml(node)
         parsed = BlocklyXmlParser().parse(xml_str)
         self.assertIsInstance(parsed, list)
@@ -24,8 +26,20 @@ class BlocklyXmlParserConstantTest(TestCase):
         constant = parsed[0]
         self.assertIsInstance(constant, dict)
         constant_data = constant['data']
-        self.assertEqual(BlocklyXmlParser.get_content_type_id(StringConstant), constant_data['content_type'])
-        self.assertEqual('hello', constant_data['value'])
+        self.assertEqual(BlocklyXmlParser.get_content_type_id(cls), constant_data['content_type'])
+        self.assertEqual(value, constant_data['value'])
+
+    def test_string_constant(self):
+        self._test_constant(StringConstant, 'hello')
+
+    def test_float_constant(self):
+        self._test_constant(FloatConstant, 1.2223)
+
+    def test_boolean_constant(self):
+        for value in (True, False):
+            self._test_constant(BooleanConstant, value)
+
+class BlocklyXmlParserAssignmentTest(BlocklyXmlParserTestCase):
 
     def test_assignment(self):
         entry_point = variable_assign_value()
@@ -58,5 +72,4 @@ class BlocklyXmlParserConstantTest(TestCase):
         constant_data = constant['data']
         self.assertEqual(BlocklyXmlParser.get_content_type_id(FloatConstant), constant_data['content_type'])
         self.assertEqual(1, constant_data['value'])
-
 

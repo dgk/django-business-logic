@@ -99,6 +99,8 @@ class BlocklyXmlParser(object):
     def visit_block_math_number(self, node):
         return self.visit_single_child(node)
 
+    def visit_block_logic_boolean(self, node):
+        return self.visit_single_child(node)
 
     def visit_field(self, node):
         method_name = 'visit_field_{}'.format(node.get('name').lower())
@@ -130,6 +132,15 @@ class BlocklyXmlParser(object):
                 'value': node.text
             }
         }
+
+    def visit_field_bool(self, node):
+        return {
+            'data': {
+                'content_type': self.get_content_type_id(BooleanConstant),
+                'value': node.text.lower() == 'true'
+            }
+        }
+
 
     def visit_value(self, node):
         return self.visit_single_child(node)
