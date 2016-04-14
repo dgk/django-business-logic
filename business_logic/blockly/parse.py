@@ -6,6 +6,7 @@ from django.utils.six import StringIO
 
 from ..models import *
 
+from .data import REVERSE_OPERATOR_TABLE
 
 class BlocklyXmlParser(object):
     def parse(self, xml_str):
@@ -42,6 +43,7 @@ class BlocklyXmlParser(object):
 
         if method:
             return method(node)
+        # TODO: remove
         print method_name, ' - method not exists'
         return
         data = {}
@@ -67,9 +69,9 @@ class BlocklyXmlParser(object):
 
         return self.visit_single_child(node)
 
-    def visit_children(self, node, data):
+    def visit_children(self, node, data, children=None):
         data['children'] = []
-        for child in node.getchildren():
+        for child in node.getchildren() if children is None else children:
             data['children'].append(self.visit(child))
 
     def visit_single_child(self, node):
@@ -93,6 +95,28 @@ class BlocklyXmlParser(object):
         }
 
         self.visit_children(node, data)
+
+        return data
+
+    def visit_block_logic_compare(self, node):
+        return self._visit_binary_operator(node)
+
+    def visit_block_logic_operation(self, node):
+        return self._visit_binary_operator(node)
+
+    def visit_block_math_arithmetic(self, node):
+        return self._visit_binary_operator(node)
+
+    def _visit_binary_operator(self, node):
+        operator, lft_operand, rgh_operand = node.getchildren()
+        data = {
+            'data': {
+                'content_type': self.get_content_type_id(BinaryOperator),
+                'operator': REVERSE_OPERATOR_TABLE[node.get('type')][operator.text]
+            }
+        }
+
+        self.visit_children(node, data, (lft_operand, rgh_operand))
 
         return data
 
@@ -140,7 +164,6 @@ class BlocklyXmlParser(object):
                 'value': node.text.lower() == 'true'
             }
         }
-
 
     def visit_value(self, node):
         return self.visit_single_child(node)

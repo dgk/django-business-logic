@@ -67,9 +67,131 @@ class BlocklyXmlParserAssignmentTest(BlocklyXmlParserTestCase):
         self.assertEqual(BlocklyXmlParser.get_content_type_id(Variable), variable_data['content_type'])
         self.assertEqual('A', variable_data['name'])
 
-
         self.assertIsInstance(constant, dict)
         constant_data = constant['data']
         self.assertEqual(BlocklyXmlParser.get_content_type_id(FloatConstant), constant_data['content_type'])
         self.assertEqual(1, constant_data['value'])
+
+
+class BlocklyXmlParserBinaryOperatorTest(BlocklyXmlParserTestCase):
+    def _test_math_binary_operator(self, operator_value):
+        root = Node.add_root(content_object=BinaryOperator(operator=operator_value))
+
+        for i in (1, 2):
+            root.add_child(content_object=IntegerConstant(value=i))
+            root = Node.objects.get(id=root.id)
+
+        xml_str = self.build_xml(root)
+        parsed = BlocklyXmlParser().parse(xml_str)
+
+        self.assertIsInstance(parsed, list)
+        self.assertEqual(1, len(parsed))
+        root = parsed[0]
+
+        self._test_operator_node(root['data'], operator_value)
+
+        children = root['children']
+        self.assertIsInstance(children, list)
+        self.assertEqual(2, len(children))
+
+        for i, operand in enumerate(children, 1):
+            self.assertIsInstance(operand, dict)
+            operand_data = operand['data']
+            self.assertEqual(BlocklyXmlParser.get_content_type_id(FloatConstant), operand_data['content_type'])
+            self.assertEqual(i, operand_data['value'])
+
+    def _test_logic_binary_operator(self, operator_value):
+        root = Node.add_root(content_object=BinaryOperator(operator=operator_value))
+
+        for i in (True, False):
+            root.add_child(content_object=BooleanConstant(value=i))
+            root = Node.objects.get(id=root.id)
+
+        xml_str = self.build_xml(root)
+        parsed = BlocklyXmlParser().parse(xml_str)
+
+        self.assertIsInstance(parsed, list)
+        self.assertEqual(1, len(parsed))
+        root = parsed[0]
+
+        self._test_operator_node(root['data'], operator_value)
+
+        children = root['children']
+        self.assertIsInstance(children, list)
+        self.assertEqual(2, len(children))
+
+        for i, operand in enumerate(children):
+            expected_value = not bool(i)
+            self.assertIsInstance(operand, dict)
+            operand_data = operand['data']
+            self.assertEqual(BlocklyXmlParser.get_content_type_id(BooleanConstant), operand_data['content_type'])
+            self.assertEqual(expected_value, operand_data['value'])
+
+    def _test_operator_node(self, operator, operator_value):
+        self.assertIsInstance(operator, dict)
+        self.assertEqual(BlocklyXmlParser.get_content_type_id(BinaryOperator), operator['content_type'])
+        self.assertEqual(operator_value, operator['operator'])
+
+    def test_operator_add(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#mzvwas
+        self._test_math_binary_operator('+')
+
+
+    def test_operator_minus(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#ec7z5c
+        self._test_math_binary_operator('-')
+
+
+    def test_operator_mul(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#nzq3w5
+        self._test_math_binary_operator('*')
+
+
+    def test_operator_div(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#qzqt69
+        self._test_math_binary_operator('/')
+
+
+    def test_operator_pow(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#skakny
+        self._test_math_binary_operator('^')
+
+    def test_operator_eq(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#rzsfmb
+        self._test_math_binary_operator('==')
+
+
+    def test_operator_ne(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#xj34cw
+        self._test_math_binary_operator('!=')
+
+
+    def test_operator_lt(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#oap9ne
+        self._test_math_binary_operator('<')
+
+
+    def test_operator_lte(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#qkk5jx
+        self._test_math_binary_operator('<=')
+
+
+    def test_operator_gt(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#qxdp8u
+        self._test_math_binary_operator('>')
+
+
+    def test_operator_gte(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#kggfq9
+        self._test_math_binary_operator('>=')
+
+
+    def test_operator_and(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#n2uf8x
+        self._test_logic_binary_operator('&')
+
+
+    def test_operator_or(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#baz5xq
+        self._test_logic_binary_operator('|')
 
