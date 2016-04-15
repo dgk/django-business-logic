@@ -195,3 +195,31 @@ class BlocklyXmlParserBinaryOperatorTest(BlocklyXmlParserTestCase):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#baz5xq
         self._test_logic_binary_operator('|')
 
+
+class BlocklyXmlParserBlockTest(BlocklyXmlParserTestCase):
+    def test(self):
+        root = Node.add_root()
+        vars = ('A', 'B', 'C', 'D')
+        var_defs = {}
+
+        for var in vars:
+            var_def = VariableDefinition(name=var)
+            var_defs[var] = var_def
+            root.add_child(content_object=var_def)
+            root = Node.objects.get(id=root.id)
+
+        for i, var in enumerate(vars, 1):
+            assignment_node = root.add_child(content_object=Assignment())
+            assignment_node.add_child(content_object=Variable(definition=var_defs[var]))
+            assignment_node.add_child(content_object=IntegerConstant(value=i))
+            root = Node.objects.get(id=root.id)
+
+        xml_str = self.build_xml(root)
+        parsed = BlocklyXmlParser().parse(xml_str)
+
+        self.assertIsInstance(parsed, list)
+        self.assertEqual(1, len(parsed))
+        root = parsed[0]
+
+        pprint(root)
+        self.assertFalse(root['data'])
