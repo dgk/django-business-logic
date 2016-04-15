@@ -8,6 +8,7 @@ from ..models import *
 
 from .data import REVERSE_OPERATOR_TABLE
 
+
 class BlocklyXmlParser(object):
     def parse(self, xml_str):
         '''
@@ -79,6 +80,15 @@ class BlocklyXmlParser(object):
 
         return data
 
+    def _visit_field(self, cls, **kwargs):
+        data = {
+            'data': {
+                'content_type': self.get_content_type_id(cls),
+            }
+        }
+        data['data'].update(kwargs)
+        return data
+
     def visit_xml(self, node):
         children = node.getchildren()
 
@@ -132,38 +142,16 @@ class BlocklyXmlParser(object):
         return method(node)
 
     def visit_field_var(self, node):
-        data = {
-            'data': {
-                'content_type': self.get_content_type_id(Variable),
-                'name': node.text
-            }
-        }
-
-        return data
+        return self._visit_field(Variable, name=node.text)
 
     def visit_field_num(self, node):
-        return {
-            'data': {
-                'content_type': self.get_content_type_id(FloatConstant),
-                'value': float(node.text)
-            }
-        }
+        return self._visit_field(FloatConstant, value=float(node.text))
 
     def visit_field_text(self, node):
-        return {
-            'data': {
-                'content_type': self.get_content_type_id(StringConstant),
-                'value': node.text
-            }
-        }
+        return self._visit_field(StringConstant, value=node.text)
 
     def visit_field_bool(self, node):
-        return {
-            'data': {
-                'content_type': self.get_content_type_id(BooleanConstant),
-                'value': node.text.lower() == 'true'
-            }
-        }
+        return self._visit_field(BooleanConstant, value=node.text.lower() == 'true')
 
     def visit_value(self, node):
         return self._visit_single_child(node)
