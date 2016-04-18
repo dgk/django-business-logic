@@ -39,6 +39,38 @@ class BlocklyXmlParser(object):
         return ContentType.objects.get_for_model(model).id
 
     def visit(self, node):
+        parent = node.getparent()
+
+        if parent is not None and parent.tag != 'next' and node.find('next') is not None:
+            # start of code block
+            data = self._process_next(node)
+        else:
+            data = self._call_method(node)
+
+        return data
+
+    def _process_next(self, node):
+        children = []
+        _node = node
+
+        while True:
+            next = _node.find('next')
+            if next is None:
+                break
+
+            _children = next.getchildren()
+            assert len(_children) == 1
+
+            _node = _children[0]
+            children.append(_node)
+
+        data = {'children': [self._call_method(node)], 'data': {}}
+        if children:
+            self._visit_children(None, data, children)
+
+        return data
+
+    def _call_method(self, node):
         method_name = 'visit_{}'.format(node.tag)
         method = getattr(self, method_name, None)
 
@@ -46,19 +78,10 @@ class BlocklyXmlParser(object):
             return method(node)
         # TODO: remove
         print method_name, ' - method not exists'
-        return
-        data = {}
-
-        children = node.getchildren()
-        if children:
-            data['children'] = []
-            for child in children:
-                data['children'].append(self.visit(child))
-
-        return data
 
     def _visit_children(self, node, data, children=None):
-        data['children'] = []
+        if 'children' not in data:
+            data['children'] = []
         for child in node.getchildren() if children is None else children:
             data['children'].append(self.visit(child))
 

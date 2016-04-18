@@ -223,3 +223,5 @@ class BlocklyXmlParserBlockTest(BlocklyXmlParserTestCase):
 
         pprint(root)
         self.assertFalse(root['data'])
+        children = root['children']
+        self.assertEqual(len(vars), len(children))
