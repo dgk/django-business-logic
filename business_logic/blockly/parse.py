@@ -83,7 +83,8 @@ class BlocklyXmlParser(object):
         if 'children' not in data:
             data['children'] = []
         for child in node.getchildren() if children is None else children:
-            data['children'].append(self.visit(child))
+            if child.tag != 'next':
+                data['children'].append(self.visit(child))
 
     def _visit_single_child(self, node):
         children = node.getchildren()

@@ -197,7 +197,7 @@ class BlocklyXmlParserBinaryOperatorTest(BlocklyXmlParserTestCase):
 
 
 class BlocklyXmlParserBlockTest(BlocklyXmlParserTestCase):
-    def test(self):
+    def test_parese_assignment_block(self):
         root = Node.add_root()
         vars = ('A', 'B', 'C', 'D')
         var_defs = {}
@@ -221,7 +221,10 @@ class BlocklyXmlParserBlockTest(BlocklyXmlParserTestCase):
         self.assertEqual(1, len(parsed))
         root = parsed[0]
 
-        pprint(root)
         self.assertFalse(root['data'])
         children = root['children']
         self.assertEqual(len(vars), len(children))
+
+        for var_name, assignment in zip(vars, children):
+            assignment_children = assignment['children']
+            self.assertEqual(2, len(assignment_children))
