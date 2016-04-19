@@ -7,13 +7,13 @@ from lxml import etree
 from business_logic.tests.common import *
 from pprint import pprint
 
-get_content_type_id = BlocklyXmlParser.get_content_type_id
 
 class BlocklyXmlParserTestCase(TestCase):
     def build_xml(self, node):
         xml_str = BlocklyXmlBuilder().build(node)
         xml_str = xml_str.replace('<xml>', '<xml xmlns="http://www.w3.org/1999/xhtml">')
         return xml_str
+
 
 class BlocklyXmlParserConstantTest(BlocklyXmlParserTestCase):
 
@@ -40,6 +40,7 @@ class BlocklyXmlParserConstantTest(BlocklyXmlParserTestCase):
     def test_boolean_constant(self):
         for value in (True, False):
             self._test_constant(BooleanConstant, value)
+
 
 class BlocklyXmlParserAssignmentTest(BlocklyXmlParserTestCase):
 
@@ -138,21 +139,17 @@ class BlocklyXmlParserBinaryOperatorTest(BlocklyXmlParserTestCase):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#mzvwas
         self._test_math_binary_operator('+')
 
-
     def test_operator_minus(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#ec7z5c
         self._test_math_binary_operator('-')
-
 
     def test_operator_mul(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#nzq3w5
         self._test_math_binary_operator('*')
 
-
     def test_operator_div(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#qzqt69
         self._test_math_binary_operator('/')
-
 
     def test_operator_pow(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#skakny
@@ -162,36 +159,29 @@ class BlocklyXmlParserBinaryOperatorTest(BlocklyXmlParserTestCase):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#rzsfmb
         self._test_math_binary_operator('==')
 
-
     def test_operator_ne(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#xj34cw
         self._test_math_binary_operator('!=')
-
 
     def test_operator_lt(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#oap9ne
         self._test_math_binary_operator('<')
 
-
     def test_operator_lte(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#qkk5jx
         self._test_math_binary_operator('<=')
-
 
     def test_operator_gt(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#qxdp8u
         self._test_math_binary_operator('>')
 
-
     def test_operator_gte(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#kggfq9
         self._test_math_binary_operator('>=')
 
-
     def test_operator_and(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#n2uf8x
         self._test_logic_binary_operator('&')
-
 
     def test_operator_or(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#baz5xq
@@ -262,7 +252,6 @@ class BlocklyXmlParserIfStatementTest(BlocklyXmlParserTestCase):
         self.assertEqual(get_content_type_id(Variable), assignment['children'][0]['data']['content_type'])
         self.assertEqual('IfEnter', assignment['children'][0]['data']['name'])
 
-
     def test_elif_else(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#y8nw8p
         node, _ = create_if_statement(5)
@@ -297,5 +286,4 @@ class BlocklyXmlParserIfStatementTest(BlocklyXmlParserTestCase):
             self.assertEqual(variable_name, child['children'][0]['data']['name'])
             self.assertEqual(get_content_type_id(BooleanConstant), child['children'][1]['data']['content_type'])
             self.assertEqual(True, child['children'][1]['data']['value'])
-
 
