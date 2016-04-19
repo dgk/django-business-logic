@@ -36,7 +36,6 @@ class BlocklyXmlParser(object):
 
     @staticmethod
     def get_content_type_id(model):
-        return model.__name__
         return ContentType.objects.get_for_model(model).id
 
     def visit(self, node):
