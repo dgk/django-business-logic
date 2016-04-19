@@ -262,3 +262,40 @@ class BlocklyXmlParserIfStatementTest(BlocklyXmlParserTestCase):
         self.assertEqual(get_content_type_id(Variable), assignment['children'][0]['data']['content_type'])
         self.assertEqual('IfEnter', assignment['children'][0]['data']['name'])
 
+
+    def test_elif_else(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#y8nw8p
+        node, _ = create_if_statement(5)
+        xml_str = BlocklyXmlBuilder().build(node)
+
+        parsed = BlocklyXmlParser().parse(xml_str)
+
+        self.assertEqual(1, len(parsed))
+        root = parsed[0]
+
+        if_statement = root['data']
+        self.assertIsInstance(if_statement, dict)
+        self.assertEqual(get_content_type_id(IfStatement), if_statement['content_type'])
+        children = root['children']
+        self.assertEqual(5, len(children))
+
+        for i, variable_name in (
+                (0, 'IfCondition'),
+                (2, 'ElseIfCondition1'),
+        ):
+            child = children[i]
+            self.assertEqual(get_content_type_id(Variable), child['data']['content_type'])
+            self.assertEqual(variable_name, child['data']['name'])
+
+        for i, variable_name in (
+                (1, 'IfEnter'),
+                (3, 'ElseIfEnter1'),
+                (4, 'ElseEnter'),
+        ):
+            child = children[i]
+            self.assertEqual(get_content_type_id(Assignment), child['data']['content_type'])
+            self.assertEqual(variable_name, child['children'][0]['data']['name'])
+            self.assertEqual(get_content_type_id(BooleanConstant), child['children'][1]['data']['content_type'])
+            self.assertEqual(True, child['children'][1]['data']['value'])
+
+

@@ -36,6 +36,7 @@ class BlocklyXmlParser(object):
 
     @staticmethod
     def get_content_type_id(model):
+        return model.__name__
         return ContentType.objects.get_for_model(model).id
 
     def visit(self, node):
@@ -71,6 +72,9 @@ class BlocklyXmlParser(object):
         return data
 
     def _call_method(self, node):
+        if node.tag in ('next', 'mutation'):
+            return
+
         method_name = 'visit_{}'.format(node.tag)
         method = getattr(self, method_name, None)
 
@@ -83,8 +87,9 @@ class BlocklyXmlParser(object):
         if 'children' not in data:
             data['children'] = []
         for child in node.getchildren() if children is None else children:
-            if child.tag != 'next':
-                data ['children'].append(self.visit(child))
+            child_data = self.visit(child)
+            if child_data is not None:
+                data ['children'].append(child_data)
 
     def _visit_single_child(self, node):
         children = node.getchildren()
