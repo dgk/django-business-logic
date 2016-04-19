@@ -7,6 +7,8 @@ from lxml import etree
 from business_logic.tests.common import *
 from pprint import pprint
 
+get_content_type_id = BlocklyXmlParser.get_content_type_id
+
 class BlocklyXmlParserTestCase(TestCase):
     def build_xml(self, node):
         xml_str = BlocklyXmlBuilder().build(node)
@@ -26,7 +28,7 @@ class BlocklyXmlParserConstantTest(BlocklyXmlParserTestCase):
         constant = parsed[0]
         self.assertIsInstance(constant, dict)
         constant_data = constant['data']
-        self.assertEqual(BlocklyXmlParser.get_content_type_id(cls), constant_data['content_type'])
+        self.assertEqual(get_content_type_id(cls), constant_data['content_type'])
         self.assertEqual(value, constant_data['value'])
 
     def test_string_constant(self):
@@ -54,7 +56,7 @@ class BlocklyXmlParserAssignmentTest(BlocklyXmlParserTestCase):
 
         assignment = root['data']
         self.assertIsInstance(assignment, dict)
-        self.assertEqual(BlocklyXmlParser.get_content_type_id(Assignment), assignment['content_type'])
+        self.assertEqual(get_content_type_id(Assignment), assignment['content_type'])
 
         children = root['children']
         self.assertIsInstance(children, list)
@@ -64,12 +66,12 @@ class BlocklyXmlParserAssignmentTest(BlocklyXmlParserTestCase):
 
         self.assertIsInstance(variable, dict)
         variable_data = variable['data']
-        self.assertEqual(BlocklyXmlParser.get_content_type_id(Variable), variable_data['content_type'])
+        self.assertEqual(get_content_type_id(Variable), variable_data['content_type'])
         self.assertEqual('A', variable_data['name'])
 
         self.assertIsInstance(constant, dict)
         constant_data = constant['data']
-        self.assertEqual(BlocklyXmlParser.get_content_type_id(FloatConstant), constant_data['content_type'])
+        self.assertEqual(get_content_type_id(FloatConstant), constant_data['content_type'])
         self.assertEqual(1, constant_data['value'])
 
 
@@ -97,7 +99,7 @@ class BlocklyXmlParserBinaryOperatorTest(BlocklyXmlParserTestCase):
         for i, operand in enumerate(children, 1):
             self.assertIsInstance(operand, dict)
             operand_data = operand['data']
-            self.assertEqual(BlocklyXmlParser.get_content_type_id(FloatConstant), operand_data['content_type'])
+            self.assertEqual(get_content_type_id(FloatConstant), operand_data['content_type'])
             self.assertEqual(i, operand_data['value'])
 
     def _test_logic_binary_operator(self, operator_value):
@@ -124,12 +126,12 @@ class BlocklyXmlParserBinaryOperatorTest(BlocklyXmlParserTestCase):
             expected_value = not bool(i)
             self.assertIsInstance(operand, dict)
             operand_data = operand['data']
-            self.assertEqual(BlocklyXmlParser.get_content_type_id(BooleanConstant), operand_data['content_type'])
+            self.assertEqual(get_content_type_id(BooleanConstant), operand_data['content_type'])
             self.assertEqual(expected_value, operand_data['value'])
 
     def _test_operator_node(self, operator, operator_value):
         self.assertIsInstance(operator, dict)
-        self.assertEqual(BlocklyXmlParser.get_content_type_id(BinaryOperator), operator['content_type'])
+        self.assertEqual(get_content_type_id(BinaryOperator), operator['content_type'])
         self.assertEqual(operator_value, operator['operator'])
 
     def test_operator_add(self):
@@ -228,3 +230,35 @@ class BlocklyXmlParserBlockTest(BlocklyXmlParserTestCase):
         for var_name, assignment in zip(vars, children):
             assignment_children = assignment['children']
             self.assertEqual(2, len(assignment_children))
+
+
+class BlocklyXmlParserIfStatementTest(BlocklyXmlParserTestCase):
+    def test_if(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#k5ygcz
+        root, _ = create_if_statement(2)
+        xml_str = self.build_xml(root)
+
+        parsed = BlocklyXmlParser().parse(xml_str)
+
+        self.assertIsInstance(parsed, list)
+        self.assertEqual(1, len(parsed))
+        root = parsed[0]
+
+        if_statement = root['data']
+        self.assertIsInstance(if_statement, dict)
+        self.assertEqual(get_content_type_id(IfStatement), if_statement['content_type'])
+        children = root['children']
+        self.assertEqual(2, len(children))
+
+        condition = children[0]
+        self.assertIsInstance(condition, dict)
+
+        condition_data = condition['data']
+        self.assertEqual('IfCondition', condition_data['name'])
+        self.assertEqual(get_content_type_id(Variable), condition_data['content_type'])
+
+        assignment = children[1]
+        self.assertEqual(get_content_type_id(Assignment), assignment['data']['content_type'])
+        self.assertEqual(get_content_type_id(Variable), assignment['children'][0]['data']['content_type'])
+        self.assertEqual('IfEnter', assignment['children'][0]['data']['name'])
+

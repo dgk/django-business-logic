@@ -84,7 +84,7 @@ class BlocklyXmlParser(object):
             data['children'] = []
         for child in node.getchildren() if children is None else children:
             if child.tag != 'next':
-                data['children'].append(self.visit(child))
+                data ['children'].append(self.visit(child))
 
     def _visit_single_child(self, node):
         children = node.getchildren()
@@ -145,6 +145,9 @@ class BlocklyXmlParser(object):
 
         return data
 
+    def visit_block_variables_get(self, node):
+        return self._visit_single_child(node)
+
     def visit_block_logic_compare(self, node):
         return self._visit_binary_operator(node)
 
@@ -159,6 +162,17 @@ class BlocklyXmlParser(object):
 
     def visit_block_logic_boolean(self, node):
         return self._visit_single_child(node)
+
+    def visit_block_controls_if(self, node):
+        data = {
+            'data': {
+                'content_type': self.get_content_type_id(IfStatement),
+            }
+        }
+
+        self._visit_children(node, data)
+
+        return data
 
     def visit_field(self, node):
         method_name = 'visit_field_{}'.format(node.get('name').lower())
@@ -178,4 +192,7 @@ class BlocklyXmlParser(object):
         return self._visit_field(BooleanConstant, value=node.text.lower() == 'true')
 
     def visit_value(self, node):
+        return self._visit_single_child(node)
+
+    def visit_statement(self, node):
         return self._visit_single_child(node)
