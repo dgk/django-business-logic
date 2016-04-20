@@ -37,7 +37,7 @@ class NodeTreeCreatorTestCase(TestCase):
         self.assertIn('object_id', assignmet_data)
         Assignment.objects.get(id=assignmet_data['object_id'])
 
-    def test_create_variable_definition(self):
+    def test_create_variable_definitions(self):
         tree1 = variable_assign_value()
         dict1 = self.build_dict(tree1)
         self.assertEqual(1, VariableDefinition.objects.count())
@@ -50,6 +50,11 @@ class NodeTreeCreatorTestCase(TestCase):
         variable_definition, = variable_definitions
         self.assertEqual(variable['data']['variable_definition'],
                          variable_definition['data']['content_object'])
+
+        self.assertEqual(get_content_type_id(VariableDefinition),
+                         variable_definition['data']['content_type'])
+
+        self.assertNotIn('name', variable['data'])
 
     def test_collect_objects(self):
         tree1 = variable_assign_value()
