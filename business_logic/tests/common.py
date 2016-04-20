@@ -11,5 +11,3 @@ from ..utils import *
 
 from .test_app.models import *
 from .utils import *
-
-get_content_type_id = BlocklyXmlParser.get_content_type_id
