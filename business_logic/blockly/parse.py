@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from lxml import etree, objectify
 
-from django.contrib.contenttypes.models import ContentType
 from django.utils.six import StringIO
 
 from ..models import *
+from ..utils import get_content_type_id
 
 from .data import REVERSE_OPERATOR_TABLE
 
@@ -33,10 +33,6 @@ class BlocklyXmlParser(object):
             if i >= 0:
                 elem.tag = elem.tag[i + 1:]
         objectify.deannotate(root, cleanup_namespaces=True)
-
-    @staticmethod
-    def get_content_type_id(model):
-        return ContentType.objects.get_for_model(model).id
 
     def visit(self, node):
         parent = node.getparent()
@@ -99,7 +95,7 @@ class BlocklyXmlParser(object):
         operator, lft_operand, rgh_operand = node.getchildren()
         data = {
             'data': {
-                'content_type': self.get_content_type_id(BinaryOperator),
+                'content_type': get_content_type_id(BinaryOperator),
                 'operator': REVERSE_OPERATOR_TABLE[node.get('type')][operator.text]
             }
         }
@@ -111,7 +107,7 @@ class BlocklyXmlParser(object):
     def _visit_field(self, cls, **kwargs):
         data = {
             'data': {
-                'content_type': self.get_content_type_id(cls),
+                'content_type': get_content_type_id(cls),
             }
         }
         data['data'].update(kwargs)
@@ -141,7 +137,7 @@ class BlocklyXmlParser(object):
     def visit_block_variables_set(self, node):
         data = {
             'data': {
-                'content_type': self.get_content_type_id(Assignment),
+                'content_type': get_content_type_id(Assignment),
             }
         }
 
@@ -170,7 +166,7 @@ class BlocklyXmlParser(object):
     def visit_block_controls_if(self, node):
         data = {
             'data': {
-                'content_type': self.get_content_type_id(IfStatement),
+                'content_type': get_content_type_id(IfStatement),
             }
         }
 
