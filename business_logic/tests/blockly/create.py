@@ -18,7 +18,6 @@ class NodeTreeCreatorTestCase(TestCase):
         return BlocklyXmlParser().parse(xml_str)[0]
 
     def tree_diff(self, tree1, tree2):
-        print BlocklyXmlBuilder().build(tree1), BlocklyXmlBuilder().build(tree2)
         return BlocklyXmlBuilder().build(tree1) != BlocklyXmlBuilder().build(tree2)
 
     def test_test_case_diff(self):
