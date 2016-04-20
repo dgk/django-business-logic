@@ -43,10 +43,13 @@ class NodeTreeCreatorTestCase(TestCase):
         self.assertEqual(1, VariableDefinition.objects.count())
 
         variable, = NodeTreeCreator().collect_objects(dict1, get_content_type_id(Variable))
-        print variable
-        variable_definition = NodeTreeCreator().create_variable_definitions(dict1)
-        self.assertIsInstance(variable_definition, dict)
+        variable_definitions = NodeTreeCreator().create_variable_definitions(dict1)
+        self.assertIsInstance(variable_definitions, list)
         self.assertEqual(2, VariableDefinition.objects.count())
+        self.assertEqual(1, len(variable_definitions))
+        variable_definition, = variable_definitions
+        self.assertEqual(variable['data']['variable_definition'],
+                         variable_definition['data']['content_object'])
 
     def test_collect_objects(self):
         tree1 = variable_assign_value()
