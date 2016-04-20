@@ -18,6 +18,7 @@ class NodeTreeCreatorTestCase(TestCase):
         return BlocklyXmlParser().parse(xml_str)[0]
 
     def tree_diff(self, tree1, tree2):
+        print BlocklyXmlBuilder().build(tree1), BlocklyXmlBuilder().build(tree2)
         return BlocklyXmlBuilder().build(tree1) != BlocklyXmlBuilder().build(tree2)
 
     def test_test_case_diff(self):
@@ -33,9 +34,21 @@ class NodeTreeCreatorTestCase(TestCase):
         tree1 = variable_assign_value()
         dict1 = self.build_dict(tree1)
         assignmet_data = dict1['data']
-        assignmet_data = NodeTreeCreator().create_content_object(assignmet_data)
+        NodeTreeCreator().create_content_object(assignmet_data)
         self.assertIn('object_id', assignmet_data)
         Assignment.objects.get(id=assignmet_data['object_id'])
+        constant_data = dict1['children'][1]['data']
+        NodeTreeCreator().create_content_object(constant_data)
+        float_constant = FloatConstant.objects.get(id=constant_data['object_id'])
+        self.assertEqual(1, float_constant.value)
+        self.assertNotIn('value', constant_data)
+
+    def test_create_content_object_sould_not_create_variable_definition(self):
+        tree1 = variable_assign_value()
+        dict1 = self.build_dict(tree1)
+        variable_definitions = NodeTreeCreator().create_variable_definitions(dict1)
+        NodeTreeCreator().create_content_object(variable_definitions[0]['data'])
+        self.assertEqual(2, VariableDefinition.objects.count())
 
     def test_create_variable_definitions(self):
         tree1 = variable_assign_value()
@@ -48,9 +61,11 @@ class NodeTreeCreatorTestCase(TestCase):
         self.assertEqual(2, VariableDefinition.objects.count())
         self.assertEqual(1, len(variable_definitions))
         variable_definition, = variable_definitions
-        self.assertEqual(variable['data']['variable_definition'],
-                         variable_definition['data']['content_object'])
+        self.assertEqual(variable['data']['definition_id'],
+                         variable_definition['data']['object_id'])
 
+        self.assertEqual('A', VariableDefinition.objects.get(
+            id=variable_definition['data']['object_id']).name)
         self.assertEqual(get_content_type_id(VariableDefinition),
                          variable_definition['data']['content_type'])
 
@@ -59,20 +74,27 @@ class NodeTreeCreatorTestCase(TestCase):
     def test_collect_objects(self):
         tree1 = variable_assign_value()
         dict1 = self.build_dict(tree1)
+        dict2 = {
+            'data': {},
+            'children': [dict1]
+        }
 
-        objects = NodeTreeCreator().collect_objects(dict1, get_content_type_id(Assignment))
-        self.assertIsInstance(objects, list)
-        self.assertEqual([dict1, ], objects)
 
-        objects = NodeTreeCreator().collect_objects(dict1, get_content_type_id(Variable))
-        self.assertIsInstance(objects, list)
-        self.assertEqual([dict1['children'][0], ], objects)
+        for data in (dict1, dict2):
+            objects = NodeTreeCreator().collect_objects(data, get_content_type_id(Assignment))
+            self.assertIsInstance(objects, list)
+            self.assertEqual([dict1, ], objects)
+
+            objects = NodeTreeCreator().collect_objects(data, get_content_type_id(Variable))
+            self.assertIsInstance(objects, list)
+            self.assertEqual([dict1['children'][0], ], objects)
+
 
     def test_create_assignment(self):
         tree1 = variable_assign_value()
-        #print self.build_dict(tree1)
+        dict1 = self.build_dict(tree1)
 
-        tree2 = NodeTreeCreator(tree1).create()
+        tree2 = NodeTreeCreator().create(dict1)
 
         self.assertIsInstance(tree2, Node)
         self.assertIsNot(tree1, tree2)
