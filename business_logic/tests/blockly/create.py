@@ -40,22 +40,31 @@ class NodeTreeCreatorTestCase(TestCase):
     def test_create_variable_definition(self):
         tree1 = variable_assign_value()
         dict1 = self.build_dict(tree1)
-        NodeTreeCreator()
+        self.assertEqual(1, VariableDefinition.objects.count())
+
+        variable, = NodeTreeCreator().collect_objects(dict1, get_content_type_id(Variable))
+        print variable
+        variable_definition = NodeTreeCreator().create_variable_definitions(dict1)
+        self.assertIsInstance(variable_definition, dict)
+        self.assertEqual(2, VariableDefinition.objects.count())
 
     def test_collect_objects(self):
         tree1 = variable_assign_value()
         dict1 = self.build_dict(tree1)
-        dict2 = self.build_dict(tree1)
 
         objects = NodeTreeCreator().collect_objects(dict1, get_content_type_id(Assignment))
         self.assertIsInstance(objects, list)
-        self.assertEqual([dict2, ], objects)
+        self.assertEqual([dict1, ], objects)
+
+        objects = NodeTreeCreator().collect_objects(dict1, get_content_type_id(Variable))
+        self.assertIsInstance(objects, list)
+        self.assertEqual([dict1['children'][0], ], objects)
 
     def test_create_assignment(self):
         tree1 = variable_assign_value()
         #print self.build_dict(tree1)
 
-        tree2 = NodeTreeCreator().create(tree1)
+        tree2 = NodeTreeCreator(tree1).create()
 
         self.assertIsInstance(tree2, Node)
         self.assertIsNot(tree1, tree2)

@@ -19,6 +19,9 @@ class NodeTreeCreator(object):
         def collect(item):
             if item['data']['content_type'] == content_type_id:
                 collection.append(item)
+            children = item.get('children', [])
+            for child in children:
+                collect(child)
         collect(data)
         return collection
 
@@ -29,8 +32,10 @@ class NodeTreeCreator(object):
         data['object_id'] = object.id
         return data
 
-    def create_variable_definition(self, data):
-        pass
+    def create_variable_definitions(self, data):
+        variable_definitions = []
+        variables = self.collect_objects()
+        return variable_definitions
 
 
 
