@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class ReferenceDescriptor(models.Model):
-    content_type = models.ForeignKey(ContentType, unique=True)
+    content_type = models.ForeignKey(ContentType)
     search_fields = models.TextField()
     #  TODO: name_field = models.SlugField(max_length=255, null=True, blank=True)
 

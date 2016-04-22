@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
+import business_logic.fields
 
 
 class Migration(migrations.Migration):
@@ -11,30 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Argument',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(max_length=255, verbose_name=b'Title')),
-                ('order', models.PositiveIntegerField(default=0, verbose_name=b'Order')),
-            ],
-            options={
-                'ordering': ('order',),
-                'verbose_name': 'Program argument',
-                'verbose_name_plural': 'Program arguments',
-            },
-        ),
-        migrations.CreateModel(
-            name='ArgumentSet',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(max_length=255, verbose_name=b'Title')),
-            ],
-            options={
-                'verbose_name': 'Program argument set',
-                'verbose_name_plural': 'Program argument sets',
-            },
-        ),
         migrations.CreateModel(
             name='Assignment',
             fields=[
@@ -49,7 +26,7 @@ class Migration(migrations.Migration):
             name='BinaryOperator',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('operator', models.CharField(max_length=3, verbose_name=b'Operator')),
+                ('operator', models.CharField(max_length=3, verbose_name='Operator')),
             ],
             options={
                 'verbose_name': 'Binary operator',
@@ -60,7 +37,7 @@ class Migration(migrations.Migration):
             name='BooleanConstant',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('value', models.BooleanField(verbose_name=b'Value')),
+                ('value', models.BooleanField(verbose_name='Value')),
             ],
             options={
                 'verbose_name': 'Boolean constant',
@@ -81,33 +58,11 @@ class Migration(migrations.Migration):
             name='DateConstant',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('value', models.DateField(verbose_name=b'Value')),
+                ('value', models.DateField(verbose_name='Value')),
             ],
             options={
                 'verbose_name': 'Date constant',
                 'verbose_name_plural': 'Date constants',
-            },
-        ),
-        migrations.CreateModel(
-            name='DecimalConstant',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('value', models.DecimalField(verbose_name=b'Value', max_digits=18, decimal_places=4)),
-            ],
-            options={
-                'verbose_name': 'Decimal constant',
-                'verbose_name_plural': 'Decimal constants',
-            },
-        ),
-        migrations.CreateModel(
-            name='NumberConstant',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('value', models.FloatField(verbose_name=b'Value')),
-            ],
-            options={
-                'verbose_name': 'Float constant',
-                'verbose_name_plural': 'Float constants',
             },
         ),
         migrations.CreateModel(
@@ -134,10 +89,10 @@ class Migration(migrations.Migration):
             name='FunctionDefinition',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('module', models.CharField(default=b'__builtins__', max_length=255, verbose_name=b'Module name')),
-                ('function', models.CharField(max_length=255, verbose_name=b'Function name')),
-                ('context_required', models.BooleanField(default=False, verbose_name=b'Context required')),
-                ('title', models.CharField(max_length=255, verbose_name=b'Function title')),
+                ('module', models.CharField(default=b'__builtins__', max_length=255, verbose_name='Module name')),
+                ('function', models.CharField(max_length=255, verbose_name='Function name')),
+                ('context_required', models.BooleanField(default=False, verbose_name='Context required')),
+                ('title', models.CharField(max_length=255, verbose_name='Function title')),
             ],
             options={
                 'verbose_name': 'Function definition',
@@ -155,17 +110,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='IntegerConstant',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('value', models.IntegerField(verbose_name=b'Value')),
-            ],
-            options={
-                'verbose_name': 'Integer constant',
-                'verbose_name_plural': 'Integer constants',
-            },
-        ),
-        migrations.CreateModel(
             name='ListConstant',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -180,40 +124,18 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('sib_order', models.PositiveIntegerField()),
-                ('previous_value', models.CharField(max_length=255, verbose_name=b'Previous value')),
-                ('current_value', models.CharField(max_length=255, verbose_name=b'Current value')),
+                ('previous_value', models.CharField(max_length=255, verbose_name='Previous value')),
+                ('current_value', models.CharField(max_length=255, verbose_name='Current value')),
             ],
             options={
                 'abstract': False,
             },
         ),
         migrations.CreateModel(
-            name='Message',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('text', models.TextField(max_length=1024, verbose_name=b'Message')),
-            ],
-            options={
-                'verbose_name': 'Message',
-                'verbose_name_plural': 'Messages',
-            },
-        ),
-        migrations.CreateModel(
-            name='MessageType',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(max_length=255, verbose_name=b'Title')),
-            ],
-            options={
-                'verbose_name': 'Message type',
-                'verbose_name_plural': 'Message types',
-            },
-        ),
-        migrations.CreateModel(
             name='ModelConstant',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('value', models.BooleanField(verbose_name=b'Value')),
+                ('value', models.BooleanField(verbose_name='Value')),
             ],
             options={
                 'verbose_name': 'Model constant',
@@ -228,7 +150,7 @@ class Migration(migrations.Migration):
                 ('rgt', models.PositiveIntegerField(db_index=True)),
                 ('tree_id', models.PositiveIntegerField(db_index=True)),
                 ('depth', models.PositiveIntegerField(db_index=True)),
-                ('comment', models.CharField(max_length=255, null=True, verbose_name=b'Comment', blank=True)),
+                ('comment', models.CharField(max_length=255, null=True, verbose_name='Comment', blank=True)),
                 ('object_id', models.PositiveIntegerField(null=True)),
                 ('content_type', models.ForeignKey(to='contenttypes.ContentType', null=True)),
             ],
@@ -239,10 +161,22 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='NumberConstant',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('value', models.FloatField(verbose_name='Value')),
+            ],
+            options={
+                'verbose_name': 'Float constant',
+                'verbose_name_plural': 'Float constants',
+            },
+        ),
+        migrations.CreateModel(
             name='Program',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(max_length=255, verbose_name=b'Title')),
+                ('title', models.CharField(max_length=255, verbose_name='Title')),
+                ('name', models.SlugField(unique=True, max_length=255, verbose_name='Name')),
                 ('creation_time', models.DateTimeField(auto_now_add=True)),
                 ('modification_time', models.DateTimeField(auto_now=True)),
             ],
@@ -252,12 +186,38 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='ProgramArgument',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.SlugField(max_length=255, verbose_name='Name')),
+                ('content_type', models.ForeignKey(to='contenttypes.ContentType')),
+            ],
+            options={
+                'verbose_name': 'Program argument',
+                'verbose_name_plural': 'Program arguments',
+            },
+        ),
+        migrations.CreateModel(
+            name='ProgramArgumentField',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', business_logic.fields.DeepAttributeField(max_length=255, verbose_name='Name')),
+                ('program_argument', models.ForeignKey(related_name='field', to='business_logic.ProgramArgument')),
+            ],
+            options={
+                'ordering': ('name',),
+                'verbose_name': 'Program argument field',
+                'verbose_name_plural': 'Program argument fields',
+            },
+        ),
+        migrations.CreateModel(
             name='ProgramType',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(max_length=255, verbose_name=b'Title')),
-                ('input_argumets', models.ForeignKey(related_name='inputs', verbose_name=b'Input arguments', to='business_logic.ArgumentSet')),
-                ('output_argumets', models.ForeignKey(related_name='outputs', verbose_name=b'Output arguments', to='business_logic.ArgumentSet')),
+                ('title', models.CharField(max_length=255, verbose_name='Title', db_index=True)),
+                ('name', models.SlugField(null=True, max_length=255, blank=True, unique=True, verbose_name='Name')),
+                ('creation_time', models.DateTimeField(auto_now_add=True)),
+                ('modification_time', models.DateTimeField(auto_now=True)),
             ],
             options={
                 'verbose_name': 'Program type',
@@ -268,10 +228,11 @@ class Migration(migrations.Migration):
             name='ProgramVersion',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(max_length=255, verbose_name=b'Title')),
+                ('description', models.TextField(null=True, verbose_name='Description', blank=True)),
                 ('creation_time', models.DateTimeField(auto_now_add=True)),
                 ('modification_time', models.DateTimeField(auto_now=True)),
-                ('entry_point', models.ForeignKey(verbose_name=b'Entry point', to='business_logic.Node')),
+                ('is_default', models.NullBooleanField(default=None, verbose_name='Is default')),
+                ('entry_point', models.ForeignKey(verbose_name='Entry point', to='business_logic.Node')),
                 ('program', models.ForeignKey(related_name='versions', to='business_logic.Program')),
             ],
             options={
@@ -280,14 +241,15 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Reference',
+            name='ReferenceDescriptor',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(max_length=255, verbose_name=b'Title')),
+                ('search_fields', models.TextField()),
+                ('content_type', models.ForeignKey(to='contenttypes.ContentType')),
             ],
             options={
-                'verbose_name': 'Reference',
-                'verbose_name_plural': 'References',
+                'verbose_name': 'Reference descriptor',
+                'verbose_name_plural': 'Reference descriptors',
             },
         ),
         migrations.CreateModel(
@@ -298,18 +260,6 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Result',
                 'verbose_name_plural': 'Results',
-            },
-        ),
-        migrations.CreateModel(
-            name='ResultMessage',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('message', models.ForeignKey(to='business_logic.Message')),
-                ('result', models.ForeignKey(related_name='messages', to='business_logic.Result')),
-            ],
-            options={
-                'verbose_name': 'Result message',
-                'verbose_name_plural': 'Result messages',
             },
         ),
         migrations.CreateModel(
@@ -326,7 +276,7 @@ class Migration(migrations.Migration):
             name='StringConstant',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('value', models.TextField(default=b'', verbose_name=b'Value')),
+                ('value', models.TextField(default=b'', verbose_name='Value')),
             ],
             options={
                 'verbose_name': 'String constant',
@@ -347,9 +297,9 @@ class Migration(migrations.Migration):
             name='Type',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('type', models.CharField(max_length=12, verbose_name=b'Type', choices=[(b'bool', b'Boolean'), (b'decimal', b'Decimal'), (b'float', b'Float'), (b'int', b'Integer'), (b'string', b'String'), (b'model', b'Model')])),
-                ('is_list', models.BooleanField(verbose_name=b'Is list')),
-                ('model_type', models.ForeignKey(verbose_name=b'Model type', to='contenttypes.ContentType', null=True)),
+                ('type', models.CharField(max_length=12, verbose_name='Type', choices=[(b'bool', 'Boolean'), (b'float', 'Float'), (b'string', 'String'), (b'model', 'Model')])),
+                ('is_list', models.BooleanField(verbose_name='Is list')),
+                ('model_type', models.ForeignKey(verbose_name='Model type', to='contenttypes.ContentType', null=True)),
             ],
             options={
                 'verbose_name': 'Type',
@@ -360,7 +310,7 @@ class Migration(migrations.Migration):
             name='UnaryOperator',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('operator', models.CharField(max_length=3, verbose_name=b'Operator')),
+                ('operator', models.CharField(max_length=3, verbose_name='Operator')),
             ],
             options={
                 'verbose_name': 'Unary operator',
@@ -381,7 +331,7 @@ class Migration(migrations.Migration):
             name='VariableDefinition',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.TextField(verbose_name=b'Variable name')),
+                ('name', models.TextField(verbose_name='Variable name')),
             ],
             options={
                 'verbose_name': 'Variable definition',
@@ -394,29 +344,24 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(related_name='variables', to='business_logic.VariableDefinition'),
         ),
         migrations.AddField(
-            model_name='program',
-            name='active_version',
-            field=models.ForeignKey(related_name='active', verbose_name=b'Active version', blank=True, to='business_logic.ProgramVersion', null=True),
+            model_name='programargument',
+            name='program_type',
+            field=models.ForeignKey(related_name='argument', to='business_logic.ProgramType'),
+        ),
+        migrations.AddField(
+            model_name='programargument',
+            name='variable_definition',
+            field=models.OneToOneField(to='business_logic.VariableDefinition'),
         ),
         migrations.AddField(
             model_name='program',
-            name='testing_version',
-            field=models.ForeignKey(related_name='testing', verbose_name=b'Testing version', blank=True, to='business_logic.ProgramVersion', null=True),
-        ),
-        migrations.AddField(
-            model_name='program',
-            name='type',
-            field=models.ForeignKey(related_name='programs', to='business_logic.ProgramType'),
-        ),
-        migrations.AddField(
-            model_name='message',
-            name='type',
-            field=models.ForeignKey(to='business_logic.MessageType'),
+            name='program_type',
+            field=models.ForeignKey(to='business_logic.ProgramType'),
         ),
         migrations.AddField(
             model_name='logentry',
             name='node',
-            field=models.ForeignKey(verbose_name=b'Program node', to='business_logic.Node'),
+            field=models.ForeignKey(verbose_name='Program node', to='business_logic.Node'),
         ),
         migrations.AddField(
             model_name='logentry',
@@ -428,18 +373,12 @@ class Migration(migrations.Migration):
             name='definition',
             field=models.ForeignKey(related_name='functions', to='business_logic.FunctionDefinition'),
         ),
-        migrations.AddField(
-            model_name='argument',
-            name='argument_set',
-            field=models.ForeignKey(verbose_name=b'Program argument set', to='business_logic.ArgumentSet'),
-        ),
-        migrations.AddField(
-            model_name='argument',
-            name='content_type',
-            field=models.ForeignKey(to='contenttypes.ContentType'),
+        migrations.AlterUniqueTogether(
+            name='programversion',
+            unique_together=set([('program', 'is_default')]),
         ),
         migrations.AlterUniqueTogether(
-            name='argument',
-            unique_together=set([('argument_set', 'order')]),
+            name='programargument',
+            unique_together=set([('program_type', 'name')]),
         ),
     ]
