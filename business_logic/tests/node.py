@@ -39,8 +39,8 @@ class NodeTest(TestCase):
         self.failUnlessEqual('+', root.content_object.operator)
         self.failUnlessEqual(0, len(root.get_children()))
 
-        float_const1 = FloatConstant(value=1)
-        child_node = root.add_child(content_object=float_const1)
+        number_constant1 = NumberConstant(value=1)
+        child_node = root.add_child(content_object=number_constant1)
         self.failUnless(child_node.id)
         self.failUnless(child_node.content_object)
 
@@ -53,8 +53,8 @@ class NodeTest(TestCase):
     def test_tree(self):
         root = Node.add_root()
         self.failUnless(root.is_leaf())
-        statement1 = FloatConstant(value=33)
-        statement2 = FloatConstant(value=44)
+        statement1 = NumberConstant(value=33)
+        statement2 = NumberConstant(value=44)
         root = Node.objects.get(id=root.id)
         node1 = root.add_child(content_object=statement1)
 
@@ -108,25 +108,25 @@ class NodeTest(TestCase):
 
     def test_recursive_delete(self):
         root = Node.add_root()
-        statement1 = FloatConstant(value=1)
-        statement2 = FloatConstant(value=2)
+        statement1 = NumberConstant(value=1)
+        statement2 = NumberConstant(value=2)
         node1 = root.add_child(content_object=statement1)
         self.failUnlessEqual(1, len(root.get_children()))
         node2 = root.add_child(content_object=statement2)
         root = Node.objects.get(id=root.id)
         self.failUnlessEqual(2, len(root.get_children()))
 
-        self.failUnless(FloatConstant.objects.filter(
+        self.failUnless(NumberConstant.objects.filter(
             pk=statement1.pk).count())
-        self.failUnless(FloatConstant.objects.filter(
+        self.failUnless(NumberConstant.objects.filter(
             pk=statement2.pk).count())
         self.failUnless(Node.objects.filter(pk=node1.pk).count())
         self.failUnless(Node.objects.filter(pk=node2.pk).count())
 
         root.delete()
 
-        self.failIf(FloatConstant.objects.filter(pk=statement1.pk).count())
-        self.failIf(FloatConstant.objects.filter(pk=statement2.pk).count())
+        self.failIf(NumberConstant.objects.filter(pk=statement1.pk).count())
+        self.failIf(NumberConstant.objects.filter(pk=statement2.pk).count())
         self.failIf(Node.objects.filter(pk=node1.pk).count())
         self.failIf(Node.objects.filter(pk=node2.pk).count())
 
@@ -135,18 +135,18 @@ class NodeTest(TestCase):
         add_operator.save()
         root = Node.add_root(content_object=add_operator)
 
-        float_const1 = FloatConstant(value=5)
-        float_const_node1 = root.add_child(content_object=float_const1)
+        number_constant1 = NumberConstant(value=5)
+        number_constant_node1 = root.add_child(content_object=number_constant1)
 
-        float_const2 = FloatConstant(value=6)
+        number_constant2 = NumberConstant(value=6)
         root = Node.objects.get(id=root.id)
-        float_const_node2 = root.add_child(content_object=float_const2)
+        number_constant_node2 = root.add_child(content_object=number_constant2)
         root = Node.objects.get(id=root.id)
 
         context = Context(cache=False)
         result = root.interpret(context)
 
-        self.failUnlessEqual(float_const1.value  + float_const2.value, result)
+        self.failUnlessEqual(number_constant1.value  + number_constant2.value, result)
 
     def test_interpret_tree(self):
 
@@ -156,15 +156,15 @@ class NodeTest(TestCase):
 
         root = Node.add_root(content_object=add_operator)
 
-        float_const1 = FloatConstant(value=2)
-        float_const_node1 = root.add_child(content_object=float_const1)
+        number_constant1 = NumberConstant(value=2)
+        number_constant_node1 = root.add_child(content_object=number_constant1)
 
-        float_const2 = FloatConstant(value=3)
-        float_const3 = FloatConstant(value=4)
+        number_constant2 = NumberConstant(value=3)
+        number_constant3 = NumberConstant(value=4)
 
         mul_operator_node = root.add_child(content_object=mul_operator)
-        mul_operator_node.add_child(content_object=float_const2)
-        mul_operator_node.add_child(content_object=float_const3)
+        mul_operator_node.add_child(content_object=number_constant2)
+        mul_operator_node.add_child(content_object=number_constant3)
 
         context = Context()
         root = Node.objects.get(id=root.id)

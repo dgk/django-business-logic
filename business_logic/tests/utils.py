@@ -23,12 +23,12 @@ def tree_1plus2mul3(parent=None):
     else:
         add_node = Node.objects.get(id=parent.id).add_child(content_object=add_operator)
 
-    number_const1 = FloatConstant(value=1)
+    number_const1 = NumberConstant(value=1)
     number_const_node1 = add_node.add_child(content_object=number_const1)
     add_node = Node.objects.get(id=add_node.id)
 
-    number_const2 = FloatConstant(value=2)
-    number_const3 = FloatConstant(value=3)
+    number_const2 = NumberConstant(value=2)
+    number_const3 = NumberConstant(value=3)
 
     mul_node = add_node.add_child(content_object=mul_operator)
     mul_node = Node.objects.get(id=mul_node.id)
@@ -40,7 +40,7 @@ def tree_1plus2mul3(parent=None):
 
 
 def symmetric_tree(operator='+', value=1, count=2,
-        operand_cls=FloatConstant, parent=None):
+        operand_cls=NumberConstant, parent=None):
 
     assert math.modf(math.log(count, 2))[0] == 0
 
@@ -112,7 +112,7 @@ def variable_assign_value(variable_name='A', value=None):
     assignment_node = root.add_child(content_object=Assignment())
     var = Variable(definition=var_def)
     var_node = assignment_node.add_child(content_object=var)
-    number_const_node1 = assignment_node.add_child(content_object=value or FloatConstant(value=1))
+    number_const_node1 = assignment_node.add_child(content_object=value or NumberConstant(value=1))
 
     root = Node.objects.get(id=root.id)
     return root

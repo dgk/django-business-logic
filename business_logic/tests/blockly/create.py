@@ -38,8 +38,8 @@ class NodeTreeCreatorTestCase(TestCase):
         Assignment.objects.get(id=assignmet_data['object_id'])
         constant_data = dict1['children'][1]['data']
         NodeTreeCreator().create_content_object(constant_data)
-        float_constant = FloatConstant.objects.get(id=constant_data['object_id'])
-        self.assertEqual(1, float_constant.value)
+        number_constantant = NumberConstant.objects.get(id=constant_data['object_id'])
+        self.assertEqual(1, number_constantant.value)
         self.assertNotIn('value', constant_data)
 
     def test_create_content_object_sould_not_create_variable_definition(self):

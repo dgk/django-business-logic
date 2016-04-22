@@ -34,8 +34,8 @@ class BlocklyXmlParserConstantTest(BlocklyXmlParserTestCase):
     def test_string_constant(self):
         self._test_constant(StringConstant, 'hello')
 
-    def test_float_constant(self):
-        self._test_constant(FloatConstant, 1.2223)
+    def test_number_constantant(self):
+        self._test_constant(NumberConstant, 1.2223)
 
     def test_boolean_constant(self):
         for value in (True, False):
@@ -72,7 +72,7 @@ class BlocklyXmlParserAssignmentTest(BlocklyXmlParserTestCase):
 
         self.assertIsInstance(constant, dict)
         constant_data = constant['data']
-        self.assertEqual(get_content_type_id(FloatConstant), constant_data['content_type'])
+        self.assertEqual(get_content_type_id(NumberConstant), constant_data['content_type'])
         self.assertEqual(1, constant_data['value'])
 
 
@@ -81,7 +81,7 @@ class BlocklyXmlParserBinaryOperatorTest(BlocklyXmlParserTestCase):
         root = Node.add_root(content_object=BinaryOperator(operator=operator_value))
 
         for i in (1, 2):
-            root.add_child(content_object=FloatConstant(value=i))
+            root.add_child(content_object=NumberConstant(value=i))
             root = Node.objects.get(id=root.id)
 
         xml_str = self.build_xml(root)
@@ -100,7 +100,7 @@ class BlocklyXmlParserBinaryOperatorTest(BlocklyXmlParserTestCase):
         for i, operand in enumerate(children, 1):
             self.assertIsInstance(operand, dict)
             operand_data = operand['data']
-            self.assertEqual(get_content_type_id(FloatConstant), operand_data['content_type'])
+            self.assertEqual(get_content_type_id(NumberConstant), operand_data['content_type'])
             self.assertEqual(i, operand_data['value'])
 
     def _test_logic_binary_operator(self, operator_value):
@@ -203,7 +203,7 @@ class BlocklyXmlParserBlockTest(BlocklyXmlParserTestCase):
         for i, var in enumerate(vars, 1):
             assignment_node = root.add_child(content_object=Assignment())
             assignment_node.add_child(content_object=Variable(definition=var_defs[var]))
-            assignment_node.add_child(content_object=FloatConstant(value=i))
+            assignment_node.add_child(content_object=NumberConstant(value=i))
             root = Node.objects.get(id=root.id)
 
         xml_str = self.build_xml(root)

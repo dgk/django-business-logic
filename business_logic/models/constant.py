@@ -18,7 +18,7 @@ class Constant(models.Model):
         return self.value
 
 
-class FloatConstant(Constant):
+class NumberConstant(Constant):
     value = models.FloatField(_('Value'))
 
     class Meta:

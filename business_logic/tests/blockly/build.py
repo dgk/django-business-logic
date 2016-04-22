@@ -28,9 +28,9 @@ class BlocklyXmlBuilderConstantTest(TestCase):
         else:
             self.assertEqual(str(statement.value), field.text)
 
-    def test_float_constant(self):
+    def test_number_constantant(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#zv7x7e
-        self._constant_test(FloatConstant(value=1.11456), 'math_number', 'NUM')
+        self._constant_test(NumberConstant(value=1.11456), 'math_number', 'NUM')
 
     def test_string_constant(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#94euw4
@@ -89,7 +89,7 @@ class BlocklyXmlBuilderBlockTest(TestCase):
         for i, var in enumerate(vars, 1):
             assignment_node = root.add_child(content_object=Assignment())
             assignment_node.add_child(content_object=Variable(definition=var_defs[var]))
-            assignment_node.add_child(content_object=FloatConstant(value=i))
+            assignment_node.add_child(content_object=NumberConstant(value=i))
             root = Node.objects.get(id=root.id)
 
         xml_str = BlocklyXmlBuilder().build(root)
@@ -123,7 +123,7 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
         root = Node.add_root(content_object=BinaryOperator(operator=operator))
 
         for i in (1.0, 2.0):
-            root.add_child(content_object=FloatConstant(value=i))
+            root.add_child(content_object=NumberConstant(value=i))
             root = Node.objects.get(id=root.id)
 
         xml_str = BlocklyXmlBuilder().build(root)

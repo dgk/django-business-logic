@@ -7,13 +7,13 @@ from django.contrib.contenttypes.models import ContentType
 
 from node import NodeAccessor
 from constant import BooleanConstant
-from constant import FloatConstant
+from constant import NumberConstant
 from constant import ModelConstant
 from constant import StringConstant
 
 CONSTANTS_FOR_TYPES = {
         'bool': BooleanConstant,
-        'float': FloatConstant,
+        'float': NumberConstant,
         'string': StringConstant,
         }
 
