@@ -7,25 +7,19 @@ from django.contrib.contenttypes.models import ContentType
 
 from node import NodeAccessor
 from constant import BooleanConstant
-from constant import DecimalConstant
 from constant import FloatConstant
-from constant import IntegerConstant
 from constant import ModelConstant
 from constant import StringConstant
 
 CONSTANTS_FOR_TYPES = {
         'bool': BooleanConstant,
-        'decimal': DecimalConstant,
         'float': FloatConstant,
-        'int': IntegerConstant,
         'string': StringConstant,
         }
 
 TYPE_CHOICES = (
         ('bool', _('Boolean')),
-        ('decimal', _('Decimal')),
         ('float', _('Float')),
-        ('int', _('Integer')),
         ('string', _('String')),
         ('model', _('Model')),
         )
@@ -35,13 +29,9 @@ DJANGO_FIELDS_FOR_TYPES = {
         models.BooleanField,
         models.NullBooleanField,
     ),
-    'decimal': (
-        models.DecimalField,
-    ),
-    'float': (
+    'number': (
         models.FloatField,
-    ),
-    'int': (
+        models.DecimalField,
         models.SmallIntegerField,
         models.PositiveSmallIntegerField,
         models.IntegerField,

@@ -81,7 +81,7 @@ class BlocklyXmlParserBinaryOperatorTest(BlocklyXmlParserTestCase):
         root = Node.add_root(content_object=BinaryOperator(operator=operator_value))
 
         for i in (1, 2):
-            root.add_child(content_object=IntegerConstant(value=i))
+            root.add_child(content_object=FloatConstant(value=i))
             root = Node.objects.get(id=root.id)
 
         xml_str = self.build_xml(root)
@@ -203,7 +203,7 @@ class BlocklyXmlParserBlockTest(BlocklyXmlParserTestCase):
         for i, var in enumerate(vars, 1):
             assignment_node = root.add_child(content_object=Assignment())
             assignment_node.add_child(content_object=Variable(definition=var_defs[var]))
-            assignment_node.add_child(content_object=IntegerConstant(value=i))
+            assignment_node.add_child(content_object=FloatConstant(value=i))
             root = Node.objects.get(id=root.id)
 
         xml_str = self.build_xml(root)

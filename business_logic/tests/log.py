@@ -36,7 +36,7 @@ class LogTest(TestCase):
         self.failUnless(isinstance(context.logger.log, LogEntry))
         self.failUnlessEqual(context.logger.log.node, root)
         self.failUnlessEqual(context.logger.log.previous_value, '+')
-        self.failUnlessEqual(context.logger.log.current_value, '7')
+        self.failUnlessEqual(context.logger.log.current_value, '7.0')
 
     def test_log_current_long_values(self):
         add_operator = BinaryOperator(operator='+')

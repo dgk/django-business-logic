@@ -6,10 +6,10 @@ from django.test import TestCase
 from ..models import *
 
 def _bin(x):
-    return bin(x)
+    return bin(int(x))
 
 def context_bin(ctx, x):
-    return (ctx, bin(x))
+    return (ctx, bin(int(x)))
 
 class FunctionTest(TestCase):
     def test_import(self):
@@ -20,7 +20,7 @@ class FunctionTest(TestCase):
         root = Node.objects.get(id=root.id)
         func = Function(definition=func_def)
         func_node = root.add_child(content_object=func)
-        func_node.add_child(content_object=IntegerConstant(value=3))
+        func_node.add_child(content_object=FloatConstant(value=3))
         root = Node.objects.get(id=root.id)
         result = root.interpret(context)
         self.failUnlessEqual(result[1], '0b11')
@@ -34,7 +34,7 @@ class FunctionTest(TestCase):
         root = Node.objects.get(id=root.id)
         func = Function(definition=func_def)
         func_node = root.add_child(content_object=func)
-        func_node.add_child(content_object=IntegerConstant(value=3))
+        func_node.add_child(content_object=FloatConstant(value=3))
         root = Node.objects.get(id=root.id)
         func = Function(definition=func_def)
         result = root.interpret(context)
@@ -44,26 +44,26 @@ class FunctionTest(TestCase):
     def test_builtins(self):
         context = Context()
         root = Node.add_root()
-        func_def = FunctionDefinition(module='__builtins__', function='bin')
+        func_def = FunctionDefinition(module='__builtins__', function='str')
         root.add_child(content_object=func_def)
         root = Node.objects.get(id=root.id)
         func = Function(definition=func_def)
         func_node = root.add_child(content_object=func)
-        func_node.add_child(content_object=IntegerConstant(value=3))
+        func_node.add_child(content_object=FloatConstant(value=3.0))
         root = Node.objects.get(id=root.id)
         result = root.interpret(context)
-        self.failUnlessEqual(result[1], '0b11')
+        self.failUnlessEqual(result[1], '3.0')
 
     def test_builtins_if_empty_module(self):
         context = Context()
         root = Node.add_root()
-        func_def = FunctionDefinition(module='', function='bin')
+        func_def = FunctionDefinition(module='', function='str')
         root.add_child(content_object=func_def)
         root = Node.objects.get(id=root.id)
         func = Function(definition=func_def)
         func_node = root.add_child(content_object=func)
-        func_node.add_child(content_object=IntegerConstant(value=3))
+        func_node.add_child(content_object=FloatConstant(value=3.0))
         root = Node.objects.get(id=root.id)
         result = root.interpret(context)
-        self.failUnlessEqual(result[1], '0b11')
+        self.failUnlessEqual(result[1], '3.0')
 
