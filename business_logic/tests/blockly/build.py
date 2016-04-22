@@ -28,10 +28,6 @@ class BlocklyXmlBuilderConstantTest(TestCase):
         else:
             self.assertEqual(str(statement.value), field.text)
 
-    def test_integer_constant(self):
-        # https://blockly-demo.appspot.com/static/demos/code/index.html#hs3z8u
-        self._constant_test(IntegerConstant(value=112), 'math_number', 'NUM')
-
     def test_float_constant(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#zv7x7e
         self._constant_test(FloatConstant(value=1.11456), 'math_number', 'NUM')
@@ -93,14 +89,14 @@ class BlocklyXmlBuilderBlockTest(TestCase):
         for i, var in enumerate(vars, 1):
             assignment_node = root.add_child(content_object=Assignment())
             assignment_node.add_child(content_object=Variable(definition=var_defs[var]))
-            assignment_node.add_child(content_object=IntegerConstant(value=i))
+            assignment_node.add_child(content_object=FloatConstant(value=i))
             root = Node.objects.get(id=root.id)
 
         xml_str = BlocklyXmlBuilder().build(root)
         xml = etree.parse(StringIO(xml_str))
 
         for i, var in enumerate(vars):
-            var_value = i + 1
+            var_value = i + 1.0
             variables_set_block_xpath = '/xml/block' + '/next/block' * i
             block = xml.xpath(variables_set_block_xpath)
             self.assertEqual(1, len(block))
@@ -126,8 +122,8 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
     def _test_math_binary_operator(self, operator, block_type, operator_field_value):
         root = Node.add_root(content_object=BinaryOperator(operator=operator))
 
-        for i in (1, 2):
-            root.add_child(content_object=IntegerConstant(value=i))
+        for i in (1.0, 2.0):
+            root.add_child(content_object=FloatConstant(value=i))
             root = Node.objects.get(id=root.id)
 
         xml_str = BlocklyXmlBuilder().build(root)
@@ -145,7 +141,7 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
             self.assertEqual('math_number', math_number.get('type'))
             field, = math_number.getchildren()
             self.assertEqual('NUM', field.get('name'))
-            self.assertEqual(str(field_value), field.text)
+            self.assertEqual(str(float(field_value)), field.text)
 
     def _test_logic_binary_operator(self, operator, block_type, operator_field_value):
         root = Node.add_root(content_object=BinaryOperator(operator=operator))

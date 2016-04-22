@@ -16,13 +16,3 @@ class TypesTest(TestCase):
         self.failUnless(issubclass(Type.get_constant_for_type(model_type),
             TestModel))
 
-    def test_decimal_type(self):
-        decimal_type = Type(type='decimal')
-        self.failUnless(issubclass(Type.get_constant_for_type(decimal_type),
-            DecimalConstant))
-
-    def test_list_type(self):
-        decimal_type = Type(type='decimal', is_list=True)
-
-    def test_model_list_type(self):
-        pass

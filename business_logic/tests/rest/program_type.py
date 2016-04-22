@@ -45,7 +45,7 @@ class ProgramTypeTest(TestCase):
 
         expected = {
             'int_value': dict(
-                data_type='int',
+                data_type='number',
                 verbose_name='Integer value',
                 ),
             'string_value': dict(

@@ -17,20 +17,6 @@ class Constant(models.Model):
     def interpret(self, ctx):
         return self.value
 
-class IntegerConstant(Constant):
-    value = models.IntegerField(_('Value'))
-
-    class Meta:
-        verbose_name = _('Integer constant')
-        verbose_name_plural = _('Integer constants')
-
-
-class DecimalConstant(Constant):
-    value = models.DecimalField(_('Value'), max_digits=18, decimal_places=4)
-
-    class Meta:
-        verbose_name = _('Decimal constant')
-        verbose_name_plural = _('Decimal constants')
 
 class FloatConstant(Constant):
     value = models.FloatField(_('Value'))

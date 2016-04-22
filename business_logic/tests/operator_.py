@@ -23,25 +23,25 @@ class BinaryOperatorTest(TestCase):
 
     def test_interpret_mod(self):
         mod_operator = BinaryOperator(operator='%')
-        integer_const1 = IntegerConstant(value=11)
-        integer_const2 = IntegerConstant(value=3)
+        number_const1 = FloatConstant(value=11)
+        number_const2 = FloatConstant(value=3)
         ctx = Context()
-        result = mod_operator.interpret(ctx, integer_const1.interpret(ctx),
-                integer_const2.interpret(ctx))
+        result = mod_operator.interpret(ctx, number_const1.interpret(ctx),
+                number_const2.interpret(ctx))
         self.failUnlessEqual(11 % 3, result)
 
         string_const1 = StringConstant(value='x%s')
         result = mod_operator.interpret(ctx, string_const1.interpret(ctx),
-                integer_const2.interpret(ctx))
+                number_const2.interpret(ctx))
         self.failUnlessEqual('x3', result)
 
     def test_interpret_add(self):
         add_operator = BinaryOperator(operator='+')
-        integer_const1 = IntegerConstant(value=5)
-        integer_const2 = IntegerConstant(value=6)
+        number_const1 = FloatConstant(value=5)
+        number_const2 = FloatConstant(value=6)
         ctx = Context()
-        result = add_operator.interpret(ctx, integer_const1.interpret(ctx),
-                integer_const2.interpret(ctx))
+        result = add_operator.interpret(ctx, number_const1.interpret(ctx),
+                number_const2.interpret(ctx))
         self.failUnlessEqual(5 + 6, result)
 
         float_const1 = FloatConstant(value=1.2)
@@ -53,11 +53,11 @@ class BinaryOperatorTest(TestCase):
 
     def test_interpret_sub(self):
         sub_operator = BinaryOperator(operator='-')
-        integer_const1 = IntegerConstant(value=5)
-        integer_const2 = IntegerConstant(value=6)
+        number_const1 = FloatConstant(value=5)
+        number_const2 = FloatConstant(value=6)
         ctx = Context()
-        result = sub_operator.interpret(ctx, integer_const1.interpret(ctx),
-                integer_const2.interpret(ctx))
+        result = sub_operator.interpret(ctx, number_const1.interpret(ctx),
+                number_const2.interpret(ctx))
         self.failUnlessEqual(5 - 6, result)
 
         float_const1 = FloatConstant(value=1.2)
@@ -69,11 +69,11 @@ class BinaryOperatorTest(TestCase):
 
     def test_interpret_mul(self):
         mul_operator = BinaryOperator(operator='*')
-        integer_const1 = IntegerConstant(value=2)
-        integer_const2 = IntegerConstant(value=3)
+        number_const1 = FloatConstant(value=2)
+        number_const2 = FloatConstant(value=3)
         ctx = Context()
-        result = mul_operator.interpret(ctx, integer_const1.interpret(ctx),
-                integer_const2.interpret(ctx))
+        result = mul_operator.interpret(ctx, number_const1.interpret(ctx),
+                number_const2.interpret(ctx))
         self.failUnlessEqual(2 * 3, result)
 
         float_const1 = FloatConstant(value=1.2)
@@ -85,11 +85,11 @@ class BinaryOperatorTest(TestCase):
 
     def test_interpret_div(self):
         div_operator = BinaryOperator(operator='/')
-        integer_const1 = IntegerConstant(value=2)
-        integer_const2 = IntegerConstant(value=3)
+        number_const1 = FloatConstant(value=2)
+        number_const2 = FloatConstant(value=3)
         ctx = Context()
-        result = div_operator.interpret(ctx, integer_const1.interpret(ctx),
-                integer_const2.interpret(ctx))
+        result = div_operator.interpret(ctx, number_const1.interpret(ctx),
+                number_const2.interpret(ctx))
         self.failUnlessEqual(2 / 3, result)
 
         float_const1 = FloatConstant(value=1.2)
@@ -101,11 +101,11 @@ class BinaryOperatorTest(TestCase):
 
     def test_interpret_pow(self):
         pow_operator = BinaryOperator(operator='^')
-        integer_const1 = IntegerConstant(value=2)
-        integer_const2 = IntegerConstant(value=3)
+        number_const1 = FloatConstant(value=2)
+        number_const2 = FloatConstant(value=3)
         ctx = Context()
-        result = pow_operator.interpret(ctx, integer_const1.interpret(ctx),
-                integer_const2.interpret(ctx))
+        result = pow_operator.interpret(ctx, number_const1.interpret(ctx),
+                number_const2.interpret(ctx))
         self.failUnlessEqual(2 ** 3, result)
 
         float_const1 = FloatConstant(value=1.2)
@@ -127,8 +127,8 @@ class UnaryOperatorTest(TestCase):
 
     def test_interpret_neg(self):
         neg_operator = UnaryOperator(operator='-')
-        integer_const1 = IntegerConstant(value=3)
+        number_const1 = FloatConstant(value=3)
         ctx = Context()
-        result = neg_operator.interpret(ctx, integer_const1.interpret(ctx))
+        result = neg_operator.interpret(ctx, number_const1.interpret(ctx))
         self.failUnlessEqual(-(3), result)
 
