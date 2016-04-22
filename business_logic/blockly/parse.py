@@ -183,7 +183,7 @@ class BlocklyXmlParser(object):
         return self._visit_field(Variable, name=node.text)
 
     def visit_field_num(self, node):
-        return self._visit_field(FloatConstant, value=float(node.text))
+        return self._visit_field(NumberConstant, value=float(node.text))
 
     def visit_field_text(self, node):
         return self._visit_field(StringConstant, value=node.text)

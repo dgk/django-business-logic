@@ -54,12 +54,12 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
     def visit_constant(self, node, parent_xml):
         block_type = {
-            FloatConstant: 'math_number',
+            NumberConstant: 'math_number',
             StringConstant: 'text',
             BooleanConstant: 'logic_boolean',
         }
         field_name = {
-            FloatConstant: 'NUM',
+            NumberConstant: 'NUM',
             StringConstant: 'TEXT',
             BooleanConstant: 'BOOL',
         }

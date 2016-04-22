@@ -100,7 +100,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='FloatConstant',
+            name='NumberConstant',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('value', models.FloatField(verbose_name=b'Value')),
