@@ -2,10 +2,7 @@
 
 from .common import *
 
-from lxml import etree
-
-
-class BlocklyGenerateTest(TestCase):
+class ProgramVersionRESTTest(TestCase):
     def setUp(self):
         self.client = JSONClient()
 
@@ -17,12 +14,13 @@ class BlocklyGenerateTest(TestCase):
 
         self.program_version = ProgramVersion.objects.create(program=program, entry_point=variable_assign_value())
 
-    def test_xml_A_assign_1(self):
+    def test_program_version_view(self):
         url = reverse('business-logic:rest:program-version', kwargs=dict(pk=self.program_version.id))
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        tree = etree.fromstring(response.content)
-        self.assertEqual('xml', tree.tag)
-        self.assertEqual(1, len(tree.xpath('./block')))
-
+        _json = json.loads(response.content)
+        self.assertIsInstance(_json, dict)
+        self.assertEqual(
+            BlocklyXmlBuilder().build(self.program_version.entry_point),
+            _json['xml'])
 
