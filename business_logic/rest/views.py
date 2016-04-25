@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
+from collections import OrderedDict
+
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+
+from rest_framework.filters import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
 
 try:
@@ -14,7 +18,6 @@ from rest_framework import generics, exceptions
 from rest_framework.response import Response
 
 from .serializers import *
-from ..models import ProgramVersion
 
 
 def format_url(_url):
@@ -25,20 +28,12 @@ def format_url(_url):
 def api_root(request, format=None):
     from rest_framework.reverse import reverse
 
-    return Response({
-        'program-type': reverse(format_url('program-type-list'), request=request, format=format),
-        'reference-descriptor': reverse(format_url('reference-descriptor-list'), request=request, format=format),
-    })
-
-
-class ProgramTypeList(generics.ListAPIView):
-    queryset = ProgramType.objects.all()
-    serializer_class = ProgramTypeListSerializer
-
-
-class ReferenceDescriptorList(generics.ListAPIView):
-    queryset = ReferenceDescriptor.objects.all()
-    serializer_class = ReferenceDescriptorListSerializer
+    return Response(OrderedDict((
+        ('program-type', reverse(format_url('program-type-list'), request=request, format=format)),
+        ('program', reverse(format_url('program-list'), request=request, format=format)),
+        ('program-version', reverse(format_url('program-version-list'), request=request, format=format)),
+        ('reference-descriptor', reverse(format_url('reference-descriptor-list'), request=request, format=format)),
+    )))
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -46,6 +41,42 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
+
+class ProgramTypeList(generics.ListAPIView):
+    queryset = ProgramType.objects.all()
+    serializer_class = ProgramTypeListSerializer
+    pagination_class = StandardResultsSetPagination
+
+
+class ProgramTypeView(generics.RetrieveAPIView):
+    queryset = ProgramType.objects.all()
+    serializer_class = ProgramTypeSerializer
+
+
+class ProgramList(generics.ListAPIView):
+    queryset = Program.objects.all()
+    serializer_class = ProgramListSerializer
+    pagination_class = StandardResultsSetPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('program_type', )
+
+
+class ProgramVersionList(generics.ListCreateAPIView):
+    queryset = ProgramVersion.objects.all()
+    serializer_class = ProgramVersionListSerializer
+    pagination_class = StandardResultsSetPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('program', )
+
+
+class ProgramVersionView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ProgramVersion.objects.all()
+    serializer_class = ProgramVersionSerializer
+
+
+class ReferenceDescriptorList(generics.ListAPIView):
+    queryset = ReferenceDescriptor.objects.all()
+    serializer_class = ReferenceDescriptorListSerializer
 
 class ReferenceList(generics.ListAPIView):
     serializer_class = ReferenceListSerializer
@@ -63,13 +94,3 @@ class ReferenceList(generics.ListAPIView):
             raise exceptions.NotFound()
 
         return model
-
-
-class ProgramTypeView(generics.RetrieveAPIView):
-    queryset = ProgramType.objects.all()
-    serializer_class = ProgramTypeSerializer
-
-
-def program_version_view(request, pk):
-    program_version = get_object_or_404(ProgramVersion, pk=pk)
-    return HttpResponse(program_version.xml(), content_type="application/xml")

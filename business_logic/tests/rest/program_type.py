@@ -30,8 +30,10 @@ class ProgramTypeTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
         _json = json.loads(response.content)
-        self.assertIsInstance(_json, list)
-        self.assertEqual(1, len(_json))
+        self.assertIsInstance(_json, dict)
+        results = _json['results']
+        self.assertIsInstance(results, list)
+        self.assertEqual(1, len(results))
 
     def test_program_type_view(self):
         url = reverse('business-logic:rest:program-type', kwargs={'pk': self.program_type.id})

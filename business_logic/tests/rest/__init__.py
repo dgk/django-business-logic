@@ -2,8 +2,8 @@
 from .common import *
 
 from .program_type import *
+from .program_version import *
 from .reference import *
-from .blockly_generate import *
 
 
 class RestTestCase(TestCase):

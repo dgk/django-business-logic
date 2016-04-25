@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import copy
+
+from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models
 
 from rest_framework import serializers
 
-from ..models import ProgramType, ProgramArgumentField, ProgramArgument, ReferenceDescriptor
+from ..models import ProgramType, ProgramArgumentField, ProgramArgument, ReferenceDescriptor, Program, ProgramVersion
 from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
 
 
@@ -17,6 +19,21 @@ def get_model_name(content_type):
 class ProgramTypeListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProgramType
+
+
+class ProgramListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Program
+
+
+class ProgramVersionListSerializer(serializers.ModelSerializer):
+    xml = serializers.CharField()
+
+    class Meta:
+        model = ProgramVersion
+        read_only_fields = ('is_default', )
+        exclude = ('entry_point', )
+        write_only_fields = ('xml', )
 
 
 class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
@@ -80,6 +97,7 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
 
         return schema
 
+
 class ProgramArgumentSerializer(serializers.ModelSerializer):
     field = ProgramArgumentFieldSerializer(many=True)
 
@@ -92,3 +110,8 @@ class ProgramTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramType
+
+
+class ProgramVersionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgramVersion
