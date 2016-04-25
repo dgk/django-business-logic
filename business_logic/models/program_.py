@@ -14,6 +14,7 @@ from .variable import VariableDefinition
 from ..fields import DeepAttributeField
 
 
+@python_2_unicode_compatible
 class ProgramType(models.Model):
     title = models.CharField(_('Title'), max_length=255, db_index=True)
     name = models.SlugField(_('Name'), max_length=255, null=True, blank=True, unique=True, db_index=True)
@@ -24,6 +25,9 @@ class ProgramType(models.Model):
     class Meta:
         verbose_name = _('Program type')
         verbose_name_plural = _('Program types')
+
+    def __str__(self):
+        return self.title
 
 
 @python_2_unicode_compatible
