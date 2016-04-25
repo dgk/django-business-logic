@@ -68,6 +68,12 @@ class ProgramVersionList(generics.ListCreateAPIView):
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('program', )
 
+    def perform_create(self, serializer):
+        super(ProgramVersionList, self).perform_create(serializer)
+
+    def get_serializer_class(self):
+        return super(ProgramVersionList, self).get_serializer_class()
+
 
 class ProgramVersionView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProgramVersion.objects.all()

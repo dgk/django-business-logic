@@ -28,12 +28,17 @@ class ProgramListSerializer(serializers.ModelSerializer):
 
 class ProgramVersionListSerializer(serializers.ModelSerializer):
     xml = serializers.CharField()
-
     class Meta:
         model = ProgramVersion
         read_only_fields = ('is_default', )
         exclude = ('entry_point', )
-        write_only_fields = ('xml', )
+        write_only_fields = ('xml',)
+
+
+class ProgramVersionSerializer(serializers.ModelSerializer):
+    xml = serializers.CharField()
+    class Meta:
+        model = ProgramVersion
 
 
 class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
@@ -111,7 +116,3 @@ class ProgramTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProgramType
 
-
-class ProgramVersionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProgramVersion

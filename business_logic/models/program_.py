@@ -128,9 +128,3 @@ class ProgramVersion(models.Model):
         self.entry_point.interpret(context)
 
         return context
-
-    def xml(self):
-        root = etree.Element("xml")
-        root.append(etree.Element('block'))
-        #root.append(self.entry_point.xml_export())
-        return etree.tostring(root)
