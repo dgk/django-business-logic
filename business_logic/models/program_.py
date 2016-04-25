@@ -96,7 +96,7 @@ class ProgramVersion(models.Model):
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
 
-    is_default = models.NullBooleanField(_('Is default'), default=None)
+    is_default = models.BooleanField(_('Is default'), default=False)
 
     class Meta:
         unique_together = (('program', 'is_default'),)
