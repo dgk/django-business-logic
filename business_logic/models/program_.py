@@ -70,6 +70,7 @@ class ProgramArgumentField(models.Model):
         ordering = ('name', )
 
 
+@python_2_unicode_compatible
 class Program(models.Model):
     title = models.CharField(_('Title'), max_length=255)
     name = models.SlugField(_('Name'), max_length=255, unique=True, db_index=True)
@@ -82,6 +83,9 @@ class Program(models.Model):
     class Meta:
         verbose_name = _('Program')
         verbose_name_plural = _('Programs')
+
+    def __str__(self):
+        return '{}: {}({})'.format(self.program_type, self.title, self.name)
 
 
 @python_2_unicode_compatible

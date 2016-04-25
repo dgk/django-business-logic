@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 @python_2_unicode_compatible
 class ReferenceDescriptor(models.Model):
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, unique=True)
     search_fields = models.TextField(null=True, blank=True)
     #  TODO: name_field = models.SlugField(max_length=255, null=True, blank=True)
 
