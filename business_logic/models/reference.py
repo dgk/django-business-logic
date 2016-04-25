@@ -2,9 +2,10 @@
 #
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-
+@python_2_unicode_compatible
 class ReferenceDescriptor(models.Model):
     content_type = models.ForeignKey(ContentType)
     search_fields = models.TextField(null=True, blank=True)
@@ -14,3 +15,5 @@ class ReferenceDescriptor(models.Model):
         verbose_name = _('Reference descriptor')
         verbose_name_plural = _('Reference descriptors')
 
+    def __str__(self):
+        return str(self.content_type)
