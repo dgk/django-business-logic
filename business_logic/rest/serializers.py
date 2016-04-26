@@ -10,8 +10,10 @@ from rest_framework import serializers
 
 from ..models import ProgramType, ProgramArgumentField, ProgramArgument, ReferenceDescriptor, Program, ProgramVersion
 from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
-from ..blockly.parse import BlocklyXmlParser
+
+from ..blockly.build import BlocklyXmlBuilder
 from ..blockly.create import NodeTreeCreator
+from ..blockly.parse import BlocklyXmlParser
 
 
 def get_model_name(content_type):
@@ -33,7 +35,6 @@ class ProgramVersionListSerializer(serializers.ModelSerializer):
         model = ProgramVersion
         read_only_fields = ('is_default', )
         exclude = ('entry_point', )
-
 
 
 class ProgramVersionCreateSerializer(serializers.ModelSerializer):
@@ -61,9 +62,13 @@ class ProgramVersionCreateSerializer(serializers.ModelSerializer):
 
 
 class ProgramVersionSerializer(serializers.ModelSerializer):
-    xml = serializers.CharField()
+    xml = serializers.SerializerMethodField()
     class Meta:
         model = ProgramVersion
+
+
+    def get_xml(self, obj):
+        return BlocklyXmlBuilder().build(obj.entry_point)
 
 
 class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
