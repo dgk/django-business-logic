@@ -65,6 +65,7 @@ class ProgramVersionSerializer(serializers.ModelSerializer):
     xml = serializers.SerializerMethodField()
     class Meta:
         model = ProgramVersion
+        exclude = ('entry_point', )
 
 
     def get_xml(self, obj):
