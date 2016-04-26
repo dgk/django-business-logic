@@ -10,6 +10,8 @@ from rest_framework import serializers
 
 from ..models import ProgramType, ProgramArgumentField, ProgramArgument, ReferenceDescriptor, Program, ProgramVersion
 from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
+from ..blockly.parse import BlocklyXmlParser
+from ..blockly.create import NodeTreeCreator
 
 
 def get_model_name(content_type):
@@ -27,12 +29,35 @@ class ProgramListSerializer(serializers.ModelSerializer):
 
 
 class ProgramVersionListSerializer(serializers.ModelSerializer):
-    xml = serializers.CharField()
     class Meta:
         model = ProgramVersion
         read_only_fields = ('is_default', )
         exclude = ('entry_point', )
-        write_only_fields = ('xml',)
+
+
+
+class ProgramVersionCreateSerializer(serializers.ModelSerializer):
+    xml = serializers.CharField(write_only=True)
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = ProgramVersion
+        fields = ('program', 'description', 'xml', 'id')
+
+    def validate_xml(self, value):
+        try:
+            BlocklyXmlParser().parse(value)
+        except:
+            raise serializers.ValidationError("Incorrect xml")
+
+        return value
+
+    def create(self, validated_data):
+        xml = validated_data.pop('xml')
+        node = NodeTreeCreator().create(BlocklyXmlParser().parse(xml)[0])
+        validated_data['entry_point'] = node
+        return ProgramVersion.objects.create(**validated_data)
+
 
 
 class ProgramVersionSerializer(serializers.ModelSerializer):

@@ -99,7 +99,6 @@ class ProgramVersion(models.Model):
     is_default = models.BooleanField(_('Is default'), default=False)
 
     class Meta:
-        unique_together = (('program', 'is_default'),)
         verbose_name = _('Program version')
         verbose_name_plural = _('Program versions')
 

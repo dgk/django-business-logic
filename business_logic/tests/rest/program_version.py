@@ -16,14 +16,17 @@ class ProgramVersionRESTTest(TestCase):
         self.xml = BlocklyXmlBuilder().build(self.program_version.entry_point)
 
     def test_program_version_create(self):
-        url = reverse('business-logic:rest:program-version-list')
-        from xml.sax.saxutils import escape
-        response = self.client.post(url,
-            dict(
-                program_version=self.program_version.id,
-                xml=escape(self.xml)
-            ))
+        url = reverse('business-logic:rest:program-version-create')
+        response = self.client.post(url, json.dumps(dict(
+                program=self.program.id,
+                xml=self.xml
+            )))
         self.assertEqual(201, response.status_code, response.content)
+        _json = json.loads(response.content)
+        id = _json['id']
+        created = ProgramVersion.objects.get(id=id)
+        self.assertFalse(created.is_default)
+        self.assertIsInstance(created.entry_point, Node)
 
 
     def test_program_version_view(self):

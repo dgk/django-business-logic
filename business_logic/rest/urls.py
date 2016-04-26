@@ -17,6 +17,7 @@ urlpatterns = [
     url('^program$', ProgramList.as_view(), name='program-list'),
 
     url('^program-version$', ProgramVersionList.as_view(), name='program-version-list'),
+    url('^program-version/new$', ProgramVersionCreate.as_view(), name='program-version-create'),
     url('^program-version/(?P<pk>\d+)$', ProgramVersionView.as_view(), name='program-version'),
 
     url('^reference/descriptor$', ReferenceDescriptorList.as_view(), name='reference-descriptor-list'),

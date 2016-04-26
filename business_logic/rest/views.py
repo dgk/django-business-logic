@@ -61,18 +61,17 @@ class ProgramList(generics.ListAPIView):
     filter_fields = ('program_type', )
 
 
-class ProgramVersionList(generics.ListCreateAPIView):
+class ProgramVersionList(generics.ListAPIView):
     queryset = ProgramVersion.objects.all()
     serializer_class = ProgramVersionListSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('program', )
 
-    def perform_create(self, serializer):
-        super(ProgramVersionList, self).perform_create(serializer)
 
-    def get_serializer_class(self):
-        return super(ProgramVersionList, self).get_serializer_class()
+class ProgramVersionCreate(generics.CreateAPIView):
+    queryset = ProgramVersion.objects.all()
+    serializer_class = ProgramVersionCreateSerializer
 
 
 class ProgramVersionView(generics.RetrieveUpdateDestroyAPIView):
