@@ -28,7 +28,6 @@ class ProgramVersionRESTTest(TestCase):
         self.assertFalse(created.is_default)
         self.assertIsInstance(created.entry_point, Node)
 
-
     def test_program_version_view(self):
         url = reverse('business-logic:rest:program-version', kwargs=dict(pk=self.program_version.id))
         response = self.client.get(url)
