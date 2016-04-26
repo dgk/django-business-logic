@@ -2,6 +2,7 @@
 
 from .common import *
 
+
 class ProgramVersionRESTTest(TestCase):
     def setUp(self):
         self.client = JSONClient()
@@ -39,3 +40,16 @@ class ProgramVersionRESTTest(TestCase):
         self.assertEqual(sorted([
             'xml', 'description', 'creation_time', 'is_default',
             'modification_time', 'program', 'id']), sorted(_json.keys()))
+
+    @unittest.skip('TODO')
+    def test_program_version_update(self):
+        #print self.xml
+        url = reverse('business-logic:rest:program-version', kwargs=dict(pk=self.program_version.id))
+        response = self.client.put(url, json.dumps(dict(
+            program=self.program.id,
+            xml=self.xml.replace('>1.0<', '>3.0<')
+        )))
+        self.assertEqual(200, response.status_code, response.content)
+        _json = json.loads(response.content)
+        self.assertIsInstance(_json, dict)
+        self.assertEqual(self.xml, _json['xml'])
