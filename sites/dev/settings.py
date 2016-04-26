@@ -14,7 +14,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import sys
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SITE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.join(SITE_DIR, os.pardir, os.pardir)
 
 
 # Quick-start development settings - unsuitable for production
@@ -54,7 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'demo.urls'
+ROOT_URLCONF = 'sites.dev.urls'
 
 TEMPLATES = [
     {
@@ -72,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'demo.wsgi.application'
+WSGI_APPLICATION = 'sites.dev.wsgi.application'
 
 
 # Database
@@ -81,7 +82,7 @@ WSGI_APPLICATION = 'demo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(SITE_DIR, 'db.sqlite3'),
     }
 }
 
