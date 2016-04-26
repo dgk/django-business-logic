@@ -36,3 +36,6 @@ class ProgramVersionRESTTest(TestCase):
         self.assertIsInstance(_json, dict)
         self.assertEqual(self.xml, _json['xml'])
 
+        self.assertEqual(sorted([
+            'xml', 'description', 'creation_time', 'is_default',
+            'modification_time', 'program', 'id']), sorted(_json.keys()))
