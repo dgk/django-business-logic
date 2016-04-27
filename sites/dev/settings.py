@@ -41,7 +41,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'nested_inline',
+    'bootstrap3',
+
     'business_logic',
+    'sites.dev.books',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -60,7 +63,9 @@ ROOT_URLCONF = 'sites.dev.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(SITE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,6 +137,5 @@ if 'test' in sys.argv[1:] or 'jenkins' in sys.argv[1:]:
     TEMPLATE_DEBUG = False
     MIGRATION_MODULES = DisableMigrations()
     INSTALLED_APPS += (
-        'business_logic.tests.app1',
         'business_logic.tests.test_app',
     )
