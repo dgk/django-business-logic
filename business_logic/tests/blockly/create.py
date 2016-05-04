@@ -78,7 +78,6 @@ class NodeTreeCreatorTestCase(TestCase):
             'children': [dict1]
         }
 
-
         for data in (dict1, dict2):
             objects = NodeTreeCreator().collect_objects(data, get_content_type_id(Assignment))
             self.assertIsInstance(objects, list)
@@ -87,7 +86,6 @@ class NodeTreeCreatorTestCase(TestCase):
             objects = NodeTreeCreator().collect_objects(data, get_content_type_id(Variable))
             self.assertIsInstance(objects, list)
             self.assertEqual([dict1['children'][0], ], objects)
-
 
     def test_create_assignment(self):
         tree1 = variable_assign_value()
