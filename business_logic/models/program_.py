@@ -67,6 +67,7 @@ class ProgramArgument(models.Model):
         self.variable_definition.delete()
         super(ProgramArgument, self).delete(using)
 
+
 @python_2_unicode_compatible
 class ProgramArgumentField(models.Model):
     program_argument = models.ForeignKey(ProgramArgument, related_name='field')
