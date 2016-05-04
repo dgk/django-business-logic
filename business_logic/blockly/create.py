@@ -6,7 +6,7 @@ from ..utils import get_content_type_id
 
 
 class NodeTreeCreator(object):
-    def create(self, data):
+    def create(self, data, program_version=None):
         def is_block(__data):
             return 'content_type' not in __data['data']
 
