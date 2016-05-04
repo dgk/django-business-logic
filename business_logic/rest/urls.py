@@ -11,8 +11,8 @@ urlpatterns = router.urls
 urlpatterns = [
     url('^$', api_root, name='root'),
 
-    url('^program-type$', ProgramTypeList.as_view(), name='program-type-list'),
-    url('^program-type/(?P<pk>\d+)$', ProgramTypeView.as_view(), name='program-type'),
+    url('^program-interface$', ProgramInterfaceList.as_view(), name='program-interface-list'),
+    url('^program-interface/(?P<pk>\d+)$', ProgramInterfaceView.as_view(), name='program-interface'),
 
     url('^program$', ProgramList.as_view(), name='program-list'),
 

@@ -211,7 +211,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='ProgramType',
+            name='ProgramInterface',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=255, verbose_name='Title', db_index=True)),
@@ -220,8 +220,8 @@ class Migration(migrations.Migration):
                 ('modification_time', models.DateTimeField(auto_now=True)),
             ],
             options={
-                'verbose_name': 'Program type',
-                'verbose_name_plural': 'Program types',
+                'verbose_name': 'Program interface',
+                'verbose_name_plural': 'Program interfaces',
             },
         ),
         migrations.CreateModel(
@@ -231,7 +231,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(null=True, verbose_name='Description', blank=True)),
                 ('creation_time', models.DateTimeField(auto_now_add=True)),
                 ('modification_time', models.DateTimeField(auto_now=True)),
-                ('is_default', models.NullBooleanField(default=None, verbose_name='Is default')),
+                ('is_default', models.BooleanField(default=False, verbose_name='Is default')),
                 ('entry_point', models.ForeignKey(verbose_name='Entry point', to='business_logic.Node')),
                 ('program', models.ForeignKey(related_name='versions', to='business_logic.Program')),
             ],
@@ -244,8 +244,8 @@ class Migration(migrations.Migration):
             name='ReferenceDescriptor',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('search_fields', models.TextField()),
-                ('content_type', models.ForeignKey(to='contenttypes.ContentType')),
+                ('search_fields', models.TextField(null=True, blank=True)),
+                ('content_type', models.OneToOneField(to='contenttypes.ContentType')),
             ],
             options={
                 'verbose_name': 'Reference descriptor',
@@ -345,8 +345,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='programargument',
-            name='program_type',
-            field=models.ForeignKey(related_name='argument', to='business_logic.ProgramType'),
+            name='program_interface',
+            field=models.ForeignKey(related_name='argument', to='business_logic.ProgramInterface'),
         ),
         migrations.AddField(
             model_name='programargument',
@@ -355,8 +355,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='program',
-            name='program_type',
-            field=models.ForeignKey(to='business_logic.ProgramType'),
+            name='program_interface',
+            field=models.ForeignKey(to='business_logic.ProgramInterface'),
         ),
         migrations.AddField(
             model_name='logentry',
@@ -374,11 +374,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(related_name='functions', to='business_logic.FunctionDefinition'),
         ),
         migrations.AlterUniqueTogether(
-            name='programversion',
-            unique_together=set([('program', 'is_default')]),
-        ),
-        migrations.AlterUniqueTogether(
             name='programargument',
-            unique_together=set([('program_type', 'name')]),
+            unique_together=set([('program_interface', 'name')]),
         ),
     ]

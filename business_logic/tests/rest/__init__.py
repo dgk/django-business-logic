@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from .common import *
 
-from .program_type import *
+from .program_interface import *
 from .program_version import *
 from .reference import *
 

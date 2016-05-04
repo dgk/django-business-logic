@@ -4,7 +4,7 @@ from django import forms
 
 from nested_inline.admin import NestedStackedInline, NestedModelAdmin
 
-from .models import ProgramType, ProgramArgument, ProgramArgumentField, Program, ReferenceDescriptor
+from .models import ProgramInterface, ProgramArgument, ProgramArgumentField, Program, ReferenceDescriptor
 from .utils import get_customer_available_content_types
 
 
@@ -23,7 +23,7 @@ class ProgramArgumentInline(NestedStackedInline):
     model = ProgramArgument
     form = ContentTypeHolderForm
     extra = 1
-    fk_name = 'program_type'
+    fk_name = 'program_interface'
     inlines = [ProgramArgumentFieldInline]
     exclude = ('variable_definition',)
 
@@ -31,7 +31,7 @@ class ProgramArgumentInline(NestedStackedInline):
 class ProgramInline(NestedStackedInline):
     model = Program
     extra = 1
-    fk_name = 'program_type'
+    fk_name = 'program_interface'
 
 
 class ContentTypeFilter(admin.RelatedFieldListFilter):
@@ -40,8 +40,8 @@ class ContentTypeFilter(admin.RelatedFieldListFilter):
             limit_choices_to={'id__in' :get_customer_available_content_types()})
 
 
-class ProgramTypeAdmin(NestedModelAdmin):
-    model = ProgramType
+class ProgramInterfaceAdmin(NestedModelAdmin):
+    model = ProgramInterface
     inlines = [ProgramArgumentInline, ProgramInline]
     list_filter = (
         ('argument__content_type', ContentTypeFilter),
@@ -51,8 +51,8 @@ class ProgramTypeAdmin(NestedModelAdmin):
 class ProgramAdmin(admin.ModelAdmin):
     model = Program
     list_filter = (
-        'program_type',
-        ('program_type__argument__content_type', ContentTypeFilter),
+        'program_interface',
+        ('program_interface__argument__content_type', ContentTypeFilter),
     )
 
 
@@ -61,7 +61,7 @@ class ReferenceDescriptorAdmin(admin.ModelAdmin):
     form = ContentTypeHolderForm
 
 
-admin.site.register(ProgramType, ProgramTypeAdmin)
+admin.site.register(ProgramInterface, ProgramInterfaceAdmin)
 admin.site.register(Program, ProgramAdmin)
 admin.site.register(ReferenceDescriptor, ReferenceDescriptorAdmin)
 

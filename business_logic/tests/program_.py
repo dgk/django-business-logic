@@ -5,9 +5,9 @@ from .common import *
 
 class ProgramTest(TestCase):
     def setUp(self):
-        self.program_type = program_type = ProgramType.objects.create(name='test')
+        self.program_interface = program_interface = ProgramInterface.objects.create(name='test')
         self.argument = ProgramArgument.objects.create(
-            program_type=self.program_type,
+            program_interface=self.program_interface,
             content_type=ContentType.objects.get_for_model(TestModel),
             name='test_model'
         )
@@ -25,7 +25,7 @@ class ProgramTest(TestCase):
                 program_argument=self.argument,
             )
 
-        self.program = program = Program.objects.create(program_type=program_type,
+        self.program = program = Program.objects.create(program_interface=program_interface,
                                               title='test',
                                               name='test')
         self.program_version = ProgramVersion.objects.create(program=program,
