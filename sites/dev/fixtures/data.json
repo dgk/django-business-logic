@@ -1,0 +1,110 @@
+[
+{
+    "fields": {
+        "username": "test",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": true,
+        "is_staff": true,
+        "last_login": "2016-05-04T12:51:54.975Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$20000$mpLi7E1QFI8s$xqNneGU9eBvj3T5PZiNIfDbHJuUoPQWG4B3qF0uAa0c=",
+        "email": "test@example.com",
+        "date_joined": "2016-05-04T08:59:41.222Z"
+    },
+    "model": "auth.user",
+    "pk": 1
+},
+{
+    "fields": {
+        "name": "book"
+    },
+    "model": "business_logic.variabledefinition",
+    "pk": 1
+},
+{
+    "fields": {
+        "name": "book.title"
+    },
+    "model": "business_logic.variabledefinition",
+    "pk": 2
+},
+{
+    "fields": {
+        "modification_time": "2016-05-04T12:56:09.152Z",
+        "creation_time": "2016-05-04T09:47:57.533Z",
+        "name": "",
+        "title": "Book"
+    },
+    "model": "business_logic.programinterface",
+    "pk": 1
+},
+{
+    "fields": {
+        "variable_definition": 1,
+        "program_interface": 1,
+        "content_type": [
+            "books",
+            "book"
+        ],
+        "name": "book"
+    },
+    "model": "business_logic.programargument",
+    "pk": 1
+},
+{
+    "fields": {
+        "variable_definition": 2,
+        "name": "title",
+        "program_argument": 1
+    },
+    "model": "business_logic.programargumentfield",
+    "pk": 1
+},
+{
+    "fields": {
+        "creation_time": "2016-05-04T09:49:38.477Z",
+        "modification_time": "2016-05-04T09:49:38.477Z",
+        "program_interface": 1,
+        "name": "on_book_view",
+        "title": "Book view"
+    },
+    "model": "business_logic.program",
+    "pk": 1
+},
+{
+    "fields": {
+        "search_fields": "",
+        "content_type": [
+            "books",
+            "book"
+        ]
+    },
+    "model": "business_logic.referencedescriptor",
+    "pk": 1
+},
+{
+    "fields": {
+        "search_fields": "",
+        "content_type": [
+            "books",
+            "author"
+        ]
+    },
+    "model": "business_logic.referencedescriptor",
+    "pk": 2
+},
+{
+    "fields": {
+        "search_fields": "",
+        "content_type": [
+            "books",
+            "publisher"
+        ]
+    },
+    "model": "business_logic.referencedescriptor",
+    "pk": 3
+}
+]
