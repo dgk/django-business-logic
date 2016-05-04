@@ -250,12 +250,12 @@ msgid "Output arguments"
 msgstr ""
 
 #: models/program_.py:71
-msgid "Program type"
-msgstr "Тип программы"
+msgid "Program interface"
+msgstr "Интерфейс программы"
 
 #: models/program_.py:72
-msgid "Program types"
-msgstr "Типы программ"
+msgid "Program interfaces"
+msgstr "Интерфейсы программ"
 
 #: models/program_.py:80 models/program_.py:90
 msgid "Program argument set"

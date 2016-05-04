@@ -3,11 +3,11 @@
 from .common import *
 
 
-class ProgramTypeTest(TestCase):
+class ProgramInterfaceTest(TestCase):
     def setUp(self):
-        self.program_type = ProgramType.objects.create(name='test')
+        self.program_interface = ProgramInterface.objects.create(name='test')
         self.argument = ProgramArgument.objects.create(
-            program_type=self.program_type,
+            program_interface=self.program_interface,
             content_type=ContentType.objects.get_for_model(TestModel)
         )
 
@@ -25,8 +25,8 @@ class ProgramTypeTest(TestCase):
 
         self.client = JSONClient()
 
-    def test_program_type_list(self):
-        url = reverse('business-logic:rest:program-type-list')
+    def test_program_interface_list(self):
+        url = reverse('business-logic:rest:program-interface-list')
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
         _json = json.loads(response.content)
@@ -35,8 +35,8 @@ class ProgramTypeTest(TestCase):
         self.assertIsInstance(results, list)
         self.assertEqual(1, len(results))
 
-    def test_program_type_view(self):
-        url = reverse('business-logic:rest:program-type', kwargs={'pk': self.program_type.id})
+    def test_program_interface_view(self):
+        url = reverse('business-logic:rest:program-interface', kwargs={'pk': self.program_interface.id})
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
         _json = json.loads(response.content)

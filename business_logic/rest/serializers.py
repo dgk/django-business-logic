@@ -10,7 +10,7 @@ from django.db import models
 
 from rest_framework import serializers
 
-from ..models import ProgramType, ProgramArgumentField, ProgramArgument, ReferenceDescriptor, Program, ProgramVersion
+from ..models import ProgramInterface, ProgramArgumentField, ProgramArgument, ReferenceDescriptor, Program, ProgramVersion
 from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
 
 from ..blockly.build import BlocklyXmlBuilder
@@ -22,9 +22,9 @@ def get_model_name(content_type):
     return '{}.{}'.format(content_type.app_label, content_type.model_class().__name__)
 
 
-class ProgramTypeListSerializer(serializers.ModelSerializer):
+class ProgramInterfaceListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProgramType
+        model = ProgramInterface
 
 
 class ProgramListSerializer(serializers.ModelSerializer):
@@ -143,9 +143,9 @@ class ProgramArgumentSerializer(serializers.ModelSerializer):
         model = ProgramArgument
 
 
-class ProgramTypeSerializer(serializers.ModelSerializer):
+class ProgramInterfaceSerializer(serializers.ModelSerializer):
     argument = ProgramArgumentSerializer(many=True)
 
     class Meta:
-        model = ProgramType
+        model = ProgramInterface
 

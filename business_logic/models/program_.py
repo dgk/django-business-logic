@@ -17,7 +17,7 @@ from ..fields import DeepAttributeField
 
 
 @python_2_unicode_compatible
-class ProgramType(models.Model):
+class ProgramInterface(models.Model):
     title = models.CharField(_('Title'), max_length=255, db_index=True)
     name = models.SlugField(_('Name'), max_length=255, null=True, blank=True, unique=True, db_index=True)
 
@@ -25,8 +25,8 @@ class ProgramType(models.Model):
     modification_time = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = _('Program type')
-        verbose_name_plural = _('Program types')
+        verbose_name = _('Program interface')
+        verbose_name_plural = _('Program interfaces')
 
     def __str__(self):
         return self.title
@@ -34,14 +34,14 @@ class ProgramType(models.Model):
 
 @python_2_unicode_compatible
 class ProgramArgument(models.Model):
-    program_type = models.ForeignKey(ProgramType, related_name='argument')
+    program_interface = models.ForeignKey(ProgramInterface, related_name='argument')
     name = models.SlugField(_('Name'), max_length=255)
 
     content_type = models.ForeignKey(ContentType)
     variable_definition = models.OneToOneField(VariableDefinition)
 
     class Meta:
-        unique_together = (('program_type', 'name'),)
+        unique_together = (('program_interface', 'name'),)
         verbose_name = _('Program argument')
         verbose_name_plural = _('Program arguments')
 
@@ -77,7 +77,7 @@ class Program(models.Model):
     title = models.CharField(_('Title'), max_length=255)
     name = models.SlugField(_('Name'), max_length=255, unique=True, db_index=True)
 
-    program_type = models.ForeignKey(ProgramType)
+    program_interface = models.ForeignKey(ProgramInterface)
 
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
@@ -87,7 +87,7 @@ class Program(models.Model):
         verbose_name_plural = _('Programs')
 
     def __str__(self):
-        return '{}: {}({})'.format(self.program_type, self.title, self.name)
+        return '{}: {}({})'.format(self.program_interface, self.title, self.name)
 
 
 @python_2_unicode_compatible
@@ -116,7 +116,7 @@ class ProgramVersion(models.Model):
 
     def interpret(self, **kwargs):
         context = kwargs.pop('context', Context())
-        for program_argument in self.program.program_type.argument.all():
+        for program_argument in self.program.program_interface.argument.all():
             try:
                 argument = kwargs.pop(program_argument.name)
                 assert program_argument.content_type.model_class() == argument.__class__

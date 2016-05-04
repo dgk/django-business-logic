@@ -7,9 +7,9 @@ class ProgramVersionRESTTest(TestCase):
     def setUp(self):
         self.client = JSONClient()
 
-        self.program_type = program_type = ProgramType.objects.create(name='test')
+        self.program_interface = program_interface = ProgramInterface.objects.create(name='test')
 
-        self.program = program = Program.objects.create(program_type=program_type,
+        self.program = program = Program.objects.create(program_interface=program_interface,
                                               title='test',
                                               name='test')
 

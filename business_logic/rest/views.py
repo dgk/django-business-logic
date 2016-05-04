@@ -31,7 +31,7 @@ def api_root(request, format=None):
     from rest_framework.reverse import reverse
 
     return Response(OrderedDict((
-        ('program-type', reverse(format_url('program-type-list'), request=request, format=format)),
+        ('program-interface', reverse(format_url('program-interface-list'), request=request, format=format)),
         ('program', reverse(format_url('program-list'), request=request, format=format)),
         ('program-version', reverse(format_url('program-version-list'), request=request, format=format)),
         ('reference-descriptor', reverse(format_url('reference-descriptor-list'), request=request, format=format)),
@@ -44,15 +44,15 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 1000
 
 
-class ProgramTypeList(generics.ListAPIView):
-    queryset = ProgramType.objects.all()
-    serializer_class = ProgramTypeListSerializer
+class ProgramInterfaceList(generics.ListAPIView):
+    queryset = ProgramInterface.objects.all()
+    serializer_class = ProgramInterfaceListSerializer
     pagination_class = StandardResultsSetPagination
 
 
-class ProgramTypeView(generics.RetrieveAPIView):
-    queryset = ProgramType.objects.all()
-    serializer_class = ProgramTypeSerializer
+class ProgramInterfaceView(generics.RetrieveAPIView):
+    queryset = ProgramInterface.objects.all()
+    serializer_class = ProgramInterfaceSerializer
 
 
 class ProgramList(generics.ListAPIView):
@@ -60,7 +60,7 @@ class ProgramList(generics.ListAPIView):
     serializer_class = ProgramListSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('program_type', )
+    filter_fields = ('program_interface', )
 
 
 class ProgramVersionList(generics.ListAPIView):
