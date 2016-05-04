@@ -13,6 +13,7 @@ class ProgramArgumentFieldInline(NestedStackedInline):
     model = ProgramArgumentField
     extra = 1
     fk_name = 'program_argument'
+    exclude = ('variable_definition',)
 
 
 class ContentTypeHolderForm(forms.ModelForm):
