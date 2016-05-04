@@ -4,7 +4,8 @@ from django import forms
 
 from nested_inline.admin import NestedStackedInline, NestedModelAdmin
 
-from .models import ProgramInterface, ProgramArgument, ProgramArgumentField, Program, ReferenceDescriptor
+from .models import ProgramInterface, ProgramArgument, ProgramArgumentField, Program, ReferenceDescriptor, \
+    ProgramVersion
 from .utils import get_customer_available_content_types
 
 
@@ -28,10 +29,9 @@ class ProgramArgumentInline(NestedStackedInline):
     exclude = ('variable_definition',)
 
 
-class ProgramInline(NestedStackedInline):
+class ProgramInline(admin.StackedInline):
     model = Program
     extra = 1
-    fk_name = 'program_interface'
 
 
 class ContentTypeFilter(admin.RelatedFieldListFilter):
@@ -56,6 +56,18 @@ class ProgramAdmin(admin.ModelAdmin):
     )
 
 
+class ProgramVersionAdmin(admin.ModelAdmin):
+    model = ProgramVersion
+    list_filter = (
+        'program',
+        'program__program_interface',
+    )
+    readonly_fields = ('program', 'entry_point')
+
+    def has_add_permission(self, request):
+        return False
+
+
 class ReferenceDescriptorAdmin(admin.ModelAdmin):
     model = ReferenceDescriptor
     form = ContentTypeHolderForm
@@ -63,6 +75,7 @@ class ReferenceDescriptorAdmin(admin.ModelAdmin):
 
 admin.site.register(ProgramInterface, ProgramInterfaceAdmin)
 admin.site.register(Program, ProgramAdmin)
+admin.site.register(ProgramVersion, ProgramVersionAdmin)
 admin.site.register(ReferenceDescriptor, ReferenceDescriptorAdmin)
 
 # register all app models for debug purposes
