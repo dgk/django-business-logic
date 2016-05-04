@@ -344,6 +344,11 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(related_name='variables', to='business_logic.VariableDefinition'),
         ),
         migrations.AddField(
+            model_name='programargumentfield',
+            name='variable_definition',
+            field=models.OneToOneField(to='business_logic.VariableDefinition'),
+        ),
+        migrations.AddField(
             model_name='programargument',
             name='program_interface',
             field=models.ForeignKey(related_name='argument', to='business_logic.ProgramInterface'),
@@ -372,6 +377,10 @@ class Migration(migrations.Migration):
             model_name='function',
             name='definition',
             field=models.ForeignKey(related_name='functions', to='business_logic.FunctionDefinition'),
+        ),
+        migrations.AlterUniqueTogether(
+            name='programargumentfield',
+            unique_together=set([('program_argument', 'name')]),
         ),
         migrations.AlterUniqueTogether(
             name='programargument',
