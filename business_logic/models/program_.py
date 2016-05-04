@@ -55,21 +55,48 @@ class ProgramArgument(models.Model):
             self.variable_definition.name = self.name
             self.variable_definition.save()
 
+            for field in self.field.all():
+                field.save()
+
         super(ProgramArgument, self).save(force_insert, force_update, using, update_fields)
 
     def delete(self, using=None):
+        for field in self.field.all():
+            field.delete()
+
         self.variable_definition.delete()
         super(ProgramArgument, self).delete(using)
 
-
+@python_2_unicode_compatible
 class ProgramArgumentField(models.Model):
     program_argument = models.ForeignKey(ProgramArgument, related_name='field')
     name = DeepAttributeField(_('Name'), max_length=255)
+    variable_definition = models.OneToOneField(VariableDefinition)
 
     class Meta:
+        unique_together = (('program_argument', 'name'),)
         verbose_name = _('Program argument field')
         verbose_name_plural = _('Program argument fields')
         ordering = ('name', )
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.id:
+            self.variable_definition = VariableDefinition.objects.create(name=self.get_variable_name())
+        elif self.get_variable_name() != self.variable_definition.name:
+            self.variable_definition.name = self.get_variable_name()
+            self.variable_definition.save()
+
+        super(ProgramArgumentField, self).save(force_insert, force_update, using, update_fields)
+
+    def __str__(self):
+        return self.get_variable_name()
+
+    def get_variable_name(self):
+        return '{}.{}'.format(self.program_argument.name, self.name)
+
+    def delete(self, using=None):
+        self.variable_definition.delete()
+        super(ProgramArgumentField, self).delete(using)
 
 
 @python_2_unicode_compatible
