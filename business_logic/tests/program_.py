@@ -3,7 +3,7 @@
 from .common import *
 
 
-class ProgramTest(TestCase):
+class ProgramTestBase(TestCase):
     def setUp(self):
         self.program_interface = program_interface = ProgramInterface.objects.create(name='test')
         self.argument = ProgramArgument.objects.create(
@@ -26,13 +26,15 @@ class ProgramTest(TestCase):
             )
 
         self.program = program = Program.objects.create(program_interface=program_interface,
-                                              title='test',
-                                              name='test')
+                                                        title='test',
+                                                        name='test')
         self.program_version = ProgramVersion.objects.create(program=program,
                                                              entry_point=get_test_tree())
 
         self.test_model = TestModel.objects.create()
 
+
+class ProgramTest(ProgramTestBase):
     def test_program_argument_variable_definition(self):
         self.assertIsInstance(self.argument.variable_definition, VariableDefinition)
         self.assertEqual(self.argument.name, self.argument.variable_definition.name)

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q
 
-from ..models import Variable, VariableDefinition, Node
+from ..models import Node, ProgramVersion, Variable, VariableDefinition
 from ..utils import get_content_type_id
 
 
@@ -10,7 +11,17 @@ class NodeTreeCreator(object):
         def is_block(__data):
             return 'content_type' not in __data['data']
 
-        variable_definitions = self.create_variable_definitions(data)
+        if program_version is not None:
+            assert isinstance(program_version, ProgramVersion)
+            program_interface = program_version.program.program_interface
+            external_variable_definitions = VariableDefinition.objects.filter(
+                Q(program_argument__program_interface=program_interface) |
+                Q(program_argument_field__program_argument__program_interface=program_interface)
+            ).order_by('name').distinct()
+        else:
+            external_variable_definitions = None
+
+        variable_definitions = self.create_variable_definitions(data, external_variable_definitions)
         if not is_block(data):
             data = {'data': {}, 'children':[data]}
 
@@ -63,10 +74,18 @@ class NodeTreeCreator(object):
 
         return data
 
-    def create_variable_definitions(self, data):
+    def create_variable_definitions(self, data, external_variable_definitions=None):
         variable_definitions = []
-        variables = self.collect_objects(data, get_content_type_id(Variable))
         variable_by_name = {}
+
+        if external_variable_definitions is not None:
+            for variable_definition in external_variable_definitions:
+                assert isinstance(variable_definition, VariableDefinition)
+                variable_by_name[variable_definition.name] = dict(variables=[],
+                    variable_definition=variable_definition.id)
+
+        variables = self.collect_objects(data, get_content_type_id(Variable))
+
         for variable in variables:
             variable_name = variable['data']['name']
             if variable_name not in variable_by_name:
