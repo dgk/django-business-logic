@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from business_logic.tests import ProgramTestBase
 from django.utils.six import StringIO
 
 from lxml import etree
@@ -20,6 +20,8 @@ class NodeTreeCreatorTestCase(TestCase):
     def tree_diff(self, tree1, tree2):
         return BlocklyXmlBuilder().build(tree1) != BlocklyXmlBuilder().build(tree2)
 
+
+class NodeTreeCreatorTest(NodeTreeCreatorTestCase):
     def test_test_case_diff(self):
         tree1 = variable_assign_value()
         tree2 = variable_assign_value()
@@ -96,3 +98,34 @@ class NodeTreeCreatorTestCase(TestCase):
         self.assertIsInstance(tree2, Node)
         self.assertIsNot(tree1, tree2)
         self.assertFalse(self.tree_diff(tree1, tree2))
+
+
+class NodeTreeCreatorProgramVersionTest(ProgramTestBase, NodeTreeCreatorTestCase):
+    def test_create_variable_definitions_should_use_program_variable_definitions(self):
+        tree1 = variable_assign_value(variable_name='test_model.int_value')
+        dict1 = self.build_dict(tree1)
+        variable_definitions_count = VariableDefinition.objects.count()
+        external_variable_definitions = VariableDefinition.objects.filter(
+            Q(program_argument__program_interface=self.program_interface) |
+                Q(program_argument_field__program_argument__program_interface= self.program_interface)
+        ).order_by('name').distinct()
+
+        variable_definitions = NodeTreeCreator().create_variable_definitions(dict1, external_variable_definitions)
+        self.assertEqual(variable_definitions_count, VariableDefinition.objects.count())
+        self.assertEqual([], variable_definitions)
+
+    def test_create_variable_definitions_should_check_program_variable_definitions_type(self):
+        tree1 = variable_assign_value(variable_name='test_model.int_value')
+        dict1 = self.build_dict(tree1)
+        self.assertRaises(AssertionError, NodeTreeCreator().create_variable_definitions, dict1, [None])
+        self.assertRaises(AssertionError, NodeTreeCreator().create_variable_definitions, dict1, [self.program_interface])
+
+    def test_create_should_check_program_version_type(self):
+        tree1 = variable_assign_value(variable_name='test_model.int_value')
+        dict1 = self.build_dict(tree1)
+        variable_definitions_count = VariableDefinition.objects.count()
+
+
+        self.assertRaises(AssertionError, NodeTreeCreator().create, dict1, self.program_interface)
+
+        self.assertEqual(variable_definitions_count, VariableDefinition.objects.count())
