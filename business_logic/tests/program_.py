@@ -81,9 +81,9 @@ class ProgramTest(ProgramTestBase):
     def test_program_interpret(self):
         result = self.program_version.interpret(test_model=self.test_model)
         self.assertIsInstance(result, Context)
-        self.assertIs(self.test_model, result.get_variable(self.argument.variable_definition_id))
+        self.assertIs(self.test_model, result.get_variable(self.argument.variable_definition))
         variable_definition = VariableDefinition.objects.get(name='A')
-        self.assertEqual(1 + 2 * 3, result.get_variable(variable_definition.id))
+        self.assertEqual(1 + 2 * 3, result.get_variable(variable_definition))
 
     def test_program_version_interpret_args_check(self):
         for kwargs in [
@@ -104,5 +104,5 @@ class ProgramTest(ProgramTestBase):
         self.program_version.save()
 
         context = self.program_version.interpret(test_model=self.test_model)
-        self.assertEqual(value, context.get_variable(variable_definition.id))
+        self.assertEqual(value, context.get_variable(variable_definition))
         self.assertEqual(value, self.test_model.int_value)

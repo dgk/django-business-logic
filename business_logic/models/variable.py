@@ -39,5 +39,5 @@ class Variable(models.Model):
         return self.definition.name
 
     def interpret(self, ctx):
-        return ctx.get_variable(self.definition_id)
+        return ctx.get_variable(self.definition)
 

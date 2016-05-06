@@ -150,7 +150,7 @@ class ProgramVersion(models.Model):
                 assert program_argument.content_type.model_class() == argument.__class__
             except (KeyError, AssertionError, AttributeError):
                 raise
-            context.set_variable(program_argument.variable_definition_id, argument)
+            context.set_variable(program_argument.variable_definition, argument)
 
         assert not kwargs
 
