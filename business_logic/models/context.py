@@ -6,7 +6,8 @@ from .log import Logger
 from .frame import Frame
 from .node import Node, NodeCacheHolder
 from .result import Result
-from .variable import Variable
+from .variable import Variable, VariableDefinition
+
 
 class ContextConfig:
     defaults = dict(
@@ -20,6 +21,7 @@ class ContextConfig:
             kwargs.setdefault(k, v)
         for k, v in kwargs.items():
             setattr(self, k, v)
+
 
 class Context(NodeCacheHolder):
     def __init__(self, **kwargs):
@@ -81,15 +83,15 @@ class Context(NodeCacheHolder):
 
         return super(Context, self).get_children(node)
 
-    def get_variable(self, vardef_id):
-        int(vardef_id)
+    def get_variable(self, variable_definition):
+        assert isinstance(variable_definition, VariableDefinition)
         try:
-            return self._vars[vardef_id]
+            return self._vars[variable_definition.id]
         except KeyError:
             return Variable.Undefined()
 
-    def set_variable(self, vardef_id, value):
-        int(vardef_id)
-        self._vars[vardef_id] = value
+    def set_variable(self, variable_definition, value):
+        assert isinstance(variable_definition, VariableDefinition)
+        self._vars[variable_definition.id] = value
 
 __all__ = ('Context', )

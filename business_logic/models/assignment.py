@@ -17,5 +17,5 @@ class Assignment(NodeAccessor):
 
     def interpret(self, ctx, lhs, rhs):
         lhs_node = ctx.get_children(self.node)[0]
-        ctx.set_variable(lhs_node.content_object.definition_id, rhs)
+        ctx.set_variable(lhs_node.content_object.definition, rhs)
         return rhs

@@ -24,4 +24,4 @@ class VariableTest(TestCase):
         var_def = VariableDefinition(name='K1')
         root.add_child(content_object=var_def)
         root.interpret(context)
-        self.assertIsInstance(context.get_variable(var_def.id), Variable.Undefined)
+        self.assertIsInstance(context.get_variable(var_def), Variable.Undefined)
