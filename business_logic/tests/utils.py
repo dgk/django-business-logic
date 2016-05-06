@@ -40,8 +40,7 @@ def tree_1plus2mul3(parent=None):
 
 
 def symmetric_tree(operator='+', value=1, count=2,
-        operand_cls=NumberConstant, parent=None):
-
+                   operand_cls=NumberConstant, parent=None):
     assert math.modf(math.log(count, 2))[0] == 0
 
     bin_operator = BinaryOperator(operator=operator)
@@ -69,17 +68,19 @@ def symmetric_tree(operator='+', value=1, count=2,
 
         level_objects = [
             dict(data=dict(
-                        object_id=obj_cls.objects.create(**obj_kwargs).id,
-                        content_type_id=content_type_id
-                        ))
-            for x in range(pow(2, level)) ]
+                object_id=obj_cls.objects.create(**obj_kwargs).id,
+                content_type_id=content_type_id
+            ))
+            for x in range(pow(2, level))]
 
         if level == 1:
             top = bottom = level_objects
         else:
-            pairs = [x for x in izip_longest(*[iter(level_objects)]*2)]
+            pairs = [x for x in izip_longest(*[iter(level_objects)] * 2)]
+
             def f(parent, children):
                 parent['children'] = children
+
             list(imap(f, bottom, pairs))
             bottom = level_objects
 
@@ -102,16 +103,18 @@ def get_test_tree():
     root = Node.objects.get(id=root.id)
     return root
 
-def variable_assign_value(variable_name='A', value=None):
+
+def variable_assign_value(variable_name='A', variable_definition=None, value=None):
     root = Node.add_root()
 
-    var_def = VariableDefinition(name=variable_name)
-    root.add_child(content_object=var_def)
-    root = Node.objects.get(id=root.id)
+    if variable_definition is None:
+        variable_definition = VariableDefinition(name=variable_name)
+        root.add_child(content_object=variable_definition)
+        root = Node.objects.get(id=root.id)
 
     assignment_node = root.add_child(content_object=Assignment())
-    var = Variable(definition=var_def)
-    var_node = assignment_node.add_child(content_object=var)
+    variable = Variable(definition=variable_definition)
+    var_node = assignment_node.add_child(content_object=variable)
     number_const_node1 = assignment_node.add_child(content_object=value or NumberConstant(value=1))
 
     root = Node.objects.get(id=root.id)
@@ -157,7 +160,7 @@ def create_if_statement(branches_count, use_binary_operator=False):
     for condition_var, assignment_var in pairs(vars[:branches_count - branches_count % 2]):
         if use_binary_operator:
             binary_operator = ifstatement.add_child(content_object=BinaryOperator(operator='&'))
-            for _ in (0,0):
+            for _ in (0, 0):
                 binary_operator.add_child(content_object=Variable(definition=var_defs[condition_var]))
                 binary_operator = reload_node(binary_operator)
         else:
