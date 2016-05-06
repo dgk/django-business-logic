@@ -58,7 +58,7 @@ class ProgramTest(ProgramTestBase):
         variable_definition = VariableDefinition.objects.get(id=int_value_field.variable_definition_id)
 
         self.assertEqual('{}.{}'.format(self.argument.name, 'int_value'),
-                     variable_definition.name)
+                         variable_definition.name)
 
     def test_program_argument_deletion_should_delete_variable_definition(self):
         variable_definition = self.argument.variable_definition
@@ -85,14 +85,24 @@ class ProgramTest(ProgramTestBase):
         variable_definition = VariableDefinition.objects.get(name='A')
         self.assertEqual(1 + 2 * 3, result.get_variable(variable_definition.id))
 
-    def test_program_args_check(self):
+    def test_program_version_interpret_args_check(self):
         for kwargs in [
             dict(test_model=1),
             dict(test_model=self.test_model, xxx=1),
             dict(tes_moddddel=self.test_model),
             {},
         ]:
-
             with self.assertRaises(Exception) as exc:
                 self.program_version.interpret(**kwargs)
 
+    def test_program_version_interpret(self):
+        int_value_field = self.fields['int_value']
+        variable_definition = int_value_field.variable_definition
+        value = 5
+        self.program_version.entry_point = variable_assign_value(value=NumberConstant(value=value),
+                                                                 variable_definition=variable_definition)
+        self.program_version.save()
+
+        context = self.program_version.interpret(test_model=self.test_model)
+        self.assertEqual(value, context.get_variable(variable_definition.id))
+        self.assertEqual(value, self.test_model.int_value)
