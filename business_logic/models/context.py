@@ -109,6 +109,17 @@ class Context(NodeCacheHolder):
 
     def set_variable(self, variable_definition, value):
         assert isinstance(variable_definition, VariableDefinition)
-        self._vars[variable_definition.name] = value
+
+        if variable_definition.name.find('.') == -1:
+            self._vars[variable_definition.name] = value
+            return
+
+        attrs = variable_definition.name.split('.')
+        current = self._vars[attrs[0]]
+
+        for attr in attrs[1:-1]:
+            current = getattr(current, attr)
+
+        setattr(current, attrs[-1], value)
 
 __all__ = ('Context', )
