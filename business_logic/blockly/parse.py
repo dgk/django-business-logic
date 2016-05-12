@@ -9,6 +9,7 @@ from ..models import *
 from ..utils import get_content_type_id
 
 from .data import REVERSE_OPERATOR_TABLE
+from .exceptions import BlocklyXmlParserException
 
 
 class BlocklyXmlParser(object):
@@ -57,7 +58,9 @@ class BlocklyXmlParser(object):
                 break
 
             _children = next.getchildren()
-            assert len(_children) == 1
+
+            if len(_children) != 1:
+                raise BlocklyXmlParserException('Incorrect number of children ({}) for BlocklyXmlParser._process_next()'.format(len(_children)))
 
             _node = _children[0]
             children.append(_node)
@@ -90,7 +93,12 @@ class BlocklyXmlParser(object):
 
     def _visit_single_child(self, node):
         children = node.getchildren()
-        assert len(children) == 1
+
+        if len(children) != 1:
+            raise BlocklyXmlParserException(
+                'Incorrect number of children ({}) for BlocklyXmlParser._visit_single_child()'.format(
+                    len(children)))
+
         return self.visit(children[0])
 
     def _visit_binary_operator(self, node):

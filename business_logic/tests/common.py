@@ -6,6 +6,7 @@ from django.test import TestCase
 
 from ..blockly.build import *
 from ..blockly.create import *
+from ..blockly.exceptions import *
 from ..blockly.parse import *
 
 from ..models import *

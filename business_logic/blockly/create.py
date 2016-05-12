@@ -5,6 +5,7 @@ from django.db.models import Q
 from ..models import Node, ProgramVersion, Variable, VariableDefinition
 from ..utils import get_content_type_id
 
+from .exceptions import NodeTreeCreatorException
 
 class NodeTreeCreator(object):
     def create(self, data, program_version=None):
@@ -12,7 +13,9 @@ class NodeTreeCreator(object):
             return 'content_type' not in __data['data']
 
         if program_version is not None:
-            assert isinstance(program_version, ProgramVersion)
+            if not isinstance(program_version, ProgramVersion):
+                raise NodeTreeCreatorException('Invalid program_version argument type')
+
             program_interface = program_version.program.program_interface
             external_variable_definitions = VariableDefinition.objects.filter(
                 Q(program_argument__program_interface=program_interface) |
@@ -80,7 +83,9 @@ class NodeTreeCreator(object):
 
         if external_variable_definitions is not None:
             for variable_definition in external_variable_definitions:
-                assert isinstance(variable_definition, VariableDefinition)
+                if not isinstance(variable_definition, VariableDefinition):
+                    raise NodeTreeCreatorException('Invalid variable_definition argument type')
+
                 variable_by_name[variable_definition.name] = dict(variables=[],
                     variable_definition=variable_definition.id)
 

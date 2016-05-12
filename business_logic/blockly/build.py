@@ -8,9 +8,10 @@ from lxml import etree
 
 from django.db.models import Model
 
-from business_logic.models import *
+from ..models import *
 
 from .data import OPERATOR_TABLE
+from .exceptions import BlocklyXmlBuilderException
 
 def camel_case_to_snake_case(name):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
@@ -101,7 +102,8 @@ class BlocklyXmlBuilder(NodeCacheHolder):
             if operator in table:
                 break
         else:
-            assert False
+            raise BlocklyXmlBuilderException('Invalid Operator: {}'.format(operator))
+
         block = etree.SubElement(parent_xml, 'block', type=block_type)
         field = etree.SubElement(block, 'field', name='OP')
         field.text = table[operator]
