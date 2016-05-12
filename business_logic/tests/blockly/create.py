@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from business_logic.tests import ProgramTestBase
 from django.utils.six import StringIO
 
 from lxml import etree
 
-from business_logic.tests.common import *
+from .. import ProgramTestBase
+from ..common import *
 
 
 class NodeTreeCreatorTestCase(TestCase):
@@ -117,15 +117,14 @@ class NodeTreeCreatorProgramVersionTest(ProgramTestBase, NodeTreeCreatorTestCase
     def test_create_variable_definitions_should_check_program_variable_definitions_type(self):
         tree1 = variable_assign_value(variable_name='test_model.int_value')
         dict1 = self.build_dict(tree1)
-        self.assertRaises(AssertionError, NodeTreeCreator().create_variable_definitions, dict1, [None])
-        self.assertRaises(AssertionError, NodeTreeCreator().create_variable_definitions, dict1, [self.program_interface])
+        self.assertRaises(NodeTreeCreatorException, NodeTreeCreator().create_variable_definitions, dict1, [None])
+        self.assertRaises(NodeTreeCreatorException, NodeTreeCreator().create_variable_definitions, dict1, [self.program_interface])
 
     def test_create_should_check_program_version_type(self):
         tree1 = variable_assign_value(variable_name='test_model.int_value')
         dict1 = self.build_dict(tree1)
         variable_definitions_count = VariableDefinition.objects.count()
 
-
-        self.assertRaises(AssertionError, NodeTreeCreator().create, dict1, self.program_interface)
+        self.assertRaises(NodeTreeCreatorException, NodeTreeCreator().create, dict1, self.program_interface)
 
         self.assertEqual(variable_definitions_count, VariableDefinition.objects.count())

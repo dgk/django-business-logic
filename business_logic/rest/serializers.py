@@ -50,8 +50,8 @@ class ProgramVersionCreateSerializer(serializers.ModelSerializer):
     def validate_xml(self, value):
         try:
             BlocklyXmlParser().parse(value)
-        except:
-            raise serializers.ValidationError("Incorrect xml")
+        except Exception as e:
+            raise serializers.ValidationError("Xml parse error - {}: {}".format(e.__class__.__name__, e.message))
 
         return value
 
