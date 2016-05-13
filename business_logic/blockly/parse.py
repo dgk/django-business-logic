@@ -24,6 +24,7 @@ class BlocklyXmlParser(object):
         xml = etree.parse(StringIO(xml_str))
         root_node = xml.getroot()
         self.cleanup_namespace(root_node)
+        self.transform_shadow(root_node)
         return [self.visit(root_node), ]
 
     @staticmethod
@@ -36,6 +37,15 @@ class BlocklyXmlParser(object):
             if i >= 0:
                 elem.tag = elem.tag[i + 1:]
         objectify.deannotate(root, cleanup_namespaces=True)
+
+    @staticmethod
+    def transform_shadow(root):
+        for shadow in root.xpath('.//shadow'):
+            sibling = shadow.getnext()
+            if sibling is not None and sibling.tag == 'block':
+                shadow.getparent().remove(shadow)
+            else:
+                shadow.tag = 'block'
 
     def visit(self, node):
         parent = node.getparent()
@@ -80,8 +90,8 @@ class BlocklyXmlParser(object):
 
         if method:
             return method(node)
-        # TODO: remove
-        print method_name, ' - method not exists'
+
+        raise BlocklyXmlParserException('Unknown tag: {}'.format(node.tag))
 
     def _visit_children(self, node, data, children=None):
         if 'children' not in data:

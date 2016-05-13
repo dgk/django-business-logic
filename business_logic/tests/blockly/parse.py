@@ -9,10 +9,67 @@ from pprint import pprint
 
 
 class BlocklyXmlParserTestCase(TestCase):
+    def set_namespace(self, xml_str):
+        return xml_str.replace('<xml>', '<xml xmlns="http://www.w3.org/1999/xhtml">')
+
     def build_xml(self, node):
-        xml_str = BlocklyXmlBuilder().build(node)
-        xml_str = xml_str.replace('<xml>', '<xml xmlns="http://www.w3.org/1999/xhtml">')
-        return xml_str
+        return self.set_namespace(BlocklyXmlBuilder().build(node))
+
+
+class BlocklyXmlParserShadowTest(BlocklyXmlParserTestCase):
+    def test_shadow_parse(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#ny72bv
+        xml_str = self.set_namespace('''
+        <xml>
+          <block type="math_arithmetic">
+            <field name="OP">ADD</field>
+            <value name="A">
+              <shadow type="math_number">
+                <field name="NUM">1</field>
+              </shadow>
+            </value>
+            <value name="B">
+              <shadow type="math_number">
+                <field name="NUM">1</field>
+              </shadow>
+            </value>
+          </block>
+        </xml>
+        ''')
+        parsed = BlocklyXmlParser().parse(xml_str)
+        for child in parsed[0]['children']:
+            self.assertEqual(1, child['data']['value'])
+            self.assertEqual(get_content_type_id(NumberConstant), child['data']['content_type'])
+
+    def test_shadow_replaced_parse(self):
+        # https://blockly-demo.appspot.com/static/demos/code/index.html#8bcrrw
+        xml_str = self.set_namespace('''
+        <xml>
+          <block type="math_arithmetic">
+            <field name="OP">ADD</field>
+            <value name="A">
+              <shadow type="math_number">
+                <field name="NUM">1</field>
+              </shadow>
+              <block type="math_number">
+                <field name="NUM">1</field>
+              </block>
+            </value>
+            <value name="B">
+              <shadow type="math_number">
+                <field name="NUM">1</field>
+              </shadow>
+              <block type="math_number">
+                <field name="NUM">1</field>
+              </block>
+            </value>
+          </block>
+        </xml>
+        ''')
+        parsed = BlocklyXmlParser().parse(xml_str)
+        for child in parsed[0]['children']:
+            self.assertEqual(1, child['data']['value'])
+            self.assertEqual(get_content_type_id(NumberConstant), child['data']['content_type'])
 
 
 class BlocklyXmlParserConstantTest(BlocklyXmlParserTestCase):
