@@ -77,19 +77,23 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         return block
 
     def visit_variable(self, node, parent_xml):
-        variable = node.content_object
-        field = etree.SubElement(parent_xml, 'field', name='VAR')
-        field.text = variable.definition.name
+        variables_get_block = etree.SubElement(parent_xml, 'block', type='variables_get')
+        self._visit_variable(node, variables_get_block)
 
     def visit_assignment(self, node, parent_xml):
         lhs_node, rhs_node = self.get_children(node)
-        block = etree.SubElement(parent_xml, 'block', type='variables_set')
-        self.visit(lhs_node, block)
-        value = etree.SubElement(block, 'value', name='VALUE')
+        variables_set = etree.SubElement(parent_xml, 'block', type='variables_set')
+        self._visit_variable(lhs_node, variables_set)
+        value = etree.SubElement(variables_set, 'value', name='VALUE')
         self.visit(rhs_node, value)
-        return block
+        return variables_set
 
     visit_assignment.process_children = True
+
+    def _visit_variable(self, node, parent_xml):
+        variable = node.content_object
+        field = etree.SubElement(parent_xml, 'field', name='VAR')
+        field.text = variable.definition.name
 
     def visit_binary_operator(self, node, parent_xml):
 
@@ -138,11 +142,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
             if_condition = pair[0]
             if_value = etree.SubElement(block, 'value', name='IF{}'.format(i))
-            if isinstance(if_condition.content_object, Variable):
-                variables_get_block = etree.SubElement(if_value, 'block', type='variables_get')
-                self.visit(if_condition, variables_get_block)
-            else:
-                self.visit(if_condition, if_value)
+            self.visit(if_condition, if_value)
 
             statement = etree.SubElement(block, 'statement', name='DO{}'.format(i))
             self.visit(pair[1], statement)
