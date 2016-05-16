@@ -45,7 +45,7 @@ class ProgramVersionCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramVersion
-        fields = ('program', 'description', 'xml', 'id')
+        fields = ('title', 'description', 'xml', 'program','id')
 
     def validate_xml(self, value):
         try:

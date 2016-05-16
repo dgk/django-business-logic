@@ -228,6 +228,7 @@ class Migration(migrations.Migration):
             name='ProgramVersion',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(max_length=255, null=True, verbose_name='Title', blank=True)),
                 ('description', models.TextField(null=True, verbose_name='Description', blank=True)),
                 ('creation_time', models.DateTimeField(auto_now_add=True)),
                 ('modification_time', models.DateTimeField(auto_now=True)),
@@ -346,7 +347,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='programargumentfield',
             name='variable_definition',
-            field=models.OneToOneField(to='business_logic.VariableDefinition'),
+            field=models.OneToOneField(related_name='program_argument_field', to='business_logic.VariableDefinition'),
         ),
         migrations.AddField(
             model_name='programargument',
@@ -356,7 +357,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='programargument',
             name='variable_definition',
-            field=models.OneToOneField(to='business_logic.VariableDefinition'),
+            field=models.OneToOneField(related_name='program_argument', to='business_logic.VariableDefinition'),
         ),
         migrations.AddField(
             model_name='program',
