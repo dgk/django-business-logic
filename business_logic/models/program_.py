@@ -120,13 +120,16 @@ class Program(models.Model):
 
 @python_2_unicode_compatible
 class ProgramVersion(models.Model):
-    program = models.ForeignKey(Program, related_name='versions')
-    entry_point = models.ForeignKey(Node, verbose_name=_('Entry point'))
+    title = models.CharField(_('Title'), max_length=255, null=True, blank=True)
     description = models.TextField(_('Description'), null=True, blank=True)
-    creation_time = models.DateTimeField(auto_now_add=True)
-    modification_time = models.DateTimeField(auto_now=True)
 
     is_default = models.BooleanField(_('Is default'), default=False)
+
+    program = models.ForeignKey(Program, related_name='versions')
+    entry_point = models.ForeignKey(Node, verbose_name=_('Entry point'))
+
+    creation_time = models.DateTimeField(auto_now_add=True)
+    modification_time = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = _('Program version')
