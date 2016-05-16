@@ -4,18 +4,6 @@ from django.views import generic
 from .models import *
 
 
-class AuthorList(generic.ListView):
-    model = Author
-
-
-class BookList(generic.ListView):
-    model = Book
-
-
-class PublisherList(generic.ListView):
-    model = Publisher
-
-
 class AuthorCreate(generic.CreateView):
     model = Author
     template_name = 'books/form.html'
@@ -47,4 +35,20 @@ class BookCreate(generic.CreateView):
         'publication_date',
         'price',
     )
+
+
+class AuthorList(generic.ListView):
+    model = Author
+
+
+class BookList(generic.ListView):
+    model = Book
+
+
+class PublisherList(generic.ListView):
+    model = Publisher
+
+
+class BookDetail(generic.DetailView):
+    model = Book
 

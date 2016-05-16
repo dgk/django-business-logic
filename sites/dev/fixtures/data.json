@@ -19,6 +19,405 @@
 },
 {
     "fields": {
+        "comment": null,
+        "rgt": 44,
+        "object_id": null,
+        "lft": 1,
+        "depth": 1,
+        "content_type": null,
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 1
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 3,
+        "object_id": 4,
+        "lft": 2,
+        "depth": 2,
+        "content_type": [
+            "business_logic",
+            "variabledefinition"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 2
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 43,
+        "object_id": 1,
+        "lft": 4,
+        "depth": 2,
+        "content_type": [
+            "business_logic",
+            "ifstatement"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 3
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 10,
+        "object_id": 1,
+        "lft": 5,
+        "depth": 3,
+        "content_type": [
+            "business_logic",
+            "binaryoperator"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 4
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 7,
+        "object_id": 1,
+        "lft": 6,
+        "depth": 4,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 5
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 9,
+        "object_id": 1,
+        "lft": 8,
+        "depth": 4,
+        "content_type": [
+            "business_logic",
+            "numberconstant"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 6
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 16,
+        "object_id": 1,
+        "lft": 11,
+        "depth": 3,
+        "content_type": [
+            "business_logic",
+            "assignment"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 7
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 13,
+        "object_id": 2,
+        "lft": 12,
+        "depth": 4,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 8
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 15,
+        "object_id": 2,
+        "lft": 14,
+        "depth": 4,
+        "content_type": [
+            "business_logic",
+            "numberconstant"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 9
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 22,
+        "object_id": 2,
+        "lft": 17,
+        "depth": 3,
+        "content_type": [
+            "business_logic",
+            "binaryoperator"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 10
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 19,
+        "object_id": 3,
+        "lft": 18,
+        "depth": 4,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 11
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 21,
+        "object_id": 3,
+        "lft": 20,
+        "depth": 4,
+        "content_type": [
+            "business_logic",
+            "numberconstant"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 12
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 32,
+        "object_id": 2,
+        "lft": 23,
+        "depth": 3,
+        "content_type": [
+            "business_logic",
+            "assignment"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 13
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 25,
+        "object_id": 4,
+        "lft": 24,
+        "depth": 4,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 14
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 31,
+        "object_id": 3,
+        "lft": 26,
+        "depth": 4,
+        "content_type": [
+            "business_logic",
+            "binaryoperator"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 15
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 28,
+        "object_id": 5,
+        "lft": 27,
+        "depth": 5,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 16
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 30,
+        "object_id": 4,
+        "lft": 29,
+        "depth": 5,
+        "content_type": [
+            "business_logic",
+            "numberconstant"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 17
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 42,
+        "object_id": 3,
+        "lft": 33,
+        "depth": 3,
+        "content_type": [
+            "business_logic",
+            "assignment"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 18
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 35,
+        "object_id": 6,
+        "lft": 34,
+        "depth": 4,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 19
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 41,
+        "object_id": 4,
+        "lft": 36,
+        "depth": 4,
+        "content_type": [
+            "business_logic",
+            "binaryoperator"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 20
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 38,
+        "object_id": 7,
+        "lft": 37,
+        "depth": 5,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 21
+},
+{
+    "fields": {
+        "comment": null,
+        "rgt": 40,
+        "object_id": 5,
+        "lft": 39,
+        "depth": 5,
+        "content_type": [
+            "business_logic",
+            "numberconstant"
+        ],
+        "tree_id": 1
+    },
+    "model": "business_logic.node",
+    "pk": 22
+},
+{
+    "fields": {},
+    "model": "business_logic.assignment",
+    "pk": 1
+},
+{
+    "fields": {},
+    "model": "business_logic.assignment",
+    "pk": 2
+},
+{
+    "fields": {},
+    "model": "business_logic.assignment",
+    "pk": 3
+},
+{
+    "fields": {
+        "value": 0.0
+    },
+    "model": "business_logic.numberconstant",
+    "pk": 1
+},
+{
+    "fields": {
+        "value": 1.0
+    },
+    "model": "business_logic.numberconstant",
+    "pk": 2
+},
+{
+    "fields": {
+        "value": 5.0
+    },
+    "model": "business_logic.numberconstant",
+    "pk": 3
+},
+{
+    "fields": {
+        "value": 2.0
+    },
+    "model": "business_logic.numberconstant",
+    "pk": 4
+},
+{
+    "fields": {
+        "value": 1.0
+    },
+    "model": "business_logic.numberconstant",
+    "pk": 5
+},
+{
+    "fields": {
         "name": "book"
     },
     "model": "business_logic.variabledefinition",
@@ -37,6 +436,95 @@
     },
     "model": "business_logic.variabledefinition",
     "pk": 3
+},
+{
+    "fields": {
+        "name": "book.author.rank"
+    },
+    "model": "business_logic.variabledefinition",
+    "pk": 4
+},
+{
+    "fields": {
+        "definition": 4
+    },
+    "model": "business_logic.variable",
+    "pk": 1
+},
+{
+    "fields": {
+        "definition": 4
+    },
+    "model": "business_logic.variable",
+    "pk": 2
+},
+{
+    "fields": {
+        "definition": 4
+    },
+    "model": "business_logic.variable",
+    "pk": 3
+},
+{
+    "fields": {
+        "definition": 4
+    },
+    "model": "business_logic.variable",
+    "pk": 4
+},
+{
+    "fields": {
+        "definition": 4
+    },
+    "model": "business_logic.variable",
+    "pk": 5
+},
+{
+    "fields": {
+        "definition": 4
+    },
+    "model": "business_logic.variable",
+    "pk": 6
+},
+{
+    "fields": {
+        "definition": 4
+    },
+    "model": "business_logic.variable",
+    "pk": 7
+},
+{
+    "fields": {},
+    "model": "business_logic.ifstatement",
+    "pk": 1
+},
+{
+    "fields": {
+        "operator": "=="
+    },
+    "model": "business_logic.binaryoperator",
+    "pk": 1
+},
+{
+    "fields": {
+        "operator": "<="
+    },
+    "model": "business_logic.binaryoperator",
+    "pk": 2
+},
+{
+    "fields": {
+        "operator": "+"
+    },
+    "model": "business_logic.binaryoperator",
+    "pk": 3
+},
+{
+    "fields": {
+        "operator": "+"
+    },
+    "model": "business_logic.binaryoperator",
+    "pk": 4
 },
 {
     "fields": {
@@ -92,6 +580,19 @@
 },
 {
     "fields": {
+        "description": "",
+        "title": "Increase book publisher rank",
+        "creation_time": "2016-05-16T13:16:15.781Z",
+        "is_default": false,
+        "modification_time": "2016-05-16T13:16:15.781Z",
+        "program": 1,
+        "entry_point": 1
+    },
+    "model": "business_logic.programversion",
+    "pk": 1
+},
+{
+    "fields": {
         "search_fields": "",
         "content_type": [
             "books",
@@ -122,5 +623,35 @@
     },
     "model": "business_logic.referencedescriptor",
     "pk": 3
+},
+{
+    "fields": {
+        "name": "Apress Publishing",
+        "rank": 0
+    },
+    "model": "books.publisher",
+    "pk": 1
+},
+{
+    "fields": {
+        "first_name": "Mark",
+        "last_name": "Pilgrim",
+        "rank": 0
+    },
+    "model": "books.author",
+    "pk": 1
+},
+{
+    "fields": {
+        "publisher": 1,
+        "price": 29.32,
+        "authors": [
+            1
+        ],
+        "publication_date": "2004-07-19",
+        "title": "Dive Into Python"
+    },
+    "model": "books.book",
+    "pk": 1
 }
 ]
