@@ -7,7 +7,7 @@
         "is_active": true,
         "is_superuser": true,
         "is_staff": true,
-        "last_login": "2016-05-04T12:51:54.975Z",
+        "last_login": "2016-05-16T08:51:32.780Z",
         "groups": [],
         "user_permissions": [],
         "password": "pbkdf2_sha256$20000$mpLi7E1QFI8s$xqNneGU9eBvj3T5PZiNIfDbHJuUoPQWG4B3qF0uAa0c=",
@@ -33,7 +33,14 @@
 },
 {
     "fields": {
-        "modification_time": "2016-05-04T12:56:09.152Z",
+        "name": "book.publisher.rank"
+    },
+    "model": "business_logic.variabledefinition",
+    "pk": 3
+},
+{
+    "fields": {
+        "modification_time": "2016-05-16T08:55:30.911Z",
         "creation_time": "2016-05-04T09:47:57.533Z",
         "name": "",
         "title": "Book"
@@ -62,6 +69,15 @@
     },
     "model": "business_logic.programargumentfield",
     "pk": 1
+},
+{
+    "fields": {
+        "variable_definition": 3,
+        "name": "publisher.rank",
+        "program_argument": 1
+    },
+    "model": "business_logic.programargumentfield",
+    "pk": 2
 },
 {
     "fields": {
