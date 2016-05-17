@@ -4,26 +4,24 @@ from .common import *
 
 
 class ProgramTestBase(TestCase):
+    field_list = (
+        'int_value',
+        'string_value',
+        'foreign_value',
+        'foreign_value.int_value',
+        'foreign_value.string_value',
+    )
+
     def setUp(self):
         self.program_interface = program_interface = ProgramInterface.objects.create(name='test')
+
         self.argument = ProgramArgument.objects.create(
             program_interface=self.program_interface,
             content_type=ContentType.objects.get_for_model(TestModel),
             name='test_model'
         )
 
-        field_list = (
-            'int_value',
-            'string_value',
-            'foreign_value',
-            'foreign_value.string_value',
-        )
-        self.fields = {}
-        for field in field_list:
-            self.fields[field] = ProgramArgumentField.objects.create(
-                name=field,
-                program_argument=self.argument,
-            )
+        self.fields = self.create_argument_fields(self.argument)
 
         self.program = program = Program.objects.create(program_interface=program_interface,
                                                         title='test',
@@ -32,6 +30,20 @@ class ProgramTestBase(TestCase):
                                                              entry_point=get_test_tree())
 
         self.test_model = TestModel.objects.create()
+
+    def create_argument_fields(self, argument):
+        fields = {}
+        for field in self.field_list:
+            fields[field] = ProgramArgumentField.objects.create(
+                name=field,
+                program_argument=argument,
+            )
+
+        return fields
+
+
+class MultiArgumentProgramTestBase(ProgramTestBase):
+    pass
 
 
 class ProgramTest(ProgramTestBase):
@@ -95,7 +107,7 @@ class ProgramTest(ProgramTestBase):
             with self.assertRaises(Exception) as exc:
                 self.program_version.interpret(**kwargs)
 
-    def test_program_version_interpret(self):
+    def test_program_version_interpret_set_variable(self):
         int_value_field = self.fields['int_value']
         variable_definition = int_value_field.variable_definition
         value = 5
@@ -106,3 +118,30 @@ class ProgramTest(ProgramTestBase):
         context = self.program_version.interpret(test_model=self.test_model)
         self.assertEqual(value, context.get_variable(variable_definition))
         self.assertEqual(value, self.test_model.int_value)
+
+    def test_program_version_interpret_get_variable_recursive(self):
+        int_value_field = self.fields['foreign_value.int_value']
+        variable_definition = int_value_field.variable_definition
+
+        self.program_version.entry_point = variable_assign_value(value=Variable(definition=variable_definition),
+                                                                 variable_definition=variable_definition)
+        self.program_version.save()
+
+        self.test_model.foreign_value = TestRelatedModel.objects.create()
+        self.test_model.save()
+
+        context = self.program_version.interpret(test_model=self.test_model)
+
+    def test_recursive_get_variable_should_returns_undefined_if_parent_field_undefined(self):
+        int_value_field = self.fields['int_value']
+        foreign_value_int_value_field = self.fields['foreign_value.int_value']
+
+        self.program_version.entry_point = variable_assign_value(value=Variable(definition=foreign_value_int_value_field.variable_definition),
+                                                                 variable_definition=int_value_field.variable_definition)
+        self.program_version.save()
+
+        context = self.program_version.interpret(test_model=self.test_model)
+
+        self.assertIsInstance(context.get_variable(foreign_value_int_value_field.variable_definition), Variable.Undefined)
+        self.assertIsNone(context.get_variable(int_value_field.variable_definition))
+        self.assertIsNone(self.test_model.int_value)

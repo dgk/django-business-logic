@@ -11,7 +11,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 from .context import Context
 from .node import Node, NodeVisitor
-from .variable import VariableDefinition
+from .variable import VariableDefinition, Variable
 
 from ..fields import DeepAttributeField
 
@@ -154,6 +154,22 @@ class ProgramVersion(models.Model):
             except (KeyError, AssertionError, AttributeError):
                 raise
             context.set_variable(program_argument.variable_definition, argument)
+
+            for field in program_argument.field.all():
+                parts = field.name.split('.')
+                current = argument
+                found = True
+                for part in parts:
+                    if current is None:
+                        found = False
+                        break
+                    try:
+                        current = getattr(current, part)
+                    except AttributeError:
+                        current = Variable.Undefined()
+                        break
+                if found:
+                    context.set_variable(field.variable_definition, current)
 
         assert not kwargs
 
