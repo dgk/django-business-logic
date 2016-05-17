@@ -86,11 +86,13 @@ class Context(NodeCacheHolder):
     def get_variable(self, variable_definition):
         assert isinstance(variable_definition, VariableDefinition)
 
+        try:
+            return self._vars[variable_definition.name]
+        except KeyError:
+            pass
+
         if variable_definition.name.find('.') == -1:
-            try:
-                return self._vars[variable_definition.name]
-            except KeyError:
-                return Variable.Undefined()
+            return Variable.Undefined()
 
         attrs = variable_definition.name.split('.')
 
@@ -104,6 +106,8 @@ class Context(NodeCacheHolder):
                 current = getattr(current, attr)
             except AttributeError:
                 return Variable.Undefined()
+
+        #self._vars[variable_definition.name] = current
 
         return current
 
@@ -120,6 +124,6 @@ class Context(NodeCacheHolder):
         for attr in attrs[1:-1]:
             current = getattr(current, attr)
 
-        setattr(current, attrs[-1], value)
+        setattr(current, attrs[-1], None if isinstance(value, Variable.Undefined) else value)
 
 __all__ = ('Context', )
