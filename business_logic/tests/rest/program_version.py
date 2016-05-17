@@ -38,8 +38,15 @@ class ProgramVersionRESTTest(TestCase):
         self.assertEqual(self.xml, _json['xml'])
 
         self.assertEqual(sorted([
-            'xml', 'description', 'creation_time', 'is_default',
-            'modification_time', 'program', 'id']), sorted(_json.keys()))
+            'xml',
+            'description',
+            'title',
+            'creation_time',
+            'is_default',
+            'modification_time',
+            'program',
+            'id',
+        ]), sorted(_json.keys()))
 
     @unittest.skip('TODO')
     def test_program_version_update(self):
