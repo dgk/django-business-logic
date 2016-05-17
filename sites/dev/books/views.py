@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.views import generic
 
+from business_logic.models import Program
+
 from .models import *
 
 
@@ -51,4 +53,14 @@ class PublisherList(generic.ListView):
 
 class BookDetail(generic.DetailView):
     model = Book
+
+    def get_object(self, queryset=None):
+        book = super(BookDetail, self).get_object(queryset)
+        program = Program.objects.get(name='on_book_view')
+        version = program.versions.first()
+
+        print book.publisher.rank, '@@@@@@@@@@@@@'
+        version.interpret(book=book)
+
+        return book
 

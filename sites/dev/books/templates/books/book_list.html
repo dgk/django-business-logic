@@ -3,7 +3,7 @@
     <h2>Books</h2>
     <ul>
         {% for book in object_list %}
-            <li>{{ book.title }}</li>
+            <li><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
