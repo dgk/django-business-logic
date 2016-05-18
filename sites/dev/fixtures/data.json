@@ -439,56 +439,49 @@
 },
 {
     "fields": {
-        "name": "book.author.rank"
-    },
-    "model": "business_logic.variabledefinition",
-    "pk": 4
-},
-{
-    "fields": {
-        "definition": 4
+        "definition": 3
     },
     "model": "business_logic.variable",
     "pk": 1
 },
 {
     "fields": {
-        "definition": 4
+        "definition": 3
     },
     "model": "business_logic.variable",
     "pk": 2
 },
 {
     "fields": {
-        "definition": 4
+        "definition": 3
     },
     "model": "business_logic.variable",
     "pk": 3
 },
 {
     "fields": {
-        "definition": 4
+        "definition": 3
     },
     "model": "business_logic.variable",
     "pk": 4
 },
 {
     "fields": {
-        "definition": 4
+        "definition": 3
     },
     "model": "business_logic.variable",
     "pk": 5
 },
 {
     "fields": {
-        "definition": 4
+        "definition": 3
     },
     "model": "business_logic.variable",
     "pk": 6
 },
 {
     "fields": {
-        "definition": 4
+        "definition": 3
     },
     "model": "business_logic.variable",
     "pk": 7
@@ -580,7 +573,7 @@
 },
 {
     "fields": {
-        "description": "",
+        "description": "https://blockly-demo.appspot.com/static/demos/code/index.html?lang=en#wo6asi",
         "title": "Increase book publisher rank",
         "creation_time": "2016-05-16T13:16:15.781Z",
         "is_default": false,

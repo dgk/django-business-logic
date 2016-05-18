@@ -51,6 +51,9 @@ class PublisherList(generic.ListView):
     model = Publisher
 
 
+class PublisherDetail(generic.DetailView):
+    model = Publisher
+
 class BookDetail(generic.DetailView):
     model = Book
 
@@ -59,8 +62,8 @@ class BookDetail(generic.DetailView):
         program = Program.objects.get(name='on_book_view')
         version = program.versions.first()
 
-        print book.publisher.rank, '@@@@@@@@@@@@@'
         version.interpret(book=book)
+        book.publisher.save()
 
         return book
 
