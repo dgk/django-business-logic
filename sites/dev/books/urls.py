@@ -7,6 +7,7 @@ urlpatterns = [
     url('author/add$', AuthorCreate.as_view()),
 
     url('publisher$', PublisherList.as_view()),
+    url('publisher/(?P<pk>\d+)$', PublisherDetail.as_view(), name='publisher-detail'),
     url('publisher/add$', PublisherCreate.as_view()),
 
     url('book$', BookList.as_view()),

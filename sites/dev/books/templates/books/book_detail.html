@@ -1,4 +1,15 @@
 {% extends 'books/base.html' %}
 {% block content %}
     <h2>{{ object }}</h2>
+
+        <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Publisher</h3>
+        </div>
+        <div class="panel-body">
+            <a href="{{ object.publisher.get_absolute_url }}">{{ object.publisher }} <span class="badge">{{ object.publisher.rank }}</span></a>
+        </div>
+    </div>
+
+
 {% endblock %}
