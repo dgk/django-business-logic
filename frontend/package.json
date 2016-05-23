@@ -1,0 +1,16 @@
+{
+  "name": "django-business-logic-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "build-prod": "webpack --config TODO.webpack.config.js",
+    "watch": "webpack --config webpack.config.js --watch"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack-bundle-tracker": "0.0.93"
+  }
+}
