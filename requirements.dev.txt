@@ -1,0 +1,1 @@
+django-webpack-loader==0.3.0
