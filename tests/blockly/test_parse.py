@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.utils.six import StringIO
-
-from lxml import etree
-
-from ..common import *
-from pprint import pprint
+from .common import *
 
 
 class BlocklyXmlParserTestCase(TestCase):
