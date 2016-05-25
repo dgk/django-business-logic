@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.utils.six import StringIO
-
-from lxml import etree
-
-from ..common import *
+from .common import *
 
 #NAMESPACES = {'xmlns': 'http://www.w3.org/1999/xhtml'}
 

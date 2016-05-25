@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.utils.six import StringIO
 
-from lxml import etree
+from .common import *
 
 from ..test_program import ProgramTestBase
-from ..common import *
 
 
 class NodeTreeCreatorTestCase(TestCase):
