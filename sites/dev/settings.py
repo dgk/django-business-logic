@@ -152,5 +152,5 @@ if 'test' in sys.argv[1:] or 'jenkins' in sys.argv[1:]:
     TEMPLATE_DEBUG = False
     MIGRATION_MODULES = DisableMigrations()
     INSTALLED_APPS += (
-        'business_logic.tests.test_app',
+        'tests.test_app',
     )
