@@ -5,7 +5,7 @@ from .common import *
 
 class ProgramInterfaceTest(TestCase):
     def setUp(self):
-        self.program_interface = ProgramInterface.objects.create(name='test')
+        self.program_interface = ProgramInterface.objects.create(code='test')
         self.argument = ProgramArgument.objects.create(
             program_interface=self.program_interface,
             content_type=ContentType.objects.get_for_model(TestModel)

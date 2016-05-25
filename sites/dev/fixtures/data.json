@@ -34,7 +34,7 @@
     "fields": {
         "comment": null,
         "rgt": 3,
-        "object_id": 4,
+        "object_id": 3,
         "lft": 2,
         "depth": 2,
         "content_type": [
@@ -523,7 +523,7 @@
     "fields": {
         "modification_time": "2016-05-16T08:55:30.911Z",
         "creation_time": "2016-05-04T09:47:57.533Z",
-        "name": "",
+        "code": "",
         "title": "Book"
     },
     "model": "business_logic.programinterface",
@@ -565,7 +565,7 @@
         "creation_time": "2016-05-04T09:49:38.477Z",
         "modification_time": "2016-05-04T09:49:38.477Z",
         "program_interface": 1,
-        "name": "on_book_view",
+        "code": "on_book_view",
         "title": "Book view"
     },
     "model": "business_logic.program",

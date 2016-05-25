@@ -13,7 +13,7 @@ class ProgramTestBase(TestCase):
     )
 
     def setUp(self):
-        self.program_interface = program_interface = ProgramInterface.objects.create(name='test')
+        self.program_interface = program_interface = ProgramInterface.objects.create(code='test')
 
         self.argument = ProgramArgument.objects.create(
             program_interface=self.program_interface,
@@ -25,7 +25,7 @@ class ProgramTestBase(TestCase):
 
         self.program = program = Program.objects.create(program_interface=program_interface,
                                                         title='test',
-                                                        name='test')
+                                                        code='test')
         self.program_version = ProgramVersion.objects.create(program=program,
                                                              entry_point=get_test_tree())
 

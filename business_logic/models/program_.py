@@ -19,7 +19,7 @@ from ..fields import DeepAttributeField
 @python_2_unicode_compatible
 class ProgramInterface(models.Model):
     title = models.CharField(_('Title'), max_length=255, db_index=True)
-    name = models.SlugField(_('Name'), max_length=255, null=True, blank=True, unique=True, db_index=True)
+    code = models.SlugField(_('Code'), max_length=255, null=True, blank=True, unique=True, db_index=True)
 
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
@@ -103,7 +103,7 @@ class ProgramArgumentField(models.Model):
 @python_2_unicode_compatible
 class Program(models.Model):
     title = models.CharField(_('Title'), max_length=255)
-    name = models.SlugField(_('Name'), max_length=255, unique=True, db_index=True)
+    code = models.SlugField(_('Code'), max_length=255, unique=True, db_index=True)
 
     program_interface = models.ForeignKey(ProgramInterface)
 
@@ -115,7 +115,7 @@ class Program(models.Model):
         verbose_name_plural = _('Programs')
 
     def __str__(self):
-        return '{}: {}({})'.format(self.program_interface, self.title, self.name)
+        return '{}: {}({})'.format(self.program_interface, self.title, self.code)
 
 
 @python_2_unicode_compatible

@@ -59,7 +59,7 @@ class BookDetail(generic.DetailView):
 
     def get_object(self, queryset=None):
         book = super(BookDetail, self).get_object(queryset)
-        program = Program.objects.get(name='on_book_view')
+        program = Program.objects.get(code='on_book_view')
         version = program.versions.first()
 
         version.interpret(book=book)
