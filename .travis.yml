@@ -2,14 +2,16 @@ language: python
 
 python:
   - "2.7"
-#  - "3.2"
-#  - "3.3"
-#  - "3.4"
-#  - "3.5"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "3.5"
 
 env:
-  - DJANGO_VERSION=1.8.12
-#  - DJANGO_VERSION=1.9.1
+  - DJANGO_VERSION=1.8
+  - DJANGO_VERSION=1.8.13
+  - DJANGO_VERSION=1.9
+  - DJANGO_VERSION=1.9.6
 
 install:
   - pip install -r requirements.txt
