@@ -176,7 +176,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=255, verbose_name='Title')),
-                ('name', models.SlugField(unique=True, max_length=255, verbose_name='Name')),
+                ('code', models.SlugField(unique=True, max_length=255, verbose_name='Code')),
                 ('creation_time', models.DateTimeField(auto_now_add=True)),
                 ('modification_time', models.DateTimeField(auto_now=True)),
             ],
@@ -215,7 +215,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=255, verbose_name='Title', db_index=True)),
-                ('name', models.SlugField(null=True, max_length=255, blank=True, unique=True, verbose_name='Name')),
+                ('code', models.SlugField(null=True, max_length=255, blank=True, unique=True, verbose_name='Code')),
                 ('creation_time', models.DateTimeField(auto_now_add=True)),
                 ('modification_time', models.DateTimeField(auto_now=True)),
             ],
@@ -230,9 +230,9 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=255, null=True, verbose_name='Title', blank=True)),
                 ('description', models.TextField(null=True, verbose_name='Description', blank=True)),
+                ('is_default', models.BooleanField(default=False, verbose_name='Is default')),
                 ('creation_time', models.DateTimeField(auto_now_add=True)),
                 ('modification_time', models.DateTimeField(auto_now=True)),
-                ('is_default', models.BooleanField(default=False, verbose_name='Is default')),
                 ('entry_point', models.ForeignKey(verbose_name='Entry point', to='business_logic.Node')),
                 ('program', models.ForeignKey(related_name='versions', to='business_logic.Program')),
             ],
