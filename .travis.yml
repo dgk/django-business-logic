@@ -14,6 +14,7 @@ env:
 install:
   - pip install -r requirements.txt
   - pip install django-bootstrap3==7.0.1
+  - django-webpack-loader==0.3.0
   - pip install -q Django==$DJANGO_VERSION
 
 script: python manage.py test business_logic.tests
