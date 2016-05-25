@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 
-
-from django.test import TestCase
-from ..models import *
+from .common import *
 
 def _bin(x):
     return bin(int(x))
@@ -28,7 +26,7 @@ class FunctionTest(TestCase):
     def test_context_in_function(self):
         context = Context()
         root = Node.add_root()
-        func_def = FunctionDefinition(module='business_logic.tests.function',
+        func_def = FunctionDefinition(module='tests.test_function',
                 function='context_bin', context_required=True)
         root.add_child(content_object=func_def)
         root = Node.objects.get(id=root.id)

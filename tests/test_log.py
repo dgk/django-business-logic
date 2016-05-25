@@ -2,12 +2,9 @@
 #
 
 
-from django.test import TestCase
-from ..models import *
+from .common import *
 
-from utils import *
-
-from ..models.log import LOG_ENTRY_VALUE_LENGTH
+from business_logic.models.log import LOG_ENTRY_VALUE_LENGTH
 
 
 class LogTest(TestCase):

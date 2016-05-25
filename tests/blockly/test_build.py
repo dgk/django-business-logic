@@ -5,7 +5,7 @@ from django.utils.six import StringIO
 
 from lxml import etree
 
-from business_logic.tests.common import *
+from ..common import *
 
 #NAMESPACES = {'xmlns': 'http://www.w3.org/1999/xhtml'}
 

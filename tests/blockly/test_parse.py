@@ -4,7 +4,7 @@ from django.utils.six import StringIO
 
 from lxml import etree
 
-from business_logic.tests.common import *
+from ..common import *
 from pprint import pprint
 
 
