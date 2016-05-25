@@ -2,9 +2,7 @@
 #
 
 
-from django.test import TestCase
-from ..models import *
-
+from .common import *
 
 
 class ConstantTest(TestCase):

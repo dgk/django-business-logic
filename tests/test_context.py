@@ -6,9 +6,7 @@ from django.test import TestCase
 from django.conf import settings
 from django.db import connection
 
-from ..models import *
-from utils import *
-
+from .common import *
 
 
 class ContextTest(TestCase):

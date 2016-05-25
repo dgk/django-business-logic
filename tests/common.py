@@ -4,13 +4,13 @@ import unittest
 
 from django.test import TestCase
 
-from ..blockly.build import *
-from ..blockly.create import *
-from ..blockly.exceptions import *
-from ..blockly.parse import *
+from business_logic.blockly.build import *
+from business_logic.blockly.create import *
+from business_logic.blockly.exceptions import *
+from business_logic.blockly.parse import *
 
-from ..models import *
-from ..utils import *
+from business_logic.models import *
+from business_logic.utils import *
 
 from .test_app.models import *
 from .utils import *

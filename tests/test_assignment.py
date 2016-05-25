@@ -2,10 +2,7 @@
 #
 
 
-from django.test import TestCase
-from ..models import *
-from utils import *
-
+from .common import *
 
 
 class AssignmentTest(TestCase):
