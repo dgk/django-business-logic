@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 #
 
-from django.test import TestCase
 
-from ..models import *
-from utils import *
-from .. import signals
+from .common import *
 
 class FrameTest(TestCase):
     def test_context_init(self):
