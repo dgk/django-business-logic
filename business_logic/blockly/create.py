@@ -7,6 +7,7 @@ from ..utils import get_content_type_id
 
 from .exceptions import NodeTreeCreatorException
 
+
 class NodeTreeCreator(object):
     def create(self, data, program_version=None):
         def is_block(__data):
@@ -67,7 +68,7 @@ class NodeTreeCreator(object):
         if model_class == VariableDefinition:
             return
 
-        node_kwargs = Node._meta.get_all_field_names()
+        node_kwargs = [x.name for x in Node._meta.get_fields()]
         content_object_kwargs = dict(((k, v) for k, v in data.items() if k not in node_kwargs))
 
         object = model_class.objects.create(**content_object_kwargs)
