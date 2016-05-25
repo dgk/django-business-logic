@@ -3,13 +3,10 @@
 
 from datetime import datetime
 
-from django.test import TestCase
-from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 from django.db import connection
 
-from ..models import *
-from utils import *
+from .common import *
 
 
 class NodeTest(TestCase):

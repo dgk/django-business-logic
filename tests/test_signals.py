@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 
-from django.test import TestCase
-
-from ..models import *
-from .. import signals
+from .common import *
 
 class TestException(Exception):
     pass

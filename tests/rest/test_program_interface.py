@@ -56,7 +56,7 @@ class ProgramInterfaceTest(TestCase):
                 ),
             'foreign_value': dict(
                 data_type='model',
-                model='business_logic.TestRelatedModel',
+                model='test_app.TestRelatedModel',
                 verbose_name='foreign value',
                 ),
             'foreign_value.string_value': dict(

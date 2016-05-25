@@ -5,8 +5,8 @@ from itertools import izip_longest, imap
 
 from django.contrib.contenttypes.models import ContentType
 
-from ..models import *
-from ..utils import *
+from business_logic.models import *
+from business_logic.utils import *
 
 
 def tree_1plus2mul3(parent=None):

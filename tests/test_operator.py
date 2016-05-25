@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 
-
-from django.test import TestCase
-from ..models import *
+from .common import *
 
 
 class BinaryOperatorTest(TestCase):

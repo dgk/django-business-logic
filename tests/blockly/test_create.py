@@ -3,7 +3,7 @@ from django.utils.six import StringIO
 
 from lxml import etree
 
-from .. import ProgramTestBase
+from ..test_program import ProgramTestBase
 from ..common import *
 
 
