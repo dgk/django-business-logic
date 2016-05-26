@@ -1,6 +1,6 @@
 # django-business-logic
 
-[![build-status-image]][travis]
+[![build-status-image]][travis] [![license-image]][license] ![pyversions-image] ![version-image] ![status-image] 
 
 **django business logic programming made easy**
 
@@ -34,3 +34,8 @@ There are a few different ways you can install django-business-logic:
  
 [build-status-image]: https://img.shields.io/travis/dgk/django-business-logic.svg
 [travis]: http://travis-ci.org/dgk/django-business-logic?branch=master
+[license-image]: https://img.shields.io/pypi/l/django-business-logic.svg
+[license]: https://github.com/dgk/django-business-logic/blob/master/LICENSE.txt
+[pyversions-image]: https://img.shields.io/pypi/pyversions/django-business-logic.svg
+[version-image]: https://img.shields.io/pypi/v/django-business-logic.svg
+[status-image]: https://img.shields.io/pypi/status/django-business-logic.svg
