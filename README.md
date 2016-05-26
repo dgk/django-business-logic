@@ -1,6 +1,8 @@
 # django-business-logic
 
-django business logic programming made easy
+[![build-status-image]][travis]
+
+**django business logic programming made easy**
 
 ## Install
 There are a few different ways you can install django-business-logic:
@@ -30,3 +32,4 @@ There are a few different ways you can install django-business-logic:
           ...
         )
  
+[build-status-image]: https://img.shields.io/travis/dgk/django-business-logic.svg
