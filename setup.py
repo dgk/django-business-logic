@@ -57,28 +57,32 @@ def get_package_data(package):
 def path(*parts):
     return os.path.join(os.path.dirname(__file__), *parts)
 
+def clean():
+    for d in ('dist', 'build', '{}.egg-info'.format(NAME.replace('-', '_'))):
+        if os.path.exists(d):
+            shutil.rmtree(d)
+
+
 if sys.argv[-1] == 'publish':
     try:
         import pypandoc
     except ImportError:
         print("pypandoc not installed.\nUse `pip install pypandoc`.\nExiting.")
-    if os.system("pip freeze | grep wheel"):
-        print("wheel not installed.\nUse `pip install wheel`.\nExiting.")
-        sys.exit()
+
+    clean()
+
+    #if os.system("pip freeze | grep wheel"):
+    #    print("wheel not installed.\nUse `pip install wheel`.\nExiting.")
+    #    sys.exit()
     if os.system("pip freeze | grep twine"):
         print("twine not installed.\nUse `pip install twine`.\nExiting.")
         sys.exit()
     os.system("python setup.py sdist bdist_wheel")
-    #os.system("twine upload dist/*")
+    os.system("twine upload dist/*")
     print("You probably want to also tag the version now:")
     print("  git tag -a %s -m 'version %s'" % (version, version))
     print("  git push --tags")
-    #shutil.rmtree('dist')
-    #shutil.rmtree('build')
-    #shutil.rmtree('{}.egg-info'.format(NAME.replace('-', '_')))
     sys.exit()
-
-
 
 
 setup(
@@ -91,7 +95,6 @@ setup(
         url=URL,
         #download_url='{}/archive/{}.tar.gz'.format(URL, VERSION),
         packages=get_packages(PACKAGE),
-
         package_data={
             PACKAGE: [
                 'locale/*/LC_MESSAGES/django.[mp]o',
