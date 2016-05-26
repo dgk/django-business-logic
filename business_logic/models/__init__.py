@@ -4,7 +4,6 @@
 from .assignment import *
 from .constant import *
 from .context import *
-from .compiler import *
 from .foreach import *
 from .frame import *
 from .function import *
