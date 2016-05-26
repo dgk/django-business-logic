@@ -5,11 +5,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 
-from node import NodeAccessor
-from constant import BooleanConstant
-from constant import NumberConstant
-from constant import ModelConstant
-from constant import StringConstant
+from .constant import BooleanConstant
+from .constant import NumberConstant
+from .constant import ModelConstant
+from .constant import StringConstant
 
 CONSTANTS_FOR_TYPES = {
         'bool': BooleanConstant,

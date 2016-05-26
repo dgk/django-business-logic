@@ -29,7 +29,7 @@ class ProgramInterfaceTest(TestCase):
         url = reverse('business-logic:rest:program-interface-list')
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        _json = json.loads(response.content)
+        _json = response_json(response)
         self.assertIsInstance(_json, dict)
         results = _json['results']
         self.assertIsInstance(results, list)
@@ -39,7 +39,7 @@ class ProgramInterfaceTest(TestCase):
         url = reverse('business-logic:rest:program-interface', kwargs={'pk': self.program_interface.id})
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        _json = json.loads(response.content)
+        _json = response_json(response)
         self.assertIsInstance(_json, dict)
         arguments = _json['argument']
         argument = arguments[0]

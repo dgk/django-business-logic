@@ -23,7 +23,7 @@ class ProgramVersionRESTTest(TestCase):
                 xml=self.xml
             )))
         self.assertEqual(201, response.status_code, response.content)
-        _json = json.loads(response.content)
+        _json = response_json(response)
         id = _json['id']
         created = ProgramVersion.objects.get(id=id)
         self.assertFalse(created.is_default)
@@ -33,7 +33,7 @@ class ProgramVersionRESTTest(TestCase):
         url = reverse('business-logic:rest:program-version', kwargs=dict(pk=self.program_version.id))
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        _json = json.loads(response.content)
+        _json = response_json(response)
         self.assertIsInstance(_json, dict)
         self.assertEqual(self.xml, _json['xml'])
 
@@ -57,6 +57,6 @@ class ProgramVersionRESTTest(TestCase):
             xml=self.xml.replace('>1.0<', '>3.0<')
         )))
         self.assertEqual(200, response.status_code, response.content)
-        _json = json.loads(response.content)
+        _json = response_json(response)
         self.assertIsInstance(_json, dict)
         self.assertEqual(self.xml, _json['xml'])

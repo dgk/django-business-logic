@@ -16,7 +16,7 @@ class ReferenceTest(TestCase):
         url = reverse('business-logic:rest:reference-descriptor-list')
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        _json = json.loads(response.content)
+        _json = response_json(response)
         self.assertIsInstance(_json, list)
         self.assertEqual(1, len(_json))
 
@@ -32,7 +32,7 @@ class ReferenceTest(TestCase):
 
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        _json = json.loads(response.content)
+        _json = response_json(response)
         self.assertIsInstance(_json, dict)
         self.assertEqual(1, len(_json['results']))
         reference = _json['results'][0]
