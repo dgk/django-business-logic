@@ -62,18 +62,20 @@ def symmetric_tree(operator='+', value=1, count=2,
     else:
         root = Node.objects.get(id=parent.id).add_child(content_object=bin_operator)
 
-    top = []
-    bottom = []
     levels = int(math.log(count, 2))
+
+    top = bottom = None
     for level in range(1, levels + 1):
-        if levels != level:
-            content_type_id = operator_content_type_id
-            obj_cls = BinaryOperator
-            obj_kwargs = dict(operator=operator)
-        else:
+        if levels == level:
+            # last level, create constants
             content_type_id = operand_content_type_id
             obj_cls = operand_cls
             obj_kwargs = dict(value=value)
+        else:
+            # create operators
+            content_type_id = operator_content_type_id
+            obj_cls = BinaryOperator
+            obj_kwargs = dict(operator=operator)
 
         level_objects = [
             dict(data=dict(
@@ -83,15 +85,14 @@ def symmetric_tree(operator='+', value=1, count=2,
             for x in range(pow(2, level))]
 
         if level == 1:
-            top = bottom = level_objects
+            top = level_objects
         else:
-            pairs = [x for x in zip_longest(*[iter(level_objects)] * 2)]
-            def f(parent, children):
+            pairs = zip_longest(*[iter(level_objects)] * 2)
+
+            for parent, children in zip_longest(bottom, pairs):
                 parent['children'] = children
 
-            map(f, bottom, pairs)
-
-            bottom = level_objects
+        bottom = level_objects
 
     Node.load_bulk(top, root)
     return Node.objects.get(id=root.id)
