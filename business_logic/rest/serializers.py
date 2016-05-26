@@ -7,6 +7,7 @@ from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils import six
 
 from rest_framework import serializers
 
@@ -101,7 +102,7 @@ class ReferenceListSerializer(serializers.ModelSerializer):
 
     def get_name(self, obj):
         #print self.context['view'].get_reference_model()
-        return unicode(obj)
+        return six.text_type(obj)
 
 
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):

@@ -8,7 +8,8 @@ from django.utils.encoding import python_2_unicode_compatible
 
 from django.utils.translation import ugettext_lazy as _
 
-from node import NodeAccessor
+from .node import NodeAccessor
+
 
 @python_2_unicode_compatible
 class Operator(NodeAccessor):
@@ -17,8 +18,8 @@ class Operator(NodeAccessor):
 
     def _check_operator(self):
         if self.operator not in self.operator_table:
-            raise TypeError, 'Incorrect operator "%(operator)s" for class %(cls)s' % \
-                    dict(operator=self.operator, cls=self.__class__.__name__)
+            raise TypeError('Incorrect operator "%(operator)s" for class %(cls)s' % \
+                    dict(operator=self.operator, cls=self.__class__.__name__))
 
     def __init__(self, *args, **kwargs):
         super(Operator, self).__init__(*args, **kwargs)
@@ -40,7 +41,7 @@ class BinaryOperator(Operator):
         '+': operator.add,
         '-': operator.sub,
         '*': operator.mul,
-        '/': operator.div,
+        '/': operator.floordiv,
         '^': operator.pow,
 
         '%': operator.mod,
@@ -58,7 +59,8 @@ class BinaryOperator(Operator):
         'in': operator.contains,
         }
 
-    def interpret(self, ctx, lhs, rhs):
+    def interpret(self, ctx, *args):
+        lhs, rhs = args
         return self.operator_table[self.operator](lhs, rhs)
 
     class Meta:

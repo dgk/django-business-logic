@@ -3,11 +3,14 @@
 
 from .common import *
 
+
 class TestException(Exception):
     pass
 
+
 def raise_on_enter(**kwargs):
-    raise TestException, kwargs
+    raise TestException(kwargs)
+
 
 class SignalsTest(TestCase):
     def tearDown(self):

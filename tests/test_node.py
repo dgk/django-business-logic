@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 
+from __future__ import print_function
 from datetime import datetime
 
 from django.conf import settings
@@ -189,8 +190,8 @@ class NodeTest(TestCase):
         def calculation_time(msg):
             now = datetime.now()
             calculation_time = now - start_time
-            print msg, float(calculation_time.seconds) + \
-                    float(calculation_time.microseconds) / 1000000
+            print(msg, float(calculation_time.seconds) +
+                    float(calculation_time.microseconds) / 1000000)
             return now
 
         root = symmetric_tree(operator='+', value=1, count=count)
@@ -205,9 +206,9 @@ class NodeTest(TestCase):
 
         self.failUnlessEqual(count, result)
         for q in connection.queries[compilation_queries_count:]:
-            print q['sql']
-        print 'queries.count', len(connection.queries) - \
-                compilation_queries_count
+            print(q['sql'])
+        print('queries.count', len(connection.queries) -
+                compilation_queries_count)
 
     def test_statement_or_block(self):
         root = Node.add_root()

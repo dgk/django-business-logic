@@ -1,9 +1,18 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 import math
-from itertools import izip_longest, imap
 
 from django.contrib.contenttypes.models import ContentType
+
+from django.utils import six
+
+if six.PY2:
+    from itertools import izip_longest as zip_longest
+else:
+    from itertools import zip_longest
+
 
 from business_logic.models import *
 from business_logic.utils import *
@@ -76,12 +85,12 @@ def symmetric_tree(operator='+', value=1, count=2,
         if level == 1:
             top = bottom = level_objects
         else:
-            pairs = [x for x in izip_longest(*[iter(level_objects)] * 2)]
-
+            pairs = [x for x in zip_longest(*[iter(level_objects)] * 2)]
             def f(parent, children):
                 parent['children'] = children
 
-            list(imap(f, bottom, pairs))
+            map(f, bottom, pairs)
+
             bottom = level_objects
 
     Node.load_bulk(top, root)
@@ -124,11 +133,11 @@ def variable_assign_value(variable_name='A', variable_definition=None, value=Non
 def print_tree_details(nodes):
     # mptt/tests/doctests.py
     opts = nodes[0]._meta
-    print '\n'.join(['%s %s %s %s %s %s' % \
+    print('\n'.join(['%s %s %s %s %s %s' %
                      (n.pk, getattr(n, '%s_id' % opts.parent_attr) or '-',
                       getattr(n, opts.tree_id_attr), getattr(n, opts.level_attr),
-                      getattr(n, opts.left_attr), getattr(n, opts.right_attr)) \
-                     for n in nodes])
+                      getattr(n, opts.left_attr), getattr(n, opts.right_attr))
+                     for n in nodes]))
 
 
 def create_if_statement(branches_count, use_binary_operator=False):
