@@ -1,6 +1,8 @@
 *.pyc
 /.idea
 /venv
+/virtualenv*
+/.tox
 *.sqlite3
 MANIFEST
 build/
