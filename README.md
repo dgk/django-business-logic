@@ -33,3 +33,4 @@ There are a few different ways you can install django-business-logic:
         )
  
 [build-status-image]: https://img.shields.io/travis/dgk/django-business-logic.svg
+[travis]: http://travis-ci.org/dgk/django-business-logic?branch=master
