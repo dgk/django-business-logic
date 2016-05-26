@@ -1,16 +1,19 @@
-var path = require("path");
-var webpack = require('webpack');
-var BundleTracker = require('webpack-bundle-tracker');
+/**
+ * @author: @AngularClass
+ */
 
-module.exports = {
-  context: __dirname,
-  entry: './assets/js/index',
-  output: {
-      path: path.resolve('./webpack_bundles/'),
-      filename: "[name]-[hash].js"
-  },
-
-  plugins: [
-    new BundleTracker({filename: './webpack-stats.json'})
-  ]
+// Look in ./config folder for webpack.dev.js
+switch (process.env.NODE_ENV) {
+  case 'prod':
+  case 'production':
+    module.exports = require('./config/webpack.prod');
+    break;
+  case 'test':
+  case 'testing':
+    module.exports = require('./config/webpack.test');
+    break;
+  case 'dev':
+  case 'development':
+  default:
+    module.exports = require('./config/webpack.dev');
 }
