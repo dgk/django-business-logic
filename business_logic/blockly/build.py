@@ -13,6 +13,7 @@ from ..models import *
 from .data import OPERATOR_TABLE
 from .exceptions import BlocklyXmlBuilderException
 
+
 def camel_case_to_snake_case(name):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
@@ -22,7 +23,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
     def build(self, tree_root):
         xml = etree.Element('xml')
         self.visit(tree_root, parent_xml=xml)
-        return etree.tostring(xml, pretty_print=True)
+        return etree.tostring(xml, pretty_print=True).decode('utf-8')
 
     def visit(self, node, parent_xml):
         content_object = node.content_object
@@ -131,7 +132,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
                 mutation.set('else', '1')
             elifs = (len(children) - 2 - len(children) % 2) / 2
             if elifs:
-                mutation.set('elseif', str(elifs))
+                mutation.set('elseif', str(int(elifs)))
 
         for i, pair in enumerate(pairs(children)):
             # last "else" branch

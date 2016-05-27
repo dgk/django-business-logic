@@ -4,7 +4,7 @@ import json
 from django.core.urlresolvers import reverse
 
 from django.test import Client
-
+from django.utils import six
 from ..common import *
 
 
@@ -32,3 +32,7 @@ class JSONClient(Client):
             HTTP_X_REQUESTED_WITH='XMLHttpRequest',
             **extra)
         return ret
+
+
+def response_json(response):
+    return json.loads(response.content.decode('utf-8'))

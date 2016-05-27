@@ -1,9 +1,18 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 import math
-from itertools import izip_longest, imap
 
 from django.contrib.contenttypes.models import ContentType
+
+from django.utils import six
+
+if six.PY2:
+    from itertools import izip_longest as zip_longest
+else:
+    from itertools import zip_longest
+
 
 from business_logic.models import *
 from business_logic.utils import *
@@ -53,18 +62,20 @@ def symmetric_tree(operator='+', value=1, count=2,
     else:
         root = Node.objects.get(id=parent.id).add_child(content_object=bin_operator)
 
-    top = []
-    bottom = []
     levels = int(math.log(count, 2))
+
+    top = bottom = None
     for level in range(1, levels + 1):
-        if levels != level:
-            content_type_id = operator_content_type_id
-            obj_cls = BinaryOperator
-            obj_kwargs = dict(operator=operator)
-        else:
+        if levels == level:
+            # last level, create constants
             content_type_id = operand_content_type_id
             obj_cls = operand_cls
             obj_kwargs = dict(value=value)
+        else:
+            # create operators
+            content_type_id = operator_content_type_id
+            obj_cls = BinaryOperator
+            obj_kwargs = dict(operator=operator)
 
         level_objects = [
             dict(data=dict(
@@ -74,15 +85,14 @@ def symmetric_tree(operator='+', value=1, count=2,
             for x in range(pow(2, level))]
 
         if level == 1:
-            top = bottom = level_objects
+            top = level_objects
         else:
-            pairs = [x for x in izip_longest(*[iter(level_objects)] * 2)]
+            pairs = zip_longest(*[iter(level_objects)] * 2)
 
-            def f(parent, children):
+            for parent, children in zip_longest(bottom, pairs):
                 parent['children'] = children
 
-            list(imap(f, bottom, pairs))
-            bottom = level_objects
+        bottom = level_objects
 
     Node.load_bulk(top, root)
     return Node.objects.get(id=root.id)
@@ -124,11 +134,11 @@ def variable_assign_value(variable_name='A', variable_definition=None, value=Non
 def print_tree_details(nodes):
     # mptt/tests/doctests.py
     opts = nodes[0]._meta
-    print '\n'.join(['%s %s %s %s %s %s' % \
+    print('\n'.join(['%s %s %s %s %s %s' %
                      (n.pk, getattr(n, '%s_id' % opts.parent_attr) or '-',
                       getattr(n, opts.tree_id_attr), getattr(n, opts.level_attr),
-                      getattr(n, opts.left_attr), getattr(n, opts.right_attr)) \
-                     for n in nodes])
+                      getattr(n, opts.left_attr), getattr(n, opts.right_attr))
+                     for n in nodes]))
 
 
 def create_if_statement(branches_count, use_binary_operator=False):

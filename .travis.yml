@@ -8,14 +8,17 @@ python:
 env:
   - DJANGO_VERSION=1.8.13
   - DJANGO_VERSION=1.9.6
+before_install:
+  - export DJANGO_SETTINGS_MODULE=sites.test.settings
 
 install:
   - pip install -r requirements.txt
-  - pip install django-bootstrap3==7.0.1
-  - pip install django-webpack-loader==0.3.0
   - pip install -q Django==$DJANGO_VERSION
 
 script: python manage.py test tests
 
 notifications:
   email: false
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

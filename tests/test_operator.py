@@ -88,14 +88,14 @@ class BinaryOperatorTest(TestCase):
         ctx = Context()
         result = div_operator.interpret(ctx, number_const1.interpret(ctx),
                 number_const2.interpret(ctx))
-        self.failUnlessEqual(2 / 3, result)
+        self.failUnlessEqual(2 // 3, result)
 
         number_constant1 = NumberConstant(value=1.2)
         number_constant2 = NumberConstant(value=2.3)
         ctx = Context()
         result = div_operator.interpret(ctx, number_constant1.interpret(ctx),
                 number_constant2.interpret(ctx))
-        self.failUnlessEqual(1.2 / 2.3, result)
+        self.failUnlessEqual(1.2 // 2.3, result)
 
     def test_interpret_pow(self):
         pow_operator = BinaryOperator(operator='^')

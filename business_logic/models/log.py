@@ -2,12 +2,13 @@
 #
 
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.utils import six
+from django.utils.translation import ugettext_lazy as _
 
 from treebeard.al_tree import AL_Node
 
-from node import Node
+from .node import Node
 
 try:
     LOG_ENTRY_VALUE_LENGTH = settings.PROGRAM_LOG_ENTRY_VALUE_LENGTH
@@ -44,7 +45,7 @@ class Logger:
         node.save()
 
     def prepare_value(self, value):
-        value = unicode(value)
+        value = six.text_type(value)
         if len(value) > LOG_ENTRY_VALUE_LENGTH:
             value = value[:LOG_ENTRY_VALUE_LENGTH - 3] + '...'
         return value

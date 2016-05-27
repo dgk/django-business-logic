@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
 
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
@@ -11,7 +11,6 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 
 from treebeard.ns_tree import NS_Node
 
-#import mptt
 from .. import signals
 
 
@@ -130,12 +129,8 @@ class Node(NS_Node):
 
         visitor = PrettyPrintVisitor()
         visitor.preorder(self)
-        print visitor.str
+        print(visitor.str)
 
-
-#if self.object_id and content_object is not None \
-#        and hasattr(self.content_object, 'add_child') and callable(getattr(self.content_object, 'add_child')):
-#  self.content_object.add_child(content_object)
 
 
 class NodeCache:
