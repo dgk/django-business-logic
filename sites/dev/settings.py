@@ -46,8 +46,6 @@ INSTALLED_APPS = (
     'business_logic',
 
     'sites.dev.books',
-
-    'webpack_loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -67,7 +65,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'frontend'),
             os.path.join(SITE_DIR, 'templates'),
         ],
         'APP_DIRS': True,
@@ -80,17 +77,6 @@ TEMPLATES = [
             ],
         },
     },
-]
-
-WEBPACK_LOADER = {
-    'DEFAULT': {
-        'STATS_FILE': os.path.join(BASE_DIR, 'frontend', 'webpack-stats.json'),
-    }
-}
-
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "frontend"),
 ]
 
 WSGI_APPLICATION = 'sites.dev.wsgi.application'
