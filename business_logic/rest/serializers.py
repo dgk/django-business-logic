@@ -24,6 +24,8 @@ def get_model_name(content_type):
 
 
 class ProgramInterfaceListSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program-interface')
+
     class Meta:
         model = ProgramInterface
 
@@ -34,6 +36,7 @@ class ProgramListSerializer(serializers.ModelSerializer):
 
 
 class ProgramVersionListSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program-version')
     class Meta:
         model = ProgramVersion
         read_only_fields = ('is_default', )
