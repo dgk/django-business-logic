@@ -26,7 +26,7 @@ class BlocklyXmlBuilderConstantTest(TestCase):
         else:
             self.assertEqual(str(statement.value), field.text)
 
-    def test_number_constantant(self):
+    def test_number_constant(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#zv7x7e
         self._constant_test(NumberConstant(value=1.11456), 'math_number', 'NUM')
 
