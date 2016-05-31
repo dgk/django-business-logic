@@ -41,8 +41,12 @@ export class BackendService {
       .map(this.extractData);
   }
 
-  getProgram(program: number) {
+  getProgramVersionById(id: number) {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
 
+    return this.http.get(`${this.programVersionUrl}/${id}`, options)
+      .map(this.extractData);
   }
 
   private extractData(res: Response) {
