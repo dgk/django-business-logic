@@ -140,7 +140,7 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
 
 
 class ProgramArgumentSerializer(serializers.ModelSerializer):
-    field = ProgramArgumentFieldSerializer(many=True)
+    fields = ProgramArgumentFieldSerializer(many=True)
 
     class Meta:
         model = ProgramArgument

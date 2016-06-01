@@ -43,7 +43,7 @@ class ProgramInterfaceTest(TestCase):
         self.assertIsInstance(_json, dict)
         arguments = _json['arguments']
         argument = arguments[0]
-        fields = dict((x['name'], x) for x in argument['field'])
+        fields = dict((x['name'], x) for x in argument['fields'])
 
         expected = {
             'int_value': dict(

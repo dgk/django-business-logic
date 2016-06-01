@@ -55,13 +55,13 @@ class ProgramArgument(models.Model):
             self.variable_definition.name = self.name
             self.variable_definition.save()
 
-            for field in self.field.all():
+            for field in self.fields.all():
                 field.save()
 
         super(ProgramArgument, self).save(force_insert, force_update, using, update_fields)
 
     def delete(self, using=None):
-        for field in self.field.all():
+        for field in self.fields.all():
             field.delete()
 
         self.variable_definition.delete()
@@ -70,7 +70,7 @@ class ProgramArgument(models.Model):
 
 @python_2_unicode_compatible
 class ProgramArgumentField(models.Model):
-    program_argument = models.ForeignKey(ProgramArgument, related_name='field')
+    program_argument = models.ForeignKey(ProgramArgument, related_name='fields')
     name = DeepAttributeField(_('Name'), max_length=255)
     variable_definition = models.OneToOneField(VariableDefinition, related_name='program_argument_field')
 
@@ -155,7 +155,7 @@ class ProgramVersion(models.Model):
                 raise
             context.set_variable(program_argument.variable_definition, argument)
 
-            for field in program_argument.field.all():
+            for field in program_argument.fields.all():
                 parts = field.name.split('.')
                 current = argument
                 found = True
