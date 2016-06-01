@@ -11,7 +11,7 @@ from .ifstatement import *
 from .log import *
 from .node import *
 from .operator_ import *
-from .program_ import *
+from .program import *
 from .result import *
 from .reference import *
 from .stop import *
