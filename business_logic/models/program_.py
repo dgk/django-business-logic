@@ -34,7 +34,7 @@ class ProgramInterface(models.Model):
 
 @python_2_unicode_compatible
 class ProgramArgument(models.Model):
-    program_interface = models.ForeignKey(ProgramInterface, related_name='argument')
+    program_interface = models.ForeignKey(ProgramInterface, related_name='arguments')
     name = models.SlugField(_('Name'), max_length=255)
 
     content_type = models.ForeignKey(ContentType)
@@ -147,7 +147,7 @@ class ProgramVersion(models.Model):
 
     def interpret(self, **kwargs):
         context = kwargs.pop('context', Context())
-        for program_argument in self.program.program_interface.argument.all():
+        for program_argument in self.program.program_interface.arguments.all():
             try:
                 argument = kwargs.pop(program_argument.name)
                 assert program_argument.content_type.model_class() == argument.__class__

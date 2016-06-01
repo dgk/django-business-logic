@@ -41,7 +41,7 @@ class ProgramInterfaceTest(TestCase):
         self.assertEqual(200, response.status_code)
         _json = response_json(response)
         self.assertIsInstance(_json, dict)
-        arguments = _json['argument']
+        arguments = _json['arguments']
         argument = arguments[0]
         fields = dict((x['name'], x) for x in argument['field'])
 

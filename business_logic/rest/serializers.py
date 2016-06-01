@@ -147,7 +147,7 @@ class ProgramArgumentSerializer(serializers.ModelSerializer):
 
 
 class ProgramInterfaceSerializer(serializers.ModelSerializer):
-    argument = ProgramArgumentSerializer(many=True)
+    arguments = ProgramArgumentSerializer(many=True)
 
     class Meta:
         model = ProgramInterface
