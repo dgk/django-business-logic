@@ -37,8 +37,10 @@ class ProgramInline(admin.StackedInline):
 
 class ContentTypeFilter(admin.RelatedFieldListFilter):
     def field_choices(self, field, request, model_admin):
-        return field.get_choices(include_blank=False,
-            limit_choices_to={'id__in' :get_customer_available_content_types()})
+        return field.get_choices(
+            include_blank=False,
+            limit_choices_to={'id__in': get_customer_available_content_types()}
+        )
 
 
 class ProgramInterfaceAdmin(NestedModelAdmin):

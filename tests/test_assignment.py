@@ -27,7 +27,6 @@ class AssignmentTest(TestCase):
         var_value = context.get_variable(var_def)
         self.failUnlessEqual(7, var_value)
 
-
     def test_var_assignment(self):
         context = Context()
 

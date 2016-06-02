@@ -3,15 +3,21 @@ from __future__ import unicode_literals
 
 import copy
 
-from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
-from django.db import models
 from django.utils import six
 
 from rest_framework import serializers
 
-from ..models import ProgramInterface, ProgramArgumentField, ProgramArgument, ReferenceDescriptor, Program, ProgramVersion
+from ..models import (
+    ProgramInterface,
+    ProgramArgumentField,
+    ProgramArgument,
+    ReferenceDescriptor,
+    Program,
+    ProgramVersion
+)
+
 from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
 
 from ..blockly.build import BlocklyXmlBuilder
@@ -37,6 +43,7 @@ class ProgramListSerializer(serializers.ModelSerializer):
 
 class ProgramVersionListSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program-version')
+
     class Meta:
         model = ProgramVersion
         read_only_fields = ('is_default', )
@@ -49,7 +56,7 @@ class ProgramVersionCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramVersion
-        fields = ('title', 'description', 'xml', 'program','id')
+        fields = ('title', 'description', 'xml', 'program', 'id')
 
     def validate_xml(self, value):
         try:
@@ -68,10 +75,10 @@ class ProgramVersionCreateSerializer(serializers.ModelSerializer):
 
 class ProgramVersionSerializer(serializers.ModelSerializer):
     xml = serializers.SerializerMethodField()
+
     class Meta:
         model = ProgramVersion
         exclude = ('entry_point', )
-
 
     def get_xml(self, obj):
         return BlocklyXmlBuilder().build(obj.entry_point)
@@ -104,41 +111,44 @@ class ReferenceListSerializer(serializers.ModelSerializer):
         return declared_fields
 
     def get_name(self, obj):
-        #print self.context['view'].get_reference_model()
         return six.text_type(obj)
 
 
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
-    schema = serializers.SerializerMethodField()
-
     class Meta:
         model = ProgramArgumentField
-        exclude = ('program_argument', 'id', 'variable_definition')
 
-    def get_schema(self, obj):
-        schema = {}
-        argument = obj.program_argument
-        model = argument.content_type.model_class()
-        field_names = obj.name.split('.')
+    def to_representation(self, instance):
+        representation = {}
         verbose_name = []
+
+        representation['name'] = instance.name
+
+        argument = instance.program_argument
+        model = argument.content_type.model_class()
+
+        field_names = instance.name.split('.')
         for i, field_name in enumerate(field_names):
             field = model._meta.get_field(field_name)
             verbose_name.append(field.verbose_name)
+
             is_last_field = i == len(field_names) - 1
+            is_django_model = field.__class__ in DJANGO_FIELDS_FOR_TYPES['model']
 
-            if is_last_field:
-                schema['data_type'] = TYPES_FOR_DJANGO_FIELDS[field.__class__]
-
-            if field.__class__ in DJANGO_FIELDS_FOR_TYPES['model']:
+            if is_django_model:
                 model = field.related_model
 
-                if is_last_field:
-                    schema['content_type'] = get_model_name(ContentType.objects.get_for_model(model))
+            if is_last_field:
+                representation['data_type'] = TYPES_FOR_DJANGO_FIELDS[field.__class__]
+                representation['content_type'] = (
+                    get_model_name(ContentType.objects.get_for_model(model))
+                    if is_django_model
+                    else None
+                )
 
+        representation['verbose_name'] = '.'.join(verbose_name)
 
-        schema['verbose_name'] = '.'.join(verbose_name)
-
-        return schema
+        return representation
 
 
 class ContentTypeSerializer(serializers.Serializer):
@@ -157,6 +167,7 @@ class ProgramArgumentSerializer(serializers.ModelSerializer):
 
     def get_verbose_name(self, obj):
         return obj.content_type.model_class()._meta.verbose_name
+
 
 class ProgramInterfaceSerializer(serializers.ModelSerializer):
     arguments = ProgramArgumentSerializer(many=True)

@@ -26,7 +26,7 @@ OPERATOR_TABLE = {
 REVERSE_OPERATOR_TABLE = {
     block_type: {
         blockly: internal for internal, blockly
-            in operators.items()}
-        for block_type, operators
+        in operators.items()}
+    for block_type, operators
     in OPERATOR_TABLE.items()
-}
+    }

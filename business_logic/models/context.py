@@ -4,7 +4,7 @@
 from .. import signals
 from .log import Logger
 from .frame import Frame
-from .node import Node, NodeCacheHolder
+from .node import NodeCacheHolder
 from .result import Result
 from .variable import Variable, VariableDefinition
 
@@ -31,22 +31,16 @@ class Context(NodeCacheHolder):
         self._vars = {}
         self.frames = []
 
-        signals.block_interpret_enter.connect(self.block_interpret_enter,
-                sender=self)
-        signals.block_interpret_leave.connect(self.block_interpret_leave,
-                sender=self)
+        signals.block_interpret_enter.connect(self.block_interpret_enter, sender=self)
+        signals.block_interpret_leave.connect(self.block_interpret_leave, sender=self)
 
-        signals.interpret_enter.connect(self.interpret_enter,
-                sender=self)
-        signals.interpret_leave.connect(self.interpret_leave,
-                sender=self)
+        signals.interpret_enter.connect(self.interpret_enter, sender=self)
+        signals.interpret_leave.connect(self.interpret_leave, sender=self)
 
         self.logger = Logger()
         if self.config.logging:
-            signals.interpret_enter.connect(self.logger.interpret_enter,
-                    sender=self)
-            signals.interpret_leave.connect(self.logger.interpret_leave,
-                    sender=self)
+            signals.interpret_enter.connect(self.logger.interpret_enter, sender=self)
+            signals.interpret_leave.connect(self.logger.interpret_leave, sender=self)
 
     def _frame(self):
         if not self.frames:
@@ -70,8 +64,7 @@ class Context(NodeCacheHolder):
         if not self.frames:
             node = kwargs['node']
             self._single_statement_node = node
-            signals.interpret_leave.connect(self.single_statement_interpret_leave,
-                sender=self)
+            signals.interpret_leave.connect(self.single_statement_interpret_leave, sender=self)
             self.frames.append(Frame())
 
     def interpret_leave(self, **kwargs):
@@ -106,8 +99,6 @@ class Context(NodeCacheHolder):
                 current = getattr(current, attr)
             except AttributeError:
                 return Variable.Undefined()
-
-        #self._vars[variable_definition.name] = current
 
         return current
 

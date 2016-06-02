@@ -4,6 +4,7 @@
 
 from .common import *
 
+
 class FrameTest(TestCase):
     def test_context_init(self):
         context = Context()

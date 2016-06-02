@@ -4,7 +4,7 @@ from django.conf.urls import url, include
 from .rest import urls
 
 
-class Urls:
+class Urls(object):
 
     urlpatterns = [
         url('^rest/', include(urls, namespace='rest'))

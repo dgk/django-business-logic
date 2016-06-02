@@ -15,7 +15,8 @@ try:
 except AttributeError:
     LOG_ENTRY_VALUE_LENGTH = 255
 
-class Logger:
+
+class Logger(object):
     def __init__(self):
         self.log = None
         self._stack = []
@@ -30,7 +31,7 @@ class Logger:
             log_node = LogEntry.add_root(node=node)
             self.log = log_node
         else:
-            log_node = parent=self._stack[-1].add_child(node=node)
+            log_node = parent = self._stack[-1].add_child(node=node)
         if not node.is_block():
             log_node.previous_value = self.prepare_value(node.content_object)
         self._stack.append(log_node)
@@ -49,6 +50,7 @@ class Logger:
         if len(value) > LOG_ENTRY_VALUE_LENGTH:
             value = value[:LOG_ENTRY_VALUE_LENGTH - 3] + '...'
         return value
+
 
 class LogEntry(AL_Node):
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children')

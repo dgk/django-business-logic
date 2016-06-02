@@ -29,7 +29,7 @@ class Variable(models.Model):
         verbose_name_plural = _('Variables')
 
     class Undefined(object):
-        def __nonzero__( self) :
+        def __nonzero__(self):
             return False
 
         def __bool__(self):

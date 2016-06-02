@@ -24,7 +24,6 @@ class NodeTest(TestCase):
         self.failUnlessEqual(operator.operator, root.content_object.operator)
         self.failUnlessEqual('+', root.content_object.operator)
 
-
     def test_add_child(self):
         operator = BinaryOperator(operator='+')
         operator.save()
@@ -95,14 +94,12 @@ class NodeTest(TestCase):
         # preoder
         visitor = Visitor()
         visitor.preorder(add_node)
-        self.failUnlessEqual(visitor.visited,
-                [add_node, node1, mul_node, node2, node3])
+        self.failUnlessEqual(visitor.visited, [add_node, node1, mul_node, node2, node3])
 
         # postorder
         visitor = Visitor()
         visitor.postorder(add_node)
-        self.failUnlessEqual(visitor.visited,
-                 [node1, node2, node3, mul_node, add_node, ])
+        self.failUnlessEqual(visitor.visited, [node1, node2, node3, mul_node, add_node, ])
 
     def test_recursive_delete(self):
         root = Node.add_root()
@@ -144,7 +141,7 @@ class NodeTest(TestCase):
         context = Context(cache=False)
         result = root.interpret(context)
 
-        self.failUnlessEqual(number_constant1.value  + number_constant2.value, result)
+        self.failUnlessEqual(number_constant1.value + number_constant2.value, result)
 
     def test_interpret_tree(self):
 
@@ -170,9 +167,8 @@ class NodeTest(TestCase):
 
         self.failUnlessEqual(2 + 3 * 4, result)
 
-
     def _test_long_time_interpret(self):
-        #settings.DEBUG = True
+        # settings.DEBUG = True
         start_time = datetime.now()
 
         count = 16
@@ -181,9 +177,9 @@ class NodeTest(TestCase):
         count = 512
         count = 1024
         count = 1024 * 8
-        #count = 256
-        #count = 1024 * 1024 # 1048576
-        #count = 1024 * 16 # 1048576
+        # count = 256
+        # count = 1024 * 1024 # 1048576
+        # count = 1024 * 16 # 1048576
 
         context = Context(cache=True)
 
@@ -191,7 +187,7 @@ class NodeTest(TestCase):
             now = datetime.now()
             calculation_time = now - start_time
             print(msg, float(calculation_time.seconds) +
-                    float(calculation_time.microseconds) / 1000000)
+                  float(calculation_time.microseconds) / 1000000)
             return now
 
         root = symmetric_tree(operator='+', value=1, count=count)
@@ -208,7 +204,7 @@ class NodeTest(TestCase):
         for q in connection.queries[compilation_queries_count:]:
             print(q['sql'])
         print('queries.count', len(connection.queries) -
-                compilation_queries_count)
+              compilation_queries_count)
 
     def test_statement_or_block(self):
         root = Node.add_root()
@@ -283,10 +279,10 @@ class NodeTest(TestCase):
         self.failUnlessEqual(content_object.node, root)
 
 
-
 class NodeCacheTest(TestCase):
     def setUp(self):
         settings.DEBUG = True
+
     def tearDown(self):
         settings.DEBUG = False
 
@@ -321,17 +317,13 @@ class NodeCacheTest(TestCase):
         lft_mul_node, rgh_mul_node = node.get_children().all()
         lft_lft_child, rgh_lft_child = lft_mul_node.get_children().all()
         lft_rgh_child, rgh_rgh_child = rgh_mul_node.get_children().all()
-        cached_lft_mul_node, cached_rgh_mul_node = \
-                cache_holder.get_children(node)
+        cached_lft_mul_node, cached_rgh_mul_node = cache_holder.get_children(node)
 
         max_num_queries = len(queries)
-        cached_lft_lft_child, cached_rgh_lft_child = \
-                cache_holder.get_children(cached_lft_mul_node)
-        cached_lft_rgh_child, cached_rgh_rgh_child = \
-                cache_holder.get_children(cached_rgh_mul_node)
+        cached_lft_lft_child, cached_rgh_lft_child = cache_holder.get_children(cached_lft_mul_node)
+        cached_lft_rgh_child, cached_rgh_rgh_child = cache_holder.get_children(cached_rgh_mul_node)
         self.failUnlessEqual(max_num_queries, len(queries))
-        cached_lft_rgh_child, cached_rgh_rgh_child = \
-                cache_holder.get_children(rgh_mul_node)
+        cached_lft_rgh_child, cached_rgh_rgh_child = cache_holder.get_children(rgh_mul_node)
         content_object = cached_rgh_mul_node.content_object
         content_object = cached_lft_rgh_child.content_object
         content_object = cached_rgh_rgh_child.content_object

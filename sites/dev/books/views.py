@@ -54,6 +54,7 @@ class PublisherList(generic.ListView):
 class PublisherDetail(generic.DetailView):
     model = Publisher
 
+
 class BookDetail(generic.DetailView):
     model = Book
 

@@ -14,12 +14,12 @@ from .exceptions import BlocklyXmlParserException
 
 class BlocklyXmlParser(object):
     def parse(self, xml_str):
-        '''
+        """
         :param xml_str: blockly native XML string
         :type xml_str: str
         :return: list of dictionaries similar to treebeard.Node.dump_bulk() return value structure
         :rtype: list
-        '''
+        """
 
         xml = etree.parse(StringIO(xml_str))
         root_node = xml.getroot()
@@ -70,7 +70,9 @@ class BlocklyXmlParser(object):
             _children = next.getchildren()
 
             if len(_children) != 1:
-                raise BlocklyXmlParserException('Incorrect number of children ({}) for BlocklyXmlParser._process_next()'.format(len(_children)))
+                raise BlocklyXmlParserException(
+                    'Incorrect number of children ({}) for BlocklyXmlParser._process_next()'.format(len(_children))
+                )
 
             _node = _children[0]
             children.append(_node)
@@ -99,7 +101,7 @@ class BlocklyXmlParser(object):
         for child in node.getchildren() if children is None else children:
             child_data = self.visit(child)
             if child_data is not None:
-                data ['children'].append(child_data)
+                data['children'].append(child_data)
 
     def _visit_single_child(self, node):
         children = node.getchildren()

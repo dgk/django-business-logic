@@ -105,7 +105,7 @@ class NodeTreeCreatorProgramVersionTest(ProgramTestBase, NodeTreeCreatorTestCase
         variable_definitions_count = VariableDefinition.objects.count()
         external_variable_definitions = VariableDefinition.objects.filter(
             Q(program_argument__program_interface=self.program_interface) |
-                Q(program_argument_field__program_argument__program_interface= self.program_interface)
+            Q(program_argument_field__program_argument__program_interface=self.program_interface)
         ).order_by('name').distinct()
 
         variable_definitions = NodeTreeCreator().create_variable_definitions(dict1, external_variable_definitions)
@@ -116,7 +116,8 @@ class NodeTreeCreatorProgramVersionTest(ProgramTestBase, NodeTreeCreatorTestCase
         tree1 = variable_assign_value(variable_name='test_model.int_value')
         dict1 = self.build_dict(tree1)
         self.assertRaises(NodeTreeCreatorException, NodeTreeCreator().create_variable_definitions, dict1, [None])
-        self.assertRaises(NodeTreeCreatorException, NodeTreeCreator().create_variable_definitions, dict1, [self.program_interface])
+        self.assertRaises(NodeTreeCreatorException, NodeTreeCreator().create_variable_definitions, dict1,
+                          [self.program_interface])
 
     def test_create_should_check_program_version_type(self):
         tree1 = variable_assign_value(variable_name='test_model.int_value')
