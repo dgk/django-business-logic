@@ -25,12 +25,14 @@ class NumberConstant(Constant):
         verbose_name = _('Float constant')
         verbose_name_plural = _('Float constants')
 
+
 class StringConstant(Constant):
     value = models.TextField(_('Value'), default='')
 
     class Meta:
         verbose_name = _('String constant')
         verbose_name_plural = _('String constants')
+
 
 class BooleanConstant(Constant):
     value = models.BooleanField(_('Value'))
@@ -39,6 +41,7 @@ class BooleanConstant(Constant):
         verbose_name = _('Boolean constant')
         verbose_name_plural = _('Boolean constants')
 
+
 class DateConstant(Constant):
     value = models.DateField(_('Value'))
 
@@ -46,12 +49,14 @@ class DateConstant(Constant):
         verbose_name = _('Date constant')
         verbose_name_plural = _('Date constants')
 
+
 class ModelConstant(Constant):
     value = models.BooleanField(_('Value'))
 
     class Meta:
         verbose_name = _('Model constant')
         verbose_name_plural = _('Model constants')
+
 
 class ListConstant(Constant):
     class Meta:

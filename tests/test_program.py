@@ -136,12 +136,14 @@ class ProgramTest(ProgramTestBase):
         int_value_field = self.fields['int_value']
         foreign_value_int_value_field = self.fields['foreign_value.int_value']
 
-        self.program_version.entry_point = variable_assign_value(value=Variable(definition=foreign_value_int_value_field.variable_definition),
-                                                                 variable_definition=int_value_field.variable_definition)
+        self.program_version.entry_point = variable_assign_value(
+            value=Variable(definition=foreign_value_int_value_field.variable_definition),
+            variable_definition=int_value_field.variable_definition)
         self.program_version.save()
 
         context = self.program_version.interpret(test_model=self.test_model)
 
-        self.assertIsInstance(context.get_variable(foreign_value_int_value_field.variable_definition), Variable.Undefined)
+        self.assertIsInstance(context.get_variable(foreign_value_int_value_field.variable_definition),
+                              Variable.Undefined)
         self.assertIsNone(context.get_variable(int_value_field.variable_definition))
         self.assertIsNone(self.test_model.int_value)

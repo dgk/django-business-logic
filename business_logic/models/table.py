@@ -4,6 +4,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+
 class Table(models.Model):
     class Meta:
         verbose_name = _('Table')

@@ -3,6 +3,7 @@
 /venv
 /virtualenv*
 /.tox
+/.cache
 *.sqlite3
 MANIFEST
 build/

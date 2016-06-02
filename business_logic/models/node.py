@@ -60,10 +60,11 @@ class Node(NS_Node):
                 if node.object_id:
                     content_object = node.content_object
                     content_object_kwargs = dict([(field.name, getattr(content_object, field.name))
-                                            for field in content_object._meta.fields if field.name not in ('id', )])
+                                                  for field in content_object._meta.fields if
+                                                  field.name not in ('id',)])
                     content_object_clone = content_object.__class__(**content_object_kwargs)
                     content_object_clone.save()
-                    node_kwargs=dict(content_object=content_object_clone)
+                    node_kwargs = dict(content_object=content_object_clone)
                 else:
                     node_kwargs = dict()
 
@@ -92,7 +93,6 @@ class Node(NS_Node):
         signals.interpret_enter.send(sender=ctx, node=self, value=self.content_object)
 
         children = ctx.get_children(self)
-
 
         return_value = None
 
@@ -132,7 +132,6 @@ class Node(NS_Node):
         print(visitor.str)
 
 
-
 class NodeCache:
     def __init__(self):
         self._initialized = False
@@ -149,18 +148,18 @@ class NodeCache:
     def _initialize(self, node):
         objects_by_ct_id_by_id = {}
         tree = Node.objects.filter(tree_id=node.tree_id)
-        content_type_ids = tree.values_list('content_type',
-                flat=True).order_by('content_type').distinct().exclude(
-                        content_type__isnull=True)
+        content_type_ids = tree.values_list(
+            'content_type', flat=True
+        ).order_by('content_type').distinct().exclude(content_type__isnull=True)
         content_types = ContentType.objects.filter(id__in=content_type_ids)
         content_type_by_id = {}
         for content_type in content_types:
             content_type_by_id[content_type.id] = content_type
             model = content_type.model_class()
             objects_by_ct_id_by_id[content_type.id] = dict([(x.id, x) for x
-                in model.objects.filter(
-                id__in=tree.values_list('object_id',
-                    flat=True).filter(content_type=content_type)
+                                                            in model.objects.filter(
+                    id__in=tree.values_list('object_id',
+                                            flat=True).filter(content_type=content_type)
                 )])
 
         tree = list(tree)
@@ -177,10 +176,12 @@ class NodeCache:
 
         self._child_by_parent_id = {}
         for parent in tree:
-            self._child_by_parent_id[parent.id] = [node for node in tree
-                    if node.lft >= parent.lft
-                        and node.lft <= parent.rgt - 1
-                        and node.depth == parent.depth + 1]
+            self._child_by_parent_id[parent.id] = [
+                node for node in tree
+                if node.lft >= parent.lft and
+                node.lft <= parent.rgt - 1 and
+                node.depth == parent.depth + 1
+                ]
 
 
 class NodeCacheHolder(object):

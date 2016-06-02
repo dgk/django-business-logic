@@ -9,9 +9,11 @@ class ProgramVersionRESTTest(TestCase):
 
         self.program_interface = program_interface = ProgramInterface.objects.create(code='test')
 
-        self.program = program = Program.objects.create(program_interface=program_interface,
-                                              title='test',
-                                              code='test')
+        self.program = program = Program.objects.create(
+            program_interface=program_interface,
+            title='test',
+            code='test'
+        )
 
         self.program_version = ProgramVersion.objects.create(program=program, entry_point=variable_assign_value())
         self.xml = BlocklyXmlBuilder().build(self.program_version.entry_point)

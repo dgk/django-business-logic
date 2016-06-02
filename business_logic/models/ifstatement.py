@@ -7,6 +7,7 @@ from ..utils import pairs
 
 from .node import NodeAccessor
 
+
 class IfStatement(NodeAccessor):
     interpret_children = True
 

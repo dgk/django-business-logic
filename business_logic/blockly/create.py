@@ -27,7 +27,7 @@ class NodeTreeCreator(object):
 
         variable_definitions = self.create_variable_definitions(data, external_variable_definitions)
         if not is_block(data):
-            data = {'data': {}, 'children':[data]}
+            data = {'data': {}, 'children': [data]}
 
         data['children'] = variable_definitions + data['children']
 
@@ -43,21 +43,23 @@ class NodeTreeCreator(object):
         return Node.objects.get(id=Node.load_bulk([data, ])[0])
 
     def collect_objects(self, data, content_type_id):
-        '''
+        """
         :param data: dictionary returned from BlocklyXmlParser.parse()
         :type data: dict
         :param content_type_id:
         :type content_type_id: integer
         :return: list of nodes with given content_type
         :rtype: list
-        '''
+        """
         collection = []
+
         def collect(item):
             if item['data'].get('content_type') == content_type_id:
                 collection.append(item)
             children = item.get('children', [])
             for child in children:
                 collect(child)
+
         collect(data)
         return collection
 
@@ -87,8 +89,10 @@ class NodeTreeCreator(object):
                 if not isinstance(variable_definition, VariableDefinition):
                     raise NodeTreeCreatorException('Invalid variable_definition argument type')
 
-                variable_by_name[variable_definition.name] = dict(variables=[],
-                    variable_definition=variable_definition.id)
+                variable_by_name[variable_definition.name] = dict(
+                    variables=[],
+                    variable_definition=variable_definition.id
+                )
 
         variables = self.collect_objects(data, get_content_type_id(Variable))
 
@@ -103,8 +107,7 @@ class NodeTreeCreator(object):
                     }
                 }
                 variable_definitions.append(variable_definition)
-                variable_by_name[variable_name] = dict(variables=[],
-                        variable_definition=variable_definition_id)
+                variable_by_name[variable_name] = dict(variables=[], variable_definition=variable_definition_id)
             else:
                 variable_definition_id = variable_by_name[variable_name]['variable_definition']
 

@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from .common import *
 
-#NAMESPACES = {'xmlns': 'http://www.w3.org/1999/xhtml'}
+# NAMESPACES = {'xmlns': 'http://www.w3.org/1999/xhtml'}
 
 # https://blockly-demo.appspot.com/static/demos/code/index.html
 

@@ -18,8 +18,8 @@ class Operator(NodeAccessor):
 
     def _check_operator(self):
         if self.operator not in self.operator_table:
-            raise TypeError('Incorrect operator "%(operator)s" for class %(cls)s' % \
-                    dict(operator=self.operator, cls=self.__class__.__name__))
+            raise TypeError('Incorrect operator "{operator}" for class {cls}'.format(
+                operator=self.operator, cls=self.__class__.__name__))
 
     def __init__(self, *args, **kwargs):
         super(Operator, self).__init__(*args, **kwargs)
@@ -35,6 +35,7 @@ class Operator(NodeAccessor):
 
     class Meta:
         abstract = True
+
 
 class BinaryOperator(Operator):
     operator_table = {

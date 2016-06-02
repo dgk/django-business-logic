@@ -3,9 +3,6 @@ from __future__ import unicode_literals
 
 from collections import OrderedDict
 
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-
 from rest_framework.filters import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
 
@@ -84,6 +81,7 @@ class ProgramVersionView(generics.RetrieveUpdateDestroyAPIView):
 class ReferenceDescriptorList(generics.ListAPIView):
     queryset = ReferenceDescriptor.objects.all()
     serializer_class = ReferenceDescriptorListSerializer
+
 
 class ReferenceList(generics.ListAPIView):
     serializer_class = ReferenceListSerializer

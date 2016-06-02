@@ -8,8 +8,10 @@ from django.utils.translation import ugettext_lazy as _
 class StopInterpretationException(Exception):
     pass
 
+
 class BreakLoopException(Exception):
     pass
+
 
 class StopInterpretation(models.Model):
     class Meta:
@@ -17,7 +19,8 @@ class StopInterpretation(models.Model):
         verbose_name_plural = _('Stop instructions')
 
     def interpret(self, ctx):
-        raise StopInterpretation
+        raise StopInterpretation()
+
 
 class BreakLoop(models.Model):
     class Meta:
@@ -25,5 +28,5 @@ class BreakLoop(models.Model):
         verbose_name_plural = _('Break instructions')
 
     def interpret(self, ctx):
-        raise BreakLoopException
+        raise BreakLoopException()
 

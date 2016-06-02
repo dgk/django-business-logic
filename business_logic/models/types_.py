@@ -54,8 +54,7 @@ for type, fields in DJANGO_FIELDS_FOR_TYPES.items():
 
 
 class Type(models.Model):
-    type = models.CharField(_('Type'), max_length=12, choices=TYPE_CHOICES,
-            blank=False, null=False)
+    type = models.CharField(_('Type'), max_length=12, choices=TYPE_CHOICES, blank=False, null=False)
     model_type = models.ForeignKey(ContentType, verbose_name=_('Model type'), null=True)
     is_list = models.BooleanField(_('Is list'))
 
