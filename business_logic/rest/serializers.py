@@ -141,11 +141,14 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
 
 class ProgramArgumentSerializer(serializers.ModelSerializer):
     fields = ProgramArgumentFieldSerializer(many=True)
+    verbose_name = serializers.SerializerMethodField()
 
     class Meta:
         model = ProgramArgument
         exclude = ('id', 'program_interface', 'variable_definition')
 
+    def get_verbose_name(self, obj):
+        return obj.content_type.model_class()._meta.verbose_name
 
 class ProgramInterfaceSerializer(serializers.ModelSerializer):
     arguments = ProgramArgumentSerializer(many=True)

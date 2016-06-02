@@ -7,6 +7,7 @@ class ProgramInterfaceTest(TestCase):
     def setUp(self):
         self.program_interface = ProgramInterface.objects.create(code='test')
         self.argument = ProgramArgument.objects.create(
+            name='test_model',
             program_interface=self.program_interface,
             content_type=ContentType.objects.get_for_model(TestModel)
         )
@@ -43,6 +44,8 @@ class ProgramInterfaceTest(TestCase):
         self.assertIsInstance(_json, dict)
         arguments = _json['arguments']
         argument = arguments[0]
+        self.assertEqual('test_model', argument['name'])
+        self.assertEqual(TestModel._meta.verbose_name, argument['verbose_name'])
         fields = dict((x['name'], x) for x in argument['fields'])
 
         expected = {
