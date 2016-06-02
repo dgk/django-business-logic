@@ -139,9 +139,15 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
         return schema
 
 
+class ContentTypeSerializer(serializers.Serializer):
+    def to_representation(self, instance):
+        return get_model_name(instance)
+
+
 class ProgramArgumentSerializer(serializers.ModelSerializer):
     fields = ProgramArgumentFieldSerializer(many=True)
     verbose_name = serializers.SerializerMethodField()
+    content_type = ContentTypeSerializer()
 
     class Meta:
         model = ProgramArgument

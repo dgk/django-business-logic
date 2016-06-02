@@ -46,6 +46,8 @@ class ProgramInterfaceTest(TestCase):
         argument = arguments[0]
         self.assertEqual('test_model', argument['name'])
         self.assertEqual(TestModel._meta.verbose_name, argument['verbose_name'])
+        self.assertEqual('test_app.TestModel', argument['content_type'])
+
         fields = dict((x['name'], x) for x in argument['fields'])
 
         expected = {
