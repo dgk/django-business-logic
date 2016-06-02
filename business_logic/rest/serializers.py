@@ -104,7 +104,6 @@ class ReferenceListSerializer(serializers.ModelSerializer):
         return declared_fields
 
     def get_name(self, obj):
-        #print self.context['view'].get_reference_model()
         return six.text_type(obj)
 
 
