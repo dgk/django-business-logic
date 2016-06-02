@@ -6,8 +6,8 @@ from django.utils.encoding import python_2_unicode_compatible
 
 @python_2_unicode_compatible
 class Publisher(models.Model):
-    name = models.CharField(max_length=30)
-    rank = models.IntegerField(default=0)
+    name = models.CharField(max_length=30, verbose_name='Publisher name')
+    rank = models.IntegerField(default=0, verbose_name='Publisher rank')
 
     def __str__(self):
         return self.name
@@ -18,9 +18,9 @@ class Publisher(models.Model):
 
 @python_2_unicode_compatible
 class Author(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=40)
-    rank = models.IntegerField(default=0)
+    first_name = models.CharField(max_length=30, verbose_name='First name')
+    last_name = models.CharField(max_length=40, verbose_name='Last name')
+    rank = models.IntegerField(default=0, verbose_name='Rank')
 
     def __str__(self):
         return u'%s %s' % (self.first_name, self.last_name)
@@ -31,11 +31,11 @@ class Author(models.Model):
 
 @python_2_unicode_compatible
 class Book(models.Model):
-    title = models.CharField(max_length=100)
-    authors = models.ManyToManyField(Author)
-    publisher = models.ForeignKey(Publisher, related_name='books')
-    publication_date = models.DateField()
-    price = models.FloatField()
+    title = models.CharField(max_length=100, verbose_name='Title')
+    authors = models.ManyToManyField(Author, verbose_name='Authors')
+    publisher = models.ForeignKey(Publisher, related_name='books', verbose_name='Publisher')
+    publication_date = models.DateField(verbose_name='Publication date')
+    price = models.FloatField(verbose_name='Price')
 
     def __str__(self):
         return self.title
