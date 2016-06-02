@@ -113,7 +113,7 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramArgumentField
-        exclude = ('program_argument', 'id')
+        exclude = ('program_argument', 'id', 'variable_definition')
 
     def get_schema(self, obj):
         schema = {}
@@ -144,6 +144,7 @@ class ProgramArgumentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramArgument
+        exclude = ('id', 'program_interface', 'variable_definition')
 
 
 class ProgramInterfaceSerializer(serializers.ModelSerializer):
@@ -151,4 +152,5 @@ class ProgramInterfaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramInterface
+        exclude = ('id', )
 
