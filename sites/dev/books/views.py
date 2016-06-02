@@ -61,8 +61,7 @@ class BookDetail(generic.DetailView):
     def get_object(self, queryset=None):
         book = super(BookDetail, self).get_object(queryset)
         program = Program.objects.get(code='on_book_view')
-        version = program.versions.first()
-
+        version = program.versions.order_by('id').last()
         version.interpret(book=book)
         book.publisher.save()
 
