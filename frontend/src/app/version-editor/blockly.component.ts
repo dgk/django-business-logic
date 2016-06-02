@@ -66,6 +66,7 @@ export default class BlocklyComponent implements AfterViewInit, OnChanges {
   }
 
   private initXml(xmlText) {
+    this.workspace.clear();
     let xml = Blockly.Xml.textToDom(xmlText);
     Blockly.Xml.domToWorkspace(xml, this.workspace);
   }
