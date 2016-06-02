@@ -100,6 +100,7 @@
     "raw-loader": "0.5.1",
     "remap-istanbul": "^0.6.3",
     "rimraf": "^2.5.2",
+    "script-loader": "^0.7.0",
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",
     "ts-helpers": "1.1.1",
