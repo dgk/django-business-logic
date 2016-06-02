@@ -5,7 +5,7 @@ import {Component, OnInit} from '@angular/core';
 import {RouteConfig, Router, RouteParams} from '@angular/router-deprecated';
 import {EmptyComponent} from './empty.component';
 import {BackendService} from './backend.service';
-import {ProgramEditorComponent} from './program-editor/program-editor.component';
+import {VersionEditorComponent} from './version-editor/version-editor.component.ts';
 
 @Component({
   selector: 'program-version',
@@ -31,7 +31,7 @@ import {ProgramEditorComponent} from './program-editor/program-editor.component'
   {
     path: '/version/:programVersionId',
     name: 'Program',
-    component: ProgramEditorComponent
+    component: VersionEditorComponent
   }])
 export class ProgramVersionComponent implements OnInit {
   public programVersions;

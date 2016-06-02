@@ -6,9 +6,10 @@ import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular
 
 @Injectable()
 export class BackendService {
-  private baseUrl = '/business-logic/rest/';
+  private baseUrl = '/business-logic/rest';
   private programInterfaceUrl = `${this.baseUrl}/program-interface`;
   private programVersionUrl = `${this.baseUrl}/program-version`;
+  private newVersionUrl = `${this.programVersionUrl}/new`;
   private programUrl = `${this.baseUrl}/program`;
 
   constructor(private http: Http) {
@@ -46,6 +47,14 @@ export class BackendService {
     let options = new RequestOptions({headers: headers});
 
     return this.http.get(`${this.programVersionUrl}/${id}`, options)
+      .map(this.extractData);
+  }
+
+  saveVersion(version) {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+
+    return this.http.post(this.newVersionUrl, JSON.stringify(version), options)
       .map(this.extractData);
   }
 
