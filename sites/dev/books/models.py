@@ -9,6 +9,10 @@ class Publisher(models.Model):
     name = models.CharField(max_length=30, verbose_name='Publisher name')
     rank = models.IntegerField(default=0, verbose_name='Publisher rank')
 
+    class Meta:
+        verbose_name = 'Publisher'
+        verbose_name_plural = 'Publishers'
+
     def __str__(self):
         return self.name
 
@@ -21,6 +25,10 @@ class Author(models.Model):
     first_name = models.CharField(max_length=30, verbose_name='First name')
     last_name = models.CharField(max_length=40, verbose_name='Last name')
     rank = models.IntegerField(default=0, verbose_name='Rank')
+
+    class Meta:
+        verbose_name = 'Author'
+        verbose_name_plural = 'Authors'
 
     def __str__(self):
         return u'%s %s' % (self.first_name, self.last_name)
@@ -36,6 +44,10 @@ class Book(models.Model):
     publisher = models.ForeignKey(Publisher, related_name='books', verbose_name='Publisher')
     publication_date = models.DateField(verbose_name='Publication date')
     price = models.FloatField(verbose_name='Price')
+
+    class Meta:
+        verbose_name = 'Book'
+        verbose_name_plural = 'Books'
 
     def __str__(self):
         return self.title
