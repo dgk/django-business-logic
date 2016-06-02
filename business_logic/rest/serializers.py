@@ -109,11 +109,39 @@ class ReferenceListSerializer(serializers.ModelSerializer):
 
 
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
-    schema = serializers.SerializerMethodField()
+
+    def to_representation(self, instance):
+        representation = {}
+        verbose_name = []
+
+        representation['name'] = instance.name
+
+        argument = instance.program_argument
+        model = argument.content_type.model_class()
+
+        field_names = instance.name.split('.')
+        for i, field_name in enumerate(field_names):
+            field = model._meta.get_field(field_name)
+            verbose_name.append(field.verbose_name)
+
+            is_last_field = i == len(field_names) - 1
+            is_django_model = field.__class__ in DJANGO_FIELDS_FOR_TYPES['model']
+
+            if is_django_model:
+                model = field.related_model
+
+            if is_last_field:
+                representation['data_type'] = TYPES_FOR_DJANGO_FIELDS[field.__class__]
+                representation['content_type'] = get_model_name(ContentType.objects.get_for_model(model)) if is_django_model else None
+
+        representation['verbose_name'] = '.'.join(verbose_name)
+
+        return representation
+
 
     class Meta:
         model = ProgramArgumentField
-        exclude = ('program_argument', 'id', 'variable_definition')
+
 
     def get_schema(self, obj):
         schema = {}

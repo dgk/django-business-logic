@@ -73,22 +73,15 @@ class ProgramInterfaceTest(TestCase):
         for field_name, data in expected.items():
             field = fields[field_name]
             self.assertNotIn('program_argument', field)
-            self.assertIn('schema', field)
             self.assertEqual(field_name, field['name'])
 
-            schema = field['schema']
-            self.assertIsInstance(schema, dict)
-            self.assertIn('data_type', schema)
-            self.assertEqual(data['data_type'], schema['data_type'])
+            self.assertIsInstance(field, dict)
+            self.assertIn('data_type', field)
+            self.assertEqual(data['data_type'], field['data_type'])
             content_type = data.get('content_type')
-            if content_type:
-                self.assertEqual(content_type, schema['content_type'])
-            else:
-                self.assertNotIn('content_type', schema)
-
+            self.assertEqual(content_type, field['content_type'])
             verbose_name = data.get('verbose_name')
-            if verbose_name:
-                self.assertEqual(verbose_name, schema['verbose_name'])
+            self.assertEqual(verbose_name, field['verbose_name'])
 
 
 
