@@ -61,7 +61,7 @@ class ProgramInterfaceTest(TestCase):
                 ),
             'foreign_value': dict(
                 data_type='model',
-                model='test_app.TestRelatedModel',
+                content_type='test_app.TestRelatedModel',
                 verbose_name='foreign value',
                 ),
             'foreign_value.string_value': dict(
@@ -80,9 +80,11 @@ class ProgramInterfaceTest(TestCase):
             self.assertIsInstance(schema, dict)
             self.assertIn('data_type', schema)
             self.assertEqual(data['data_type'], schema['data_type'])
-            model = data.get('model')
-            if model:
-                self.assertEqual(model, schema['model'])
+            content_type = data.get('content_type')
+            if content_type:
+                self.assertEqual(content_type, schema['content_type'])
+            else:
+                self.assertNotIn('content_type', schema)
 
             verbose_name = data.get('verbose_name')
             if verbose_name:
