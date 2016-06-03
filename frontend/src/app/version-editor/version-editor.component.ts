@@ -30,6 +30,7 @@ export class VersionEditorComponent {
   onXmlSaved(xmlText) {
     this.version.xml = xmlText;
     this.backend.saveVersion(this.version)
-      .subscribe(version => this.version = version);
+    // TODO Instead of navigating it should only change url
+      .subscribe(version => this.router.navigate(['Version', {programVersionId: version.id}]));
   }
 }
