@@ -17,8 +17,3 @@ class ContextTest(TestCase):
     def test_init(self):
         context = Context(logging=True)
         self.failUnless(context.config.logging)
-
-    def test_result_init(self):
-        context = Context()
-        self.failUnless(isinstance(context.result, Result))
-        self.failUnless(context.result.id)
