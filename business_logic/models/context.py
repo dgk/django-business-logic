@@ -5,7 +5,6 @@ from .. import signals
 from .log import Logger
 from .frame import Frame
 from .node import NodeCacheHolder
-from .result import Result
 from .variable import Variable, VariableDefinition
 
 
@@ -26,8 +25,6 @@ class ContextConfig:
 class Context(NodeCacheHolder):
     def __init__(self, **kwargs):
         self.config = ContextConfig(**kwargs)
-        self.result = Result()
-        self.result.save()
         self._vars = {}
         self.frames = []
 

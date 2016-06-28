@@ -291,14 +291,6 @@ msgstr "Справочник"
 msgid "References"
 msgstr "Справочники"
 
-#: models/result.py:9
-msgid "Result"
-msgstr "Результат"
-
-#: models/result.py:10
-msgid "Results"
-msgstr "Результаты"
-
 #: models/stop.py:17
 msgid "Stop instruction"
 msgstr "Инструкция остановки"
