@@ -10,7 +10,7 @@ from .variable import Variable, VariableDefinition
 
 class ContextConfig:
     defaults = dict(
-            logging=False,
+            log=False,
             debug=False,
             cache=True,
             )
@@ -36,7 +36,7 @@ class Context(NodeCacheHolder):
 
         self.execution = None
         self.logger = Logger()
-        if self.config.logging:
+        if self.config.log:
             signals.interpret_enter.connect(self.logger.interpret_enter, sender=self)
             signals.interpret_leave.connect(self.logger.interpret_leave, sender=self)
 

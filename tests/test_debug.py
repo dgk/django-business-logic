@@ -8,14 +8,14 @@ from .test_program import ProgramTestBase
 
 class LogTest(TestCase):
     def test_logger(self):
-        context = Context(logging=True)
+        context = Context(log=True)
         self.failUnless(context.logger)
         self.failUnless(context.logger.log is None)
 
     def test_log_tree(self):
         root = tree_1plus2mul3()
 
-        context = Context(logging=True)
+        context = Context(log=True)
         result = root.interpret(context)
 
         self.failUnless(context.logger.log)
@@ -25,7 +25,7 @@ class LogTest(TestCase):
     def test_log_values(self):
         root = tree_1plus2mul3()
 
-        context = Context(logging=True)
+        context = Context(log=True)
         result = root.interpret(context)
 
         self.failUnless(context.logger.log)
@@ -50,7 +50,7 @@ class LogTest(TestCase):
         root.add_child(content_object=string_const2)
         root = Node.objects.get(id=root.id)
 
-        context = Context(logging=True)
+        context = Context(log=True)
         result = root.interpret(context)
 
         self.failUnlessEqual(context.logger.log.previous_value, '+')
@@ -72,7 +72,7 @@ class LogTest(TestCase):
         root.add_child(content_object=string_const2)
         root = Node.objects.get(id=root.id)
 
-        context = Context(logging=True)
+        context = Context(log=True)
         result = root.interpret(context)
 
         log = LogEntry.objects.get(id=context.logger.log.id)
@@ -81,7 +81,7 @@ class LogTest(TestCase):
     def test_log_disabled(self):
         root = tree_1plus2mul3()
 
-        context = Context(logging=False)
+        context = Context(log=False)
         result = root.interpret(context)
 
         self.failUnless(context.logger.log is None)
@@ -92,7 +92,7 @@ class LogTest(TestCase):
         node2 = tree_1plus2mul3(parent=root)
         root = Node.objects.get(id=root.id)
 
-        context = Context(logging=True)
+        context = Context(log=True)
         result = root.interpret(context)
         self.failUnlessEqual(context.logger.log.node, root)
         self.failUnlessEqual(context.logger.log.get_children().count(), 2)
@@ -107,7 +107,7 @@ class ProgramTest(ProgramTestBase):
 
     def test_execution(self):
         now = timezone.now()
-        context = Context(debug=True, logging=True)
+        context = Context(debug=True, log=True)
         result = self.program_version.interpret(context=context, test_model=self.test_model)
         self.assertIs(result, context)
         execution = Execution.objects.get(id=result.execution.id)
@@ -122,6 +122,6 @@ class ProgramTest(ProgramTestBase):
 
 
     def test_execution_empty_log(self):
-        context = Context(debug=True, logging=False)
+        context = Context(debug=True, log=False)
         result = self.program_version.interpret(context=context, test_model=self.test_model)
         self.assertIsNone(result.execution.log)

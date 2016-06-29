@@ -12,8 +12,8 @@ from .common import *
 class ContextTest(TestCase):
     def test_default_init(self):
         context = Context()
-        self.failIf(context.config.logging)
+        self.failIf(context.config.log)
 
     def test_init(self):
-        context = Context(logging=True)
-        self.failUnless(context.config.logging)
+        context = Context(log=True)
+        self.failUnless(context.config.log)
