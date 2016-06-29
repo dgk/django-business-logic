@@ -3,6 +3,8 @@
 
 from django.db import models
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 
@@ -61,3 +63,16 @@ class LogEntry(AL_Node):
     current_value = models.CharField(_('Current value'), max_length=LOG_ENTRY_VALUE_LENGTH)
 
 
+class ExecutionArgument(models.Model):
+    execution = models.ForeignKey('business_logic.Execution', related_name='arguments')
+    program_argument = models.ForeignKey('business_logic.ProgramArgument')
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+
+class Execution(models.Model):
+    log = models.OneToOneField('business_logic.LogEntry', null=True)
+    program_version = models.ForeignKey('business_logic.ProgramVersion')
+    start_time = models.DateTimeField(auto_now_add=True)
+    finish_time = models.DateTimeField(null=True)

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 #
-
+from business_logic.models.debug import LOG_ENTRY_VALUE_LENGTH
 
 from .common import *
-
-from business_logic.models.debug import LOG_ENTRY_VALUE_LENGTH
+from .test_program import ProgramTestBase
 
 
 class LogTest(TestCase):
@@ -100,3 +99,29 @@ class LogTest(TestCase):
         self.failUnlessEqual(context.logger.log.get_children()[0].node, node1)
         self.failUnlessEqual(context.logger.log.get_children()[1].node, node2)
 
+
+class ProgramTest(ProgramTestBase):
+    def test_empty_execution(self):
+        result = self.program_version.interpret(test_model=self.test_model)
+        self.assertIsNone(result.execution)
+
+    def test_execution(self):
+        now = timezone.now()
+        context = Context(debug=True, logging=True)
+        result = self.program_version.interpret(context=context, test_model=self.test_model)
+        self.assertIs(result, context)
+        execution = Execution.objects.get(id=result.execution.id)
+        self.assertIsInstance(execution, Execution)
+        self.assertEqual(self.program_version, execution.program_version)
+        self.assertEqual(1, execution.arguments.all().count())
+        self.assertTrue((execution.start_time - now).total_seconds() > 0)
+        self.assertTrue((execution.finish_time - execution.start_time).total_seconds() > 0)
+        execution_argument = execution.arguments.all().first()
+        self.assertEqual(execution_argument.content_object, self.test_model)
+        self.assertIsInstance(execution.log, LogEntry)
+
+
+    def test_execution_empty_log(self):
+        context = Context(debug=True, logging=False)
+        result = self.program_version.interpret(context=context, test_model=self.test_model)
+        self.assertIsNone(result.execution.log)

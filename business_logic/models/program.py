@@ -4,10 +4,12 @@ from __future__ import unicode_literals
 
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
 
 from .context import Context
+from .debug import Execution, ExecutionArgument
 from .node import Node
 from .variable import VariableDefinition, Variable
 
@@ -145,6 +147,8 @@ class ProgramVersion(models.Model):
 
     def interpret(self, **kwargs):
         context = kwargs.pop('context', Context())
+        execution = context.execution = Execution.objects.create(program_version=self) if context.config.debug else None
+
         for program_argument in self.program.program_interface.arguments.all():
             try:
                 argument = kwargs.pop(program_argument.name)
@@ -152,6 +156,14 @@ class ProgramVersion(models.Model):
             except (KeyError, AssertionError, AttributeError):
                 raise
             context.set_variable(program_argument.variable_definition, argument)
+
+            if context.config.debug:
+                ExecutionArgument.objects.create(
+                    execution=execution,
+                    program_argument=program_argument,
+                    content_type=program_argument.content_type,
+                    object_id=argument.id
+                )
 
             for field in program_argument.fields.all():
                 parts = field.name.split('.')
@@ -172,5 +184,10 @@ class ProgramVersion(models.Model):
         assert not kwargs
 
         self.entry_point.interpret(context)
+
+        if context.config.debug:
+            execution.log = context.logger.log
+            execution.finish_time = timezone.now()
+            execution.save(update_fields=['log', 'finish_time'])
 
         return context

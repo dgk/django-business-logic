@@ -34,6 +34,7 @@ class Context(NodeCacheHolder):
         signals.interpret_enter.connect(self.interpret_enter, sender=self)
         signals.interpret_leave.connect(self.interpret_leave, sender=self)
 
+        self.execution = None
         self.logger = Logger()
         if self.config.logging:
             signals.interpret_enter.connect(self.logger.interpret_enter, sender=self)
