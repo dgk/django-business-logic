@@ -42,10 +42,6 @@ class ProgramTestBase(TestCase):
         return fields
 
 
-class MultiArgumentProgramTestBase(ProgramTestBase):
-    pass
-
-
 class ProgramTest(ProgramTestBase):
     def test_program_argument_variable_definition(self):
         self.assertIsInstance(self.argument.variable_definition, VariableDefinition)
