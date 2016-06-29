@@ -8,7 +8,7 @@ from .foreach import *
 from .frame import *
 from .function import *
 from .ifstatement import *
-from .log import *
+from .debug import *
 from .node import *
 from .operator_ import *
 from .program import *

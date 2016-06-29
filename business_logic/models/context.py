@@ -2,7 +2,7 @@
 #
 
 from .. import signals
-from .log import Logger
+from .debug import Logger
 from .frame import Frame
 from .node import NodeCacheHolder
 from .variable import Variable, VariableDefinition
