@@ -4,13 +4,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-
-class StopInterpretationException(Exception):
-    pass
-
-
-class BreakLoopException(Exception):
-    pass
+from ..exceptions import StopInterpretationException, BreakLoopException
 
 
 class StopInterpretation(models.Model):
@@ -19,7 +13,7 @@ class StopInterpretation(models.Model):
         verbose_name_plural = _('Stop instructions')
 
     def interpret(self, ctx):
-        raise StopInterpretation()
+        raise StopInterpretationException()
 
 
 class BreakLoop(models.Model):
