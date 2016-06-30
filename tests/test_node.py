@@ -125,6 +125,56 @@ class NodeTest(TestCase):
         self.failIf(Node.objects.filter(pk=node1.pk).count())
         self.failIf(Node.objects.filter(pk=node2.pk).count())
 
+    def test_statement_or_block(self):
+        root = Node.add_root()
+        self.failUnless(root.is_block())
+        self.failIf(root.is_statement())
+        node1 = tree_1plus2mul3(parent=root)
+        self.failUnless(root.is_block())
+        self.failIf(root.is_statement())
+        self.failIf(node1.is_block())
+        self.failUnless(node1.is_statement())
+
+    def test_tree_1plus2mul3(self):
+        add_node = tree_1plus2mul3()
+        self.failUnlessEqual(add_node.content_object.operator, '+')
+        int_1node, mul_node = add_node.get_children().all()
+        self.failUnlessEqual(int_1node.content_object.value, 1)
+        self.failUnlessEqual(mul_node.content_object.operator, '*')
+        int_2node, int_3node = mul_node.get_children().all()
+        self.failUnlessEqual(int_2node.content_object.value, 2)
+        self.failUnlessEqual(int_3node.content_object.value, 3)
+
+    def test_tree_clone(self):
+        root = Node.add_root()
+        node1 = tree_1plus2mul3(parent=root)
+        node2 = symmetric_tree(operator='*', value=5, count=4, parent=root)
+        root = Node.objects.get(id=root.id)
+        clone = root.clone()
+        root.delete()
+        self.failUnless(isinstance(clone, Node))
+        self.failIf(clone.content_object)
+        clone_root_children = clone.get_children()
+
+        self.failUnlessEqual(2, len(clone_root_children))
+        plus_node = clone_root_children[0]
+        mul_node = clone_root_children[1]
+        self.failUnless(isinstance(plus_node.content_object, BinaryOperator))
+        self.failUnlessEqual('+', plus_node.content_object.operator)
+        self.failUnlessEqual('*', mul_node.content_object.operator)
+
+        context = Context()
+
+        result = clone.interpret(context)
+        self.failUnlessEqual([7, 625], result)
+
+    def test_content_object_node_accessor(self):
+        root = symmetric_tree()
+        content_object = root.content_object
+        self.failUnlessEqual(content_object.node, root)
+
+
+class NodeInterpretTest(TestCase):
     def test_interpret_3(self):
         add_operator = BinaryOperator(operator='+')
         add_operator.save()
@@ -206,16 +256,6 @@ class NodeTest(TestCase):
         print('queries.count', len(connection.queries) -
               compilation_queries_count)
 
-    def test_statement_or_block(self):
-        root = Node.add_root()
-        self.failUnless(root.is_block())
-        self.failIf(root.is_statement())
-        node1 = tree_1plus2mul3(parent=root)
-        self.failUnless(root.is_block())
-        self.failIf(root.is_statement())
-        self.failIf(node1.is_block())
-        self.failUnless(node1.is_statement())
-
     def test_interpret_block(self):
         root = Node.add_root()
         node1 = tree_1plus2mul3(parent=root)
@@ -239,44 +279,6 @@ class NodeTest(TestCase):
         context = Context()
         result = root.interpret(context)
         self.failUnlessEqual(625, result)
-
-    def test_tree_1plus2mul3(self):
-        add_node = tree_1plus2mul3()
-        self.failUnlessEqual(add_node.content_object.operator, '+')
-        int_1node, mul_node = add_node.get_children().all()
-        self.failUnlessEqual(int_1node.content_object.value, 1)
-        self.failUnlessEqual(mul_node.content_object.operator, '*')
-        int_2node, int_3node = mul_node.get_children().all()
-        self.failUnlessEqual(int_2node.content_object.value, 2)
-        self.failUnlessEqual(int_3node.content_object.value, 3)
-
-    def test_tree_clone(self):
-        root = Node.add_root()
-        node1 = tree_1plus2mul3(parent=root)
-        node2 = symmetric_tree(operator='*', value=5, count=4, parent=root)
-        root = Node.objects.get(id=root.id)
-        clone = root.clone()
-        root.delete()
-        self.failUnless(isinstance(clone, Node))
-        self.failIf(clone.content_object)
-        clone_root_children = clone.get_children()
-
-        self.failUnlessEqual(2, len(clone_root_children))
-        plus_node = clone_root_children[0]
-        mul_node = clone_root_children[1]
-        self.failUnless(isinstance(plus_node.content_object, BinaryOperator))
-        self.failUnlessEqual('+', plus_node.content_object.operator)
-        self.failUnlessEqual('*', mul_node.content_object.operator)
-
-        context = Context()
-
-        result = clone.interpret(context)
-        self.failUnlessEqual([7, 625], result)
-
-    def test_content_object_node_accessor(self):
-        root = symmetric_tree()
-        content_object = root.content_object
-        self.failUnlessEqual(content_object.node, root)
 
 
 class NodeCacheTest(TestCase):
