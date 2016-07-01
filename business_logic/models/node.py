@@ -97,7 +97,7 @@ class Node(NS_Node):
         return_value = None
 
         if is_block:
-            return_value = [x.interpret(ctx) for x in children]
+            [x.interpret(ctx) for x in children]
         else:
             # is_statement
             content_object = self.content_object
