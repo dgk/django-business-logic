@@ -17,3 +17,7 @@ class ContextTest(TestCase):
     def test_init(self):
         context = Context(log=True)
         self.failUnless(context.config.log)
+
+    def test_init_args_check(self):
+        context = Context(log=True)
+        self.failUnlessRaises(TypeError, Context, wtf=True)

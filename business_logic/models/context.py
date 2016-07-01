@@ -21,8 +21,13 @@ class ContextConfig:
             )
 
     def __init__(self, **kwargs):
+        for k in kwargs.keys():
+            if k not in self.defaults:
+                raise TypeError()
+
         for k, v in self.defaults.items():
             kwargs.setdefault(k, v)
+
         for k, v in kwargs.items():
             setattr(self, k, v)
 
