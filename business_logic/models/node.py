@@ -12,6 +12,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from treebeard.ns_tree import NS_Node
 
 from .. import signals
+from ..exceptions import StopInterpretationException
 
 
 @python_2_unicode_compatible
@@ -97,7 +98,11 @@ class Node(NS_Node):
         return_value = None
 
         if is_block:
-            [x.interpret(ctx) for x in children]
+            for child in children:
+                try:
+                    child.interpret(ctx)
+                except StopInterpretationException:
+                    break
         else:
             # is_statement
             content_object = self.content_object

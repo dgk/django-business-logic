@@ -114,21 +114,22 @@ def get_test_tree():
     return root
 
 
-def variable_assign_value(variable_name='A', variable_definition=None, value=None):
-    root = Node.add_root()
+def variable_assign_value(variable_name='A', variable_definition=None, value=None, parent=None):
+    if parent is None:
+        parent = Node.add_root()
 
     if variable_definition is None:
         variable_definition = VariableDefinition(name=variable_name)
-        root.add_child(content_object=variable_definition)
-        root = Node.objects.get(id=root.id)
+        parent.add_child(content_object=variable_definition)
+        parent = Node.objects.get(id=parent.id)
 
-    assignment_node = root.add_child(content_object=Assignment())
+    assignment_node = parent.add_child(content_object=Assignment())
     variable = Variable(definition=variable_definition)
     var_node = assignment_node.add_child(content_object=variable)
     number_const_node1 = assignment_node.add_child(content_object=value or NumberConstant(value=1))
 
-    root = Node.objects.get(id=root.id)
-    return root
+    parent = Node.objects.get(id=parent.id)
+    return parent
 
 
 def print_tree_details(nodes):
