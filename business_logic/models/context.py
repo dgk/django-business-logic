@@ -7,12 +7,17 @@ from .frame import Frame
 from .node import NodeCacheHolder
 from .variable import Variable, VariableDefinition
 
+class ExceptionHandlingPolicy:
+    IGNORE = 'IGNORE'
+    INTERRUPT = 'INTERRUPT'
+
 
 class ContextConfig:
     defaults = dict(
             log=False,
             debug=False,
             cache=True,
+            exception_handling_policy=ExceptionHandlingPolicy.INTERRUPT,
             )
 
     def __init__(self, **kwargs):
