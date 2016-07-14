@@ -86,14 +86,14 @@ class ProgramTest(ProgramTestBase):
         int_value_field.delete()
         self.assertFalse(VariableDefinition.objects.filter(id=variable_definition.id).count())
 
-    def test_program_interpret(self):
-        result = self.program_version.interpret(test_model=self.test_model)
+    def test_program_execute(self):
+        result = self.program_version.execute(test_model=self.test_model)
         self.assertIsInstance(result, Context)
         self.assertIs(self.test_model, result.get_variable(self.argument.variable_definition))
         variable_definition = VariableDefinition.objects.get(name='A')
         self.assertEqual(1 + 2 * 3, result.get_variable(variable_definition))
 
-    def test_program_version_interpret_args_check(self):
+    def test_program_version_execute_args_check(self):
         for kwargs in [
             dict(test_model=1),
             dict(test_model=self.test_model, xxx=1),
@@ -101,9 +101,9 @@ class ProgramTest(ProgramTestBase):
             {},
         ]:
             with self.assertRaises(Exception) as exc:
-                self.program_version.interpret(**kwargs)
+                self.program_version.execute(**kwargs)
 
-    def test_program_version_interpret_set_variable(self):
+    def test_program_version_execute_set_variable(self):
         int_value_field = self.fields['int_value']
         variable_definition = int_value_field.variable_definition
         value = 5
@@ -111,11 +111,11 @@ class ProgramTest(ProgramTestBase):
                                                                  variable_definition=variable_definition)
         self.program_version.save()
 
-        context = self.program_version.interpret(test_model=self.test_model)
+        context = self.program_version.execute(test_model=self.test_model)
         self.assertEqual(value, context.get_variable(variable_definition))
         self.assertEqual(value, self.test_model.int_value)
 
-    def test_program_version_interpret_get_variable_recursive(self):
+    def test_program_version_execute_get_variable_recursive(self):
         int_value_field = self.fields['foreign_value.int_value']
         variable_definition = int_value_field.variable_definition
 
@@ -126,7 +126,7 @@ class ProgramTest(ProgramTestBase):
         self.test_model.foreign_value = TestRelatedModel.objects.create()
         self.test_model.save()
 
-        context = self.program_version.interpret(test_model=self.test_model)
+        context = self.program_version.execute(test_model=self.test_model)
 
     def test_recursive_get_variable_should_returns_undefined_if_parent_field_undefined(self):
         int_value_field = self.fields['int_value']
@@ -137,7 +137,7 @@ class ProgramTest(ProgramTestBase):
             variable_definition=int_value_field.variable_definition)
         self.program_version.save()
 
-        context = self.program_version.interpret(test_model=self.test_model)
+        context = self.program_version.execute(test_model=self.test_model)
 
         self.assertIsInstance(context.get_variable(foreign_value_int_value_field.variable_definition),
                               Variable.Undefined)

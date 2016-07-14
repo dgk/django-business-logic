@@ -145,7 +145,7 @@ class ProgramVersion(models.Model):
         new_version.save()
         return new_version
 
-    def interpret(self, **kwargs):
+    def execute(self, **kwargs):
         context = kwargs.pop('context', Context())
         execution = context.execution = Execution.objects.create(program_version=self) if context.config.debug else None
 

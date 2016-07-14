@@ -102,13 +102,13 @@ class LogTest(TestCase):
 
 class ProgramTest(ProgramTestBase):
     def test_empty_execution(self):
-        result = self.program_version.interpret(test_model=self.test_model)
+        result = self.program_version.execute(test_model=self.test_model)
         self.assertIsNone(result.execution)
 
     def test_execution(self):
         now = timezone.now()
         context = Context(debug=True, log=True)
-        result = self.program_version.interpret(context=context, test_model=self.test_model)
+        result = self.program_version.execute(context=context, test_model=self.test_model)
         self.assertIs(result, context)
         execution = Execution.objects.get(id=result.execution.id)
         self.assertIsInstance(execution, Execution)
@@ -123,5 +123,5 @@ class ProgramTest(ProgramTestBase):
 
     def test_execution_empty_log(self):
         context = Context(debug=True, log=False)
-        result = self.program_version.interpret(context=context, test_model=self.test_model)
+        result = self.program_version.execute(context=context, test_model=self.test_model)
         self.assertIsNone(result.execution.log)
