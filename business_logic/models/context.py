@@ -2,35 +2,11 @@
 #
 
 from .. import signals
+from ..config import ContextConfig
 from .debug import Logger
 from .frame import Frame
 from .node import NodeCacheHolder
 from .variable import Variable, VariableDefinition
-
-class ExceptionHandlingPolicy:
-    IGNORE = 'IGNORE'
-    INTERRUPT = 'INTERRUPT'
-
-
-class ContextConfig:
-    defaults = dict(
-            log=False,
-            debug=False,
-            cache=True,
-            exception_handling_policy=ExceptionHandlingPolicy.INTERRUPT,
-            )
-
-    def __init__(self, **kwargs):
-        for k in kwargs.keys():
-            if k not in self.defaults:
-                raise TypeError('Incorrect kwarg {}'.format(k))
-
-        for k, v in self.defaults.items():
-            kwargs.setdefault(k, v)
-
-        for k, v in kwargs.items():
-            setattr(self, k, v)
-
 
 class Context(NodeCacheHolder):
     def __init__(self, **kwargs):

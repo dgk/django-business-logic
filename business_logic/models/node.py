@@ -2,7 +2,6 @@
 
 from __future__ import unicode_literals, print_function
 
-import inspect
 import sys
 
 from django.db import models
@@ -15,7 +14,8 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from treebeard.ns_tree import NS_Node
 
 from .. import signals
-from ..exceptions import StopInterpretationException
+from ..config import ExceptionHandlingPolicy
+from ..exceptions import StopInterpretationException, InterpretationException
 
 
 @python_2_unicode_compatible
@@ -89,39 +89,59 @@ class Node(NS_Node):
         return Node.objects.get(id=visitor.clone.id)
 
     def interpret(self, ctx):
+
         is_recursive_call = sys._getframe(0).f_code == sys._getframe(1).f_code
         is_block = self.is_block()
         is_content_object_interpret_children_himself = self.is_content_object_interpret_children_himself()
+        exception_handling_policy = ctx.config.exception_handling_policy
+        children = ctx.get_children(self)
+        exception =None
+        return_value = None
+        children_interpreted = []
 
+        # send signals
         if is_block:
             signals.block_interpret_enter.send(sender=ctx, node=self)
-
         signals.interpret_enter.send(sender=ctx, node=self, value=self.content_object)
 
-        children = ctx.get_children(self)
-
-        return_value = None
+        def handle_unknown_exception(e):
+            e = InterpretationException(e)
+            signals.interpret_exception.send(sender=ctx, node=self, exception=e)
+            return e
 
         if is_block or not is_content_object_interpret_children_himself:
-            children_interpreted = []
             for child in children:
                 try:
                     children_interpreted.append(child.interpret(ctx))
-                except StopInterpretationException:
-                    if not is_recursive_call:
+                except Exception as e:
+                    if not isinstance(e, (InterpretationException, StopInterpretationException)):
+                        e = handle_unknown_exception(e)
+                    exception = e
+                    if exception_handling_policy == ExceptionHandlingPolicy.INTERRUPT:
                         break
-                    else:
-                        raise
-            if not is_block:
+                    elif exception_handling_policy == ExceptionHandlingPolicy.IGNORE:
+                        children_interpreted.append(None)
+
+        if not is_block and exception is None:
+            try:
                 return_value = self.content_object.interpret(ctx, *children_interpreted)
+            except Exception as e:
+                if not isinstance(e, (InterpretationException, StopInterpretationException)):
+                    e = handle_unknown_exception(e)
+                exception = e
 
-        else:
-            return_value = self.content_object.interpret(ctx)
-
+        # send signals
         signals.interpret_leave.send(sender=ctx, node=self, value=return_value)
-
         if is_block:
             signals.block_interpret_leave.send(sender=ctx, node=self)
+
+        if exception is not None:
+            if isinstance(exception, StopInterpretationException):
+                if is_recursive_call:
+                    raise exception
+            if isinstance(exception, InterpretationException):
+                if is_recursive_call:
+                    raise exception
 
         return return_value
 

@@ -271,6 +271,35 @@ class NodeInterpretTest(TestCase):
         self.failUnlessEqual(625, result)
 
 
+class NodeInterpretExceptionTest(TestCase):
+    def create_test_tree(self):
+        root = Node.add_root()
+        symmetric_tree(operator='/', value=0, count=2, parent=root)
+        root = Node.objects.get(id=root.id)
+        node1 = root.add_child()
+        variable_assign_value(parent=node1)
+        root = Node.objects.get(id=root.id)
+        return root
+
+    def test_interpret_should_handle_exception(self):
+        node = symmetric_tree(operator='/', value=0, count=2)
+        context = Context()
+        result = node.interpret(context)
+        self.assertTrue('no exception raised')
+
+    def test_interpret_should_handle_exception_and_interrrupt_interpretation(self):
+        root = self.create_test_tree()
+        context = Context()
+        result = root.interpret(context)
+        self.assertIsInstance(context.get_variable(VariableDefinition.objects.get(name='A')), Variable.Undefined)
+
+    def test_interpret_should_handle_exception_and_continue_interpretation(self):
+        root = self.create_test_tree()
+        context = Context(exception_handling_policy=ExceptionHandlingPolicy.IGNORE)
+        result = root.interpret(context)
+        self.assertEqual(1, context.get_variable(VariableDefinition.objects.get(name='A')))
+
+
 class NodeCacheTest(TestCase):
     def setUp(self):
         settings.DEBUG = True

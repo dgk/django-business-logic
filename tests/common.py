@@ -12,6 +12,7 @@ from business_logic.blockly.parse import *
 
 from business_logic.models import *
 from business_logic.utils import *
+from business_logic.config import *
 
 from .test_app.models import *
 from .utils import *
