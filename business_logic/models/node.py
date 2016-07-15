@@ -2,6 +2,9 @@
 
 from __future__ import unicode_literals, print_function
 
+import inspect
+import sys
+
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -86,7 +89,9 @@ class Node(NS_Node):
         return Node.objects.get(id=visitor.clone.id)
 
     def interpret(self, ctx):
+        is_recursive_call = sys._getframe(0).f_code == sys._getframe(1).f_code
         is_block = self.is_block()
+        is_content_object_interpret_children_himself = self.is_content_object_interpret_children_himself()
 
         if is_block:
             signals.block_interpret_enter.send(sender=ctx, node=self)
@@ -97,19 +102,21 @@ class Node(NS_Node):
 
         return_value = None
 
-        if is_block:
+        if is_block or not is_content_object_interpret_children_himself:
+            children_interpreted = []
             for child in children:
                 try:
-                    child.interpret(ctx)
+                    children_interpreted.append(child.interpret(ctx))
                 except StopInterpretationException:
-                    break
+                    if not is_recursive_call:
+                        break
+                    else:
+                        raise
+            if not is_block:
+                return_value = self.content_object.interpret(ctx, *children_interpreted)
+
         else:
-            # is_statement
-            content_object = self.content_object
-            if getattr(content_object, 'interpret_children', False):
-                return_value = content_object.interpret(ctx)
-            else:
-                return_value = content_object.interpret(ctx, *[x.interpret(ctx) for x in children])
+            return_value = self.content_object.interpret(ctx)
 
         signals.interpret_leave.send(sender=ctx, node=self, value=return_value)
 
@@ -123,6 +130,9 @@ class Node(NS_Node):
 
     def is_statement(self):
         return self.object_id is not None
+
+    def is_content_object_interpret_children_himself(self):
+        return self.object_id is not None and getattr(self.content_object, 'interpret_children', False)
 
     def pprint(self):
         class PrettyPrintVisitor(NodeVisitor):
