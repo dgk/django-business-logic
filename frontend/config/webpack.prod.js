@@ -26,11 +26,12 @@ const METADATA = webpackMerge(commonConfig.metadata, {
   host: HOST,
   port: PORT,
   ENV: ENV,
-  HMR: false
+  HMR: false,
+  baseUrl: '.'
 });
 
 module.exports = webpackMerge(commonConfig, {
-
+  metadata: METADATA,
   /**
    * Switch loaders to debug mode.
    *
@@ -58,7 +59,7 @@ module.exports = webpackMerge(commonConfig, {
      *
      * See: http://webpack.github.io/docs/configuration.html#output-path
      */
-    path: helpers.root('dist'),
+    path: helpers.root('../business_logic/static/business_logic'),
 
     /**
      * Specifies the name of each output file on disk.
@@ -66,7 +67,7 @@ module.exports = webpackMerge(commonConfig, {
      *
      * See: http://webpack.github.io/docs/configuration.html#output-filename
      */
-    filename: '[name].[chunkhash].bundle.js',
+    filename: '[name].bundle.js',
 
     /**
      * The filename of the SourceMaps for the JavaScript files.
@@ -74,7 +75,7 @@ module.exports = webpackMerge(commonConfig, {
      *
      * See: http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
      */
-    sourceMapFilename: '[name].[chunkhash].bundle.map',
+    sourceMapFilename: '[name].bundle.map',
 
     /**
      * The filename of non-entry chunks as relative path
@@ -166,20 +167,7 @@ module.exports = webpackMerge(commonConfig, {
       }, //prod
 
       comments: false //prod
-    }),
-
-    /**
-     * Plugin: CompressionPlugin
-     * Description: Prepares compressed versions of assets to serve
-     * them with Content-Encoding
-     *
-     * See: https://github.com/webpack/compression-webpack-plugin
-     */
-    new CompressionPlugin({
-      regExp: /\.css$|\.html$|\.js$|\.map$/,
-      threshold: 2 * 1024
     })
-
   ],
 
   /**
