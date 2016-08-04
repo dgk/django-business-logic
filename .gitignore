@@ -9,3 +9,5 @@ MANIFEST
 build/
 dist/
 *.egg-info
+/.coverage
+/htmlcov/
