@@ -3,7 +3,6 @@
 from business_logic.models.debug import LOG_ENTRY_VALUE_LENGTH
 
 from .common import *
-from .test_program import ProgramTestBase
 
 
 class LogTest(TestCase):
