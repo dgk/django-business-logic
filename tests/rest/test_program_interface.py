@@ -3,29 +3,7 @@
 from .common import *
 
 
-class ProgramInterfaceTest(TestCase):
-    def setUp(self):
-        self.program_interface = ProgramInterface.objects.create(code='test')
-        self.argument = ProgramArgument.objects.create(
-            name='test_model',
-            program_interface=self.program_interface,
-            content_type=ContentType.objects.get_for_model(TestModel)
-        )
-
-        field_list = (
-            'int_value',
-            'string_value',
-            'foreign_value',
-            'foreign_value.string_value',
-        )
-        for field in field_list:
-            ProgramArgumentField.objects.create(
-                name=field,
-                program_argument=self.argument,
-            )
-
-        self.client = JSONClient()
-
+class ProgramInterfaceTest(ProgramRestTestBase):
     def test_program_interface_list(self):
         url = reverse('business-logic:rest:program-interface-list')
         response = self.client.get(url)

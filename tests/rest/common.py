@@ -42,3 +42,9 @@ class JSONClient(Client):
 
 def response_json(response):
     return json.loads(response.content.decode('utf-8'))
+
+
+class ProgramRestTestBase(ProgramTestBase):
+    def setUp(self):
+        super(ProgramRestTestBase, self).setUp()
+        self.client = JSONClient()

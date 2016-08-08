@@ -78,6 +78,19 @@ class ProgramVersionView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProgramVersionSerializer
 
 
+class ExecutionList(generics.ListAPIView):
+    queryset = Execution.objects.all()
+    serializer_class = ExecutionListSerializer
+    pagination_class = StandardResultsSetPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('program_version', )
+
+
+class ExecutionView(generics.RetrieveDestroyAPIView):
+    queryset = Execution.objects.all()
+    serializer_class = ExecutionSerializer
+
+
 class ReferenceDescriptorList(generics.ListAPIView):
     queryset = ReferenceDescriptor.objects.all()
     serializer_class = ReferenceDescriptorListSerializer

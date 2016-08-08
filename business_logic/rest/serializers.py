@@ -10,6 +10,8 @@ from django.utils import six
 from rest_framework import serializers
 
 from ..models import (
+    Execution,
+    ExecutionArgument,
     ProgramInterface,
     ProgramArgumentField,
     ProgramArgument,
@@ -176,3 +178,30 @@ class ProgramInterfaceSerializer(serializers.ModelSerializer):
         model = ProgramInterface
         exclude = ('id', )
 
+
+class ExecutionListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Execution
+        exclude = ('log',)
+
+class ExecutionArgumentSerializer(serializers.ModelSerializer):
+    content_type = ContentTypeSerializer()
+    name = serializers.SerializerMethodField()
+    verbose_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ExecutionArgument
+        exclude = ('id', 'program_argument', 'execution')
+
+    def get_name(self, obj):
+        return obj.program_argument.name
+
+    def get_verbose_name(self, obj):
+        return obj.content_type.model_class()._meta.verbose_name
+
+class ExecutionSerializer(serializers.ModelSerializer):
+    arguments = ExecutionArgumentSerializer(many=True)
+
+    class Meta:
+        model = Execution
+        exclude = ('log',)
