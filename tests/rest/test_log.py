@@ -60,6 +60,6 @@ class LogRestTest(ProgramRestTestBase):
         self.assertEqual(sorted(['node', 'previous_value', 'current_value']), sorted(top_entry_data.keys()))
 
         self.assertEqual(
-            map(lambda x: x.id, self.context.execution.log.node.get_children()),
-            map(lambda x: x['data']['node'], _json['children'])
+            [x.id for x in  self.context.execution.log.node.get_children()],
+            [x['data']['node'] for x in _json['children']]
             )
