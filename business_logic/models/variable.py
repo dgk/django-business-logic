@@ -28,12 +28,16 @@ class Variable(models.Model):
         verbose_name = _('Variable')
         verbose_name_plural = _('Variables')
 
+    @python_2_unicode_compatible
     class Undefined(object):
         def __nonzero__(self):
             return False
 
         def __bool__(self):
             return False
+
+        def __str__(self):
+            return _('Undefined')
 
     def __str__(self):
         return self.definition.name
