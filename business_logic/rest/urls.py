@@ -18,6 +18,8 @@ urlpatterns = [
     url('^execution$', ExecutionList.as_view(), name='execution-list'),
     url('^execution/(?P<pk>\d+)$', ExecutionView.as_view(), name='execution'),
 
+    url('^execution/(?P<execution__id>\d+)/log$', LogView.as_view(), name='log'),
+
     url('^reference/descriptor$', ReferenceDescriptorList.as_view(), name='reference-descriptor-list'),
     url('^reference/list/(?P<model>[\w.]+)$', ReferenceList.as_view(), name='reference-list'),
 ]

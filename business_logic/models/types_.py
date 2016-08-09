@@ -48,9 +48,9 @@ DJANGO_FIELDS_FOR_TYPES = {
 
 TYPES_FOR_DJANGO_FIELDS = {}
 
-for type, fields in DJANGO_FIELDS_FOR_TYPES.items():
+for _type, fields in DJANGO_FIELDS_FOR_TYPES.items():
     for field in fields:
-        TYPES_FOR_DJANGO_FIELDS[field] = type
+        TYPES_FOR_DJANGO_FIELDS[field] = _type
 
 
 class Type(models.Model):

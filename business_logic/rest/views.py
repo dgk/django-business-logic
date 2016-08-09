@@ -91,6 +91,12 @@ class ExecutionView(generics.RetrieveDestroyAPIView):
     serializer_class = ExecutionSerializer
 
 
+class LogView(generics.RetrieveAPIView):
+    queryset = LogEntry.objects.all()
+    serializer_class = LogSerializer
+    lookup_field = 'execution__id'
+
+
 class ReferenceDescriptorList(generics.ListAPIView):
     queryset = ReferenceDescriptor.objects.all()
     serializer_class = ReferenceDescriptorListSerializer

@@ -39,3 +39,27 @@ class ExecutionRestTest(ProgramRestTestBase):
         self.assertEqual(TestModel._meta.verbose_name, argument['verbose_name'])
         self.assertEqual('test_app.TestModel', argument['content_type'])
         self.assertEqual(self.test_model.id, argument['object_id'])
+
+
+class LogRestTest(ProgramRestTestBase):
+
+    def setUp(self):
+        super(LogRestTest, self).setUp()
+        self.context = Context(log=True, debug=True)
+        self.program_version.execute(test_model=self.test_model, context=self.context)
+
+    def test_log(self):
+        url = reverse('business-logic:rest:log', kwargs=dict(execution__id=Execution.objects.get().id))
+        response = self.client.get(url)
+        self.assertEqual(200, response.status_code, response.content)
+        _json = response_json(response)
+        top_entry_data = _json['data']
+
+        self.assertEqual(self.context.execution.log.node.id, top_entry_data['node'])
+        self.assertNotIn('id', _json)
+        self.assertEqual(sorted(['node', 'previous_value', 'current_value']), sorted(top_entry_data.keys()))
+
+        self.assertEqual(
+            map(lambda x: x.id, self.context.execution.log.node.get_children()),
+            map(lambda x: x['data']['node'], _json['children'])
+            )

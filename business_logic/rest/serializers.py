@@ -12,6 +12,7 @@ from rest_framework import serializers
 from ..models import (
     Execution,
     ExecutionArgument,
+    LogEntry,
     ProgramInterface,
     ProgramArgumentField,
     ProgramArgument,
@@ -205,3 +206,11 @@ class ExecutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Execution
         exclude = ('log',)
+
+
+class LogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LogEntry
+
+    def to_representation(self, instance):
+        return LogEntry.dump_bulk(instance, keep_ids=False)[0]
