@@ -23,7 +23,7 @@ class ReferenceTest(TestCase):
         descriptor = _json[0]
         model = 'test_app.TestModel'
         self.assertEqual(model, descriptor['name'])
-        self.assertEqual('test model', descriptor['verbose_name'])
+        self.assertEqual('Test Model', descriptor['verbose_name'])
         self.assertEqual(reverse('business-logic:rest:reference-list', kwargs=dict(model=model)), descriptor['url'])
 
     def test_reference_list(self):

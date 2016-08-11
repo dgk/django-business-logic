@@ -14,6 +14,19 @@ class ProgramTest(ProgramTestBase):
         self.assertEqual('{}.{}'.format(self.argument.name, 'int_value'),
                          int_value_field.variable_definition.name)
 
+    def test_program_argument_field_title_declared(self):
+        title = 'test'
+        field = self.fields['int_value']
+        field.title = title
+        field.save()
+
+        self.assertEqual(title, field.get_title())
+
+    def test_program_argument_field_title_generated(self):
+        self.assertEqual('Test Model.Integer value', self.fields['int_value'].get_title())
+        self.assertEqual('Test Model.foreign value', self.fields['foreign_value'].get_title())
+        self.assertEqual('Test Model.foreign value.string value', self.fields['foreign_value.string_value'].get_title())
+
     def test_save_program_argument_change_variable_definition(self):
         self.argument.name = 'new_name'
         self.argument.save()

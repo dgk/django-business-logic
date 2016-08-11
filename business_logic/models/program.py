@@ -12,6 +12,7 @@ from .context import Context
 from .debug import Execution, ExecutionArgument
 from .node import Node
 from .variable import VariableDefinition, Variable
+from .types_ import DJANGO_FIELDS_FOR_TYPES
 
 from ..fields import DeepAttributeField
 
@@ -72,6 +73,7 @@ class ProgramArgument(models.Model):
 class ProgramArgumentField(models.Model):
     program_argument = models.ForeignKey(ProgramArgument, related_name='fields')
     name = DeepAttributeField(_('Name'), max_length=255)
+    title = models.CharField(_('Title'), max_length=255, null=True, blank=True)
     variable_definition = models.OneToOneField(VariableDefinition, related_name='program_argument_field')
 
     class Meta:
@@ -95,7 +97,23 @@ class ProgramArgumentField(models.Model):
     def get_variable_name(self):
         return '{}.{}'.format(self.program_argument.name, self.name)
 
-    def delete(self, using=None):
+    def get_title(self):
+        if self.title:
+            return self.title
+
+        model = self.program_argument.content_type.model_class()
+        titles = [model._meta.verbose_name, ]
+        for field_name in self.name.split('.'):
+            field = model._meta.get_field(field_name)
+            titles.append(field.verbose_name)
+            is_django_model = field.__class__ in DJANGO_FIELDS_FOR_TYPES['model']
+
+            if is_django_model:
+                model = field.related_model
+
+        return '.'.join(titles)
+
+    def delete(self, using=None,):
         self.variable_definition.delete()
         super(ProgramArgumentField, self).delete(using)
 

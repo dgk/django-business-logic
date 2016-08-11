@@ -123,8 +123,6 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = {}
-        verbose_name = []
-
         representation['name'] = instance.name
 
         argument = instance.program_argument
@@ -133,8 +131,6 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
         field_names = instance.name.split('.')
         for i, field_name in enumerate(field_names):
             field = model._meta.get_field(field_name)
-            verbose_name.append(field.verbose_name)
-
             is_last_field = i == len(field_names) - 1
             is_django_model = field.__class__ in DJANGO_FIELDS_FOR_TYPES['model']
 
@@ -149,7 +145,7 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
                     else None
                 )
 
-        representation['verbose_name'] = '.'.join(verbose_name)
+        representation['verbose_name'] = instance.get_title()
 
         return representation
 

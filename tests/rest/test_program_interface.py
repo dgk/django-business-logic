@@ -31,20 +31,20 @@ class ProgramInterfaceTest(ProgramRestTestBase):
         expected = {
             'int_value': dict(
                 data_type='number',
-                verbose_name='Integer value',
+                verbose_name='Test Model.Integer value',
                 ),
             'string_value': dict(
                 data_type='string',
-                verbose_name='string value',
+                verbose_name='Test Model.string value',
                 ),
             'foreign_value': dict(
                 data_type='model',
                 content_type='test_app.TestRelatedModel',
-                verbose_name='foreign value',
+                verbose_name='Test Model.foreign value',
                 ),
             'foreign_value.string_value': dict(
                 data_type='string',
-                verbose_name='foreign value.string value',
+                verbose_name='Test Model.foreign value.string value',
                 ),
 
         }
