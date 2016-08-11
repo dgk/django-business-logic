@@ -15,6 +15,7 @@ const DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**
  * Webpack Constants
@@ -93,6 +94,11 @@ module.exports = webpackMerge(commonConfig, {
    * See: http://webpack.github.io/docs/configuration.html#plugins
    */
   plugins: [
+    new CopyWebpackPlugin([{
+        from: helpers.root('./node_modules/blockly/media'),
+        to: helpers.root('../business_logic/static/business_logic/blockly')
+      }]),
+
 
     /**
      * Plugin: WebpackMd5Hash
