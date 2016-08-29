@@ -1,1 +1,2 @@
 tox==2.3.1
+django-bootstrap3==7.0.1
