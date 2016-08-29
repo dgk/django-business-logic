@@ -46,6 +46,7 @@ pip install -r requirements.dev.txt
 ```
 #### Installing test data
 ```
+python manage.py migrate
 python manage.py loaddata sites/dev/fixtures/data.json
 ```
 #### Running backend dev server
