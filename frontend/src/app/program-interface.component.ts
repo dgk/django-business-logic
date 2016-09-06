@@ -10,17 +10,44 @@ import {ProgramComponent} from './program.component';
 @Component({
   selector: 'program-interface',
   template: `
- <ul>
-  <li *ngFor="let programInterface of programInterfaces">
-       <a [routerLink]="['Program',{programInterfaceId:programInterface.id}]">
-       {{programInterface.title}}
-       </a>
-  </li>
-</ul>
-
-<main>
-  <router-outlet></router-outlet>
-</main>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <a href="/" class="mdl-navigation__link mdl-typography--text-uppercase mdl-layout-title">Blocly Elements</a>
+        </div>
+        <div>
+          <li *ngFor="let programInterface of programInterfaces" class="mdl-layout__tab">
+               <a [routerLink]="['Program',{programInterfaceId:programInterface.id}]" class="mdl-layout__tab">
+               {{programInterface.title}}
+               </a>
+          </li>
+          <router-outlet></router-outlet>
+        </div>
+      </header>
+      <main class="mdl-layout__content">
+        <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
+          <div class="page-content"></div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="scroll-tab-2">
+          <div class="page-content"></div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="scroll-tab-3">
+          <div class="page-content"></div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="scroll-tab-4">
+          <div class="page-content"></div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="scroll-tab-5">
+          <div class="page-content"></div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="scroll-tab-6">
+          <div class="page-content"></div>
+        </section>
+      </main>
+    </div>
+    <style>
+        .mdl-layout__tab {padding: 0 12px;}
+    </style>
   `
 })
 @RouteConfig([

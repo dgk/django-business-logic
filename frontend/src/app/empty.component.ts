@@ -7,7 +7,7 @@ import {RouteConfig, Router} from '@angular/router-deprecated';
 
 @Component({
   selector: 'empty',
-  template: String.raw`I'm empty`
+  template: String.raw``
 })
 export class EmptyComponent {
 }

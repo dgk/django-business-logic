@@ -10,15 +10,12 @@ import {VersionEditorComponent} from './version-editor/version-editor.component.
 @Component({
   selector: 'program-version',
   template: `
-  programId = {{programId}}
-    <ul>
-        <li *ngFor="let programVersion of programVersions">
-            <a [routerLink]="['Program',{programVersionId:programVersion.id}]">
-            {{programVersion.title}}</a>
-        </li>
-    </ul>
-
-  <router-outlet></router-outlet>
+    <!--programId = {{programId}}-->
+    <li *ngFor="let programVersion of programVersions" class="mdl-layout__tab">
+        <a [routerLink]="['Program',{programVersionId:programVersion.id}]" class="mdl-layout__tab">
+        {{programVersion.title}}</a>
+    </li>
+    <router-outlet></router-outlet>
   `
 })
 @RouteConfig([

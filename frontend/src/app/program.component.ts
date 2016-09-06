@@ -10,14 +10,11 @@ import {ProgramVersionComponent} from './program-version.component';
 @Component({
   selector: 'program',
   template: `
-  programInterfaceId = {{programInterfaceId}}
-    <ul>
-        <li *ngFor="let program of programs">
-            <a [routerLink]="['ProgramVersion',{programId:program.id}]">{{program.title}}</a>
-        </li>
-    </ul>
-
-  <router-outlet></router-outlet>
+  <!-- programInterfaceId = {{programInterfaceId}} -->
+    <li *ngFor="let program of programs" class="mdl-layout__tab">
+        <a [routerLink]="['ProgramVersion',{programId:program.id}]" class="mdl-layout__tab">{{program.title}}</a>
+    </li>
+    <router-outlet></router-outlet>
   `
 })
 @RouteConfig([

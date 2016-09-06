@@ -16,20 +16,34 @@ import {
 @Component({
   selector: 'blockly',
   template: `
-<xml #toolbox style="display: none">
-${require('./blockly-toolset.html')}
-</xml>
-<button (click)="onSave()">
-  Save
-</button>
-<div #blockly [ngStyle]="style"></div>
+<div [ngStyle]="styleBlockly">
+    <xml #toolbox style="display: none">
+    ${require('./blockly-toolset.html')}
+    </xml>
+    <!--<button style="position: absolute; top: 0; right: 100px;">Save</button>-->
+    <div #blockly [ngStyle]="style"></div>
+    <button (click)="onSave()" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" [ngStyle]="styleButton">
+        <i class="material-icons">save</i>
+    </button>
+</div>
 `
 })
 export default class BlocklyComponent implements AfterViewInit, OnChanges {
-  style = {
-    width: '100%',
-    height: '900px'
-  };
+    style = {
+        width: '100%',
+        height: '800px',
+    };
+    styleBlockly = {
+        width: '100%',
+        margin: '50px auto 0 auto',
+        position: 'relative'
+    };
+    styleButton = {
+        position: 'absolute',
+        top: '10px',
+        right: '60px',
+};
+
 
   @ViewChild('blockly') blocklyDiv;
   @ViewChild('toolbox') toolbox;
