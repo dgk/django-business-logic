@@ -2,20 +2,23 @@
  * Created by Infirex on 5/27/2016.
  */
 import {Component, OnInit} from '@angular/core';
-import {RouteConfig, Router, RouteParams} from '@angular/router-deprecated';
+import {RouteConfig, Router, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, RouteParams} from '@angular/router-deprecated';
 import {EmptyComponent} from './empty.component';
 import {BackendService} from './backend.service';
 import {VersionEditorComponent} from './version-editor/version-editor.component.ts';
+import {BreadcrumbService} from './breadcrumb.service';
 
 @Component({
   selector: 'program-version',
   template: `
-    <!--programId = {{programId}}-->
-    <li *ngFor="let programVersion of programVersions" class="mdl-layout__tab">
-        <a [routerLink]="['Program',{programVersionId:programVersion.id}]" class="mdl-layout__tab">
+  <!--programId = {{programId}}-->
+  <ul class="demo-list-item mdl-list">
+    <li *ngFor="let programVersion of programVersions" class="mdl-list__item-primary-content">
+        <a [routerLink]="['Program',{programVersionId:programVersion.id}]" style="padding-left: 20px;" class="mdl-list__item-primary-content">
         {{programVersion.title}}</a>
     </li>
-    <router-outlet></router-outlet>
+  </ul>
+  <router-outlet></router-outlet>
   `
 })
 @RouteConfig([
@@ -36,7 +39,9 @@ export class ProgramVersionComponent implements OnInit {
 
   constructor(private router: Router,
               private backend: BackendService,
-              private routeParams: RouteParams) {
+              private routeParams: RouteParams,
+              private breadcrumbService: BreadcrumbService) {
+    breadcrumbService.addBreadcrumbRoute( { route:'/', name:'Home' } );
   }
 
   ngOnInit(): any {

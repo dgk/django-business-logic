@@ -35,7 +35,6 @@ export default class BlocklyComponent implements AfterViewInit, OnChanges {
     };
     styleBlockly = {
         width: '100%',
-        margin: '50px auto 0 auto',
         position: 'relative'
     };
     styleButton = {
