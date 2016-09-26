@@ -18,9 +18,9 @@ import {BreadcrumbService} from './breadcrumb.service';
         <div class="mdl-layout__header-row">
           <a [routerLink]="['ProgramInterfaceEmpty']" class="mdl-navigation__link mdl-typography--text-uppercase mdl-layout-title">Blocly Elements</a>
         </div>
-        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        <!--<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
           <breadcrumb></breadcrumb>
-        </div>
+        </div>-->
       </header>
       <div id="menuDinamic">
         <ul class="demo-list-item mdl-list">
