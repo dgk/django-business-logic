@@ -98,8 +98,10 @@ setup(
         package_data={
             PACKAGE: [
                 'locale/*/LC_MESSAGES/django.[mp]o',
-                'static/business_logic/assets/*',
                 'static/business_logic/*.html',
+                'static/business_logic/*.js',
+                'static/business_logic/*.map',
+                'static/business_logic/blockly/*',
             ]
         },
 
