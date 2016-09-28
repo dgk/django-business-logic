@@ -47,7 +47,7 @@ class ProgramInterfaceAdmin(NestedModelAdmin):
     model = ProgramInterface
     inlines = [ProgramArgumentInline, ProgramInline]
     list_filter = (
-        ('argument__content_type', ContentTypeFilter),
+        ('arguments__content_type', ContentTypeFilter),
     )
 
 
@@ -55,7 +55,7 @@ class ProgramAdmin(admin.ModelAdmin):
     model = Program
     list_filter = (
         'program_interface',
-        ('program_interface__argument__content_type', ContentTypeFilter),
+        ('program_interface__arguments__content_type', ContentTypeFilter),
     )
 
 
