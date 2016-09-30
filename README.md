@@ -40,7 +40,7 @@ Virtualenv is probably what you want to use during development.
 Once you have virtualenv installed, just fire up a shell and create your own environment.
 ```
 virtualenv venv
-souce venv/bin/activate
+source venv/bin/activate
 pip install -r requirements.txt
 pip install -r requirements.dev.txt
 ```
