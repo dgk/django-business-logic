@@ -117,3 +117,15 @@ class ProgramTest(ProgramTestBase):
                               Variable.Undefined)
         self.assertIsNone(context.get_variable(int_value_field.variable_definition))
         self.assertIsNone(self.test_model.int_value)
+
+
+class ProgramAdminTest(ProgramTestBase):
+    def setUp(self):
+        super(ProgramAdminTest, self).setUp()
+        self.superuser = User.objects.create_superuser('test', 't@e.st', 'test')
+        self.client = Client()
+        self.client.login(username='test', password='test')
+
+    def test_programinterface_changelist(self):
+        url = reverse('admin:business_logic_programinterface_changelist')
+        self.client.get(url)

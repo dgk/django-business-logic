@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'nested_inline',
     'rest_framework',
     'business_logic',
     'tests.test_app',
@@ -111,3 +112,22 @@ PASSWORD_HASHERS = (
 DEBUG = False
 TEMPLATE_DEBUG = False
 MIGRATION_MODULES = DisableMigrations()
+
+# for django>=1.10
+MIDDLEWARE = MIDDLEWARE_CLASSES
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]

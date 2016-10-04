@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import json
-from django.core.urlresolvers import reverse
 
-from django.test import Client
 from django.utils import six
+
 from ..common import *
 
 

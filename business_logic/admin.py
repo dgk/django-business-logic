@@ -30,7 +30,7 @@ class ProgramArgumentInline(NestedStackedInline):
     exclude = ('variable_definition',)
 
 
-class ProgramInline(admin.StackedInline):
+class ProgramInline(NestedStackedInline):
     model = Program
     extra = 1
 

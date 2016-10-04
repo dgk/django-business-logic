@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'nested_inline',
     'bootstrap3',
 
+#    'django_extensions',
     'business_logic',
 
     'sites.dev.books',
