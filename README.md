@@ -28,7 +28,7 @@ There are a few different ways you can install django-business-logic:
         # urls.py
         urlpatterns = (
           ...
-          url('^business-logic', include('business_logic.urls')),
+          url('^business-logic/', include('business_logic.urls')),
           ...
         )
 
