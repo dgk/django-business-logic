@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 #
 
+from decimal import Decimal
 
 from django.db import models
 
 
 class TestModel(models.Model):
     int_value = models.PositiveIntegerField('Integer value', default=1)
+    decimal_value = models.DecimalField('Decimal value', default=Decimal('2.0'))
     string_value = models.CharField(max_length=255)
     foreign_value = models.ForeignKey('TestRelatedModel', null=True)
 

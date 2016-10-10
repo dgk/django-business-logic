@@ -118,3 +118,30 @@ class UnaryOperatorTest(TestCase):
         result = neg_operator.interpret(ctx, number_const1.interpret(ctx))
         self.failUnlessEqual(-3, result)
 
+
+class BinaryOperatorDecimalOperandTest(ProgramTestBase):
+    def create_entry_point(self):
+        # result = test_model.decimal_value / 2.0
+
+        root = Node.add_root()
+        self.result_variable_definition = VariableDefinition.objects.create(name='result')
+
+        assignment_node = root.add_child(content_object=Assignment())
+
+        variable = Variable.objects.create(definition=self.result_variable_definition)
+        variable_node = assignment_node.add_child(content_object=variable)
+        assignment_node = Node.objects.get(id=assignment_node.id)
+
+        div_node = assignment_node.add_child(content_object=BinaryOperator(operator='/'))
+        div_node.add_child(content_object=Variable.objects.create(definition=self.fields['decimal_value'].variable_definition))
+        div_node = Node.objects.get(id=div_node.id)
+
+        div_node.add_child(content_object=NumberConstant.objects.create(value=2.0))
+
+        root = Node.objects.get(id=root.id)
+        return root
+
+    def test_interpret_div(self):
+        context = Context()
+        self.program_version.execute(test_model=self.test_model, context=context)
+        self.assertEqual(self.test_model.decimal_value / Decimal(2.0), context.get_variable(self.result_variable_definition))

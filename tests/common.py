@@ -2,6 +2,7 @@
 
 import unittest
 
+from decimal import Decimal
 from pprint import pprint
 
 from django.contrib.auth.models import User
@@ -26,6 +27,7 @@ class ProgramTestBase(TestCase):
     field_list = (
         'int_value',
         'string_value',
+        'decimal_value',
         'foreign_value',
         'foreign_value.int_value',
         'foreign_value.string_value',
@@ -46,7 +48,7 @@ class ProgramTestBase(TestCase):
                                                         title='test',
                                                         code='test')
         self.program_version = ProgramVersion.objects.create(program=program,
-                                                             entry_point=get_test_tree())
+                                                             entry_point=self.create_entry_point())
 
         self.test_model = TestModel.objects.create()
 
@@ -59,3 +61,6 @@ class ProgramTestBase(TestCase):
             )
 
         return fields
+
+    def create_entry_point(self):
+        return get_test_tree()

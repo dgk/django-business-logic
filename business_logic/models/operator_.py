@@ -3,6 +3,8 @@
 
 import operator
 
+from decimal import Decimal
+
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -61,6 +63,13 @@ class BinaryOperator(Operator):
         }
 
     def interpret(self, ctx, *args):
+
+        def is_decimal(value):
+            return isinstance(value, Decimal)
+
+        if len([x for x in args if is_decimal(x)]) == 1:
+            args = [Decimal(x) if not is_decimal(x) else x for x in args]
+
         lhs, rhs = args
         return self.operator_table[self.operator](lhs, rhs)
 
