@@ -1,7 +1,16 @@
+<p align="center">
+  <a href="http://courses.angularclass.com/courses/angular-2-fundamentals?utm_source=github-angular2-webpack-starter&utm_medium=open-source&utm_campaign=webpackstarter" target="_blank">
+    <img width="438" alt="Angular 2 Fundamentals" src="https://cloud.githubusercontent.com/assets/1016365/17200649/085798c6-543c-11e6-8ad0-2484f0641624.png">
+  </a>
+</p>
+
+___
+
+
+
 [![taylor swift](https://img.shields.io/badge/secured%20by-taylor%20swift-brightgreen.svg)](https://twitter.com/SwiftOnSecurity)
 [![volkswagen status](https://auchenberg.github.io/volkswagen/volkswargen_ci.svg?v=1)](https://github.com/auchenberg/volkswagen) [![GitHub version](https://badge.fury.io/gh/angularclass%2Fangular2-webpack-starter.svg)](https://badge.fury.io/gh/angularclass%2Fangular2-webpack-starter) [![Dependency Status](https://david-dm.org/angularclass/angular2-webpack-starter.svg)](https://david-dm.org/angularclass/angular2-webpack-starter)
-[![Issue Stats](http://issuestats.com/github/angularclass/angular2-webpack-starter/badge/pr?style=flat)](http://issuestats.com/github/angularclass/angular2-webpack-starter)
-[![Issue Stats](http://issuestats.com/github/angularclass/angular2-webpack-starter/badge/issue?style=flat)](http://issuestats.com/github/angularclass/angular2-webpack-starter) [![Stack Share](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](http://stackshare.io/angularclass/angular-2-webpack-starter)
+[![Stack Share](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](http://stackshare.io/angularclass/angular-2-webpack-starter)
 
 <p align="center">
   <a href="https://angularclass.com" target="_blank">
@@ -15,21 +24,15 @@
 > An Angular 2 starter kit featuring [Angular 2](https://angular.io) ([Router](https://angular.io/docs/js/latest/api/router/), [Forms](https://angular.io/docs/js/latest/api/forms/),
 [Http](https://angular.io/docs/js/latest/api/http/),
 [Services](https://gist.github.com/gdi2290/634101fec1671ee12b3e#_follow_@AngularClass_on_twitter),
-[Tests](https://angular.io/docs/js/latest/api/test/), [E2E](https://angular.github.io/protractor/#/faq#what-s-the-difference-between-karma-and-protractor-when-do-i-use-which-)), [Material](https://github.com/angular/material2), [Karma](https://karma-runner.github.io/), [Protractor](https://angular.github.io/protractor/), [Jasmine](https://github.com/jasmine/jasmine), [Istanbul](https://github.com/gotwarlost/istanbul), [TypeScript](http://www.typescriptlang.org/), [Typings](https://github.com/typings/typings), [TsLint](http://palantir.github.io/tslint/), [Codelyzer](https://github.com/mgechev/codelyzer), [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement-with-webpack.html), and [Webpack](http://webpack.github.io/) by [AngularClass](https://angularclass.com).
+[Tests](https://angular.io/docs/js/latest/api/test/), [E2E](https://angular.github.io/protractor/#/faq#what-s-the-difference-between-karma-and-protractor-when-do-i-use-which-)), [Material](https://github.com/angular/material2), [Karma](https://karma-runner.github.io/), [Protractor](https://angular.github.io/protractor/), [Jasmine](https://github.com/jasmine/jasmine), [Istanbul](https://github.com/gotwarlost/istanbul), [TypeScript](http://www.typescriptlang.org/), [@types](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&cad=rja&uact=8&ved=0ahUKEwjgjdrR7u_NAhUQ7GMKHXgpC4EQFggnMAI&url=https%3A%2F%2Fwww.npmjs.com%2F~types&usg=AFQjCNG2PFhwEo88JKo12mrw_4d0w1oNiA&sig2=N69zbO0yN8ET7v4KVCUOKA), [TsLint](http://palantir.github.io/tslint/), [Codelyzer](https://github.com/mgechev/codelyzer), [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement-with-webpack.html), and [Webpack 2](http://webpack.github.io/) by [AngularClass](https://angularclass.com).
 
 > If you're looking for Angular 1.x please use [NG6-starter](https://github.com/angularclass/NG6-starter)
-
 > If you're looking to learn about Webpack and ES6 Build Tools check out [ES6-build-tools](https://github.com/AngularClass/ES6-build-tools)
-
 > If you're looking to learn TypeScript see [TypeStrong/learn-typescript](https://github.com/TypeStrong/learn-typescript)
-
-> If you're looking for Webpack 2 version then see the experimental version [angular2-webpack2-starter](https://github.com/gdi2290/angular2-webpack2-starter) that will be merged
-
-> If you're looking for something easier to get started with then see the offical angular2-seed that I also maintain [angular/angular2-seed](https://github.com/angular/angular2-seed)
-
+> If you're looking for something easier to get started with then see the angular2-seed that I also maintain [angular/angular2-seed](https://github.com/AngularClass/angular2-seed)
 > If you're looking to add Angular 2 Material Design we have a branch [material2](https://github.com/AngularClass/angular2-webpack-starter/tree/material2)
 
-This seed repo serves as an Angular 2 starter for anyone looking to get up and running with Angular 2 and TypeScript fast. Using a [Webpack](http://webpack.github.io/) for building our files and assisting with boilerplate. We're also using Protractor for our end-to-end story and Karma for our unit tests.
+This seed repo serves as an Angular 2 starter for anyone looking to get up and running with Angular 2 and TypeScript fast. Using a [Webpack 2](http://webpack.github.io/) for building our files and assisting with boilerplate. We're also using Protractor for our end-to-end story and Karma for our unit tests.
 * Best practices in file and application organization for Angular 2.
 * Ready to go build system using Webpack for working with TypeScript.
 * Angular 2 examples that are ready to go when experimenting with Angular 2.
@@ -37,12 +40,12 @@ This seed repo serves as an Angular 2 starter for anyone looking to get up and r
 * Testing Angular 2 code with Jasmine and Karma.
 * Coverage with Istanbul and Karma
 * End-to-end Angular 2 code using Protractor.
-* Type manager with Typings
-* Hot Module Replacement with Webpack
+* Type manager with @types
+* Hot Module Replacement with Webpack and [@angularclass/hmr](https://github.com/angularclass/angular2-hmr) and [@angularclass/hmr-loader](https://github.com/angularclass/angular2-hmr-loader)
 * Material Design with [angular/material2](https://github.com/angular/material2)
 
 ### Quick start
-**Make sure you have Node version >= 4.0 and NPM >= 3**
+**Make sure you have Node version >= 5.0 and NPM >= 3**
 > Clone/Download the repo then edit `app.ts` inside [`/src/app/app.ts`](/src/app/app.ts)
 
 ```bash
@@ -52,9 +55,6 @@ git clone --depth 1 https://github.com/angularclass/angular2-webpack-starter.git
 
 # change directory to our repo
 cd angular2-webpack-starter
-
-# add required global libraries
-npm install typings webpack-dev-server rimraf webpack -g
 
 # install the repo with npm
 npm install
@@ -79,7 +79,7 @@ go to [http://0.0.0.0:3000](http://0.0.0.0:3000) or [http://localhost:3000](http
 * [Configuration](#configuration)
 * [Contributing](#contributing)
 * [TypeScript](#typescript)
-* [Typings](#typings)
+* [@Types](#types)
 * [Frequently asked questions](#frequently-asked-questions)
 * [Support, Questions, or Feedback](#support-questions-or-feedback)
 * [License](#license)
@@ -116,14 +116,15 @@ angular2-webpack-starter/
  │       ├──icon/              * our list of icons from www.favicon-generator.org
  │       ├──service-worker.js  * ignore this. Web App service worker that's not complete yet
  │       ├──robots.txt         * for search engines to crawl your website
- │       └──human.txt          * for humans to know who the developers are
+ │       └──humans.txt          * for humans to know who the developers are
  │
  │
  ├──tslint.json                * typescript lint config
  ├──typedoc.json               * typescript documentation generator
  ├──tsconfig.json              * config that webpack uses for typescript
- ├──typings.json               * our typings manager
- └──package.json               * what npm uses to manage it's dependencies
+ ├──package.json               * what npm uses to manage it's dependencies
+ └──webpack.config.js          * webpack main configuration file
+
 ```
 
 # Getting Started
@@ -132,20 +133,20 @@ What you need to run this app:
 * `node` and `npm` (`brew install node`)
 * Ensure you're running the latest versions Node `v4.x.x`+ (or `v5.x.x`) and NPM `3.x.x`+
 
+> If you have `nvm` installed, which is highly recommended (`brew install nvm`) you can do a `nvm install --lts && nvm use` in `$` to run with the latest Node LTS. You can also have this `zsh` done for you [automatically](https://github.com/creationix/nvm#calling-nvm-use-automatically-in-a-directory-with-a-nvmrc-file) 
+
 Once you have those, you should install these globals with `npm install --global`:
 * `webpack` (`npm install --global webpack`)
 * `webpack-dev-server` (`npm install --global webpack-dev-server`)
 * `karma` (`npm install --global karma-cli`)
 * `protractor` (`npm install --global protractor`)
-* `typings` (`npm install --global typings`)
 * `typescript` (`npm install --global typescript`)
 
 ## Installing
 * `fork` this repo
 * `clone` your fork
-* `npm install typings webpack-dev-server rimraf webpack -g` to install required global dependencies
+* `npm install webpack-dev-server rimraf webpack -g` to install required global dependencies
 * `npm install` to install all dependencies
-* `typings install` to install necessary typings
 * `npm run server` to start the dev server in another tab
 
 ## Running the app
@@ -209,6 +210,11 @@ npm run webdriver:start
 npm run e2e:live
 ```
 
+### build Docker
+```bash
+npm run build:docker
+```
+
 # Configuration
 Configuration files live in `config/` we are currently using webpack, karma, and protractor for different stages of your application
 
@@ -233,20 +239,32 @@ We have good experience using these editors:
 * [Atom](https://atom.io/) with [TypeScript plugin](https://atom.io/packages/atom-typescript)
 * [Sublime Text](http://www.sublimetext.com/3) with [Typescript-Sublime-Plugin](https://github.com/Microsoft/Typescript-Sublime-plugin#installation)
 
-# Typings
-> When you include a module that doesn't include Type Definitions inside of the module you need to include external Type Definitions with Typings
+### Visual Studio Code + Debugger for Chrome
+> Install [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome) and see docs for instructions to launch Chrome 
 
-## Use latest Typings module
-```
-npm install --global typings
+The included `.vscode` automatically connects to the webpack development server on port `3000`.
+
+# Types
+> When you include a module that doesn't include Type Definitions inside of the module you can include external Type Definitions with @types
+
+i.e, to have youtube api support, run this command in terminal: 
+```shell
+npm i @types/youtube @types/gapi @types/gapi.youtube
+``` 
+In some cases where your code editor doesn't support Typescript 2 yet or these types weren't listed in ```tsconfig.json```, add these to **"src/custom-typings.d.ts"** to make peace with the compile check: 
+```es6
+import '@types/gapi.youtube';
+import '@types/gapi';
+import '@types/youtube';
 ```
 
 ## Custom Type Definitions
 When including 3rd party modules you also need to include the type definition for the module
-if they don't provide one within the module. You can try to install it with typings
+if they don't provide one within the module. You can try to install it with @types
 
 ```
-typings install node --save
+npm install @types/node
+npm install @types/lodash
 ```
 
 If you can't find the type definition in the registry we can make an ambient definition in
@@ -263,6 +281,8 @@ If you're prototyping and you will fix the types later you can also declare it a
 
 ```typescript
 declare var assert: any;
+declare var _: any;
+declare var $: any;
 ```
 
 If you're importing a module that uses Node.js modules which are CommonJS you need to import as
@@ -271,8 +291,6 @@ If you're importing a module that uses Node.js modules which are CommonJS you ne
 import * as _ from 'lodash';
 ```
 
-You can include your type definitions in this file until you create one for the typings registry
-see [typings/registry](https://github.com/typings/registry)
 
 # Frequently asked questions
 * What's the current browser support for Angular 2 Beta?
@@ -286,7 +304,7 @@ see [typings/registry](https://github.com/typings/registry)
 * How do I start the app when I get `EACCES` and `EADDRINUSE` errors?
   * The `EADDRINUSE` error means the port `3000` is currently being used and `EACCES` is lack of permission for webpack to build files to `./dist/`
 * How to use `sass` for css?
- * `loaders: ['raw-loader','sass-loader']` and `@Component({ styles: [ require('./filename.scss') ] })` see issue [#136](https://github.com/AngularClass/angular2-webpack-starter/issues/136)
+ * `loaders: ['raw-loader','sass-loader']` and `@Component({ styleUrls: ['./filename.scss'] })` see issue [#136](https://github.com/AngularClass/angular2-webpack-starter/issues/136)
 * How do I test a Service?
  * See issue [#130](https://github.com/AngularClass/angular2-webpack-starter/issues/130#issuecomment-158872648)
 * How do I add `vscode-chrome-debug` support?
@@ -297,8 +315,6 @@ see [typings/registry](https://github.com/typings/registry)
  * please see issue [#185](https://github.com/AngularClass/angular2-webpack-starter/issues/185) and PR [196](https://github.com/AngularClass/angular2-webpack-starter/pull/196)
 * How do I include bootstrap or jQuery?
  * please see issue [#215](https://github.com/AngularClass/angular2-webpack-starter/issues/215) and [#214](https://github.com/AngularClass/angular2-webpack-starter/issues/214#event-511768416)
-* I'm getting an error about not finding my module that I installed?
- * please see [How to include or create custom type definitions](https://github.com/AngularClass/angular2-webpack-starter/wiki/How-to-include-or-create-custom-type-definitions) and [custom-typings.d.ts](https://github.com/AngularClass/angular2-webpack-starter/blob/master/src/custom-typings.d.ts)
 * How do I async load a component?
  * see wiki [How-do-I-async-load-a-component-with-AsyncRoute](https://github.com/AngularClass/angular2-webpack-starter/wiki/How-do-I-async-load-a-component-with-AsyncRoute)
 * Error: Cannot find module 'tapable'
@@ -315,6 +331,12 @@ see [typings/registry](https://github.com/typings/registry)
  * check out https://github.com/cnpm/cnpm
 * If you're looking to add Angular 2 Material Design
  * check out the [material2](https://github.com/AngularClass/angular2-webpack-starter/tree/material2) branch
+* node-pre-gyp ERR in npm install (Windows)
+ * install Python x86 version between 2.5 and 3.0 on windows see issue [#626](https://github.com/AngularClass/angular2-webpack-starter/issues/626)
+* `Error:Error: Parse tsconfig error [{"messageText":"Unknown compiler option 'lib'.","category":1,"code":5023},{"messageText":"Unknown compiler option 'strictNullChecks'.","category":1,"code":5023},{"messageText":"Unknown compiler option 'baseUrl'.","category":1,"code":5023},{"messageText":"Unknown compiler option 'paths'.","category":1,"code":5023},{"messageText":"Unknown compiler option 'types'.","category":1,"code":5023}]`
+ * remove `node_modules/typescript` and run `npm install typescript@beta`. This repo now uses ts 2.0 
+* "There are multiple modules with names that only differ in casing"
+ * change `c:\[path to angular2-webpack-starter]` to `C:\[path to angular2-webpack-starter]` see [926#issuecomment-245223547](https://github.com/AngularClass/angular2-webpack-starter/issues/926#issuecomment-245223547)
 
 # Support, Questions, or Feedback
 > Contact us anytime for anything about this repo or Angular 2
@@ -337,6 +359,13 @@ starter kit in the cloud on [Nitrous](https://www.nitrous.io/):
 Simply run `HOST=0.0.0.0 npm start` from the terminal inside of
 `~/code/angular2-webpack-starter` and access your site via the "Preview > 3000"
 link in the IDE.
+
+<p align="center">
+  <a href="http://courses.angularclass.com/courses/angular-2-fundamentals" target="_blank">
+    <img width="438" alt="Angular 2 Fundamentals" src="https://cloud.githubusercontent.com/assets/1016365/17200649/085798c6-543c-11e6-8ad0-2484f0641624.png">
+  </a>
+</p>
+
 ___
 
 enjoy — **AngularClass**
@@ -347,6 +376,8 @@ enjoy — **AngularClass**
 ##[AngularClass](https://angularclass.com)
 > Learn AngularJS, Angular 2, and Modern Web Development from the best.
 > Looking for corporate Angular training, want to host us, or Angular consulting? patrick@angularclass.com
+
+___
 
 # License
  [MIT](/LICENSE)
