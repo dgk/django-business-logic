@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, Input, Output } from '@angular/core';
 
 import { AppState } from '../app.service';
 import { Title } from './title';
+
+import {BackendService} from '../backend.service';
 import { XLarge } from './x-large';
 
 @Component({
@@ -22,18 +24,73 @@ export class Home {
   // Set our default values
   localState = { value: '' };
   // TypeScript public modifiers
-  constructor(public appState: AppState, public title: Title) {
+  constructor(public appState: AppState, public title: Title, private backend: BackendService) {
+    console.log(Blockly);
 
+    backend.listProgramInterfaces().subscribe(
+      envelope => console.log(envelope)
+    );
   }
 
-  ngOnInit() {
-    console.log('hello `Home` component');
-    // this.title.getData().subscribe(data => this.data = data);
-  }
+  // ngOnInit() {
+  //   console.log('hello `Home` component');
+  //   // this.title.getData().subscribe(data => this.data = data);
+  // }
 
   submitState(value: string) {
     console.log('submitState', value);
     this.appState.set('value', value);
     this.localState.value = '';
   }
+
+  @ViewChild('blockly') blocklyDiv;
+  @ViewChild('toolbox') toolbox;
+  @Input() xml;
+  // @Output() save = new EventEmitter();
+  private workspace;
+
+
+  ngOnInit() {
+
+    var blocklyArea = document.getElementById('blocklyArea');
+    var blocklyDiv = document.getElementById('blocklyDiv');
+    var toolbox = '<xml>';
+    toolbox += '  <block type="controls_if"></block>';
+    toolbox += '  <block type="controls_whileUntil"></block>';
+    toolbox += '</xml>';
+    var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
+
+    // this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
+    //   {
+    //     toolbox: this.toolbox.nativeElement,
+    //     trashcan: true,
+    //     sounds: false
+    //   });
+    // this.initXml(this.xml);
+  }
+
+
+  // ngOnChanges(changes: any): any {
+  //   if (changes.xml && this.workspace) {
+  //     this.initXml(changes.xml.currentValue);
+  //   }
+  // }
+  //
+  // onSave() {
+  //   this.save.emit(this.getBlocklyXml());
+  // }
+
+  private getBlocklyXml(): string {
+    let xml1 = Blockly.Xml.workspaceToDom(this.workspace);
+    let xmlText = Blockly.Xml.domToText(xml1);
+    return xmlText;
+  }
+
+  private initXml(xmlText) {
+    this.workspace.clear();
+    let xml1 = Blockly.Xml.textToDom(xmlText);
+    Blockly.Xml.domToWorkspace(xml1, this.workspace);
+  }
+
 }
+
