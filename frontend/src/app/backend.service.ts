@@ -6,7 +6,7 @@ import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular
 
 @Injectable()
 export class BackendService {
-  private baseUrl = '/business-logic/rest';
+  private baseUrl = '../../../business-logic/rest';
   private programInterfaceUrl = `${this.baseUrl}/program-interface`;
   private programVersionUrl = `${this.baseUrl}/program-version`;
   private newVersionUrl = `${this.programVersionUrl}/new`;

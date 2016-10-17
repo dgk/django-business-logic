@@ -17,7 +17,10 @@ import { AppState, InternalStateType } from './app.service';
 
 import { BackendService } from './backend.service';
 
-import { BlocklyComponent } from './version-editor/blockly.component';
+import { BlocklyComponent } from './blockly/blockly.component';
+import { InterfaceComponent } from './interface/interface.component';
+import { ProgramComponent } from './program/program.component';
+import {MaterialModule} from '@angular/material';
 
 
 // Application wide providers
@@ -40,13 +43,16 @@ type StoreType = {
   bootstrap: [ App ],
   declarations: [
     App,
-    BlocklyComponent
+    BlocklyComponent,
+    InterfaceComponent,
+    ProgramComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true })
+    RouterModule.forRoot(ROUTES, { useHash: true }),
+    MaterialModule.forRoot()
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,

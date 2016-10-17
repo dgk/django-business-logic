@@ -64,6 +64,7 @@
     "@angular/core": "2.0.0",
     "@angular/forms": "^2.0.0",
     "@angular/http": "2.0.0",
+    "@angular/material": "^2.0.0-alpha.9-3",
     "@angular/platform-browser": "2.0.0",
     "@angular/platform-browser-dynamic": "2.0.0",
     "@angular/platform-server": "2.0.0",
@@ -72,12 +73,12 @@
     "@angularclass/hmr": "~1.2.0",
     "@angularclass/hmr-loader": "~3.0.2",
     "assets-webpack-plugin": "^3.4.0",
+    "blockly": "https://github.com/google/blockly.git",
     "core-js": "^2.4.1",
     "http-server": "^0.9.0",
     "ie-shim": "^0.1.0",
     "rxjs": "5.0.0-beta.12",
-    "zone.js": "~0.6.17",
-    "blockly": "https://github.com/google/blockly.git"
+    "zone.js": "~0.6.17"
   },
   "devDependencies": {
     "@types/hammerjs": "^2.0.33",

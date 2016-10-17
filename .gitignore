@@ -11,3 +11,5 @@ dist/
 *.egg-info
 /.coverage
 /htmlcov/
+/business_logic/static/
+/old/
