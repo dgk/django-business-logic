@@ -37,7 +37,10 @@ class ExecutionRestTest(ProgramRestTestBase):
         argument = _json['arguments'][0]
         self.assertEqual('test_model', argument['name'])
         self.assertEqual(TestModel._meta.verbose_name, argument['verbose_name'])
-        self.assertEqual('test_app.TestModel', argument['content_type'])
+        content_type = argument['content_type']
+        self.assertEqual('test_app.TestModel', content_type['name'])
+        self.assertEqual(ContentType.objects.get_for_model(TestModel).id, content_type['id'])
+
         self.assertEqual(self.test_model.id, argument['object_id'])
 
 

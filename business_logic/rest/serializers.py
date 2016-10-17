@@ -31,6 +31,9 @@ from ..blockly.parse import BlocklyXmlParser
 def get_model_name(content_type):
     return '{}.{}'.format(content_type.app_label, content_type.model_class().__name__)
 
+def get_model_verbose_name(content_type):
+    return content_type.model_class()._meta.verbose_name
+
 
 class ProgramInterfaceListSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program-interface')
@@ -151,8 +154,15 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
 
 
 class ContentTypeSerializer(serializers.Serializer):
-    def to_representation(self, instance):
-        return get_model_name(instance)
+    name = serializers.SerializerMethodField()
+    verbose_name = serializers.SerializerMethodField()
+    id = serializers.IntegerField()
+
+    def get_verbose_name(self, obj):
+        return get_model_verbose_name(obj)
+
+    def get_name(self, obj):
+        return get_model_name(obj)
 
 
 class ProgramArgumentSerializer(serializers.ModelSerializer):
@@ -165,7 +175,7 @@ class ProgramArgumentSerializer(serializers.ModelSerializer):
         exclude = ('id', 'program_interface', 'variable_definition')
 
     def get_verbose_name(self, obj):
-        return obj.content_type.model_class()._meta.verbose_name
+        return get_model_verbose_name(obj.content_type)
 
 
 class ProgramInterfaceSerializer(serializers.ModelSerializer):
@@ -194,7 +204,8 @@ class ExecutionArgumentSerializer(serializers.ModelSerializer):
         return obj.program_argument.name
 
     def get_verbose_name(self, obj):
-        return obj.content_type.model_class()._meta.verbose_name
+        return get_model_verbose_name(obj.content_type)
+
 
 class ExecutionSerializer(serializers.ModelSerializer):
     arguments = ExecutionArgumentSerializer(many=True)
