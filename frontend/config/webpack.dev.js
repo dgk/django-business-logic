@@ -157,7 +157,14 @@ module.exports = function(options) {
         aggregateTimeout: 300,
         poll: 1000
       },
-      outputPath: helpers.root('dist')
+      outputPath: helpers.root('dist'),
+      proxy: {
+        // Letting django take care of everything
+        '*': {
+          target: 'http://localhost:8000'
+        }
+
+      }
     },
 
     /*

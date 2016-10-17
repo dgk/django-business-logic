@@ -1,17 +1,16 @@
 import { Routes, RouterModule } from '@angular/router';
-import { Home } from './home';
-import { About } from './about';
-import { NoContent } from './no-content';
+
+import { BlocklyComponent } from './version-editor/blockly.component';
 
 import { DataResolver } from './app.resolver';
 
 
 export const ROUTES: Routes = [
-  { path: '',      component: Home },
-  { path: 'home',  component: Home },
-  { path: 'about', component: About },
-  {
-    path: 'detail', loadChildren: () => System.import('./+detail')
-  },
-  { path: '**',    component: NoContent },
+  { path: '',      component: BlocklyComponent },
+  { path: 'home',  component: BlocklyComponent },
+  { path: 'about', component: BlocklyComponent },
+  // {
+  //   path: 'detail', loadChildren: () => System.import('./+detail')
+  // },
+  { path: '**',    component: BlocklyComponent },
 ];

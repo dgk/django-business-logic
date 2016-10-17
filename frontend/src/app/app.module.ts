@@ -14,15 +14,17 @@ import { ROUTES } from './app.routes';
 import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { Home } from './home';
-import { About } from './about';
-import { NoContent } from './no-content';
-import { XLarge } from './home/x-large';
+
+import { BackendService } from './backend.service';
+
+import { BlocklyComponent } from './version-editor/blockly.component';
+
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  AppState
+  AppState,
+  BackendService
 ];
 
 type StoreType = {
@@ -38,10 +40,7 @@ type StoreType = {
   bootstrap: [ App ],
   declarations: [
     App,
-    About,
-    Home,
-    NoContent,
-    XLarge
+    BlocklyComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

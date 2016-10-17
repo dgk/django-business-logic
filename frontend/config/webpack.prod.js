@@ -16,6 +16,8 @@ const IgnorePlugin = require('webpack/lib/IgnorePlugin');
 const DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 
 /**
  * Webpack Constants
@@ -60,7 +62,7 @@ module.exports = function(env) {
        *
        * See: http://webpack.github.io/docs/configuration.html#output-path
        */
-      path: helpers.root('dist'),
+      path: helpers.root('../business_logic/static/business_logic'),
 
       /**
        * Specifies the name of each output file on disk.
@@ -68,7 +70,7 @@ module.exports = function(env) {
        *
        * See: http://webpack.github.io/docs/configuration.html#output-filename
        */
-      filename: '[name].[chunkhash].bundle.js',
+      filename: '[name].bundle.js',
 
       /**
        * The filename of the SourceMaps for the JavaScript files.
@@ -76,7 +78,7 @@ module.exports = function(env) {
        *
        * See: http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
        */
-      sourceMapFilename: '[name].[chunkhash].bundle.map',
+      sourceMapFilename: '[name].bundle.map',
 
       /**
        * The filename of non-entry chunks as relative path
@@ -94,6 +96,10 @@ module.exports = function(env) {
      * See: http://webpack.github.io/docs/configuration.html#plugins
      */
     plugins: [
+      new CopyWebpackPlugin([{
+        from: helpers.root('./node_modules/blockly/media'),
+        to: helpers.root('../business_logic/static/business_logic/blockly')
+      }]),
 
       /**
        * Plugin: WebpackMd5Hash
