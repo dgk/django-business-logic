@@ -15,7 +15,7 @@ import { BackendService } from '../backend.service';
   selector: 'blockly',
   template: `
 <div [ngStyle]="styleBlockly">
-
+       Blockly component!
     <!--<button style="position: absolute; top: 0; right: 100px;">Save</button>-->
     <div #blockly [ngStyle]="style"></div>
     <button (click)="onSave()" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" [ngStyle]="styleButton">

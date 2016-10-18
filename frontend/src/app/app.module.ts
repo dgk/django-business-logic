@@ -18,8 +18,10 @@ import { AppState, InternalStateType } from './app.service';
 import { BackendService } from './backend.service';
 
 import { BlocklyComponent } from './blockly/blockly.component';
-import { InterfaceComponent } from './interface/interface.component';
+import { InterfaceListComponent } from './interface/interface-list.component';
 import { ProgramComponent } from './program/program.component';
+import { VersionComponent } from './version/version.component';
+
 import {MaterialModule} from '@angular/material';
 
 
@@ -44,8 +46,9 @@ type StoreType = {
   declarations: [
     App,
     BlocklyComponent,
-    InterfaceComponent,
-    ProgramComponent
+    InterfaceListComponent,
+    ProgramComponent,
+    VersionComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

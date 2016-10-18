@@ -36,7 +36,9 @@ export class BackendService {
 
   listPrograms(programInterfaceId: number) {
     let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
+    let urlSearchParams = new URLSearchParams();
+    urlSearchParams.append('program_interface', String(programInterfaceId));
+    let options = new RequestOptions({headers: headers, search: urlSearchParams});
 
     return this.http.get(`${this.programUrl}`, options)
       .map(this.extractData);

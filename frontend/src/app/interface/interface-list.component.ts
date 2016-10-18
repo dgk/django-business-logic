@@ -9,7 +9,7 @@ import { AppState } from '../app.service';
   // The selector is what angular internally uses
   // for `document.querySelectorAll(selector)` in our index.html
   // where, in this case, selector is the string 'home'
-  selector: 'interface',  // <home></home>
+  selector: 'interface-list',  // <home></home>
   // We need to tell Angular's Dependency Injection which providers are in our app.
   providers: [
 
@@ -25,7 +25,7 @@ import { AppState } from '../app.service';
               </md-list>`
 })
 
-export class InterfaceComponent {
+export class InterfaceListComponent {
   private programInterfaces;
 
   // Set our default values
@@ -51,7 +51,7 @@ export class InterfaceComponent {
   }
 
   onSelect(id: number){
-    this.router.navigate(['/program', id]);
+    this.router.navigate([id], { relativeTo: this.route });
   }
 
   submitState(value: string) {
