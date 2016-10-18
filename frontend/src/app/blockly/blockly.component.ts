@@ -15,35 +15,22 @@ import { BackendService } from '../backend.service';
 @Component({
   selector: 'blockly',
   template: `
-<div [ngStyle]="styleBlockly">
-       Blockly component!
-    <!--<button style="position: absolute; top: 0; right: 100px;">Save</button>-->
-    <div #blockly [ngStyle]="style"></div>
-    <button (click)="onSave()" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" [ngStyle]="styleButton">
-        <i class="material-icons">save</i>
-    </button>
-</div>
-`
+     <div #blocklyArea></div>   
+     <div #blocklyDiv [ngStyle]="style"></div>
+    `
 })
 
 export class BlocklyComponent {
-    style = {
-        width: '100%',
-        height: '800px',
-    };
-    styleBlockly = {
-        width: '100%',
-        position: 'relative'
-    };
-    styleButton = {
-        position: 'absolute',
-        top: '10px',
-        right: '60px',
-    };
 
+  style = {
+    width: '100%',
+    height: '800px',
+    position: 'absolute'
+  };
 
-  @ViewChild('blockly') blocklyDiv;
-  @ViewChild('toolbox') toolbox;
+  @ViewChild('blocklyDiv') blocklyDiv;
+  @ViewChild('blocklyArea') blocklyArea;
+  //@ViewChild('toolbox') toolbox;
   @Input() xml;
   @Output() save = new EventEmitter();
   private workspace;
@@ -57,9 +44,20 @@ export class BlocklyComponent {
 
 
   ngAfterViewInit() {
+    let toolbox = `<xml>${require('./blockly-toolset.html')}</xml>`;
+    this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
+      {
+        toolbox: toolbox,
+        trashcan: false,
+        sounds: false
+      });
+
     this.route.params.subscribe((params: Params) => {
       this.backend.getProgramVersionById(+params['versionID']).subscribe((envelope) => {
         console.log(envelope);
+
+        var xml = Blockly.Xml.textToDom(envelope["xml"]);
+        Blockly.Xml.domToWorkspace(xml, this.workspace);
       });
     });
 

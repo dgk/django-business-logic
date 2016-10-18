@@ -28,25 +28,14 @@ import { AppState } from './app.service';
           Interface
         </a>
       </span>
-      |
-      <span>
-        <a [routerLink]=" ['./detail'] ">
-          Detail
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./about'] ">
-          About
-        </a>
-      </span>
+     
     </nav>
 
     <main>
       <router-outlet></router-outlet>
     </main>
 
-    <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
+    <!--<pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>-->
 
     <!--<footer>-->
       <!--<span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>-->
