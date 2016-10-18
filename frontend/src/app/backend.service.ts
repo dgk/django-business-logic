@@ -1,6 +1,3 @@
-/**
- * Created by Infirex on 5/27/2016.
- */
 import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 

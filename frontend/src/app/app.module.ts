@@ -22,6 +22,8 @@ import { InterfaceListComponent } from './interface/interface-list.component';
 import { ProgramComponent } from './program/program.component';
 import { VersionComponent } from './version/version.component';
 
+import { NoContentComponent } from './no-content/no-content.component';
+
 import {MaterialModule} from '@angular/material';
 
 
@@ -45,6 +47,7 @@ type StoreType = {
   bootstrap: [ App ],
   declarations: [
     App,
+    NoContentComponent,
     BlocklyComponent,
     InterfaceListComponent,
     ProgramComponent,

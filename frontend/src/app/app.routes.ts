@@ -5,11 +5,13 @@ import { InterfaceListComponent } from './interface/interface-list.component';
 import { ProgramComponent } from './program/program.component';
 import { VersionComponent } from './version/version.component';
 
+import { NoContentComponent } from './no-content/no-content.component';
+
 import { DataResolver } from './app.resolver';
 
 
 export const ROUTES: Routes = [
-  { path: '', component: BlocklyComponent },
+  { path: '', component: NoContentComponent },
   {
     path: 'interface',
     children: [
@@ -37,11 +39,23 @@ export const ROUTES: Routes = [
                 children:[
                   {
                     path: '',
-                    component: VersionComponent
+                    redirectTo: 'version',
+                    pathMatch: 'full'
+
                   },
                   {
-                    path: 'version/:versionID',
-                    component: BlocklyComponent
+                    path:'version',
+                    children: [
+                      {
+                        path: '',
+                        component: VersionComponent
+                      },
+                      {
+                        path: ':versionID',
+                        component: BlocklyComponent
+                      }
+                    ]
+
                   }
                 ]
 
@@ -53,8 +67,5 @@ export const ROUTES: Routes = [
       }
     ]
   },
-  // {
-  //   path: 'detail', loadChildren: () => System.import('./+detail')
-  // },
-  { path: '**',    component: BlocklyComponent },
+  { path: '**',    component: NoContentComponent },
 ];

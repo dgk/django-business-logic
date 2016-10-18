@@ -29,7 +29,6 @@ export class ProgramComponent{
       this.backend.listPrograms(interfaceID).subscribe(
         envelope => {
           this.programs = envelope.results;
-          console.log('*** ', this.programs);
         }
 
       );

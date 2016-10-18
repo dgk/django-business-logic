@@ -9,6 +9,7 @@ import {
   OnChanges,
   EventEmitter
 } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BackendService } from '../backend.service';
 
 @Component({
@@ -47,13 +48,20 @@ export class BlocklyComponent {
   @Output() save = new EventEmitter();
   private workspace;
 
-  constructor(public backend: BackendService){
+  constructor(
+    public backend: BackendService,
+    private route: ActivatedRoute,
+    private router: Router){
 
   }
 
 
   ngAfterViewInit() {
-    this.backend.listProgramInterfaces().subscribe((data)=> {console.log(data);});
+    this.route.params.subscribe((params: Params) => {
+      this.backend.getProgramVersionById(+params['versionID']).subscribe((envelope) => {
+        console.log(envelope);
+      });
+    });
 
     // this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
     //   {
