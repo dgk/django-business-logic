@@ -6,31 +6,20 @@ import _ from 'lodash';
 
 @Component({
   selector: 'breadcrumb',
-  template: `<md-list class="breadcrumb">
-                <md-list-item class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs" [routerLink] = [breadcrumb] >
-                  <h3 md-line>{{breadcrumb}}</h3>
-                </md-list-item>
-              </md-list>`,
-  styles: [`
-      .breadcrumb {
-        padding: 8px 15px;
-        margin-bottom: 20px;
-        list-style: none;
-        background-color: transparent;
-        border-radius: 3px;
-      }
-      .breadcrumb > .breadcrumb-item {
-        display: inline-block;
-      }
-      .breadcrumb > .breadcrumb-item + .breadcrumb-item:before {
-        content: "/";
-        padding: 0 5px;
-        color: #999999;
-      }
-      .breadcrumb > .active {
-        color: #555555;
-      }
-   `]
+  template: `
+            <div class="md">
+                <div class="breadcrumb flat">
+                <a *ngFor="let breadcrumb of breadcrumbs" [routerLink] = [breadcrumb] >
+                  {{breadcrumb}}
+                </a>
+                </div>
+            </div>
+            <!--<md-list class="breadcrumb">-->
+                <!--<md-list-item class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs" [routerLink] = [breadcrumb] >-->
+                  <!--<h3 md-line>{{breadcrumb}}</h3>-->
+                <!--</md-list-item>-->
+              <!--</md-list>-->`,
+  styleUrls: ['breadcrumb.component.css']
 })
 
 export class BreadcrumbComponent{
@@ -58,6 +47,8 @@ export class BreadcrumbComponent{
     this.redirects = [];
     this.findRedirects(this.router.config);
     this.regexp = new RegExp("(" + this.redirects.join('|') + ")", 'i');
+
+    console.log(this.route.params);
 
   }
 
