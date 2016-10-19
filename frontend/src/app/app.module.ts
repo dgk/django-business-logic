@@ -21,6 +21,7 @@ import { BlocklyComponent } from './blockly/blockly.component';
 import { InterfaceListComponent } from './interface/interface-list.component';
 import { ProgramComponent } from './program/program.component';
 import { VersionComponent } from './version/version.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 import { NoContentComponent } from './no-content/no-content.component';
 
@@ -51,7 +52,8 @@ type StoreType = {
     BlocklyComponent,
     InterfaceListComponent,
     ProgramComponent,
-    VersionComponent
+    VersionComponent,
+    BreadcrumbComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
