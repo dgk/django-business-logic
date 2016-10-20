@@ -4,6 +4,7 @@ import { BlocklyComponent } from './blockly/blockly.component';
 import { InterfaceListComponent } from './interface/interface-list.component';
 import { ProgramComponent } from './program/program.component';
 import { VersionComponent } from './version/version.component';
+import { HomeComponent } from './home/home.component';
 
 import { NoContentComponent } from './no-content/no-content.component';
 
@@ -11,7 +12,7 @@ import { DataResolver } from './app.resolver';
 
 
 export const ROUTES: Routes = [
-  { path: '', component: NoContentComponent },
+  { path: '', component: HomeComponent },
   {
     path: 'interface',
     children: [

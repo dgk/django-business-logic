@@ -1,77 +1,53 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { BackendService } from '../backend.service';
+import { BreadcrumbService } from './breadcrumb.service';
 import { AppState } from '../app.service';
 import _ from 'lodash';
 
 @Component({
   selector: 'breadcrumb',
   template: `
-            <div class="md">
-                <div class="breadcrumb flat">
-                <a *ngFor="let breadcrumb of breadcrumbs" [routerLink] = [breadcrumb] >
-                  {{breadcrumb}}
-                </a>
-                </div>
-            </div>
-            <!--<md-list class="breadcrumb">-->
-                <!--<md-list-item class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs" [routerLink] = [breadcrumb] >-->
-                  <!--<h3 md-line>{{breadcrumb}}</h3>-->
-                <!--</md-list-item>-->
-              <!--</md-list>-->`,
-  styleUrls: ['breadcrumb.component.css']
+      <div class="md">
+          <div class="breadcrumb flat">
+          <a *ngFor="let breadcrumb of breadcrumbs" [routerLink] = [breadcrumb] >
+            {{this.breadcrumbService.getFriendlyName(breadcrumb)}}
+          </a>
+          </div>
+      </div>
+`,
+  styleUrls: [ 'breadcrumb.component.css' ],
+  providers: [ BreadcrumbService ]
 })
 
 export class BreadcrumbComponent{
   private breadcrumbs: string[];
-  private redirects: string[];
-  private regexp: RegExp;
+  private url: string;
+
+
+  @Input('params') params: any;
 
   constructor(
     public backend: BackendService,
     private route: ActivatedRoute,
-    private router: Router){
+    private router: Router,
+    private breadcrumbService: BreadcrumbService ){
 
     this.router.events.subscribe((data) => {
       if(data instanceof NavigationEnd){
-        this.breadcrumbs = [];
-        this.generateBreadcrumbTrail(data.url);
+        this.url = data.url;
+        this.breadcrumbs = this.breadcrumbService.update(this.params, this.router.config, this.url);
       }
     });
 
   }
 
   ngOnInit() {
-    this.breadcrumbs = [];
-
-    this.redirects = [];
-    this.findRedirects(this.router.config);
-    this.regexp = new RegExp("(" + this.redirects.join('|') + ")", 'i');
-
-    console.log(this.route.params);
 
   }
 
-  findRedirects(routes: any){
-    for (var route of routes) {
-      if(route['redirectTo']){
-        this.redirects.push(route['redirectTo']);
-      }
-      if(route['children']){
-        this.findRedirects(route['children']);
-      }
-    }
-  }
-
-  generateBreadcrumbTrail(url: string){
-
-    if( ! this.regexp.test( url.substr( url.lastIndexOf('/')+1, url.length) ) ){
-      this.breadcrumbs.unshift(url);
-    }
-
-    if (url.lastIndexOf('/') > 0) {
-      this.generateBreadcrumbTrail(url.substr(0, url.lastIndexOf('/')));
-    }
+  ngOnChanges(change: any) {
+    this.breadcrumbs = this.breadcrumbService.update(change.params.currentValue, this.router.config, this.url);
   }
 
   onSelect(url: string){

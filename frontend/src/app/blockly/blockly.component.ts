@@ -11,28 +11,36 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BackendService } from '../backend.service';
+import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'blockly',
   template: `
-     <div #blocklyArea></div>   
-     <div #blocklyDiv [ngStyle]="style"></div>
+    <breadcrumb [params]="params"></breadcrumb>
+    <md-list>
+      <md-list-item>
+        <button md-raised-button class="md-primary" (click)="onSave()">Save</button>
+      </md-list-item>
+    </md-list>
+    <div #blocklyArea></div>   
+    <div #blocklyDiv [ngStyle]="style"></div>
     `
 })
 
 export class BlocklyComponent {
+  private version: any;
+  private params: any;
 
   style = {
-    width: '100%',
-    height: '800px',
+    width: '80%',
+    height: '80%',
     position: 'absolute'
   };
 
   @ViewChild('blocklyDiv') blocklyDiv;
   @ViewChild('blocklyArea') blocklyArea;
   //@ViewChild('toolbox') toolbox;
-  @Input() xml;
-  @Output() save = new EventEmitter();
+  // @Output() save = new EventEmitter();
   private workspace;
 
   constructor(
@@ -53,8 +61,10 @@ export class BlocklyComponent {
       });
 
     this.route.params.subscribe((params: Params) => {
+      this.params = params;
+
       this.backend.getProgramVersionById(+params['versionID']).subscribe((envelope) => {
-        console.log(envelope);
+        this.version = envelope;
 
         var xml = Blockly.Xml.textToDom(envelope["xml"]);
         Blockly.Xml.domToWorkspace(xml, this.workspace);
@@ -78,13 +88,10 @@ export class BlocklyComponent {
   }
 
   onSave() {
-    // this.save.emit(this.getBlocklyXml());
-  }
-
-  private getBlocklyXml(): string {
     let xml = Blockly.Xml.workspaceToDom(this.workspace);
     let xmlText = Blockly.Xml.domToText(xml);
-    return xmlText;
+    this.version.xml = xmlText;
+    this.backend.saveVersion(this.version).subscribe(()=>{console.log("Saving!");});
   }
 
   private initXml(xmlText) {

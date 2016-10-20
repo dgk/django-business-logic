@@ -2,7 +2,6 @@
  * Angular 2 decorators and services
  */
 import { Component, ViewEncapsulation } from '@angular/core';
-import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 import { AppState } from './app.service';
 
@@ -17,22 +16,6 @@ import { AppState } from './app.service';
     './app.component.css'
   ],
   template: `
-    <breadcrumb></breadcrumb>
-    <nav>
-      <span>
-        <a [routerLink]=" ['./'] ">
-          Home
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./interface'] ">
-          Interface
-        </a>
-      </span>
-     
-    </nav>
-
     <main>
       <router-outlet></router-outlet>
     </main>
