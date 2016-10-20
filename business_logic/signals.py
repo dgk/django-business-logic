@@ -12,5 +12,5 @@ statement_interpret_leave = Signal(providing_args=('node', ))
 interpret_enter = Signal(providing_args=('node', 'value'))
 interpret_leave = Signal(providing_args=('node', 'value'))
 
-interpret_exception = Signal(providing_args=('node', 'exception'))
+interpret_exception = Signal(providing_args=('node', 'exception', 'traceback'))
 

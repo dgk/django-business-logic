@@ -95,7 +95,7 @@ class Node(NS_Node):
         is_content_object_interpret_children_himself = self.is_content_object_interpret_children_himself()
         exception_handling_policy = ctx.config.exception_handling_policy
         children = ctx.get_children(self)
-        exception =None
+        exception = None
         return_value = None
         children_interpreted = []
 
@@ -104,10 +104,11 @@ class Node(NS_Node):
             signals.block_interpret_enter.send(sender=ctx, node=self)
         signals.interpret_enter.send(sender=ctx, node=self, value=self.content_object)
 
-        def handle_unknown_exception(e):
-            e = InterpretationException(e)
-            signals.interpret_exception.send(sender=ctx, node=self, exception=e)
-            return e
+        def handle_unknown_exception(exception):
+            traceback = sys.exc_info()[2]
+            signals.interpret_exception.send(sender=ctx, node=self, exception=exception, traceback=traceback)
+            exception = InterpretationException(exception)
+            return exception
 
         if is_block or not is_content_object_interpret_children_himself:
             for child in children:
