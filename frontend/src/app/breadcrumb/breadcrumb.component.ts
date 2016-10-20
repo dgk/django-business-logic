@@ -11,7 +11,7 @@ import _ from 'lodash';
       <div class="md">
           <div class="breadcrumb flat">
           <a *ngFor="let breadcrumb of breadcrumbs" [routerLink] = [breadcrumb] >
-            {{this.breadcrumbService.getFriendlyName(breadcrumb)}}
+            {{this.friendlyName(breadcrumb)}}
           </a>
           </div>
       </div>
@@ -44,6 +44,11 @@ export class BreadcrumbComponent{
 
   ngOnInit() {
 
+  }
+
+  friendlyName(breadcrumb: string) {
+    let friendlyName = this.breadcrumbService.getFriendlyName(breadcrumb);
+    return friendlyName;
   }
 
   ngOnChanges(change: any) {
