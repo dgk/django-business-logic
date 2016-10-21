@@ -12,6 +12,7 @@ from rest_framework import serializers
 from ..models import (
     Execution,
     ExecutionArgument,
+    ExceptionLog,
     LogEntry,
     ProgramInterface,
     ProgramArgumentField,
@@ -215,9 +216,21 @@ class ExecutionSerializer(serializers.ModelSerializer):
         exclude = ('log',)
 
 
+class ExceptionLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExceptionLog
+        exclude = ('log_entry', 'id')
+
+
 class LogSerializer(serializers.ModelSerializer):
+    exception = ExceptionLogSerializer()
+
     class Meta:
         model = LogEntry
+        exclude = ('sib_order', 'parent', 'id')
 
-    def to_representation(self, instance):
-        return LogEntry.dump_bulk(instance, keep_ids=False)[0]
+    def get_fields(self):
+        fields = super(LogSerializer, self).get_fields()
+        fields['children'] = LogSerializer(many=True)
+        return fields
+
