@@ -1,12 +1,9 @@
-/**
- * Created by Infirex on 5/27/2016.
- */
-import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
+import {Injectable, Injector, ReflectiveInjector} from '@angular/core';
+import {Http,  Response, Headers, RequestOptions, URLSearchParams, XSRFStrategy, CookieXSRFStrategy} from '@angular/http';
 
 @Injectable()
 export class BackendService {
-  private baseUrl = '/business-logic/rest';
+  private baseUrl = '../../../business-logic/rest';
   private programInterfaceUrl = `${this.baseUrl}/program-interface`;
   private programVersionUrl = `${this.baseUrl}/program-version`;
   private newVersionUrl = `${this.programVersionUrl}/new`;
@@ -36,7 +33,9 @@ export class BackendService {
 
   listPrograms(programInterfaceId: number) {
     let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
+    let urlSearchParams = new URLSearchParams();
+    urlSearchParams.append('program_interface', String(programInterfaceId));
+    let options = new RequestOptions({headers: headers, search: urlSearchParams});
 
     return this.http.get(`${this.programUrl}`, options)
       .map(this.extractData);
@@ -51,11 +50,21 @@ export class BackendService {
   }
 
   saveVersion(version) {
+    let csrftoken = this.getCookie('csrftoken');
     let headers = new Headers({'Content-Type': 'application/json'});
+    if( csrftoken != undefined ) headers.append('X-CSRFToken', csrftoken);
+
     let options = new RequestOptions({headers: headers});
 
     return this.http.post(this.newVersionUrl, JSON.stringify(version), options)
       .map(this.extractData);
+  }
+
+  getCookie(name) {
+    var matches = document.cookie.match(new RegExp(
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
   }
 
   private extractData(res: Response) {

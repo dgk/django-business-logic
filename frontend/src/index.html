@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html lang="">
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-	<title><%= webpackConfig.metadata.title %></title>
+  <title><%= webpackConfig.metadata.title %></title>
 
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="<%= webpackConfig.metadata.title %>">
+  <meta name="description" content="<%= webpackConfig.metadata.title %>">
 
-	<!-- base url -->
-	<base href="<%= webpackConfig.metadata.baseUrl %>">
+  <% if (webpackConfig.htmlElements.headTags) { %>
+  <!-- Configured Head Tags  -->
+  <%= webpackConfig.htmlElements.headTags %>
+  <% } %>
 
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="https://code.getmdl.io/1.2.0/material.indigo-pink.min.css">
-	<script defer src="https://code.getmdl.io/1.2.0/material.min.js"></script>
+  <!-- base url -->
+  <base href="<%= webpackConfig.metadata.baseUrl %>">
+
 
 </head>
 
 <body>
 
-	<program-interface>
-		Loading...<br>
-		<div id="p2" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
-	</program-interface>
+  <app>
+    Loading...
+  </app>
 
-	<% if (webpackConfig.metadata.ENV === 'development') { %>
-		<!-- Webpack Dev Server reload -->
-		<script src="/webpack-dev-server.js"></script>
-	<% } %>
+  <% if (webpackConfig.metadata.isDevServer && webpackConfig.metadata.HMR !== true) { %>
+  <!-- Webpack Dev Server reload -->
+  <script src="/webpack-dev-server.js"></script>
+  <% } %>
+
+
 </body>
 </html>
