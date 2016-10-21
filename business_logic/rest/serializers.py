@@ -47,6 +47,7 @@ class ProgramInterfaceListSerializer(serializers.ModelSerializer):
 class ProgramListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Program
+        fields = '__all__'
 
 
 class ProgramVersionListSerializer(serializers.ModelSerializer):
