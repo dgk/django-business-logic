@@ -50,9 +50,10 @@ export class BackendService {
   }
 
   saveVersion(version) {
-    let crftoken = this.getCookie('csrftoken');
+    let csrftoken = this.getCookie('csrftoken');
     let headers = new Headers({'Content-Type': 'application/json'});
-    headers.append('X-CSRFToken', crftoken);
+    if( csrftoken != undefined ) headers.append('X-CSRFToken', csrftoken);
+
     let options = new RequestOptions({headers: headers});
 
     return this.http.post(this.newVersionUrl, JSON.stringify(version), options)
