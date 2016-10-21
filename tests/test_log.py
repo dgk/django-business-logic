@@ -120,6 +120,18 @@ class LogTest(TestCase):
         self.assertIn('ZeroDivisionError: float divmod()', exception_log.traceback)
 
 
+    def test_log_variable_undefined(self):
+        # Logger().prepare_value(Variable.Undefined()) causes TypeError: coercing to Unicode: need string or buffer, __proxy__ found
+
+        Logger().prepare_value(Variable.Undefined())
+
+        variable_definition = VariableDefinition.objects.create(name='A')
+        root = variable_assign_value(variable_name='B', variable_definition=variable_definition)
+        context = Context(log=True)
+        result = root.interpret(context)
+        self.assertFalse(ExceptionLog.objects.all())
+
+
 class ProgramTest(ProgramTestBase):
     def test_empty_execution(self):
         result = self.program_version.execute(test_model=self.test_model)
