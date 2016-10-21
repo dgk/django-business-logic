@@ -37,7 +37,7 @@ class Variable(models.Model):
             return False
 
         def __str__(self):
-            return smart_text(_('Undefined'))
+            return str(_('Undefined'))
 
     def __str__(self):
         return self.definition.name
