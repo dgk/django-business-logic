@@ -57,7 +57,8 @@ export class BlocklyComponent {
       {
         toolbox: toolbox,
         trashcan: false,
-        sounds: false
+        sounds: false,
+        media: "./blockly/"
       });
 
     this.route.params.subscribe((params: Params) => {
