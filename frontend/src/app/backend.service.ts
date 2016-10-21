@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
+import {Injectable, Injector, ReflectiveInjector} from '@angular/core';
+import {Http,  Response, Headers, RequestOptions, URLSearchParams, XSRFStrategy, CookieXSRFStrategy} from '@angular/http';
 
 @Injectable()
 export class BackendService {
@@ -50,11 +50,20 @@ export class BackendService {
   }
 
   saveVersion(version) {
+    let crftoken = this.getCookie('csrftoken');
     let headers = new Headers({'Content-Type': 'application/json'});
+    headers.append('X-CSRFToken', crftoken);
     let options = new RequestOptions({headers: headers});
 
     return this.http.post(this.newVersionUrl, JSON.stringify(version), options)
       .map(this.extractData);
+  }
+
+  getCookie(name) {
+    var matches = document.cookie.match(new RegExp(
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
   }
 
   private extractData(res: Response) {
