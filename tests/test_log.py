@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-from business_logic.models.debug import LOG_ENTRY_VALUE_LENGTH
+from business_logic.models.log import LOG_ENTRY_VALUE_LENGTH
 
 from .common import *
 

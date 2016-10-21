@@ -71,12 +71,14 @@ class LogEntry(AL_Node):
     previous_value = models.CharField(_('Previous value'), max_length=LOG_ENTRY_VALUE_LENGTH)
     current_value = models.CharField(_('Current value'), max_length=LOG_ENTRY_VALUE_LENGTH)
 
+
 class ExceptionLog(models.Model):
     log_entry = models.OneToOneField('LogEntry', related_name='exception')
     module = models.CharField(max_length=255)
     type = models.CharField(max_length=255)
     message = models.CharField(max_length=512)
     traceback = models.TextField()
+
 
 class ExecutionArgument(models.Model):
     execution = models.ForeignKey('business_logic.Execution', related_name='arguments')

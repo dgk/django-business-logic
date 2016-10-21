@@ -3,8 +3,8 @@
 
 from .. import signals
 from ..config import ContextConfig
-from .debug import Logger
 from .frame import Frame
+from .log import Logger
 from .node import NodeCacheHolder
 from .variable import Variable, VariableDefinition
 
