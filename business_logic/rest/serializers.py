@@ -41,6 +41,7 @@ class ProgramInterfaceListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramInterface
+        fields = '__all__'
 
 
 class ProgramListSerializer(serializers.ModelSerializer):
@@ -98,6 +99,7 @@ class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReferenceDescriptor
+        fields = '__all__'
 
     def get_name(self, obj):
         return get_model_name(obj.content_type)

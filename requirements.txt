@@ -1,7 +1,7 @@
 django-treebeard==4.0
 #pyparsing==2.0.3
 djangorestframework<4.0
-django-filter==0.15.2
+django-filter==0.15.3
 Markdown<3.0
 django-nested-inline==0.3.6
 lxml<4.0
