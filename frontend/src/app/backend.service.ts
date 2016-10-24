@@ -1,5 +1,6 @@
 import {Injectable, Injector, ReflectiveInjector} from '@angular/core';
 import {Http,  Response, Headers, RequestOptions, URLSearchParams, XSRFStrategy, CookieXSRFStrategy} from '@angular/http';
+import 'rxjs/Rx';
 
 @Injectable()
 export class BackendService {
@@ -61,7 +62,7 @@ export class BackendService {
   }
 
   getCookie(name) {
-    var matches = document.cookie.match(new RegExp(
+    let matches = document.cookie.match(new RegExp(
       "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
