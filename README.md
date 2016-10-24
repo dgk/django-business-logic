@@ -5,22 +5,22 @@
 
 ## Introduction
 
-The main goal of this project is to provide django site users (such as administrators or ordinal users)
-ability to visually editing of business logic layer. This library implements execution engine and code editor
+The main goal of this project is to provide django site users (such as administrators or ordinal users) with
+ability to visually edit business logic layer. This library implements execution engine and code editor
 based on awesome [blockly library][blockly].
 
 ## Warning
 
-> Please note that this software is still Alpha/Beta quality and is not recommended for production usage.
-> Libray currently under active development an any API may be changed. Migration history for models not supported now.
+> Please note that this software is still Alpha/Beta quality and is not recommended for production use.
+> The library is currently in active development and any API may be changed. Migration history for models is not supported now.
 > Some internal objects are world writable!
 
 ## Architecture
 
-Internally program code stored as special django models such as NumberConstant, IfStatement, 
-Assignment and so forth. Structure of syntax tree holded by class Node derived from treebeard.NS_Node. 
-Operators and operands linked with Node objects via django contenttypes system. 
-Other details shortly described below in sections [Administrative setup](#administrative-setup) and [Execution](#execution)
+Internally program code is stored as special django models such as NumberConstant, IfStatement,
+Assignment and so forth. Structure of syntax tree is held by class Node derived from treebeard.NS_Node.
+Operators and operands are linked with Node objects via django contenttypes system.
+Other details are briefly described below in sections [Administrative setup](#administrative-setup) and [Execution](#execution)
 
 ## Install
 There are a few different ways you can install django-business-logic:
@@ -65,29 +65,29 @@ python manage.py collectstatic
 
 First you should define one or more ProgramInterface objects via django admin interface ([http://localhost:8000/admin/business_logic/programinterface/](http://localhost:8000/admin/business_logic/programinterface/)).
 
-Each ProgramInterface must contains one or more ProgramArgument objects. 
+Each ProgramInterface must contain one or more ProgramArgument objects.
 The ProgramArgument object represents one instance of django.db.Model 
 derived class specified as django.contrib.contentypes.ContentType instance (e.g. for your custom Order model) and his keyword argumet name (e.g. `order`).
 
 Each ProgramArgument object must contain one or more ProgramArgumentField 
-who represents one field of django model 
-(e.g. `sum` for Order object or `delivery_address.city` for nested into Order DeliveryAddress model `city` field).
+which represents one field of django model
+(e.g. `sum` for Order object or `delivery_address.city` for `city` field nested into Order DeliveryAddress model).
 
-If you whant to use system wide references (e.g. your custom City or ProductCategory django model) 
+If you want to use system-wide references (e.g. your custom City or ProductCategory django model)
 and you define represented ProgramArgumentField you should register referenced model via django admin interface([http://localhost:8000/admin/business_logic/referencedescriptor/](http://localhost:8000/admin/business_logic/referencedescriptor/)).
 
 Next create one or more Program objects which must implements described ProgramInterface(e.g.
 named "On Order create" with  "on_order_create" `code` field for programmatic access)
 
 ## Visual Programming
-After setup you can go into web editor interface 
+After setup you can go to web editor interface
 ([http://localhost:8000/static/business_logic/index.html](http://localhost:8000/static/business_logic/index.html)),
 choose program interface, program, create and start editing your first program version.
 
 ## Execution
 
 You may inject execution engine call at arbitrary place of your code, such as custom form.save, model.post_save methods, any django.dispatch.Signal handler or so on.
-Just instantiate appropriate ProgramVersion object and pass to its execute() method kwargs described in the ProgramInterface admin page.
+Just instantiate appropriate ProgramVersion object and pass kwargs described in the ProgramInterface admin page to its execute() method .
 e.g. 
 
 ```python
@@ -104,7 +104,7 @@ class OrderCreate(CreateView):
        program_version.execute(order=order)
 ```
 
-ProgramVersion.execute() method can accepts instance of business_logic.Context object. 
+ProgramVersion.execute() method can accept instance of business_logic.Context object.
 If this parameter omitted execute() method creates new instance of Context with default parameters.
 
 It can be initialized by the following parameters:
@@ -128,7 +128,7 @@ St.Petersburg, Russia and personally to its CEO Roman Kurdoev @romankurdo
 - [ ] Execution log viewer
 - [ ] Imported and editable via admin interface python functions
 - [ ] Visually editable functions and its libraries
-- [ ] Two dimensional constant tables (matrices)
+- [ ] Two-dimensional constant tables (matrices)
 - [ ] Code sharing
 - [ ] Pure python code generation for execution speedup
 
@@ -162,7 +162,7 @@ Fronted source files located under `frontend` folder.
 ```
 cd frontend
 ```
-#### Installing dependecies
+#### Installing dependencies
 
 ```
 npm install
