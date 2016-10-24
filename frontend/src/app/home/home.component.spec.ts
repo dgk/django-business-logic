@@ -1,9 +1,11 @@
 import {
   inject,
   TestBed,
-  ComponentFixture
+  ComponentFixture,
+  async
 } from '@angular/core/testing';
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import {
   BaseRequestOptions,
   ConnectionBackend,
@@ -14,18 +16,18 @@ import { MockBackend } from '@angular/http/testing';
 // Load the implementations that should be tested
 import { AppState } from '../app.service';
 import { HomeComponent } from './home.component';
-import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
-
-let fixture: ComponentFixture<HomeComponent>;
-let comp:    HomeComponent;
-let de:      DebugElement;
-let el:      HTMLElement;
 
 describe('HomeComponent', () => {
+  let fixture: ComponentFixture<HomeComponent>;
+  let comp:    HomeComponent;
+  let de:      DebugElement;
+  let el:      HTMLElement;
+
+
   // provide our implementations or mocks to the dependency injector
-  beforeEach(() => {
+  beforeEach( async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent, BreadcrumbComponent ],
+      declarations: [ HomeComponent ],
       providers: [
         BaseRequestOptions,
         MockBackend,
@@ -37,16 +39,18 @@ describe('HomeComponent', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
         AppState,
-        HomeComponent,
-        BreadcrumbComponent
-      ]
-    }).compileComponents().then(() => {
+        HomeComponent
+      ],
+      schemas:[ NO_ERRORS_SCHEMA ]
+    });
+    //.compileComponents()
+    //.then(() => {
       fixture = TestBed.createComponent(HomeComponent);
       comp = fixture.componentInstance;
       de = fixture.debugElement.query(By.css('h3'));
       el = de.nativeElement;
-    });
-  });
+    //});
+  }) );
 
 
   // it('hello honey, iam home!', inject( ()=>{
@@ -54,9 +58,10 @@ describe('HomeComponent', () => {
   // } ));
 
   it('should display original href', () => {
-    //console.log(comp);
+    //expect(typeof fixture).toEqual('object');
     fixture.detectChanges();
-    // expect(el.textContent).toContain(comp.href);
+    console.log(fixture.debugElement.nativeElement);
+    expect(el.textContent).toContain('Interfaces');
   });
 
   // it('should have default data', inject([ HomeComponent ], (home: HomeComponent) => {
