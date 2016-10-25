@@ -13,14 +13,18 @@ require('script!imports?module=>undefined!blockly/blockly_compressed.js');
 require('script!imports?module=>undefined!blockly/blocks_compressed.js');
 require('script!imports?module=>undefined!blockly/msg/js/ru.js');
 
-describe('BlocklyComponent', () => {
+require('./reference.block.ts');
+
+describe('reference block', () => {
   let workspace: any;
 
   // provide our implementations or mocks to the dependency injector
   beforeEach( async(() => {
     TestBed.configureTestingModule({
       declarations: [ ],
-      providers: [ ],
+      providers: [
+
+      ],
       schemas:[ NO_ERRORS_SCHEMA ]
     });
 
@@ -28,36 +32,19 @@ describe('BlocklyComponent', () => {
 
   }) );
 
-  it('create block from xml', () => {
-
-    let xml = '<xml><block type="factory_base" deletable="false" movable="false"></block></xml>';
-    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), workspace);
-
-    let block = workspace.getTopBlocks(true)[0];
-    expect( block.type ).toEqual("factory_base");
+  it('registered', () => {
+    expect(Blockly.Blocks['business_logic_reference']).toBeDefined();
   });
 
-  it('custom block', () => {
-    Blockly.Blocks['ourCustom'] = {
-      init: function() {
-        this.appendDummyInput()
-          .appendField("Страна")
-          .appendField("vzr.Country")
-          .appendField(new Blockly.FieldDropdown([["spb", "1"], ["msk", "2"]]), "NAME");
-        this.setInputsInline(false);
-        this.setOutput(true, null);
-        this.setColour(120);
-        this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
-      }
-    };
+  it('create from xml', () => {
 
-    let xml = '<xml><block type="ourCustom" deletable="false" movable="false"></block></xml>';
+    let xml = '<xml><block type="business_logic_reference" deletable="false" movable="false"></block></xml>';
 
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), workspace);
 
     let block = workspace.getTopBlocks(true)[0];
-    expect( block.type ).toEqual("ourCustom");
+    expect( block.type ).toEqual("business_logic_reference");
+    expect( block.init ).toEqual(Blockly.Blocks['business_logic_reference'].init);
   });
 
 
