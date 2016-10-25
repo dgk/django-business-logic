@@ -38,13 +38,25 @@ describe('reference block', () => {
 
   it('create from xml', () => {
 
-    let xml = '<xml><block type="business_logic_reference" deletable="false" movable="false"></block></xml>';
+    let xml = `<xml>
+                    <block type="business_logic_reference">
+                      <field name="REFERENCE_TYPE">books.Book</field>
+                      <field name="VALUE">2</field>
+                    </block>
+               </xml>`;
 
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), workspace);
 
     let block = workspace.getTopBlocks(true)[0];
     expect( block.type ).toEqual("business_logic_reference");
     expect( block.init ).toEqual(Blockly.Blocks['business_logic_reference'].init);
+
+    let field = block.getField("REFERENCE_TYPE");
+
+    expect( field ).toBeDefined();
+    expect( field instanceof Blockly.Field ).toBeTruthy();
+
+    //expect( block.getFieldValue("REFERENCE_TYPE") ).toEqual(2);
   });
 
 
