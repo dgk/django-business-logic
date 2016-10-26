@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 #
+import re
+
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
@@ -18,3 +20,9 @@ class ReferenceDescriptor(models.Model):
 
     def __str__(self):
         return str(self.content_type)
+
+    def get_search_fields(self):
+        if not self.search_fields:
+            return []
+
+        return re.split('[^\w_]+', self.search_fields)
