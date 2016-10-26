@@ -56,6 +56,14 @@ describe('reference block', () => {
     expect( field ).toBeDefined();
     expect( field instanceof Blockly.Field ).toBeTruthy();
 
+    field.setText('hgfdsj');
+    console.log(field.getText());
+
+    xml = Blockly.Xml.workspaceToDom(workspace);
+    let xmlText = Blockly.Xml.domToText(xml);
+
+    console.log(xmlText);
+
     //expect( block.getFieldValue("REFERENCE_TYPE") ).toEqual(2);
   });
 
