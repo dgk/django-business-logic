@@ -112,7 +112,7 @@ class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
         return reverse('business-logic:rest:reference-list', kwargs=dict(model=get_model_name(obj.content_type)))
 
 
-class ReferenceListSerializer(serializers.ModelSerializer):
+class ReferenceSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
     name = serializers.SerializerMethodField()
 

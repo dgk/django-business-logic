@@ -145,10 +145,8 @@ class ReferenceSearchFilter(SearchFilter):
         return queryset
 
 
-class ReferenceList(generics.ListAPIView):
-    serializer_class = ReferenceListSerializer
-    pagination_class = StandardResultsSetPagination
-    filter_backends = [ReferenceSearchFilter]
+class ReferenceBaseView(object):
+    serializer_class = ReferenceSerializer
 
     def get_queryset(self):
         try:
@@ -158,11 +156,14 @@ class ReferenceList(generics.ListAPIView):
 
         return self.get_reference_model().objects.all()
 
+
     def get_reference_descriptor(self):
         return ReferenceDescriptor.objects.get(content_type=ContentType.objects.get_for_model(self.get_reference_model()))
 
+
     def get_reference_model_name(self):
         return self.kwargs['model']
+
 
     def get_reference_model(self):
         try:
@@ -172,3 +173,13 @@ class ReferenceList(generics.ListAPIView):
             raise exceptions.NotFound()
 
         return model
+
+
+class ReferenceList(ReferenceBaseView, generics.ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    filter_backends = [ReferenceSearchFilter]
+
+
+
+class ReferenceView(ReferenceBaseView, generics.RetrieveAPIView):
+    serializer_class = ReferenceSerializer

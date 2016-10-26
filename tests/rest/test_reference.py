@@ -95,4 +95,22 @@ class ReferenceListTest(TestCase):
 
 
 class ReferenceViewTest(TestCase):
-    pass
+    def setUp(self):
+        self.reference_descriptor = ReferenceDescriptor.objects.create(
+            content_type=ContentType.objects.get_for_model(TestModel)
+        )
+        self.client = JSONClient()
+
+        model = 'test_app.TestModel'
+        self.test_model = TestModel.objects.create(string_value='str_value')
+
+        self.url = reverse('business-logic:rest:reference', kwargs=dict(model=model, pk=self.test_model.id))
+
+    def test_reference_view(self):
+        response = self.client.get(self.url)
+        self.assertEqual(200, response.status_code)
+        _json = response_json(response)
+        self.assertIsInstance(_json, dict)
+        self.assertEqual(self.test_model.id, _json['id'])
+        self.assertEqual(str(self.test_model), _json['name'])
+
