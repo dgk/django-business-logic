@@ -114,3 +114,13 @@ class ReferenceViewTest(TestCase):
         self.assertEqual(self.test_model.id, _json['id'])
         self.assertEqual(str(self.test_model), _json['name'])
 
+    def test_reference_view_name_field(self):
+        self.reference_descriptor.name_field = 'string_value'
+        self.reference_descriptor.save()
+
+        response = self.client.get(self.url)
+        self.assertEqual(200, response.status_code)
+        _json = response_json(response)
+        self.assertIsInstance(_json, dict)
+        self.assertEqual(self.test_model.id, _json['id'])
+        self.assertEqual(self.test_model.string_value, _json['name'])

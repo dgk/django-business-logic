@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 class ReferenceDescriptor(models.Model):
     content_type = models.OneToOneField(ContentType)
     search_fields = models.TextField(null=True, blank=True)
-    #  TODO: name_field = models.SlugField(max_length=255, null=True, blank=True)
+    name_field = models.SlugField(max_length=255, null=True, blank=True)
 
     class Meta:
         verbose_name = _('Reference descriptor')

@@ -274,6 +274,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('search_fields', models.TextField(null=True, blank=True)),
+                ('name_field', models.SlugField(max_length=255, null=True, blank=True)),
                 ('content_type', models.OneToOneField(to='contenttypes.ContentType')),
             ],
             options={

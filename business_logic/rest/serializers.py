@@ -121,8 +121,8 @@ class ReferenceSerializer(serializers.ModelSerializer):
         return declared_fields
 
     def get_name(self, obj):
-        return six.text_type(obj)
-
+        reference_descriptor = self.context['view'].get_reference_descriptor()
+        return six.text_type(getattr(obj, reference_descriptor.name_field) if reference_descriptor.name_field else obj)
 
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
     class Meta:
