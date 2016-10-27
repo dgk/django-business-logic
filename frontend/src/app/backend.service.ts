@@ -10,6 +10,8 @@ export class BackendService {
   private newVersionUrl = `${this.programVersionUrl}/new`;
   private programUrl = `${this.baseUrl}/program`;
 
+  private descriptorsUrl = `${this.baseUrl}/reference/descriptor`;
+
   constructor(private http: Http) {
 
   }
@@ -58,6 +60,14 @@ export class BackendService {
     let options = new RequestOptions({headers: headers});
 
     return this.http.post(this.newVersionUrl, JSON.stringify(version), options)
+      .map(this.extractData);
+  }
+
+  getReferenceDescriptors(){
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+
+    return this.http.get(`${this.descriptorsUrl}`, options)
       .map(this.extractData);
   }
 

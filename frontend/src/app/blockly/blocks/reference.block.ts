@@ -1,20 +1,27 @@
-import { _ } from 'lodash';
+import {Http, BaseRequestOptions, XHRBackend, CookieXSRFStrategy, BrowserXhr, BaseResponseOptions} from '@angular/http';
 
-Blockly.Blocks['business_logic_reference'] = {
-  init: function() {
+import 'rxjs/Rx';
+import { BackendService } from "../../backend.service";
+
+class ReferenceBlock {
+
+  private backend: any = new BackendService(
+    new Http(
+      new XHRBackend(
+        new BrowserXhr(), new BaseResponseOptions(), new CookieXSRFStrategy()),
+      new BaseRequestOptions() )
+  );
+
+  constructor(){
+
+  }
+
+  getBackend(){
+    return this.backend;
+  }
+
+  getLabel(): any{
     let label = new Blockly.FieldLabel('');
-
-    // label.setAlias = (alias: string) => {
-    //
-    //   alias = String(alias);
-    //
-    //   let text = label.text_;
-    //
-    //   label.text_ = alias;
-    //   label.updateTextNode_();
-    //
-    //   label.text_ = text;
-    // };
 
     label.setValue = (newValue: string) => {
       if (newValue === null || newValue === label.value_) {
@@ -25,30 +32,41 @@ Blockly.Blocks['business_logic_reference'] = {
           label.sourceBlock_, 'field', label.name, label.value_, newValue));
       }
       label.value_ = newValue;
-      // service.getText(newValue).then((text) => {
-      // label.setText(text);
 
-      // })
+      this.backend.getReferenceDescriptors().subscribe(
+        (data) => {
+          label.setText("Hello Fox!");
+          console.log(label.getValue());
 
+
+        }
+      );
     };
+
 
     label.getValue = () => {
       return label.value_;
     };
 
-    // label.getText = () => {
-    //   return "xxx";
-    // };
-
     label.EDITABLE = true;
 
+    return label;
+  }
+};
+
+let ref = new ReferenceBlock();
+
+Blockly.Blocks['business_logic_reference'] = {
+  init: function(){
     this.appendDummyInput()
-      .appendField(label, 'REFERENCE_TYPE');
-      // .appendField(new Blockly.FieldDropdown([["spb", "1"], ["msk", "2"]]), "NAME");
+      .appendField(ref.getLabel(), 'REFERENCE_TYPE');
+    // .appendField(new Blockly.FieldDropdown([["spb", "1"], ["msk", "2"]]), "NAME");
     this.setInputsInline(false);
     this.setOutput(true, null);
     this.setColour(120);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
-  }
+  },
+  backend: ref.getBackend()
 };
+

@@ -13,6 +13,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BackendService } from '../backend.service';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
+import "./blocks/reference.block";
+
 @Component({
   selector: 'blockly',
   template: `
@@ -47,7 +49,6 @@ export class BlocklyComponent {
     public backend: BackendService,
     private route: ActivatedRoute,
     private router: Router){
-
   }
 
 
@@ -67,18 +68,23 @@ export class BlocklyComponent {
       this.backend.getProgramVersionById(+params['versionID']).subscribe((envelope) => {
         this.version = envelope;
 
-        var xml = Blockly.Xml.textToDom(envelope["xml"]);
+        let xml = Blockly.Xml.textToDom(envelope["xml"]);
         Blockly.Xml.domToWorkspace(xml, this.workspace);
       });
+
+
+      let xml1 = `<xml>
+                    <block type="business_logic_reference">
+                      <field name="REFERENCE_TYPE">books.Book</field>
+                      <field name="VALUE">2</field>
+                    </block>
+               </xml>`;
+      Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml1), this.workspace);
     });
 
-    // this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
-    //   {
-    //     toolbox: this.toolbox.nativeElement,
-    //     trashcan: true,
-    //     sounds: false
-    //   });
-    // this.initXml(this.xml);
+    this.backend.getReferenceDescriptors().subscribe((data) => {console.log(data)});
+
+
   }
 
 
