@@ -7,6 +7,7 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
+from .node import NodeAccessor
 
 @python_2_unicode_compatible
 class ReferenceDescriptor(models.Model):
@@ -26,3 +27,13 @@ class ReferenceDescriptor(models.Model):
             return []
 
         return re.split('[^\w_]+', self.search_fields)
+
+
+class ReferenceConstant(NodeAccessor):
+    interpret_children = True
+    class Meta:
+        verbose_name = _('Reference constant')
+        verbose_name_plural = _('Reference constants')
+
+    def interpret(self, ctx):
+        return ctx.get_children(self.node)[0].content_object

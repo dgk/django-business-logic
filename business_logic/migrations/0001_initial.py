@@ -137,16 +137,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='ListConstant',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-            ],
-            options={
-                'verbose_name': 'List constant',
-                'verbose_name_plural': 'List constants',
-            },
-        ),
-        migrations.CreateModel(
             name='LogEntry',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -156,17 +146,6 @@ class Migration(migrations.Migration):
             ],
             options={
                 'abstract': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='ModelConstant',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('value', models.BooleanField(verbose_name='Value')),
-            ],
-            options={
-                'verbose_name': 'Model constant',
-                'verbose_name_plural': 'Model constants',
             },
         ),
         migrations.CreateModel(
@@ -270,6 +249,16 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='ReferenceConstant',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+            ],
+            options={
+                'verbose_name': 'Reference constant',
+                'verbose_name_plural': 'Reference constants',
+            },
+        ),
+        migrations.CreateModel(
             name='ReferenceDescriptor',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -311,19 +300,6 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Table',
                 'verbose_name_plural': 'Tables',
-            },
-        ),
-        migrations.CreateModel(
-            name='Type',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('type', models.CharField(max_length=12, verbose_name='Type', choices=[(b'bool', 'Boolean'), (b'float', 'Float'), (b'string', 'String'), (b'model', 'Model')])),
-                ('is_list', models.BooleanField(verbose_name='Is list')),
-                ('model_type', models.ForeignKey(verbose_name='Model type', to='contenttypes.ContentType', null=True)),
-            ],
-            options={
-                'verbose_name': 'Type',
-                'verbose_name_plural': 'Types',
             },
         ),
         migrations.CreateModel(

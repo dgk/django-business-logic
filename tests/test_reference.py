@@ -15,3 +15,15 @@ class ReferenceDescriptorTest(TestCase):
         reference_descriptor = ReferenceDescriptor.objects.create(content_type=self.content_type,
                                                                   search_fields='xxx,    yyy zzz; aa_bb__cc')
         self.assertEqual(['xxx', 'yyy', 'zzz', 'aa_bb__cc'], reference_descriptor.get_search_fields())
+
+
+# see also tests.test_program.ProgramTest.test_program_version_execute_set_reference_variable
+
+class ReferenceConstantTest(TestCase):
+    def test_interpret(self):
+        constant = ReferenceConstant.objects.create()
+        root = Node.add_root(content_object=constant)
+        test_model = TestModel.objects.create()
+        root.add_child(content_object=test_model)
+        context = Context()
+        self.failUnlessEqual(test_model, constant.interpret(context))

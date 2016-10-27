@@ -89,6 +89,34 @@ class ProgramTest(ProgramTestBase):
         self.assertEqual(value, context.get_variable(variable_definition))
         self.assertEqual(value, self.test_model.int_value)
 
+    def test_program_version_execute_set_reference_variable(self):
+        int_value_field = self.fields['foreign_value']
+        variable_definition = int_value_field.variable_definition
+        test_related_model = TestRelatedModel.objects.create()
+
+        parent = Node.add_root()
+        assignment_node = parent.add_child(content_object=Assignment())
+        variable = Variable(definition=variable_definition)
+        var_node = assignment_node.add_child(content_object=variable)
+
+        constant_node = assignment_node.add_child(content_object=ReferenceConstant())
+
+        constant_node.add_child(content_object=test_related_model)
+
+
+        parent = Node.objects.get(id=parent.id)
+
+        self.program_version.entry_point = parent
+        self.program_version.save()
+
+        context = self.program_version.execute(test_model=self.test_model)
+
+        self.test_model.save()
+        self.test_model = TestModel.objects.get(id=self.test_model.id)
+
+        self.assertEqual(test_related_model, context.get_variable(variable_definition))
+        self.assertEqual(test_related_model, self.test_model.foreign_value)
+
     def test_program_version_execute_get_variable_recursive(self):
         int_value_field = self.fields['foreign_value.int_value']
         variable_definition = int_value_field.variable_definition
