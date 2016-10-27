@@ -13,7 +13,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BackendService } from '../backend.service';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
-import "./blocks/reference.block";
+import { BlocksService } from "./blocks/blocks.service";
+// import "./blocks/reference.block";
 
 @Component({
   selector: 'blockly',
@@ -26,7 +27,8 @@ import "./blocks/reference.block";
     </md-list>
     <div #blocklyArea></div>   
     <div #blocklyDiv [ngStyle]="style"></div>
-    `
+    `,
+  providers: [ BackendService, BlocksService ]
 })
 
 export class BlocklyComponent {
@@ -48,11 +50,14 @@ export class BlocklyComponent {
   constructor(
     public backend: BackendService,
     private route: ActivatedRoute,
-    private router: Router){
+    private router: Router,
+    private blocks: BlocksService){
   }
 
 
   ngAfterViewInit() {
+    this.blocks.init();
+
     let toolbox = `<xml>${require('./blockly-toolset.html')}</xml>`;
     this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
       {
@@ -75,15 +80,13 @@ export class BlocklyComponent {
 
       let xml1 = `<xml>
                     <block type="business_logic_reference">
-                      <field name="REFERENCE_TYPE">books.Book</field>
+                      <field name="TYPE">books.Book</field>
                       <field name="VALUE">2</field>
                     </block>
                </xml>`;
       Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml1), this.workspace);
+
     });
-
-    this.backend.getReferenceDescriptors().subscribe((data) => {console.log(data)});
-
 
   }
 

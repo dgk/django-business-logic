@@ -1,5 +1,0 @@
-{
-  "globalDependencies": {
-    "blockly": "registry:dt/angular-protractor#1.5.0+20160425143459"
-  }
-}
