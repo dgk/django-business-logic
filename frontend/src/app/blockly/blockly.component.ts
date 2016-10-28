@@ -81,7 +81,7 @@ export class BlocklyComponent {
       let xml1 = `<xml>
                     <block type="business_logic_reference">
                       <field name="TYPE">books.Book</field>
-                      <field name="VALUE">2</field>
+                      <field name="VALUE">1</field>
                     </block>
                </xml>`;
       Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml1), this.workspace);

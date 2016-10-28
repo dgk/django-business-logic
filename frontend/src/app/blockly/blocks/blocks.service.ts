@@ -53,18 +53,47 @@ export class BlocksService {
     return label;
   }
 
+  getDropdown(){
+    let dropdown = new Blockly.FieldDropdown([ ["spb", "100"] ]);
+
+    dropdown.getValue = () => {
+      return dropdown.value_;
+    };
+
+    dropdown.setValue = (newValue: string) => {
+      if (newValue === null || newValue === dropdown.value_) {
+        return;  // No change if null.
+      }
+      if (dropdown.sourceBlock_ && Blockly.Events.isEnabled()) {
+        Blockly.Events.fire(new Blockly.Events.Change(
+          dropdown.sourceBlock_, 'field', dropdown.name, dropdown.value_, newValue));
+      }
+      dropdown.value_ = newValue;
+
+      let referenceType = dropdown.sourceBlock_.inputList[0].fieldRow[0].getValue();
+
+      this.backend.getReferenceName(referenceType, newValue).subscribe(
+        (data) => {
+          dropdown.setText(data["name"]);
+        }
+      );
+    };
+
+    return dropdown;
+  }
+
   init(){
     let that = this;
     Blockly.Blocks['business_logic_reference'] = {
       init: function(){
         this.appendDummyInput()
-          .appendField(that.getLabel(), 'TYPE');
-        // .appendField(new Blockly.FieldDropdown([["spb", "1"], ["msk", "2"]]), "NAME");
+          .appendField(that.getLabel(), 'TYPE')
+          .appendField(that.getDropdown(), "VALUE");
         this.setInputsInline(false);
         this.setOutput(true, null);
         this.setColour(120);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('');
       },
       backend: that.getBackend()
     };

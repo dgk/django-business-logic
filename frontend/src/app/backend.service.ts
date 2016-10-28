@@ -11,6 +11,7 @@ export class BackendService {
   private programUrl = `${this.baseUrl}/program`;
 
   private descriptorsUrl = `${this.baseUrl}/reference/descriptor`;
+  private referenceNameUrl = `${this.baseUrl}/reference`;
 
   constructor(private http: Http) {
 
@@ -69,6 +70,19 @@ export class BackendService {
 
     return this.http.get(`${this.descriptorsUrl}`, options)
       .map(this.extractData);
+  }
+
+  getReferenceName(type: string, id: string){
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+
+    return this.http.get(`${this.referenceNameUrl}/${type}`, options)
+      .map( (res) => {
+        let results = res.json().results;
+        for( let i = 0; i < results.length; i++ ){
+          if( results[i]["id"] == id ) return results[i];
+        }
+      });
   }
 
   getCookie(name) {
