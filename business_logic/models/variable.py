@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
+from django.utils.encoding import python_2_unicode_compatible, smart_text
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -37,7 +37,7 @@ class Variable(models.Model):
             return False
 
         def __str__(self):
-            return _('Undefined')
+            return str(_('Undefined'))
 
     def __str__(self):
         return self.definition.name

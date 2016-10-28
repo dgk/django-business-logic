@@ -12,6 +12,7 @@ from rest_framework import serializers
 from ..models import (
     Execution,
     ExecutionArgument,
+    ExceptionLog,
     LogEntry,
     ProgramInterface,
     ProgramArgumentField,
@@ -40,11 +41,13 @@ class ProgramInterfaceListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramInterface
+        fields = '__all__'
 
 
 class ProgramListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Program
+        fields = '__all__'
 
 
 class ProgramVersionListSerializer(serializers.ModelSerializer):
@@ -97,6 +100,7 @@ class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReferenceDescriptor
+        fields = '__all__'
 
     def get_name(self, obj):
         return get_model_name(obj.content_type)
@@ -108,7 +112,7 @@ class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
         return reverse('business-logic:rest:reference-list', kwargs=dict(model=get_model_name(obj.content_type)))
 
 
-class ReferenceListSerializer(serializers.ModelSerializer):
+class ReferenceSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
     name = serializers.SerializerMethodField()
 
@@ -117,8 +121,8 @@ class ReferenceListSerializer(serializers.ModelSerializer):
         return declared_fields
 
     def get_name(self, obj):
-        return six.text_type(obj)
-
+        reference_descriptor = self.context['view'].get_reference_descriptor()
+        return six.text_type(getattr(obj, reference_descriptor.name_field) if reference_descriptor.name_field else obj)
 
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
     class Meta:
@@ -215,9 +219,21 @@ class ExecutionSerializer(serializers.ModelSerializer):
         exclude = ('log',)
 
 
+class ExceptionLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExceptionLog
+        exclude = ('log_entry', 'id')
+
+
 class LogSerializer(serializers.ModelSerializer):
+    exception = ExceptionLogSerializer()
+
     class Meta:
         model = LogEntry
+        exclude = ('sib_order', 'parent', 'id')
 
-    def to_representation(self, instance):
-        return LogEntry.dump_bulk(instance, keep_ids=False)[0]
+    def get_fields(self):
+        fields = super(LogSerializer, self).get_fields()
+        fields['children'] = LogSerializer(many=True)
+        return fields
+

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 #
+from traceback import format_exception
 
 from django.db import models
 from django.conf import settings
@@ -22,30 +23,38 @@ class Logger(object):
     def __init__(self):
         self.log = None
         self._stack = []
+        self.exceptions = {}
 
-    def interpret_enter(self, **kwargs):
-        node = kwargs['node']
-        context = kwargs['sender']
-        value = kwargs['value']
-
+    def interpret_enter(self, node, **kwargs):
         if not self.log:
             # first record
-            log_node = LogEntry.add_root(node=node)
-            self.log = log_node
+            log_entry = LogEntry.add_root(node=node)
+            self.log = log_entry
         else:
-            log_node = parent = self._stack[-1].add_child(node=node)
+            log_entry = parent = self._stack[-1].add_child(node=node)
         if not node.is_block():
-            log_node.previous_value = self.prepare_value(node.content_object)
-        self._stack.append(log_node)
-        log_node.save()
+            log_entry.previous_value = self.prepare_value(node.content_object)
+        self._stack.append(log_entry)
+        log_entry.save()
 
-    def interpret_leave(self, **kwargs):
-        node = kwargs['node']
-        context = kwargs['sender']
-        value = kwargs['value']
-        node = self._stack.pop()
-        node.current_value = self.prepare_value(value)
-        node.save()
+    def interpret_leave(self, node, value, **kwargs):
+        log_entry = self._stack.pop()
+        log_entry.current_value = self.prepare_value(value)
+        log_entry.save()
+
+        exception, traceback = self.exceptions.pop(node, (None, None))
+        if exception:
+            ExceptionLog.objects.create(
+                log_entry=log_entry,
+                type=exception.__class__.__name__,
+                module=exception.__class__.__module__,
+                message=str(exception),
+                traceback=format_exception(exception.__class__, exception, traceback)
+            )
+
+
+    def interpret_exception(self, node, exception, traceback, **kwargs):
+        self.exceptions[node] = (exception, traceback)
 
     def prepare_value(self, value):
         value = six.text_type(value)
@@ -61,6 +70,14 @@ class LogEntry(AL_Node):
     node = models.ForeignKey(Node, verbose_name=_('Program node'))
     previous_value = models.CharField(_('Previous value'), max_length=LOG_ENTRY_VALUE_LENGTH)
     current_value = models.CharField(_('Current value'), max_length=LOG_ENTRY_VALUE_LENGTH)
+
+
+class ExceptionLog(models.Model):
+    log_entry = models.OneToOneField('LogEntry', related_name='exception')
+    module = models.CharField(max_length=255)
+    type = models.CharField(max_length=255)
+    message = models.CharField(max_length=512)
+    traceback = models.TextField()
 
 
 class ExecutionArgument(models.Model):

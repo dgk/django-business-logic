@@ -56,13 +56,13 @@ class LogRestTest(ProgramRestTestBase):
         response = self.client.get(url)
         self.assertEqual(200, response.status_code, response.content)
         _json = response_json(response)
-        top_entry_data = _json['data']
 
-        self.assertEqual(self.context.execution.log.node.id, top_entry_data['node'])
-        self.assertNotIn('id', _json)
-        self.assertEqual(sorted(['node', 'previous_value', 'current_value']), sorted(top_entry_data.keys()))
+        self.assertEqual(self.context.execution.log.node.id, _json['node'])
 
-        self.assertEqual(
-            [x.id for x in  self.context.execution.log.node.get_children()],
-            [x['data']['node'] for x in _json['children']]
-            )
+        for log_entry in (_json, _json['children'][0]):
+            self.assertNotIn('id', log_entry)
+            self.assertEqual(
+                sorted(['node','previous_value', 'current_value', 'exception', 'children']),
+                sorted(log_entry.keys()))
+
+            self.assertIsInstance(log_entry['children'], list)

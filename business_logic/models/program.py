@@ -9,7 +9,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from .context import Context
-from .debug import Execution, ExecutionArgument
+from .log import Execution, ExecutionArgument
 from .node import Node
 from .variable import VariableDefinition, Variable
 from .types_ import DJANGO_FIELDS_FOR_TYPES

@@ -48,18 +48,3 @@ class DateConstant(Constant):
     class Meta:
         verbose_name = _('Date constant')
         verbose_name_plural = _('Date constants')
-
-
-class ModelConstant(Constant):
-    value = models.BooleanField(_('Value'))
-
-    class Meta:
-        verbose_name = _('Model constant')
-        verbose_name_plural = _('Model constants')
-
-
-class ListConstant(Constant):
-    class Meta:
-        verbose_name = _('List constant')
-        verbose_name_plural = _('List constants')
-

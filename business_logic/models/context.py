@@ -3,8 +3,8 @@
 
 from .. import signals
 from ..config import ContextConfig
-from .debug import Logger
 from .frame import Frame
+from .log import Logger
 from .node import NodeCacheHolder
 from .variable import Variable, VariableDefinition
 
@@ -25,6 +25,7 @@ class Context(NodeCacheHolder):
         if self.config.log:
             signals.interpret_enter.connect(self.logger.interpret_enter, sender=self)
             signals.interpret_leave.connect(self.logger.interpret_leave, sender=self)
+            signals.interpret_exception.connect(self.logger.interpret_exception, sender=self)
 
     def _frame(self):
         if not self.frames:

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-from business_logic.models.debug import LOG_ENTRY_VALUE_LENGTH
+from business_logic.models.log import LOG_ENTRY_VALUE_LENGTH
 
 from .common import *
 
@@ -98,6 +98,39 @@ class LogTest(TestCase):
         self.failUnlessEqual(context.logger.log.get_children()[0].node, node1)
         self.failUnlessEqual(context.logger.log.get_children()[1].node, node2)
 
+    def test_log_exception(self):
+        root = symmetric_tree(operator='/', value=0, count=2)
+        root = Node.objects.get(id=root.id)
+        context = Context(log=True)
+        result = root.interpret(context)
+        log = LogEntry.objects.get(id=context.logger.log.id)
+
+        exception_log = log.exception
+        self.assertIsInstance(exception_log, ExceptionLog)
+
+        try:
+            0.0 // 0.0
+        except Exception as e:
+            exception = e
+
+        self.assertEqual(exception.__class__.__name__, exception_log.type)
+        self.assertEqual(exception.__class__.__module__, exception_log.module)
+        self.assertEqual(str(exception), exception_log.message)
+        self.assertIn('Traceback (most recent call last):', exception_log.traceback)
+        self.assertIn('ZeroDivisionError: float divmod()', exception_log.traceback)
+
+
+    def test_log_variable_undefined(self):
+        # Logger().prepare_value(Variable.Undefined()) causes TypeError: coercing to Unicode: need string or buffer, __proxy__ found
+
+        Logger().prepare_value(Variable.Undefined())
+
+        variable_definition = VariableDefinition.objects.create(name='A')
+        root = variable_assign_value(variable_name='B', variable_definition=variable_definition)
+        context = Context(log=True)
+        result = root.interpret(context)
+        self.assertFalse(ExceptionLog.objects.all())
+
 
 class ProgramTest(ProgramTestBase):
     def test_empty_execution(self):
@@ -118,7 +151,6 @@ class ProgramTest(ProgramTestBase):
         execution_argument = execution.arguments.all().first()
         self.assertEqual(execution_argument.content_object, self.test_model)
         self.assertIsInstance(execution.log, LogEntry)
-
 
     def test_execution_empty_log(self):
         context = Context(debug=True, log=False)

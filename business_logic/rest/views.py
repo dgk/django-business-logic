@@ -1,19 +1,26 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from collections import OrderedDict
+import operator
 
-from rest_framework.filters import DjangoFilterBackend
-from rest_framework.pagination import PageNumberPagination
+from collections import OrderedDict
+from functools import reduce
 
 try:
     from django.apps import apps
+
     get_model = apps.get_model
 except ImportError:
     from django.db.models.loading import get_model
 
-from rest_framework.decorators import api_view
+from django.db import models
+
 from rest_framework import generics, exceptions
+
+from rest_framework.compat import distinct
+from rest_framework.decorators import api_view
+from rest_framework.filters import DjangoFilterBackend, SearchFilter
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from .serializers import *
@@ -102,19 +109,77 @@ class ReferenceDescriptorList(generics.ListAPIView):
     serializer_class = ReferenceDescriptorListSerializer
 
 
-class ReferenceList(generics.ListAPIView):
-    serializer_class = ReferenceListSerializer
-    pagination_class = StandardResultsSetPagination
+class ReferenceSearchFilter(SearchFilter):
+    def filter_queryset(self, request, queryset, view):
+        search_terms = self.get_search_terms(request)
+        if not search_terms:
+            return queryset
+
+        reference_descriptor = view.get_reference_descriptor()
+        search_fields = reference_descriptor.get_search_fields()
+
+        if not search_fields:
+            raise exceptions.ValidationError(
+                'ReferenceDescriptor for `{}` are not configured: incorrect `search_fields` field'.format(
+                    view.get_reference_model_name()))
+
+        orm_lookups = [
+            self.construct_search(six.text_type(search_field))
+            for search_field in search_fields
+            ]
+
+        base = queryset
+        for search_term in search_terms:
+            queries = [
+                models.Q(**{orm_lookup: search_term})
+                for orm_lookup in orm_lookups
+                ]
+            queryset = queryset.filter(reduce(operator.or_, queries))
+
+        if self.must_call_distinct(queryset, search_fields):
+            # Filtering against a many-to-many field requires us to
+            # call queryset.distinct() in order to avoid duplicate items
+            # in the resulting queryset.
+            # We try to avoid this if possible, for performance reasons.
+            queryset = distinct(queryset, base)
+        return queryset
+
+
+class ReferenceBaseView(object):
+    serializer_class = ReferenceSerializer
 
     def get_queryset(self):
+        try:
+            self.get_reference_descriptor()
+        except ReferenceDescriptor.DoesNotExist:
+            raise exceptions.NotFound()
+
         return self.get_reference_model().objects.all()
+
+
+    def get_reference_descriptor(self):
+        return ReferenceDescriptor.objects.get(content_type=ContentType.objects.get_for_model(self.get_reference_model()))
+
+
+    def get_reference_model_name(self):
+        return self.kwargs['model']
+
 
     def get_reference_model(self):
         try:
-            app_name, model_name = self.kwargs['model'].split('.')
+            app_name, model_name = self.get_reference_model_name().split('.')
             model = get_model(app_name, model_name)
-            ReferenceDescriptor.objects.get(content_type=ContentType.objects.get_for_model(model))
-        except (ValueError, LookupError, ReferenceDescriptor.DoesNotExist):
+        except (ValueError, LookupError):
             raise exceptions.NotFound()
 
         return model
+
+
+class ReferenceList(ReferenceBaseView, generics.ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    filter_backends = [ReferenceSearchFilter]
+
+
+
+class ReferenceView(ReferenceBaseView, generics.RetrieveAPIView):
+    serializer_class = ReferenceSerializer
