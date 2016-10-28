@@ -77,6 +77,25 @@ class BlocklyXmlBuilder(NodeCacheHolder):
             field.text = str(content_object)
         return block
 
+    def visit_reference_constant(self, node, parent_xml):
+        children = self.get_children(node)
+
+        if len(children) != 1:
+            raise BlocklyXmlBuilderException('Incorrect number of ReferenceConstant node children: {}'.format(len(children)))
+
+        value_object_node = children[0]
+        content_type = value_object_node.content_type
+
+        block = etree.SubElement(parent_xml, 'block', type='business_logic_reference')
+
+        type_field = etree.SubElement(block, 'field', name='TYPE')
+        type_field.text = '{}.{}'.format(content_type.app_label, content_type.model_class().__name__)
+
+        value_field = etree.SubElement(block, 'field', name='VALUE')
+        value_field.text = str(value_object_node.object_id)
+
+    visit_reference_constant.process_children = True
+
     def visit_variable(self, node, parent_xml):
         variables_get_block = etree.SubElement(parent_xml, 'block', type='variables_get')
         self._visit_variable(node, variables_get_block)

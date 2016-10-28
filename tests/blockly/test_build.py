@@ -43,6 +43,33 @@ class BlocklyXmlBuilderConstantTest(TestCase):
         self._constant_test(BooleanConstant(value=False), 'logic_boolean', 'BOOL', 'FALSE')
 
 
+class BlocklyXmlBuilderReferenceConstantTest(TestCase):
+    def test_reference_constant(self):
+        root = Node.add_root()
+
+        constant1 = ReferenceConstant.objects.create()
+        test_model1 = TestModel.objects.create()
+        node = root.add_child(content_object=constant1)
+        node.add_child(content_object=test_model1)
+        node = Node.objects.get(id=node.id)
+
+        xml_str = BlocklyXmlBuilder().build(node)
+        xml = etree.parse(StringIO(xml_str))
+        block = xml.xpath('/xml/block')
+        self.assertEqual(1, len(block))
+        block = block[0]
+        self.assertEqual('business_logic_reference', block.get('type'))
+
+        fields = block.findall('field')
+        self.assertEqual(2, len(fields))
+        type_field, value_field = fields
+
+        self.assertEqual('TYPE', type_field.get('name'))
+        self.assertEqual('test_app.TestModel', type_field.text)
+
+        self.assertEqual('VALUE', value_field.get('name'))
+        self.assertEqual(str(test_model1.id), value_field.text)
+
 class BlocklyXmlBuilderAssignmentTest(TestCase):
     def test_assignment(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#b7driq
