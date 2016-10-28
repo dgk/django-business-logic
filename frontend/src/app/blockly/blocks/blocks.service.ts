@@ -37,7 +37,7 @@ export class BlocksService {
               result = data[i];
           }
 
-          label.setText(result["verbose_name"]+"["+result["name"]+"]");
+          label.setText(result["verbose_name"]+" ["+result["name"]+"]");
 
         }
       );

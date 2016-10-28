@@ -4,10 +4,11 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class MockService {
 
-  private data: Observable<any>;
+  private referenceDescriptors: Observable<any>;
+  private reference1: Observable<any>;
 
   constructor(){
-    this.data = new Observable(observer => {
+    this.referenceDescriptors = new Observable(observer => {
       observer.next([
         {
           "id": 1,
@@ -35,6 +36,15 @@ export class MockService {
         }
       ]);
     });
+
+    this.reference1 = new Observable(observer => {
+      observer.next(
+        {
+          "id": 2,
+          "name": "Dive Into Python"
+        }
+      );
+    });
   }
 
   test(){
@@ -42,6 +52,10 @@ export class MockService {
   }
 
   getReferenceDescriptors(){
-    return this.data;
+    return this.referenceDescriptors;
+  }
+
+  getReferenceName(type: string, id: string){
+    return this.reference1;
   }
 }
