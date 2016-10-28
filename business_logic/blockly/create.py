@@ -67,6 +67,9 @@ class NodeTreeCreator(object):
         content_type = ContentType.objects.get(id=data['content_type'])
         model_class = content_type.model_class()
 
+        if 'object_id' in data:
+            return
+
         if model_class == VariableDefinition:
             return
 
