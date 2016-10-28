@@ -48,7 +48,6 @@ class ReferenceConstantTest(TestCase):
         context = Context(log=True)
         self.assertTrue(root.interpret(context))
 
-
     def test_operator_eq_not_equals(self):
         root = Node.add_root(content_object=BinaryOperator(operator='=='))
 
@@ -68,6 +67,3 @@ class ReferenceConstantTest(TestCase):
 
         context = Context(log=True)
         self.assertFalse(root.interpret(context))
-
-
-
