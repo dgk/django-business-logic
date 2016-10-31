@@ -3124,7 +3124,7 @@ declare module Blockly {
     renameVar?: (oldName: string, newName: string) => void;
     customContextMenu?: any;
 
-    backend: any;
+    backend?: any;
   }
 
   const Blocks: {
