@@ -32,8 +32,7 @@ import {MaterialModule} from '@angular/material';
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  AppState,
-  BackendService
+  AppState
 ];
 
 type StoreType = {

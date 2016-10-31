@@ -36,7 +36,7 @@ export class BlocksService {
           that.backend.getReferenceDescriptors().subscribe(
             (data) => {
 
-              console.log(data);
+              // console.log(data);
               //let result = _.find(data, function(reference) { return reference["name"] == label.getValue(); });
               let result = {
                 "verbose_name": "not found",
