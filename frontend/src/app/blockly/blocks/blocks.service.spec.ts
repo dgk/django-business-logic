@@ -48,17 +48,19 @@ describe('business_logic_reference block', () => {
     expect( TestBed.get(BlocksService).backend.test() ).toEqual("This is MockService!");
   });
 
-  it('created block should be business_logic_reference, field.getText() return verbose_name+name, field.getValue() return name', () => {
+  it('created block should be business_logic_reference', () => {
 
       expect( block.type ).toEqual("business_logic_reference");
       expect( block.init ).toEqual(Blockly.Blocks['business_logic_reference'].init);
+  });
 
-      let field = block.getField("TYPE");
+  it('field.getText() return verbose_name+name, field.getValue() return name', () => {
+    let field = block.getField("TYPE");
 
-      expect( field ).toBeDefined();
+    expect( field ).toBeDefined();
 
-      expect( field.getText() ).toEqual('Book [books.Book]');
-      expect( field.getValue() ).toEqual('books.Book');
+    expect( field.getText() ).toEqual('Book [books.Book]');
+    expect( field.getValue() ).toEqual('books.Book');
   });
 
   it('field "VALUE" getText() should return text value instead id', () => {

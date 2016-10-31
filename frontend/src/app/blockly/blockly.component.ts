@@ -98,7 +98,7 @@ export class BlocklyComponent {
   }
 
   onSave() {
-    let xml = Blockly.Xml.workspaceToDom(this.workspace);
+    let xml = Blockly.Xml.workspaceToDom(this.workspace, false);
     let xmlText = Blockly.Xml.domToText(xml);
     this.version.xml = xmlText;
     this.backend.saveVersion(this.version).subscribe(()=>{console.log("Saving!");});
