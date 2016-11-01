@@ -4,12 +4,14 @@ import { BackendService } from '../backend.service';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 import { AppState } from '../app.service';
 
+import { BaseService } from "../services/base.service";
+
 @Component({
   selector: 'program',
   template: `
             <breadcrumb [params]="params"></breadcrumb>
             <md-list>
-                <md-list-item *ngFor="let program of programs" (click)="onSelect(program.id)">
+                <md-list-item *ngFor="let program of programs" (click)="onSelect(program)">
                   <h3 md-line>{{program.title}}</h3>
                 </md-list-item>
               </md-list>`
@@ -17,31 +19,36 @@ import { AppState } from '../app.service';
 
 export class ProgramComponent{
   private programs;
-  private params: any = {};
+  private params: any = {
+    "Interface": 'Interface',
+    "Program": 'Program',
+    "Version": 'Version'
+  };
 
   constructor(
     public backend: BackendService,
     private route: ActivatedRoute,
-    private router: Router){
+    private router: Router,
+    private base: BaseService){
 
   }
 
   ngOnInit() {
+
     this.route.params.subscribe(params => {
-      this.params = params;
-      let interfaceID = +params['interfaceID'];
 
-      this.backend.listPrograms(interfaceID).subscribe(
-        envelope => {
-          this.programs = envelope.results;
-        }
+      this.base.fetchPrograms( +params["interfaceID"] ).subscribe(() => {
+        this.programs = this.base.programs.getCollection();
 
-      );
+        this.params["Interface"] = this.base.programInterfaces.getCurrent().getTitle();
+      });
+
     });
 
   }
 
-  onSelect(id: number){
-    this.router.navigate([id], { relativeTo: this.route });
+  onSelect(program: any){
+    this.base.programs.setCurrent(program);
+    this.router.navigate([this.base.programs.getCurrent().getID()], { relativeTo: this.route });
   }
 }

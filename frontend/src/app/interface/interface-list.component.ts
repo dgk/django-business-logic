@@ -1,27 +1,22 @@
 import { Component, NgModule } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { BackendService } from '../backend.service';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
 import { AppState } from '../app.service';
 
+import { BaseService } from "../services/base.service";
+
 @Component({
-  // The selector is what angular internally uses
-  // for `document.querySelectorAll(selector)` in our index.html
-  // where, in this case, selector is the string 'home'
-  selector: 'interface-list',  // <home></home>
-  // We need to tell Angular's Dependency Injection which providers are in our app.
+  selector: 'interface-list',
   providers: [
 
   ],
-  // Our list of styles in our component. We may add more to compose many styles together
   styleUrls: [  ],
-  // Every Angular template is first compiled by the browser before Angular runs it's compiler
   template:   `
               <breadcrumb [params]="params"></breadcrumb>
               <md-list>
-                <md-list-item *ngFor="let programInterface of programInterfaces" (click)="onSelect(programInterface.id)">
+                <md-list-item *ngFor="let programInterface of programInterfaces" (click)="onSelect(programInterface)">
                   <h3 md-line>{{programInterface.title}}</h3>
                 </md-list-item>
               </md-list>`
@@ -29,32 +24,33 @@ import { AppState } from '../app.service';
 
 export class InterfaceListComponent {
   private programInterfaces;
-  private params: any = {};
+  private params: any = {
+    "Interface": 'Interface',
+    "Program": 'Program',
+    "Version": 'Version'
+  };
 
-  // Set our default values
   localState = { value: '' };
-  // TypeScript public modifiers
+
   constructor(public appState: AppState,
-              public backend: BackendService,
+              public base: BaseService,
               private route: ActivatedRoute,
               private router: Router) {
 
   }
 
   ngOnInit() {
-    console.log('hello `Interface` component');
-    this.backend.listProgramInterfaces().subscribe(
-      envelope => {
-        this.programInterfaces = envelope.results;
-        console.log(this.programInterfaces);
-      }
 
-    );
-    // this.title.getData().subscribe(data => this.data = data);
+    this.base.fetchProgramInterfaces().subscribe(() => {
+      this.programInterfaces = this.base.programInterfaces.getCollection();
+    });
+
   }
 
-  onSelect(id: number){
-    this.router.navigate([id], { relativeTo: this.route });
+  onSelect(programInterface: any){
+    this.base.programInterfaces.setCurrent(programInterface);
+
+    this.router.navigate([this.base.programInterfaces.getCurrent().getID()], { relativeTo: this.route });
   }
 
   submitState(value: string) {

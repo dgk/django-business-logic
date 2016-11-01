@@ -25,6 +25,16 @@ export class BackendService {
       .map(this.extractData);
   }
 
+  listPrograms(programInterfaceId: number) {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let urlSearchParams = new URLSearchParams();
+    urlSearchParams.append('program_interface', String(programInterfaceId));
+    let options = new RequestOptions({headers: headers, search: urlSearchParams});
+
+    return this.http.get(`${this.programUrl}`, options)
+      .map(this.extractData);
+  }
+
   listProgramVersions(programId: number) {
     let headers = new Headers({'Content-Type': 'application/json'});
     let urlSearchParams = new URLSearchParams();
@@ -35,15 +45,7 @@ export class BackendService {
       .map(this.extractData);
   }
 
-  listPrograms(programInterfaceId: number) {
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let urlSearchParams = new URLSearchParams();
-    urlSearchParams.append('program_interface', String(programInterfaceId));
-    let options = new RequestOptions({headers: headers, search: urlSearchParams});
 
-    return this.http.get(`${this.programUrl}`, options)
-      .map(this.extractData);
-  }
 
   getProgramVersionById(id: number) {
     let headers = new Headers({'Content-Type': 'application/json'});

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BaseService } from '../services/base.service';
 
 @Injectable()
 export class BreadcrumbService {
@@ -7,7 +8,7 @@ export class BreadcrumbService {
   private regexp: RegExp;
   private params;
 
-  constructor() {
+  constructor(private base: BaseService) {
 
   }
 
@@ -60,9 +61,9 @@ export class BreadcrumbService {
       if( url.indexOf('interface') != -1 && url.indexOf('program') != -1 && url.indexOf('version') != -1){
         return "Version";
       }else if(url.indexOf('interface') != -1 && url.indexOf('program') != -1){
-        return "Program";
+        return this.params["Program"];
       }else if(url.indexOf('interface') != -1){
-        return "Interface";
+        return this.params["Interface"];
       }
     }
 

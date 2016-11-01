@@ -17,6 +17,9 @@ import { AppState, InternalStateType } from './app.service';
 
 import { BackendService } from './backend.service';
 
+import { BaseService } from "./services/base.service";
+import { RestService } from "./services/rest.service";
+
 import { BlocklyComponent } from './blockly/blockly.component';
 import { InterfaceListComponent } from './interface/interface-list.component';
 import { ProgramComponent } from './program/program.component';
@@ -32,7 +35,10 @@ import {MaterialModule} from '@angular/material';
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  AppState
+  AppState,
+  BackendService,
+  BaseService,
+  RestService
 ];
 
 type StoreType = {
