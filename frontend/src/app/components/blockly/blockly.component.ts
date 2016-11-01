@@ -13,7 +13,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
 import { BlocksService } from "./blocks/blocks.service";
-import { BackendService } from "../../backend.service":
+import { BackendService } from "../../backend.service";
 import { BaseService } from "../../services/base.service";
 // import "./blocks/reference.block";
 
