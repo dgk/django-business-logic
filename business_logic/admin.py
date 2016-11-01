@@ -3,9 +3,21 @@ from django.contrib import admin
 from django import forms
 
 from nested_inline.admin import NestedStackedInline, NestedModelAdmin
+from polymorphic.admin import PolymorphicChildModelAdmin
+from polymorphic.admin import PolymorphicParentModelAdmin
 
-from .models import ProgramInterface, ProgramArgument, ProgramArgumentField, Program, ReferenceDescriptor, \
-    ProgramVersion
+from .models import (
+    ProgramInterface,
+    ProgramArgument,
+    ProgramArgumentField,
+    Program,
+    ReferenceDescriptor,
+    ProgramVersion,
+    FunctionDefinition,
+    PythonCodeFunctionDefinition,
+    PythonModuleFunctionDefinition,
+    FunctionLibrary
+)
 from .utils import get_customer_available_content_types
 
 
@@ -76,10 +88,31 @@ class ReferenceDescriptorAdmin(admin.ModelAdmin):
     form = ContentTypeHolderForm
 
 
+class PythonModuleFunctionDefinitionAdmin(PolymorphicChildModelAdmin):
+    base_model = PythonModuleFunctionDefinition
+
+
+class PythonCodeFunctionDefinitionAdmin(PolymorphicChildModelAdmin):
+    base_model = PythonCodeFunctionDefinition
+
+
+class FunctionDefinitionAdmin(PolymorphicParentModelAdmin):
+    base_model = FunctionDefinition
+    child_models = (
+        PythonCodeFunctionDefinition,
+        PythonModuleFunctionDefinition
+    )
+
 admin.site.register(ProgramInterface, ProgramInterfaceAdmin)
 admin.site.register(Program, ProgramAdmin)
 admin.site.register(ProgramVersion, ProgramVersionAdmin)
+
 admin.site.register(ReferenceDescriptor, ReferenceDescriptorAdmin)
+
+admin.site.register(FunctionDefinition, FunctionDefinitionAdmin)
+admin.site.register(PythonModuleFunctionDefinition, PythonModuleFunctionDefinitionAdmin)
+admin.site.register(PythonCodeFunctionDefinition, PythonCodeFunctionDefinitionAdmin)
+admin.site.register(FunctionLibrary)
 
 # register all app models for debug purposes
 # from django.apps import apps

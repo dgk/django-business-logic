@@ -116,15 +116,19 @@ class Migration(migrations.Migration):
             name='FunctionDefinition',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('module', models.CharField(default=b'__builtins__', max_length=255, verbose_name='Module name')),
-                ('function', models.CharField(max_length=255, verbose_name='Function name')),
-                ('context_required', models.BooleanField(default=False, verbose_name='Context required')),
                 ('title', models.CharField(max_length=255, verbose_name='Function title')),
+                ('context_required', models.BooleanField(default=False, verbose_name='Context required')),
             ],
             options={
-                'verbose_name': 'Function definition',
-                'verbose_name_plural': 'Function definitions',
+                'abstract': False,
             },
+        ),
+        migrations.CreateModel(
+            name='FunctionLibrary',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(max_length=255, verbose_name='Function library title')),
+            ],
         ),
         migrations.CreateModel(
             name='IfStatement',
@@ -334,6 +338,31 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Variable definitions',
             },
         ),
+        migrations.CreateModel(
+            name='PythonCodeFunctionDefinition',
+            fields=[
+                ('functiondefinition_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='business_logic.FunctionDefinition')),
+                ('code', models.TextField(max_length=255, verbose_name='Code')),
+            ],
+            options={
+                'verbose_name': 'Python code function definition',
+                'verbose_name_plural': 'Python code function definition',
+            },
+            bases=('business_logic.functiondefinition',),
+        ),
+        migrations.CreateModel(
+            name='PythonModuleFunctionDefinition',
+            fields=[
+                ('functiondefinition_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='business_logic.FunctionDefinition')),
+                ('module', models.CharField(default=b'__builtins__', max_length=255, verbose_name='Module name')),
+                ('function', models.CharField(max_length=255, verbose_name='Function name')),
+            ],
+            options={
+                'verbose_name': 'Python module function definition',
+                'verbose_name_plural': 'Python module function definition',
+            },
+            bases=('business_logic.functiondefinition',),
+        ),
         migrations.AddField(
             model_name='variable',
             name='definition',
@@ -368,6 +397,16 @@ class Migration(migrations.Migration):
             model_name='logentry',
             name='parent',
             field=models.ForeignKey(related_name='children', blank=True, to='business_logic.LogEntry', null=True),
+        ),
+        migrations.AddField(
+            model_name='functionlibrary',
+            name='functions',
+            field=models.ManyToManyField(related_name='libraries', to='business_logic.FunctionDefinition'),
+        ),
+        migrations.AddField(
+            model_name='functiondefinition',
+            name='polymorphic_ctype',
+            field=models.ForeignKey(related_name='polymorphic_business_logic.functiondefinition_set+', editable=False, to='contenttypes.ContentType', null=True),
         ),
         migrations.AddField(
             model_name='function',

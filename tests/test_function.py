@@ -12,11 +12,11 @@ def context_bin(ctx, x):
     return (ctx, bin(int(x)))
 
 
-class FunctionTest(TestCase):
+class PythonModuleFunctionTest(TestCase):
     def test_import(self):
         context = Context()
         root = Node.add_root()
-        func_def = FunctionDefinition(module=__name__, function='_bin')
+        func_def = PythonModuleFunctionDefinition(module=__name__, function='_bin')
         root.add_child(content_object=func_def)
         root = Node.objects.get(id=root.id)
         func = Function(definition=func_def)
@@ -28,7 +28,7 @@ class FunctionTest(TestCase):
     def test_context_in_function(self):
         context = Context()
         root = Node.add_root()
-        func_def = FunctionDefinition(module=__name__, function='context_bin', context_required=True)
+        func_def = PythonModuleFunctionDefinition(module=__name__, function='context_bin', context_required=True)
         root.add_child(content_object=func_def)
         root = Node.objects.get(id=root.id)
         func = Function(definition=func_def)
@@ -40,7 +40,7 @@ class FunctionTest(TestCase):
     def test_builtins(self):
         context = Context()
         root = Node.add_root()
-        func_def = FunctionDefinition(module='__builtins__', function='str')
+        func_def = PythonModuleFunctionDefinition(module='__builtins__', function='str')
         root.add_child(content_object=func_def)
         root = Node.objects.get(id=root.id)
         func = Function(definition=func_def)
@@ -52,7 +52,7 @@ class FunctionTest(TestCase):
     def test_builtins_if_empty_module(self):
         context = Context()
         root = Node.add_root()
-        func_def = FunctionDefinition(module='', function='str')
+        func_def = PythonModuleFunctionDefinition(module='', function='str')
         root.add_child(content_object=func_def)
         root = Node.objects.get(id=root.id)
         func = Function(definition=func_def)
