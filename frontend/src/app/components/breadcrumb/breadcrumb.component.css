@@ -74,7 +74,7 @@
   height: 36px;
   transform: scale(0.707) rotate(45deg);
   z-index: 1;
-  box-shadow: 2px -2px 0 2px #393939;
+  box-shadow: 2px -2px 0 2px #009688;
   border-radius: 0 5px 0 50px;
 }
 
@@ -94,7 +94,7 @@
 .flat a.active,
 .flat a:hover::after,
 .flat a.active::after {
-  background: #393939;
+  background: #009688;
 }
 
 .flat a.active:hover {

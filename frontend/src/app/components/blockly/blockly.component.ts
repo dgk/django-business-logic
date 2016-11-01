@@ -13,7 +13,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
 import { BlocksService } from "./blocks/blocks.service";
-
+import { BackendService } from "../../backend.service":
 import { BaseService } from "../../services/base.service";
 // import "./blocks/reference.block";
 
@@ -21,15 +21,26 @@ import { BaseService } from "../../services/base.service";
   selector: 'blockly',
   template: `
     <breadcrumb [params]="params"></breadcrumb>
-    <md-list>
-      <md-list-item>
+    
+    <section>
+      <md-toolbar>
+        <span>Save current version of program?</span>
+        &nbsp;
+        <span flex></span>
         <button md-raised-button class="md-primary" (click)="onSave()">Save</button>
-      </md-list-item>
-    </md-list>
+      </md-toolbar>
+    </section>
+    <!--<md-list>-->
+      <!--<md-list-item>-->
+        <!--<span>Save current version of program?</span>-->
+        <!--<button md-raised-button class="md-primary" (click)="onSave()">Save</button>-->
+      <!--</md-list-item>-->
+    <!--</md-list>-->
+    
     <div #blocklyArea></div>   
     <div #blocklyDiv [ngStyle]="style"></div>
     `,
-  providers: [  ]
+  providers: []
 })
 
 export class BlocklyComponent {
@@ -55,7 +66,7 @@ export class BlocklyComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-
+    private backend: BackendService,
     private blocks: BlocksService,
     private base: BaseService){
   }
@@ -68,6 +79,8 @@ export class BlocklyComponent {
 
       this.base.fetchVersion( +params["interfaceID"], +params["programID"], +params["versionID"] ).subscribe((data) => {
 
+        this.version = data;
+        console.log(data);
         this.createWorkspace();
 
         this.params["Interface"] = this.base.programInterfaces.getCurrent().getTitle();
@@ -110,6 +123,10 @@ export class BlocklyComponent {
   }
 
   createWorkspace(){
+    this.backend.getReferenceDescriptors().subscribe((data) => {
+      console.log(data);
+    });
+
     let toolbox = `<xml>${require('./blockly-toolset.html')}</xml>`;
     this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
       {
