@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BackendService } from "../../backend.service";
+import { BackendService } from "../../../backend.service";
 
 import _ from "lodash";
 

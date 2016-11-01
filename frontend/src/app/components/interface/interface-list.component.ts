@@ -3,9 +3,9 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
-import { AppState } from '../app.service';
+import { AppState } from '../../app.service';
 
-import { BaseService } from "../services/base.service";
+import { BaseService } from "../../services/base.service";
 
 @Component({
   selector: 'interface-list',

@@ -75,5 +75,25 @@ export class BaseService {
     });
   }
 
+  fetchVersion( interfaceID: number, programID: number, versionID: number ){
+    if(!this.versions){
+      return this.fetchProgramInterfaces().flatMap(() => {
+        return this.fetchPrograms(interfaceID).flatMap(() => {
+          return this.fetchVersions(interfaceID, programID).flatMap(() => {
+            return this.fetchVersion(interfaceID, programID, versionID);
+          });
+        });
+      });
+    }
+
+    this.programInterfaces.setCurrent(this.programInterfaces.getModelByID( interfaceID ));
+    this.programs.setCurrent(this.programs.getModelByID( programID ));
+    this.versions.setCurrent(this.versions.getModelByID( versionID ));
+
+    let version = this.versions.getModelByID(versionID);
+
+    return this.rest.get(version.getUrl());
+  }
+
 
 }

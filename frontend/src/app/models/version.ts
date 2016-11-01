@@ -5,6 +5,7 @@ export class Version extends BaseModel{
 
   constructor(id: number, title: string){
     super(id, title);
+    this.url = `/program-version/${this.id}`;
   }
 }
 

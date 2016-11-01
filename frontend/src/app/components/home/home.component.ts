@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
-import { AppState } from '../app.service';
+import { AppState } from '../../app.service';
 
 @Component({
   selector: 'home',

@@ -59,7 +59,7 @@ export class BreadcrumbService {
       return 'Interfaces';
     }else{
       if( url.indexOf('interface') != -1 && url.indexOf('program') != -1 && url.indexOf('version') != -1){
-        return "Version";
+        return this.params["Version"];
       }else if(url.indexOf('interface') != -1 && url.indexOf('program') != -1){
         return this.params["Program"];
       }else if(url.indexOf('interface') != -1){

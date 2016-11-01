@@ -1,24 +1,23 @@
 import { Component, NgModule } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { BackendService } from '../backend.service';
+import { BackendService } from '../../backend.service';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
-import { AppState } from '../app.service';
 
-import { BaseService } from "../services/base.service";
+import { BaseService } from "../../services/base.service";
 
 @Component({
-  selector: 'program',
+  selector: 'version',
   template: `
             <breadcrumb [params]="params"></breadcrumb>
             <md-list>
-                <md-list-item *ngFor="let program of programs" (click)="onSelect(program)">
-                  <h3 md-line>{{program.title}}</h3>
+                <md-list-item *ngFor="let version of versions" (click)="onSelect(version)">
+                  <h3 md-line>{{version.title}}</h3>
                 </md-list-item>
               </md-list>`
 })
 
-export class ProgramComponent{
-  private programs;
+export class VersionComponent{
+  private versions;
   private params: any = {
     "Interface": 'Interface',
     "Program": 'Program',
@@ -37,18 +36,22 @@ export class ProgramComponent{
 
     this.route.params.subscribe(params => {
 
-      this.base.fetchPrograms( +params["interfaceID"] ).subscribe(() => {
-        this.programs = this.base.programs.getCollection();
+      this.base.fetchVersions( +params["interfaceID"], +params["programID"] ).subscribe(() => {
+        this.versions = this.base.versions.getCollection();
 
         this.params["Interface"] = this.base.programInterfaces.getCurrent().getTitle();
+        this.params["Program"] = this.base.programs.getCurrent().getTitle();
       });
 
     });
 
+
+
   }
 
-  onSelect(program: any){
-    this.base.programs.setCurrent(program);
-    this.router.navigate([this.base.programs.getCurrent().getID()], { relativeTo: this.route });
+  onSelect(version: any) {
+    this.base.versions.setCurrent(version);
+    this.router.navigate([this.base.versions.getCurrent().getID()], { relativeTo: this.route });
+
   }
 }

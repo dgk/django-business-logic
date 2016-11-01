@@ -1,8 +1,8 @@
 import { Component, NgModule, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
-import { BackendService } from '../backend.service';
-import { BreadcrumbService } from './breadcrumb.service';
-import { AppState } from '../app.service';
+import { BackendService } from '../../backend.service';
+import { BreadcrumbService } from '../../services/breadcrumb.service';
+import { AppState } from '../../app.service';
 import _ from 'lodash';
 
 @Component({
