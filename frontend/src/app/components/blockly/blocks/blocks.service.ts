@@ -36,7 +36,7 @@ export class BlocksService {
           that.backend.fetchReferenceDescriptors().subscribe(
             () => {
 
-              let result = find( that.backend.references.getCollection(), (model) => {
+              let result = find( that.backend.references.getCollection(), (model: any) => {
                 return model.name == this.getValue();
               });
 
@@ -60,7 +60,7 @@ export class BlocksService {
     class Dropdown extends Blockly.FieldDropdown {
       menuGenerator_: Function;
 
-      options: Array[] = [];
+      options: any = [];
 
       constructor(){
         super([ ["123", "100"] ]);

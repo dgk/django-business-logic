@@ -10,7 +10,6 @@ import { By } from '@angular/platform-browser';
 
 import { BlocklyComponent } from './blockly.component';
 
-import { BackendService } from "../backend.service";
 import {MockService} from "./blocks/mock.service";
 import { BlocksService } from "./blocks/blocks.service";
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -29,7 +28,7 @@ describe('blockly component', () => {
     TestBed.configureTestingModule({
       declarations: [ BlocklyComponent ],
       providers: [
-        {provide: BackendService, useClass: MockService},
+        // {provide: BackendService, useClass: MockService},
         {provide: ActivatedRoute, useValue: ''},
         {provide: Router, useValue: ''},
         BlocksService

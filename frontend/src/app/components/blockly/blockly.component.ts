@@ -13,7 +13,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
 import { BlocksService } from "./blocks/blocks.service";
-import { BackendService } from "../../backend.service";
 import { BaseService } from "../../services/base.service";
 import {ReferenceService} from "../../services/reference.service";
 // import "./blocks/reference.block";
@@ -61,7 +60,6 @@ export class BlocklyComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private backend: BackendService,
     private blocks: BlocksService,
     private base: BaseService,
     private ref: ReferenceService){

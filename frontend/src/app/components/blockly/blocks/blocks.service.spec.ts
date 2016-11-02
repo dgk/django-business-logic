@@ -9,7 +9,7 @@ import { By } from '@angular/platform-browser';
 
 import { BlocksService } from "./blocks.service";
 import { MockService } from "./mock.service";
-import { BackendService } from "../../backend.service";
+import {ReferenceService} from "../../../services/reference.service";
 
 require('script!imports?module=>undefined!blockly/blockly_compressed.js');
 require('script!imports?module=>undefined!blockly/blocks_compressed.js');
@@ -29,7 +29,7 @@ describe('business_logic_reference block', () => {
     TestBed.configureTestingModule({
       declarations: [  ],
       providers: [
-        {provide: BackendService, useClass: MockService},
+        {provide: ReferenceService, useClass: MockService},
         BlocksService
       ],
       schemas:[ NO_ERRORS_SCHEMA ]

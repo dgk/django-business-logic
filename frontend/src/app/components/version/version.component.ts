@@ -1,6 +1,5 @@
 import { Component, NgModule } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { BackendService } from '../../backend.service';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
 import { BaseService } from "../../services/base.service";
@@ -25,7 +24,6 @@ export class VersionComponent{
   };
 
   constructor(
-    public backend: BackendService,
     private route: ActivatedRoute,
     private router: Router,
     private base: BaseService){

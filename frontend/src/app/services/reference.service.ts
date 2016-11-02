@@ -46,7 +46,7 @@ export class ReferenceService{
 
     return this.rest.get( this.references.findByName(name).getUrl() ).map((data) => {
 
-      return find( data.results, (item) => {
+      return find( data.results, (item: any) => {
         return item.id == id;
       });
 

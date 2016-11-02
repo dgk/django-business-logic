@@ -15,8 +15,6 @@ import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 
-import { BackendService } from './backend.service';
-
 import { BaseService } from "./services/base.service";
 import { RestService } from "./services/rest.service";
 
@@ -38,7 +36,6 @@ import {ReferenceService} from "./services/reference.service";
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
-  BackendService,
   BaseService,
   RestService,
   BlocksService,
