@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BackendService } from "../../backend.service";
 
-import _ from "lodash";
+import * as find from "lodash/find";
+import { ReferenceService } from "../../../services/reference.service";
 
 @Injectable()
 export class BlocksService {
-  constructor(public backend: BackendService){
+  constructor(public backend: ReferenceService){
   }
 
   getBackend(){
@@ -33,19 +33,12 @@ export class BlocksService {
           }
           this.value_ = newValue;
 
-          that.backend.getReferenceDescriptors().subscribe(
-            (data) => {
+          that.backend.fetchReferenceDescriptors().subscribe(
+            () => {
 
-              console.log(data);
-              //let result = _.find(data, function(reference) { return reference["name"] == label.getValue(); });
-              let result = {
-                "verbose_name": "not found",
-                "name": "not found"
-              };
-              for(let i = 0; i < data.length; i++){
-                if(data[i]["name"] == this.getValue())
-                  result = data[i];
-              }
+              let result = find( that.backend.references.getCollection(), (model: any) => {
+                return model.name == this.getValue();
+              });
 
               this.setText(result["verbose_name"]+" ["+result["name"]+"]");
 
@@ -65,8 +58,13 @@ export class BlocksService {
     let that = this;
 
     class Dropdown extends Blockly.FieldDropdown {
+      menuGenerator_: Function;
+
+      options: any = [];
+
       constructor(){
-        super([ ["spb", "100"] ]);
+        super([ ["123", "100"] ]);
+        this.menuGenerator_ = this.menuGenerator;
       }
 
       setValue(newValue: string){
@@ -81,17 +79,37 @@ export class BlocksService {
 
           if(this.sourceBlock_ != null){
             let referenceType = this.sourceBlock_.inputList[0].fieldRow[0].getValue();
-            that.backend.getReferenceName(referenceType, newValue).subscribe(
+
+            that.backend.getAllResultsForReferenceDescriptor(referenceType).subscribe(
               (data) => {
-                this.setText(data["name"]);
+                this.options = [];
+                data.results.forEach((opt) => {
+                  this.options.push([ ''+opt.name, ''+opt.id ]);
+                });
+
+                if(this.getValue() == '-1')
+                  return this.setText("Выберете значение");
+
+                let options = this.getOptions_();
+
+                for(let i = 0; i < options.length; i++){
+                  if(options[i][1] == newValue)
+                    return this.setText(options[i][0]);
+                }
+
               }
             );
+
           }
 
       }
 
       getValue(){
         return this.value_;
+      }
+
+      menuGenerator(){
+        return this.options;
       }
     }
 

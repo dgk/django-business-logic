@@ -2950,7 +2950,7 @@ declare module Blockly {
      * @type {Blockly.Block}
      * @private
      */
-    sourceBlock_: Blockly.Block;
+    public sourceBlock_: Blockly.Block;
 
     /**
      * Is the field visible, or hidden due to the block being collapsed?

@@ -15,25 +15,31 @@ import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 
-import { BackendService } from './backend.service';
+import { BaseService } from "./services/base.service";
+import { RestService } from "./services/rest.service";
 
-import { BlocklyComponent } from './blockly/blockly.component';
-import { InterfaceListComponent } from './interface/interface-list.component';
-import { ProgramComponent } from './program/program.component';
-import { VersionComponent } from './version/version.component';
-import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-import { HomeComponent } from './home/home.component';
+import { BlocklyComponent } from './components/blockly/blockly.component';
+import { InterfaceListComponent } from './components/interface/interface-list.component';
+import { ProgramComponent } from './components/program/program.component';
+import { VersionComponent } from './components/version/version.component';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { HomeComponent } from './components/home/home.component';
 
-import { NoContentComponent } from './no-content/no-content.component';
+import { NoContentComponent } from './components/no-content/no-content.component';
 
 import {MaterialModule} from '@angular/material';
+import {BlocksService} from "./components/blockly/blocks/blocks.service";
+import {ReferenceService} from "./services/reference.service";
 
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
-  BackendService
+  BaseService,
+  RestService,
+  BlocksService,
+  ReferenceService
 ];
 
 type StoreType = {
