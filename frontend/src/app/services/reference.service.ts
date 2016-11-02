@@ -38,6 +38,10 @@ export class ReferenceService{
 
   }
 
+  getAllResultsForReferenceDescriptor(name: string){
+    return this.rest.get( this.references.findByName(name).getUrl() );
+  }
+
   getResultsForReferenceDescriptor(name: string, id: string){
 
     return this.rest.get( this.references.findByName(name).getUrl() ).map((data) => {

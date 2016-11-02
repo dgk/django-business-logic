@@ -58,8 +58,13 @@ export class BlocksService {
     let that = this;
 
     class Dropdown extends Blockly.FieldDropdown {
+      menuGenerator_: Function;
+
+      options: Array[] = [];
+
       constructor(){
-        super([ ["spb", "100"] ]);
+        super([ ["123", "100"] ]);
+        this.menuGenerator_ = this.menuGenerator;
       }
 
       setValue(newValue: string){
@@ -75,9 +80,20 @@ export class BlocksService {
           if(this.sourceBlock_ != null){
             let referenceType = this.sourceBlock_.inputList[0].fieldRow[0].getValue();
 
-            that.backend.getResultsForReferenceDescriptor(referenceType, newValue).subscribe(
+            that.backend.getAllResultsForReferenceDescriptor(referenceType).subscribe(
               (data) => {
-                this.setText(data["name"]);
+                this.options = [];
+                data.results.forEach((opt) => {
+                  this.options.push([ ''+opt.name, ''+opt.id ]);
+                });
+
+                let options = this.getOptions_();
+
+                for(let i = 0; i < options.length; i++){
+                  if(options[i][1] == newValue)
+                    return this.setText(options[i][0]);
+                }
+
               }
             );
 
@@ -87,6 +103,10 @@ export class BlocksService {
 
       getValue(){
         return this.value_;
+      }
+
+      menuGenerator(){
+        return this.options;
       }
     }
 

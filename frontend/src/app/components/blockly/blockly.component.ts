@@ -152,8 +152,10 @@ export class BlocklyComponent {
   }
 
   onSave() {
-    // let xml = Blockly.Xml.workspaceToDom(this.workspace, false);
-    // let xmlText = Blockly.Xml.domToText(xml);
+    let xml = Blockly.Xml.workspaceToDom(this.workspace, false);
+    let xmlText = Blockly.Xml.domToText(xml);
+
+    console.log(xmlText);
     // this.version.xml = xmlText;
     // this.backend.saveVersion(this.version).subscribe(()=>{console.log("Saving!");});
   }
