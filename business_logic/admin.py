@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
-from django.contrib import admin
 from django import forms
+from django.conf import settings
+from django.contrib import admin
 
 from nested_inline.admin import NestedStackedInline, NestedModelAdmin
+
 from polymorphic.admin import PolymorphicChildModelAdmin
 from polymorphic.admin import PolymorphicParentModelAdmin
+
+from ace_overlay.widgets import AceOverlayWidget
+
 
 from .models import (
     ProgramInterface,
@@ -92,8 +97,26 @@ class PythonModuleFunctionDefinitionAdmin(PolymorphicChildModelAdmin):
     base_model = PythonModuleFunctionDefinition
 
 
+class PythonCodeFunctionDefinitionAdminForm(forms.ModelForm):
+    if 'ace_overlay' in settings.INSTALLED_APPS:
+        code = forms.CharField(
+            widget=AceOverlayWidget(
+                mode='python',
+                wordwrap=False,
+                theme='solarized_light',
+                width="850px",
+                height="800px",
+                showprintmargin=True
+            ), required=True)
+
+    class Meta:
+        model = PythonCodeFunctionDefinition
+        fields = ('title', 'context_required', 'code')
+
+
 class PythonCodeFunctionDefinitionAdmin(PolymorphicChildModelAdmin):
     base_model = PythonCodeFunctionDefinition
+    form = PythonCodeFunctionDefinitionAdminForm
 
 
 class FunctionDefinitionAdmin(PolymorphicParentModelAdmin):

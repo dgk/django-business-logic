@@ -6,3 +6,4 @@ Markdown<3.0
 django-nested-inline==0.3.6
 lxml<4.0
 django-polymorphic==1.0.2
+django-ace-overlay==0.5
