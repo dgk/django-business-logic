@@ -35,16 +35,10 @@ export class BlocksService {
 
           that.backend.fetchReferenceDescriptors().subscribe(
             () => {
-              let result = {
-                "verbose_name": "not found",
-                "name": "not found"
-              };
-              let data = that.backend.references.getCollection();
 
-              for(let i = 0; i < data.length; i++){
-                if(data[i]["name"] == this.getValue())
-                  result = data[i];
-              }
+              let result = find( that.backend.references.getCollection(), (model) => {
+                return model.name == this.getValue();
+              });
 
               this.setText(result["verbose_name"]+" ["+result["name"]+"]");
 
