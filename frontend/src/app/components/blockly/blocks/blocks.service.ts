@@ -87,6 +87,9 @@ export class BlocksService {
                   this.options.push([ ''+opt.name, ''+opt.id ]);
                 });
 
+                if(this.getValue() == '-1')
+                  return this.setText("Выберете значение");
+
                 let options = this.getOptions_();
 
                 for(let i = 0; i < options.length; i++){

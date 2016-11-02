@@ -59,7 +59,7 @@ export class ReferenceService{
     this.references.getCollection().forEach((model) => {
       xml += `<block type="business_logic_reference">
                 <field name="TYPE">${model.getName()}</field>
-                <field name="VALUE">1</field>
+                <field name="VALUE">-1</field>
               </block>`;
     });
 
