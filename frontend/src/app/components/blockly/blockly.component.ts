@@ -15,6 +15,7 @@ import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 import { BlocksService } from "./blocks/blocks.service";
 import { BackendService } from "../../backend.service";
 import { BaseService } from "../../services/base.service";
+import {ReferenceService} from "../../services/reference.service";
 // import "./blocks/reference.block";
 
 @Component({
@@ -68,7 +69,8 @@ export class BlocklyComponent {
     private router: Router,
     private backend: BackendService,
     private blocks: BlocksService,
-    private base: BaseService){
+    private base: BaseService,
+    private ref: ReferenceService){
   }
 
 
@@ -123,18 +125,23 @@ export class BlocklyComponent {
   }
 
   createWorkspace(){
-    this.backend.getReferenceDescriptors().subscribe((data) => {
-      console.log(data);
-    });
+    // this.backend.getReferenceDescriptors().subscribe((data) => {
+    //   console.log(data);
+    // });
 
-    let toolbox = `<xml>${require('./blockly-toolset.html')}</xml>`;
-    this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
-      {
-        toolbox: toolbox,
-        trashcan: false,
-        sounds: false,
-        media: "./blockly/"
-      });
+    this.ref.fetchReferenceDescriptors().subscribe(() => {
+      console.log( this.ref.references.getCollection() );
+      let xml = this.ref.generateXmlForToolbox();
+
+      let toolbox = `<xml>${require('./blockly-toolset.html')}${xml}</xml>`;
+      this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
+        {
+          toolbox: toolbox,
+          trashcan: false,
+          sounds: false,
+          media: "./blockly/"
+        });
+    });
   }
 
 

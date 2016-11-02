@@ -23,6 +23,7 @@ export class BaseService {
   fetchProgramInterfaces(){
 
     this.programInterfaces = new ProgramInterfaceCollection();
+
     return this.rest.get(this.programInterfaces.getUrl()).map((data) => {
       data.results.map( (result) => {
         this.programInterfaces.addNew( new ProgramInterface(result["id"], result["title"]) );
@@ -30,7 +31,7 @@ export class BaseService {
     });
   }
 
-  fetchPrograms( interfaceID: number ){
+  fetchPrograms( interfaceID: number ): any{
     if(!this.programInterfaces){
       return this.fetchProgramInterfaces().flatMap(() => {
         return this.fetchPrograms(interfaceID);
@@ -51,7 +52,7 @@ export class BaseService {
     });
   }
 
-  fetchVersions( interfaceID: number, programID: number  ){
+  fetchVersions( interfaceID: number, programID: number  ): any{
     if(!this.programs){
       return this.fetchProgramInterfaces().flatMap(() => {
         return this.fetchPrograms(interfaceID).flatMap(() => {
@@ -75,7 +76,7 @@ export class BaseService {
     });
   }
 
-  fetchVersion( interfaceID: number, programID: number, versionID: number ){
+  fetchVersion( interfaceID: number, programID: number, versionID: number ): any{
     if(!this.versions){
       return this.fetchProgramInterfaces().flatMap(() => {
         return this.fetchPrograms(interfaceID).flatMap(() => {

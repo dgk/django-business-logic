@@ -27,7 +27,7 @@ export abstract class BaseCollection{
 
   }
 
-  addNew(model: BaseModel){
+  addNew(model: any){
     this.models.push(model);
   }
 

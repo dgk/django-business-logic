@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BackendService } from "../../../backend.service";
 
-import _ from "lodash";
+import * as find from "lodash/find";
+import { ReferenceService } from "../../../services/reference.service";
 
 @Injectable()
 export class BlocksService {
-  constructor(public backend: BackendService){
+  constructor(public backend: ReferenceService){
   }
 
   getBackend(){
@@ -33,15 +33,14 @@ export class BlocksService {
           }
           this.value_ = newValue;
 
-          that.backend.getReferenceDescriptors().subscribe(
-            (data) => {
-
-              // console.log(data);
-              //let result = _.find(data, function(reference) { return reference["name"] == label.getValue(); });
+          that.backend.fetchReferenceDescriptors().subscribe(
+            () => {
               let result = {
                 "verbose_name": "not found",
                 "name": "not found"
               };
+              let data = that.backend.references.getCollection();
+
               for(let i = 0; i < data.length; i++){
                 if(data[i]["name"] == this.getValue())
                   result = data[i];
@@ -81,11 +80,13 @@ export class BlocksService {
 
           if(this.sourceBlock_ != null){
             let referenceType = this.sourceBlock_.inputList[0].fieldRow[0].getValue();
-            that.backend.getReferenceName(referenceType, newValue).subscribe(
+
+            that.backend.getResultsForReferenceDescriptor(referenceType, newValue).subscribe(
               (data) => {
                 this.setText(data["name"]);
               }
             );
+
           }
 
       }

@@ -31,6 +31,7 @@ import { NoContentComponent } from './components/no-content/no-content.component
 
 import {MaterialModule} from '@angular/material';
 import {BlocksService} from "./components/blockly/blocks/blocks.service";
+import {ReferenceService} from "./services/reference.service";
 
 
 // Application wide providers
@@ -40,7 +41,8 @@ const APP_PROVIDERS = [
   BackendService,
   BaseService,
   RestService,
-  BlocksService
+  BlocksService,
+  ReferenceService
 ];
 
 type StoreType = {
