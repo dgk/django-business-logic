@@ -67,4 +67,8 @@ export class ReferenceService{
 
     return xml;
   }
+
+  saveVersion(version: any){
+    return this.rest.post('/business-logic/rest/program-version/new', version);
+  }
 }

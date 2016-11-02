@@ -30,11 +30,25 @@ export class RestService{
       .map( ( response: Response ) => { return response.json() } );
   }
 
-  post(url: string){
+  post(url: string, obj: any){
+    let csrftoken = this.getCookie('csrftoken');
+    let headers = this.getHeaders();
+    if( csrftoken != undefined ) headers.append('X-CSRFToken', csrftoken);
 
+    let options = new RequestOptions({headers: headers});
+
+    return this.http.post(url, JSON.stringify(obj), options)
+      .map( ( response: Response ) => { return response.json() } );
   }
 
   getHeaders(): Headers{
     return new Headers({'Content-Type': 'application/json'});
+  }
+
+  getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
   }
 }
