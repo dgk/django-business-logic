@@ -111,7 +111,7 @@ class PythonCodeFunctionDefinitionAdminForm(forms.ModelForm):
 
     class Meta:
         model = PythonCodeFunctionDefinition
-        fields = ('title', 'context_required', 'code')
+        fields = ('title', 'is_context_required', 'code')
 
 
 class PythonCodeFunctionDefinitionAdmin(PolymorphicChildModelAdmin):

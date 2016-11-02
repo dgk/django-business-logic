@@ -13,7 +13,7 @@ from polymorphic.models import PolymorphicModel
 @python_2_unicode_compatible
 class FunctionDefinition(PolymorphicModel):
     title = models.CharField(_('Function title'), max_length=255)
-    context_required = models.BooleanField(_('Context required'), default=False)
+    is_context_required = models.BooleanField(_('Is Context required'), default=False)
 
     def __str__(self):
         return self.title
@@ -35,7 +35,7 @@ class PythonModuleFunctionDefinition(FunctionDefinition):
         else:
             module = import_module(self.module)
             code = getattr(module, self.function)
-        if self.context_required:
+        if self.is_context_required:
             return code(context, *args)
         return code(*args)
 
