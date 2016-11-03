@@ -21,8 +21,8 @@ from .models import (
     FunctionDefinition,
     PythonCodeFunctionDefinition,
     PythonModuleFunctionDefinition,
-    FunctionLibrary
-)
+    FunctionLibrary,
+    ExecutionEnvironment)
 from .utils import get_customer_available_content_types
 
 
@@ -126,6 +126,7 @@ class FunctionDefinitionAdmin(PolymorphicParentModelAdmin):
         PythonModuleFunctionDefinition
     )
 
+admin.site.register(ExecutionEnvironment)
 admin.site.register(ProgramInterface, ProgramInterfaceAdmin)
 admin.site.register(Program, ProgramAdmin)
 admin.site.register(ProgramVersion, ProgramVersionAdmin)

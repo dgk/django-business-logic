@@ -12,6 +12,7 @@ from rest_framework import serializers
 from ..models import (
     Execution,
     ExecutionArgument,
+    ExecutionEnvironment,
     ExceptionLog,
     LogEntry,
     ProgramInterface,
@@ -34,6 +35,12 @@ def get_model_name(content_type):
 
 def get_model_verbose_name(content_type):
     return content_type.model_class()._meta.verbose_name
+
+
+class ExecutionEnvironmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExecutionEnvironment
+        fields = '__all__'
 
 
 class ProgramInterfaceListSerializer(serializers.ModelSerializer):

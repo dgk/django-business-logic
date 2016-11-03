@@ -14,13 +14,36 @@ from .node import Node
 from .variable import VariableDefinition, Variable
 from .types_ import DJANGO_FIELDS_FOR_TYPES
 
+from ..config import ExceptionHandlingPolicy
 from ..fields import DeepAttributeField
+
+
+@python_2_unicode_compatible
+class ExecutionEnvironment(models.Model):
+    title = models.CharField(_('Title'), max_length=255, unique=True)
+    libraries = models.ManyToManyField('FunctionLibrary', related_name='environments', blank=True)
+    debug = models.BooleanField(default=False)
+    log = models.BooleanField(default=False)
+    cache = models.BooleanField(default=True)
+    exception_handling_policy = models.CharField(
+        _('Exception handling policy'), max_length=15, default=ExceptionHandlingPolicy.INTERRUPT,
+        choices=(
+            (ExceptionHandlingPolicy.IGNORE, _('Ignore')),
+            (ExceptionHandlingPolicy.INTERRUPT, _('Interrupt')),
+            (ExceptionHandlingPolicy.RAISE, _('Raise')),
+        ))
+
+
+    def __str__(self):
+        return self.title
 
 
 @python_2_unicode_compatible
 class ProgramInterface(models.Model):
     title = models.CharField(_('Title'), max_length=255, db_index=True)
     code = models.SlugField(_('Code'), max_length=255, null=True, blank=True, unique=True, db_index=True)
+
+    environment = models.ForeignKey('ExecutionEnvironment', null=True, blank=True)
 
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
@@ -125,6 +148,8 @@ class Program(models.Model):
 
     program_interface = models.ForeignKey(ProgramInterface)
 
+    environment = models.ForeignKey('ExecutionEnvironment', null=True, blank=True)
+
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
 
@@ -145,6 +170,8 @@ class ProgramVersion(models.Model):
 
     program = models.ForeignKey(Program, related_name='versions')
     entry_point = models.ForeignKey(Node, verbose_name=_('Entry point'))
+
+    environment = models.ForeignKey('ExecutionEnvironment', null=True, blank=True)
 
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)

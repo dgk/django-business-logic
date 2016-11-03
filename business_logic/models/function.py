@@ -12,7 +12,7 @@ from polymorphic.models import PolymorphicModel
 
 @python_2_unicode_compatible
 class FunctionDefinition(PolymorphicModel):
-    title = models.CharField(_('Function title'), max_length=255)
+    title = models.CharField(_('Function title'), max_length=255, unique=True)
     is_context_required = models.BooleanField(_('Is Context required'), default=False)
 
     def __str__(self):
@@ -54,9 +54,17 @@ class PythonCodeFunctionDefinition(FunctionDefinition):
         raise NotImplementedError()
 
 
+@python_2_unicode_compatible
 class FunctionLibrary(models.Model):
-    title = models.CharField(_('Function library title'), max_length=255)
+    title = models.CharField(_('Function library title'), max_length=255, unique=True)
     functions = models.ManyToManyField('FunctionDefinition', related_name='libraries')
+
+    class Meta:
+        verbose_name = _('Function library')
+        verbose_name_plural = _('Function libraries')
+
+    def __str__(self):
+        return self.title
 
 
 class Function(models.Model):
