@@ -36,7 +36,7 @@ export class Reference{
 
 export class ReferenceCollection extends BaseCollection{
   constructor(){
-    super('/reference/descriptor');
+    super('/reference');
   }
 
   findByName(name: string){

@@ -24,10 +24,10 @@ import {ReferenceService} from "../../services/reference.service";
     
     <section>
       <md-toolbar>
-        <span>Save current version of program?</span>
+        <span>Save current version of program ?</span>
         &nbsp;
         <span flex></span>
-        <button md-raised-button class="md-primary" (click)="onSave()">Save</button>
+        <button md-raised-button class="md-primary" (click)="onSave()">{{this.save_text}}</button>
       </md-toolbar>
     </section>
     
@@ -38,6 +38,8 @@ import {ReferenceService} from "../../services/reference.service";
 })
 
 export class BlocklyComponent {
+  private save_text = "Save";
+
   private version: any;
   private params: any = {
     "Interface": 'Interface',
@@ -117,11 +119,14 @@ export class BlocklyComponent {
   }
 
   onSave() {
+    this.save_text = "Saving ...";
+
     let xml = Blockly.Xml.workspaceToDom(this.workspace, false);
     let xmlText = Blockly.Xml.domToText(xml);
     this.version.xml = xmlText;
+
     this.ref.saveVersion(this.version).subscribe(() => {
-      console.log("Saving!!");
+      this.save_text = "Save";
     });
   }
 
