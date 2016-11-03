@@ -124,6 +124,7 @@ class ReferenceSerializer(serializers.ModelSerializer):
         reference_descriptor = self.context['view'].get_reference_descriptor()
         return six.text_type(getattr(obj, reference_descriptor.name_field) if reference_descriptor.name_field else obj)
 
+
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProgramArgumentField
@@ -147,7 +148,7 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
             if is_last_field:
                 representation['data_type'] = TYPES_FOR_DJANGO_FIELDS[field.__class__]
                 representation['content_type'] = (
-                    get_model_name(ContentType.objects.get_for_model(model))
+                    ContentTypeSerializer().to_representation(ContentType.objects.get_for_model(model))
                     if is_django_model
                     else None
                 )

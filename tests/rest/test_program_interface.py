@@ -60,8 +60,12 @@ class ProgramInterfaceTest(ProgramRestTestBase):
             self.assertIn('data_type', field)
             self.assertEqual(data['data_type'], field['data_type'])
             content_type = data.get('content_type')
-            self.assertEqual(content_type, field['content_type'])
             verbose_name = data.get('verbose_name')
+            if field['content_type']:
+                self.assertEqual(content_type, field['content_type']['name'])
+            else:
+                self.assertIsNone(content_type)
+
             self.assertEqual(verbose_name, field['verbose_name'])
 
 

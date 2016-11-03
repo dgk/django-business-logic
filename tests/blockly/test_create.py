@@ -97,6 +97,23 @@ class NodeTreeCreatorTest(NodeTreeCreatorTestCase):
         self.assertIsNot(tree1, tree2)
         self.assertFalse(self.tree_diff(tree1, tree2))
 
+    def test_create_reference_constant(self):
+        tree1 = Node.add_root()
+
+        constant1 = ReferenceConstant.objects.create()
+        test_model1 = TestModel.objects.create()
+        node = tree1.add_child(content_object=constant1)
+        node.add_child(content_object=test_model1)
+        tree1 = Node.objects.get(id=tree1.id)
+
+        dict1 = self.build_dict(tree1)
+
+        tree2 = NodeTreeCreator().create(dict1)
+
+        self.assertIsInstance(tree2, Node)
+        self.assertIsNot(tree1, tree2)
+        self.assertFalse(self.tree_diff(tree1, tree2))
+
 
 class NodeTreeCreatorProgramVersionTest(ProgramTestBase, NodeTreeCreatorTestCase):
     def test_create_variable_definitions_should_use_program_variable_definitions(self):

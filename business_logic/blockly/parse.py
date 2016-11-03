@@ -218,3 +218,23 @@ class BlocklyXmlParser(object):
 
     def visit_statement(self, node):
         return self._visit_single_child(node)
+
+    def visit_block_business_logic_reference(self, node):
+        data = {
+            'data': {
+                'content_type': get_content_type_id(ReferenceConstant),
+            }
+        }
+        children = node.getchildren()
+        app_label, model = children[0].text.split('.')
+
+        data['children'] = [
+            {
+                'data': {
+                    'content_type': ContentType.objects.get(app_label=app_label, model=model.lower()).id,
+                    'object_id': children[1].text
+                }
+
+            }
+        ]
+        return data

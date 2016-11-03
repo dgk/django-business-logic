@@ -20,7 +20,7 @@ urlpatterns = [
 
     url('^execution/(?P<execution__id>\d+)/log$', LogView.as_view(), name='log'),
 
-    url('^reference/descriptor$', ReferenceDescriptorList.as_view(), name='reference-descriptor-list'),
+    url('^reference$', ReferenceDescriptorList.as_view(), name='reference-descriptor-list'),
     url('^reference/(?P<model>[\w.]+)$', ReferenceList.as_view(), name='reference-list'),
     url('^reference/(?P<model>[\w.]+)/(?P<pk>\d+)$', ReferenceView.as_view(), name='reference'),
 ]

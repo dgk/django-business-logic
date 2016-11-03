@@ -94,6 +94,37 @@ class BlocklyXmlParserConstantTest(BlocklyXmlParserTestCase):
             self._test_constant(BooleanConstant, value)
 
 
+class BlocklyXmlParserReferenceConstantTest(BlocklyXmlParserTestCase):
+    def setUp(self):
+        self.test_model = TestModel.objects.create()
+
+    def test_reference_constant(self):
+        xml_str = self.set_namespace('''
+        <xml>
+          <block type="business_logic_reference">
+            <field name="TYPE">test_app.TestModel</field>
+            <field name="VALUE">{}</field>
+          </block>
+        </xml>
+        '''.format(self.test_model.id))
+
+        parsed = BlocklyXmlParser().parse(xml_str)
+
+        self.assertIsInstance(parsed, list)
+        self.assertEqual(1, len(parsed))
+        root = parsed[0]
+
+        constant = root['data']
+        self.assertIsInstance(constant, dict)
+        self.assertEqual(get_content_type_id(ReferenceConstant), constant['content_type'])
+        children = root['children']
+
+        self.assertEqual(1, len(children))
+        child = children[0]['data']
+        self.assertEqual(get_content_type_id(TestModel), child['content_type'])
+        self.assertEqual(str(self.test_model.id), child['object_id'])
+
+
 class BlocklyXmlParserAssignmentTest(BlocklyXmlParserTestCase):
 
     def test_assignment(self):
