@@ -11,6 +11,7 @@ const commonConfig = require('./webpack.common.js'); // the settings that are co
  */
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**
  * Webpack Constants
@@ -98,7 +99,10 @@ module.exports = function(options) {
     },
 
     plugins: [
-
+      new CopyWebpackPlugin([{
+        from: helpers.root('./node_modules/blockly/media'),
+        to: helpers.root('./dist/blockly')
+      }]),
       /**
        * Plugin: DefinePlugin
        * Description: Define free variables.
@@ -112,6 +116,7 @@ module.exports = function(options) {
       new DefinePlugin({
         'ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
+        'BMP': METADATA.BMP,
         'process.env': {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),

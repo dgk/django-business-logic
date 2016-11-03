@@ -24,7 +24,8 @@
       "selenium-webdriver",
       "source-map",
       "uglify-js",
-      "webpack"
+      "webpack",
+      "lodash"
     ]
   },
   "exclude": [
