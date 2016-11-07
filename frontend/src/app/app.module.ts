@@ -30,6 +30,7 @@ import { NoContentComponent } from './components/no-content/no-content.component
 import {MaterialModule} from '@angular/material';
 import {BlocksService} from "./components/blockly/blocks/blocks.service";
 import {ReferenceService} from "./services/reference.service";
+import {EditorComponent} from "./components/editor/editor.component";
 
 
 // Application wide providers
@@ -61,7 +62,8 @@ type StoreType = {
     ProgramComponent,
     VersionComponent,
     BreadcrumbComponent,
-    HomeComponent
+    HomeComponent,
+    EditorComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

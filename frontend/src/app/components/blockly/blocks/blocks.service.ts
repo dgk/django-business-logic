@@ -88,7 +88,7 @@ export class BlocksService {
                 });
 
                 if(this.getValue() == '-1')
-                  return this.setText("Выберете значение");
+                  return this.setText("Choose value");
 
                 let options = this.getOptions_();
 
@@ -125,11 +125,23 @@ export class BlocksService {
           .appendField(that.getDropdown(), "VALUE");
         this.setInputsInline(false);
         this.setOutput(true, null);
-        this.setColour(120);
+        this.setColour(160);
         this.setTooltip('');
         this.setHelpUrl('');
       },
       backend: that.getBackend()
+    };
+
+    Blockly.Blocks['business_logic_variable'] = {
+      init: function(){
+        this.appendDummyInput()
+          .appendField(new Blockly.FieldLabel('var'));
+        this.setInputsInline(false);
+        this.setOutput(true, null);
+        this.setColour(160);
+        this.setTooltip('');
+        this.setHelpUrl('');
+      }
     };
   }
 }
