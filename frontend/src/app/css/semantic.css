@@ -7161,39 +7161,39 @@ a.ui.inverted.grey.header:hover {
              Icon
 *******************************/
 
-/*@font-face {*/
-  /*font-family: 'Icons';*/
-  /*src: url("./themes/default/assets/fonts/icons.eot");*/
-  /*src: url("./themes/default/assets/fonts/icons.eot?#iefix") format('embedded-opentype'), url("./themes/default/assets/fonts/icons.woff2") format('woff2'), url("./themes/default/assets/fonts/icons.woff") format('woff'), url("./themes/default/assets/fonts/icons.ttf") format('truetype'), url("./themes/default/assets/fonts/icons.svg#icons") format('svg');*/
-  /*font-style: normal;*/
-  /*font-weight: normal;*/
-  /*font-variant: normal;*/
-  /*text-decoration: inherit;*/
-  /*text-transform: none;*/
-/*}*/
+@font-face {
+  font-family: 'Icons';
+  src: url("./themes/default/assets/fonts/icons.eot");
+  src: url("./themes/default/assets/fonts/icons.eot?#iefix") format('embedded-opentype'), url("./themes/default/assets/fonts/icons.woff2") format('woff2'), url("./themes/default/assets/fonts/icons.woff") format('woff'), url("./themes/default/assets/fonts/icons.ttf") format('truetype'), url("./themes/default/assets/fonts/icons.svg#icons") format('svg');
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-decoration: inherit;
+  text-transform: none;
+}
 
-/*i.icon {*/
-  /*display: inline-block;*/
-  /*opacity: 1;*/
-  /*margin: 0em 0.25rem 0em 0em;*/
-  /*width: 1.18em;*/
-  /*height: 1em;*/
-  /*font-family: 'Icons';*/
-  /*font-style: normal;*/
-  /*font-weight: normal;*/
-  /*text-decoration: inherit;*/
-  /*text-align: center;*/
-  /*speak: none;*/
-  /*font-smoothing: antialiased;*/
-  /*-moz-osx-font-smoothing: grayscale;*/
-  /*-webkit-font-smoothing: antialiased;*/
-  /*-webkit-backface-visibility: hidden;*/
-  /*backface-visibility: hidden;*/
-/*}*/
+i.icon {
+  display: inline-block;
+  opacity: 1;
+  margin: 0em 0.25rem 0em 0em;
+  width: 1.18em;
+  height: 1em;
+  font-family: 'Icons';
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  text-align: center;
+  speak: none;
+  font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
 
-/*i.icon:before {*/
-  /*background: none !important;*/
-/*}*/
+i.icon:before {
+  background: none !important;
+}
 
 /*******************************
              Types

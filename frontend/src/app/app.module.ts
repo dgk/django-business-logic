@@ -27,7 +27,7 @@ import { HomeComponent } from './components/home/home.component';
 
 import { NoContentComponent } from './components/no-content/no-content.component';
 
-import {MaterialModule} from '@angular/material';
+// import {MaterialModule} from '@angular/material';
 import {BlocksService} from "./components/blockly/blocks/blocks.service";
 import {ReferenceService} from "./services/reference.service";
 import {EditorComponent} from "./components/editor/editor.component";
@@ -70,7 +70,7 @@ type StoreType = {
     FormsModule,
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
-    MaterialModule.forRoot()
+    // MaterialModule.forRoot()
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,

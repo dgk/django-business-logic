@@ -15,11 +15,11 @@ import { BaseService } from "../../services/base.service";
   styleUrls: [  ],
   template:   `
               <breadcrumb [params]="params"></breadcrumb>
-              <md-list>
-                <md-list-item *ngFor="let programInterface of programInterfaces" (click)="onSelect(programInterface)">
-                  <h3 md-line>{{programInterface.title}}</h3>
-                </md-list-item>
-              </md-list>`
+              <div class="list">
+                <div class="item" *ngFor="let programInterface of programInterfaces" (click)="onSelect(programInterface)">
+                  <h3>{{programInterface.title}}</h3>
+                </div>
+              </div>`
 })
 
 export class InterfaceListComponent {

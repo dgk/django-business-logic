@@ -30,8 +30,8 @@ export class BlocklyComponent {
   @Input() xmlForReferenceDescriptors: any;
 
   style = {
-    width: '99%',
-    height: '79%',
+    width: '100%',
+    height: '95%',
     position: 'absolute'
   };
 
@@ -57,7 +57,7 @@ export class BlocklyComponent {
         {
           toolbox: toolbox,
           trashcan: true,
-          sound: false,
+          sounds: false,
           media: "./blockly/"
         });
 

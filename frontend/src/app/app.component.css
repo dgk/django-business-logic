@@ -1,8 +1,6 @@
-@import '~@angular/material/core/theming/prebuilt/indigo-pink.css';
-
 html, body{
   height: 100%;
-  font-family: Arial, Helvetica, sans-serif
+  /*font-family: Arial, Helvetica, sans-serif*/
 }
 
 span.active {
@@ -17,3 +15,12 @@ body {
   cursor: pointer;
 }
 
+.ui.positive.buttons .active.button, .ui.positive.buttons .active.button:active, .ui.positive.active.button, .ui.positive.button .active.button:active
+{
+  background-color: #009688!important;
+}
+
+.ui.positive.buttons .button, .ui.positive.button
+{
+  background-color: #009688!important;
+}

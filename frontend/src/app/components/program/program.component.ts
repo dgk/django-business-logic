@@ -9,11 +9,11 @@ import { BaseService } from "../../services/base.service";
   selector: 'program',
   template: `
             <breadcrumb [params]="params"></breadcrumb>
-            <md-list>
-                <md-list-item *ngFor="let program of programs" (click)="onSelect(program)">
-                  <h3 md-line>{{program.title}}</h3>
-                </md-list-item>
-              </md-list>`
+            <div class="list">
+                <div class="item" *ngFor="let program of programs" (click)="onSelect(program)">
+                  <h3>{{program.title}}</h3>
+                </div>
+              </div>`
 })
 
 export class ProgramComponent{
