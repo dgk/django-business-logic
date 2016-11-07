@@ -24,7 +24,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from .serializers import *
-
+from ..models import Node
 
 def format_url(_url):
     return 'business-logic:rest:{}'.format(_url)
@@ -83,6 +83,11 @@ class ProgramVersionCreate(generics.CreateAPIView):
 class ProgramVersionView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProgramVersion.objects.all()
     serializer_class = ProgramVersionSerializer
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        instance.entry_point.delete()
+        super(ProgramVersionView, self).perform_update(serializer)
 
 
 class ExecutionList(generics.ListAPIView):
