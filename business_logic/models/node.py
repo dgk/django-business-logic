@@ -42,7 +42,7 @@ class Node(NS_Node):
         return super(Node, cls).add_root(**kwargs)
 
     def delete(self):
-        if self.object_id:
+        if self.object_id and self.content_object:
             self.content_object.delete()
         for child in self.get_children():
             child.delete()

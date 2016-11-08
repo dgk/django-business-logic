@@ -142,7 +142,6 @@ class BlocklyXmlBuilderBlockTest(TestCase):
             self.assertEqual('NUM', field.get('name'))
             self.assertEqual(str(var_value), field.text)
 
-
     def test_block_if_sequence(self):
         root = Node.add_root()
 

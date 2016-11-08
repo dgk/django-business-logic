@@ -125,6 +125,14 @@ class NodeTest(TestCase):
         self.failIf(Node.objects.filter(pk=node1.pk).count())
         self.failIf(Node.objects.filter(pk=node2.pk).count())
 
+    def test_delete_with_lost_content_object(self):
+        root = Node.add_root()
+        statement1 = NumberConstant(value=1)
+        node1 = root.add_child(content_object=statement1)
+        statement1.delete()
+
+        root.delete()
+
     def test_statement_or_block(self):
         root = Node.add_root()
         self.failUnless(root.is_block())
