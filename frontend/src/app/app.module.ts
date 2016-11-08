@@ -17,6 +17,7 @@ import { AppState, InternalStateType } from './app.service';
 
 import { BaseService } from "./services/base.service";
 import { RestService } from "./services/rest.service";
+import {VersionService} from "./services/version.service";
 
 import { BlocklyComponent } from './components/blockly/blockly.component';
 import { InterfaceListComponent } from './components/interface/interface-list.component';
@@ -31,6 +32,9 @@ import { NoContentComponent } from './components/no-content/no-content.component
 import {BlocksService} from "./components/blockly/blocks/blocks.service";
 import {ReferenceService} from "./services/reference.service";
 import {EditorComponent} from "./components/editor/editor.component";
+import {ModalSaveComponent} from "./components/editor/modals/modalSave.component";
+import {ModalSaveAsComponent} from "./components/editor/modals/modalSaveAs.component";
+
 
 
 // Application wide providers
@@ -40,7 +44,8 @@ const APP_PROVIDERS = [
   BaseService,
   RestService,
   BlocksService,
-  ReferenceService
+  ReferenceService,
+  VersionService
 ];
 
 type StoreType = {
@@ -63,7 +68,9 @@ type StoreType = {
     VersionComponent,
     BreadcrumbComponent,
     HomeComponent,
-    EditorComponent
+    EditorComponent,
+    ModalSaveComponent,
+    ModalSaveAsComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

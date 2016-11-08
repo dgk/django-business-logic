@@ -24,18 +24,14 @@ export class ReferenceService{
             this.references.addNew( new Reference( ref.id, ref.name, ref.verbose_name ) );
           });
         }
-
-
     });
 
   }
 
   getReferenceName(type: string, id: string): any{
-
     // return this.fetchReferenceDescriptors().flatMap(() => {
     //   return this.getResultsForReferenceDescriptor(type, id);
     // });
-
   }
 
   getAllResultsForReferenceDescriptor(name: string){
@@ -68,7 +64,4 @@ export class ReferenceService{
     return xml;
   }
 
-  saveVersion(version: any){
-    return this.rest.post('/business-logic/rest/program-version/new', version);
-  }
 }
