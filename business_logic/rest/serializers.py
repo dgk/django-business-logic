@@ -66,38 +66,49 @@ class ProgramVersionListSerializer(serializers.ModelSerializer):
         exclude = ('entry_point', )
 
 
+class BlocklyXMLSerializer(serializers.CharField):
+    def to_representation(self, instance):
+        return BlocklyXmlBuilder().build(instance)
+
+    def to_internal_value(self, data):
+        return NodeTreeCreator().create(BlocklyXmlParser().parse(data)[0])
+
+    def run_validation(self, data=serializers.empty):
+        if data == '' or (self.trim_whitespace and six.text_type(data).strip() == ''):
+            if not self.allow_blank:
+                self.fail('blank')
+            return ''
+
+        (is_empty_value, data) = self.validate_empty_values(data)
+        if is_empty_value:
+            return data
+
+        try:
+            BlocklyXmlParser().parse(data)
+        except Exception as e:
+            raise serializers.ValidationError(["Xml parse error - {}: {}".format(e.__class__.__name__, six.text_type(e))])
+
+        value = self.to_internal_value(data)
+        self.run_validators(value)
+        return value
+
+
 class ProgramVersionCreateSerializer(serializers.ModelSerializer):
-    xml = serializers.CharField(write_only=True)
+    xml = BlocklyXMLSerializer(source='entry_point', required=True)
     id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = ProgramVersion
         fields = ('title', 'description', 'xml', 'program', 'id')
 
-    def validate_xml(self, value):
-        try:
-            BlocklyXmlParser().parse(value)
-        except Exception as e:
-            raise serializers.ValidationError("Xml parse error - {}: {}".format(e.__class__.__name__, e.message))
-
-        return value
-
-    def create(self, validated_data):
-        xml = validated_data.pop('xml')
-        node = NodeTreeCreator().create(BlocklyXmlParser().parse(xml)[0])
-        validated_data['entry_point'] = node
-        return ProgramVersion.objects.create(**validated_data)
-
 
 class ProgramVersionSerializer(serializers.ModelSerializer):
-    xml = serializers.SerializerMethodField()
+    xml = BlocklyXMLSerializer(source='entry_point', required=True)
+    program = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = ProgramVersion
         exclude = ('entry_point', )
-
-    def get_xml(self, obj):
-        return BlocklyXmlBuilder().build(obj.entry_point)
 
 
 class ReferenceDescriptorListSerializer(serializers.ModelSerializer):

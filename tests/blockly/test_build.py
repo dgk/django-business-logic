@@ -143,6 +143,21 @@ class BlocklyXmlBuilderBlockTest(TestCase):
             self.assertEqual(str(var_value), field.text)
 
 
+    def test_block_if_sequence(self):
+        root = Node.add_root()
+
+        for i in range(2):
+            root, var_defs = create_if_statement(2, root=root)
+
+        xml_str = BlocklyXmlBuilder().build(root)
+        xml = etree.parse(StringIO(xml_str))
+
+        block = xml.xpath('/xml/block/next/block')
+        self.assertEqual(1, len(block))
+        block = block[0]
+        self.assertEqual('controls_if', block.get('type'))
+
+
 class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
     def _test_math_binary_operator(self, operator, block_type, operator_field_value):
         root = Node.add_root(content_object=BinaryOperator(operator=operator))

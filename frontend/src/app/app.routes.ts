@@ -1,12 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { BlocklyComponent } from './blockly/blockly.component';
-import { InterfaceListComponent } from './interface/interface-list.component';
-import { ProgramComponent } from './program/program.component';
-import { VersionComponent } from './version/version.component';
-import { HomeComponent } from './home/home.component';
+import { BlocklyComponent } from './components/blockly/blockly.component';
+import { InterfaceListComponent } from './components/interface/interface-list.component';
+import { ProgramComponent } from './components/program/program.component';
+import { VersionComponent } from './components/version/version.component';
+import { HomeComponent } from './components/home/home.component';
 
-import { NoContentComponent } from './no-content/no-content.component';
+import { NoContentComponent } from './components/no-content/no-content.component';
 
 import { DataResolver } from './app.resolver';
 
