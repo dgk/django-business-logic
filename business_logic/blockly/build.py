@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import re
 import inspect
+import logging
+import re
 
 from lxml import etree
 
@@ -13,6 +14,7 @@ from ..models import *
 from .data import OPERATOR_TABLE
 from .exceptions import BlocklyXmlBuilderException
 
+logger = logging.getLogger(__name__)
 
 def camel_case_to_snake_case(name):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
@@ -56,6 +58,9 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
             return node_xml
 
+        if content_object.__class__ not in (VariableDefinition, ):
+            logger.debug('Unsupported content_object: {}'.format(content_object.__class__))
+
     def visit_constant(self, node, parent_xml):
         block_type = {
             NumberConstant: 'math_number',
@@ -93,20 +98,22 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
         value_field = etree.SubElement(block, 'field', name='VALUE')
         value_field.text = str(value_object_node.object_id)
+        return block
 
     visit_reference_constant.process_children = True
 
     def visit_variable(self, node, parent_xml):
-        variables_get_block = etree.SubElement(parent_xml, 'block', type='variables_get')
-        self._visit_variable(node, variables_get_block)
+        block = etree.SubElement(parent_xml, 'block', type='variables_get')
+        self._visit_variable(node, block)
+        return block
 
     def visit_assignment(self, node, parent_xml):
         lhs_node, rhs_node = self.get_children(node)
-        variables_set = etree.SubElement(parent_xml, 'block', type='variables_set')
-        self._visit_variable(lhs_node, variables_set)
-        value = etree.SubElement(variables_set, 'value', name='VALUE')
+        block = etree.SubElement(parent_xml, 'block', type='variables_set')
+        self._visit_variable(lhs_node, block)
+        value = etree.SubElement(block, 'value', name='VALUE')
         self.visit(rhs_node, value)
-        return variables_set
+        return block
 
     visit_assignment.process_children = True
 
@@ -166,6 +173,8 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
             statement = etree.SubElement(block, 'statement', name='DO{}'.format(i))
             self.visit(pair[1], statement)
+
+        return block
 
     visit_if_statement.process_children = True
 
