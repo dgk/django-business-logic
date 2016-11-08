@@ -41,6 +41,17 @@ export class RestService{
       .map( ( response: Response ) => { return response.json() } );
   }
 
+  put(url: string, obj: any){
+    let csrftoken = this.getCookie('csrftoken');
+    let headers = this.getHeaders();
+    if( csrftoken != undefined ) headers.append('X-CSRFToken', csrftoken);
+
+    return this.http
+      .put(url, JSON.stringify(obj), {headers: headers})
+      .map( ( response: Response ) => { return response.json() } );
+
+  }
+
   getHeaders(): Headers{
     return new Headers({'Content-Type': 'application/json'});
   }

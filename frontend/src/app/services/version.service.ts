@@ -13,11 +13,11 @@ export class VersionService{
 
   }
 
-  saveVersion(version: any){
+  saveAsVersion(version: any){
     return this.rest.post('/business-logic/rest/program-version/new', version);
   }
 
-  saveAsVersion(){
-
+  saveVersion(version: any){
+    return this.rest.put(`/business-logic/rest/program-version/${version.id}`, version);
   }
 }

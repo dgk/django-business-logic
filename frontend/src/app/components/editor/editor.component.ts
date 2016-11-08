@@ -110,8 +110,13 @@ export class EditorComponent {
 
 
   onSaveAs(title: string, xml){
-    console.log("New title: ", title);
-    this.ver.saveAsVersion();
+
+    this.version.xml = xml;
+    this.version.title = title;
+
+    this.ver.saveAsVersion(this.version).subscribe(() => {
+      console.log("Save as works!");
+    });
   }
 
   onSave(xml: string) {
@@ -119,7 +124,7 @@ export class EditorComponent {
     this.version.xml = xml;
 
     this.ver.saveVersion(this.version).subscribe(() => {
-      console.log("Save!");
+      console.log("Save works!");
     });
   }
 
