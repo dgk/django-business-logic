@@ -8,8 +8,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { BlocksService } from "../blockly/blocks/blocks.service";
 import { BaseService } from "../../services/base.service";
-import {ReferenceService} from "../../services/reference.service";
-import {VersionService} from "../../services/version.service";
+import { ReferenceService } from "../../services/reference.service";
+import { VersionService } from "../../services/version.service";
 
 @Component({
   selector: 'editor',
@@ -26,9 +26,11 @@ import {VersionService} from "../../services/version.service";
     </div>
     
     <modal-save #modalSave (onSave)="onSave( blockly.getXml() )"></modal-save>
-    <modal-save-as #modalSaveAs (onSaveAs)="onSaveAs($event, blockly.getXml())" [title] = "title"></modal-save-as>
+    <modal-save-as #modalSaveAs (onSaveAs)="onSaveAs($event, blockly.getXml())" [title] = "title" [verDescription] = "verDescription"></modal-save-as>
     
     <br>
+    
+    <p>{{verDescription}}</p>
     
     <blockly [version] = "version" [xmlForReferenceDescriptors] = "xmlForReferenceDescriptors" #blockly></blockly>
     `,
@@ -44,6 +46,8 @@ import {VersionService} from "../../services/version.service";
 export class EditorComponent {
   version: any;
   title: any;
+  verDescription: any;
+
   xmlForReferenceDescriptors: any;
 
   private params: any = {
@@ -76,11 +80,13 @@ export class EditorComponent {
 
         this.version = data;
         this.title = data.title;
-        this.fetchReferences();
+        this.verDescription = data.description;
 
         this.params["Interface"] = this.base.programInterfaces.getCurrent().getTitle();
         this.params["Program"] = this.base.programs.getCurrent().getTitle();
         this.params["Version"] = this.base.versions.getCurrent().getTitle();
+
+        this.fetchReferences();
       });
 
     });
@@ -109,10 +115,11 @@ export class EditorComponent {
   }
 
 
-  onSaveAs(title: string, xml){
+  onSaveAs(changes: any, xml){
 
     this.version.xml = xml;
-    this.version.title = title;
+    this.version.title = changes.title;
+    this.version.description = changes.description;
 
     this.ver.saveAsVersion(this.version).subscribe(() => {
       console.log("Save as works!");

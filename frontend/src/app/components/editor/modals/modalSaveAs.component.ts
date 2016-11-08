@@ -12,14 +12,18 @@ import {
   selector: 'modal-save-as',
   template: `
     <form id="modalSaveAs" class="ui small modal" 
-          (ngSubmit)="onSubmit(newTitle.value)" #modalSaveForm="ngForm">
+          (ngSubmit)="onSubmit(newTitle.value, newDescription.value)" #modalSaveForm="ngForm">
 
       <div class="header">
-          Save
+          Save as ...
         </div>
-        <div class="image content ui form">
-            <label>Name of program version</label>
+        <div class="content ui form">
+            <label>Title of program version</label>
             <input type="text" name="newTitle" [(ngModel)]="version.name" #newTitle="ngModel">
+        </div>    
+        <div class="content ui form">    
+            <label>Description of program version</label>
+            <input type="text" name="newDescription" [(ngModel)]="version.verDescription" #newDescription="ngModel">
         </div>
       <div class="actions">
         <button class="ui grey deny button">
@@ -39,7 +43,9 @@ export class ModalSaveAsComponent{
   version: any = {};
 
   @Input('title') title;
-  @Output() onSaveAs = new EventEmitter<string>();
+  @Input('verDescription') verDescription;
+
+  @Output() onSaveAs = new EventEmitter<any>();
 
   constructor() {
 
@@ -49,10 +55,17 @@ export class ModalSaveAsComponent{
     if(changes.title){
       this.version.name = changes.title.currentValue;
     }
+    if(changes.verDescription){
+      this.version.verDescription = changes.verDescription.currentValue;
+    }
   }
 
-  onSubmit(newTitle: string): void {
-    this.onSaveAs.emit(newTitle);
+  onSubmit(newTitle: string, newDescription: string): void {
+    let changes = {
+      "title": newTitle,
+      "description": newDescription
+    };
+    this.onSaveAs.emit(changes);
   }
 
   show(){
