@@ -36,10 +36,9 @@ import { VersionService } from "../../services/version.service";
     
     <blockly [version] = "version" [xmlForReferenceDescriptors] = "xmlForReferenceDescriptors" #blockly></blockly>
    
-
-      <div *ngIf = "saving" class="ui active page dimmer">
-        <div class="ui text loader">Saving</div>
-      </div>
+    <div *ngIf = "saving" class="ui active page dimmer">
+      <div class="ui text loader">Saving</div>
+    </div>
     `,
   styles: [`
          .ui.dropdown{
@@ -83,6 +82,7 @@ export class EditorComponent {
     $(".ui.dropdown").dropdown();
 
     this.blocks.init();
+    this.blocks.initArgSet();
 
     this.route.params.subscribe(params => {
 
@@ -96,7 +96,13 @@ export class EditorComponent {
         this.params["Program"] = this.base.programs.getCurrent().getTitle();
         this.params["Version"] = this.base.versions.getCurrent().getTitle();
 
+        // console.log(this.version.xml);
+
         this.fetchReferences();
+
+        this.base.fetchArguments().subscribe(() => {
+          // console.log(this.base.arguments);
+        });
       });
 
     });
@@ -118,7 +124,6 @@ export class EditorComponent {
 
     });
   }
-
 
   ngOnChanges(changes: any): any {
 

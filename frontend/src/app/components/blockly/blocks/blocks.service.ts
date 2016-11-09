@@ -2,14 +2,21 @@ import { Injectable } from '@angular/core';
 
 import * as find from "lodash/find";
 import { ReferenceService } from "../../../services/reference.service";
+import {ArgumentFieldGet} from "./argument_field_get";
+import {RestService} from "../../../services/rest.service";
+import {ArgumentFieldService} from "../../../services/argumentField.service";
 
 @Injectable()
 export class BlocksService {
-  constructor(public backend: ReferenceService){
+  constructor(public backend: ReferenceService, public argField: ArgumentFieldService){
   }
 
   getBackend(){
     return this.backend;
+  }
+
+  getArgumentFieldService(){
+    return this.argField;
   }
 
   getLabel(): any{
@@ -132,13 +139,17 @@ export class BlocksService {
       backend: that.getBackend()
     };
 
-    Blockly.Blocks['business_logic_variable'] = {
+  }
+
+  initArgSet(){
+    let that = this;
+
+    Blockly.Blocks['business_logic_argument_get'] = {
       init: function(){
         this.appendDummyInput()
-          .appendField(new Blockly.FieldLabel('var'));
-        this.setInputsInline(false);
+          .appendField(new ArgumentFieldGet("item", that.getArgumentFieldService()), "NAME");
         this.setOutput(true, null);
-        this.setColour(160);
+        this.setColour(330);
         this.setTooltip('');
         this.setHelpUrl('');
       }
