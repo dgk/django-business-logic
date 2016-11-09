@@ -36,27 +36,16 @@ def get_model_verbose_name(content_type):
     return content_type.model_class()._meta.verbose_name
 
 
-class ProgramInterfaceListSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program-interface')
+class ContentTypeSerializer(serializers.Serializer):
+    name = serializers.SerializerMethodField()
+    verbose_name = serializers.SerializerMethodField()
+    id = serializers.IntegerField()
 
-    class Meta:
-        model = ProgramInterface
-        fields = '__all__'
+    def get_verbose_name(self, obj):
+        return get_model_verbose_name(obj)
 
-
-class ProgramListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Program
-        fields = '__all__'
-
-
-class ProgramVersionListSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program-version')
-
-    class Meta:
-        model = ProgramVersion
-        read_only_fields = ('is_default', )
-        exclude = ('entry_point', )
+    def get_name(self, obj):
+        return get_model_name(obj)
 
 
 class BlocklyXMLSerializer(serializers.CharField):
@@ -79,11 +68,35 @@ class BlocklyXMLSerializer(serializers.CharField):
         try:
             BlocklyXmlParser().parse(data)
         except Exception as e:
-            raise serializers.ValidationError(["Xml parse error - {}: {}".format(e.__class__.__name__, six.text_type(e))])
+            raise serializers.ValidationError(
+                ["Xml parse error - {}: {}".format(e.__class__.__name__, six.text_type(e))])
 
         value = self.to_internal_value(data)
         self.run_validators(value)
         return value
+
+
+class ProgramInterfaceListSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program-interface')
+
+    class Meta:
+        model = ProgramInterface
+        fields = '__all__'
+
+
+class ProgramListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Program
+        fields = '__all__'
+
+
+class ProgramVersionListSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program-version')
+
+    class Meta:
+        model = ProgramVersion
+        read_only_fields = ('is_default', )
+        exclude = ('entry_point', )
 
 
 class ProgramVersionCreateSerializer(serializers.ModelSerializer):
@@ -108,6 +121,7 @@ class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
     verbose_name = serializers.SerializerMethodField()
     url = serializers.SerializerMethodField()
+    content_type = ContentTypeSerializer()
 
     class Meta:
         model = ReferenceDescriptor
@@ -167,18 +181,6 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
         representation['verbose_name'] = instance.get_title()
 
         return representation
-
-
-class ContentTypeSerializer(serializers.Serializer):
-    name = serializers.SerializerMethodField()
-    verbose_name = serializers.SerializerMethodField()
-    id = serializers.IntegerField()
-
-    def get_verbose_name(self, obj):
-        return get_model_verbose_name(obj)
-
-    def get_name(self, obj):
-        return get_model_name(obj)
 
 
 class ProgramArgumentSerializer(serializers.ModelSerializer):
