@@ -41,6 +41,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'nested_inline',
+    'polymorphic',
+    'ace_overlay',
     'bootstrap3',
 
 #    'django_extensions',

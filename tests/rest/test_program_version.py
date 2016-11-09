@@ -47,6 +47,7 @@ class ProgramVersionRESTTest(TestCase):
             'is_default',
             'modification_time',
             'program',
+            'environment',
             'id',
         ]), sorted(_json.keys()))
 

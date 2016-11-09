@@ -12,6 +12,7 @@ from rest_framework import serializers
 from ..models import (
     Execution,
     ExecutionArgument,
+    ExecutionEnvironment,
     ExceptionLog,
     LogEntry,
     ProgramInterface,
@@ -46,6 +47,26 @@ class ContentTypeSerializer(serializers.Serializer):
 
     def get_name(self, obj):
         return get_model_name(obj)
+
+class ExecutionEnvironmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExecutionEnvironment
+        fields = '__all__'
+
+
+class ProgramInterfaceListSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program-interface')
+
+    class Meta:
+        model = ProgramInterface
+        fields = '__all__'
+
+
+class ProgramListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Program
+        fields = '__all__'
+
 
 
 class BlocklyXMLSerializer(serializers.CharField):

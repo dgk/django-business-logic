@@ -4,19 +4,27 @@
 from importlib import import_module
 
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
+from polymorphic.models import PolymorphicModel
 
-class FunctionDefinition(models.Model):
+
+@python_2_unicode_compatible
+class FunctionDefinition(PolymorphicModel):
+    title = models.CharField(_('Function title'), max_length=255, unique=True)
+    is_context_required = models.BooleanField(_('Is Context required'), default=False)
+
+    def __str__(self):
+        return self.title
+
+class PythonModuleFunctionDefinition(FunctionDefinition):
     module = models.CharField(_('Module name'), max_length=255, default='__builtins__')
-
     function = models.CharField(_('Function name'), max_length=255)
-    context_required = models.BooleanField(_('Context required'), default=False)
-    title = models.CharField(_('Function title'), max_length=255)
 
     class Meta:
-        verbose_name = _('Function definition')
-        verbose_name_plural = _('Function definitions')
+        verbose_name = _('Python module function definition')
+        verbose_name_plural = _('Python module function definition')
 
     def interpret(self, context, *args):
         pass
@@ -27,13 +35,40 @@ class FunctionDefinition(models.Model):
         else:
             module = import_module(self.module)
             code = getattr(module, self.function)
-        if self.context_required:
+        if self.is_context_required:
             return code(context, *args)
         return code(*args)
 
 
+class PythonCodeFunctionDefinition(FunctionDefinition):
+    code = models.TextField(_('Code'), max_length=255)
+
+    class Meta:
+        verbose_name = _('Python code function definition')
+        verbose_name_plural = _('Python code function definition')
+
+    def interpret(self, context, *args):
+        pass
+
+    def __call__(self, context, *args):
+        raise NotImplementedError()
+
+
+@python_2_unicode_compatible
+class FunctionLibrary(models.Model):
+    title = models.CharField(_('Function library title'), max_length=255, unique=True)
+    functions = models.ManyToManyField('FunctionDefinition', related_name='libraries')
+
+    class Meta:
+        verbose_name = _('Function library')
+        verbose_name_plural = _('Function libraries')
+
+    def __str__(self):
+        return self.title
+
+
 class Function(models.Model):
-    definition = models.ForeignKey(FunctionDefinition, related_name='functions')
+    definition = models.ForeignKey('FunctionDefinition', related_name='functions')
 
     class Meta:
         verbose_name = _('Function')
@@ -41,4 +76,5 @@ class Function(models.Model):
 
     def interpret(self, context, *args):
         return self.definition(context, *args)
+
 
