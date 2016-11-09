@@ -434,3 +434,21 @@ class BlocklyXmlBuilderIfStatementTest(TestCase):
         self._test_statement(children[4], 'DO1', 'ElseIfEnter1')
         self._test_condition(children[5], 'IF2', 'ElseIfCondition2')
         self._test_statement(children[6], 'DO2', 'ElseIfEnter2')
+
+
+class BlocklyXmlBuilderArgumentFieldTest(TestCase):
+    def test_argument_field_set(self):
+        root = variable_assign_value(variable_name='argument.field')
+        xml_str = BlocklyXmlBuilder().build(root)
+        xml = etree.parse(StringIO(xml_str))
+        block = xml.find('/block')
+        self.assertEqual('business_logic_argument_field_set', block.get('type'))
+
+    def test_argument_field_get(self):
+        variable_definition = VariableDefinition.objects.create(name='argument.field')
+        variable = Variable.objects.create(definition=variable_definition)
+        root = Node.add_root(content_object=variable)
+        xml_str = BlocklyXmlBuilder().build(root)
+        xml = etree.parse(StringIO(xml_str))
+        block = xml.find('/block')
+        self.assertEqual('business_logic_argument_field_get', block.get('type'))
