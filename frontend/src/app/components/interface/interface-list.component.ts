@@ -15,9 +15,15 @@ import { BaseService } from "../../services/base.service";
   styleUrls: [  ],
   template:   `
               <breadcrumb [params]="params"></breadcrumb>
-              <div class="list">
-                <div class="item" *ngFor="let programInterface of programInterfaces" (click)="onSelect(programInterface)">
-                  <h3>{{programInterface.title}}</h3>
+              
+              <div class="ui container segment">
+                <div class="ui relaxed divided list">
+                  <div class="item" *ngFor="let programInterface of programInterfaces" (click)="onSelect(programInterface)">
+                    <div class="content">
+                        <a class="header">{{programInterface.title}}</a>
+                        <div class="description"></div>
+                    </div>
+                  </div>
                 </div>
               </div>`
 })

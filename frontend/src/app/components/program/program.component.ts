@@ -9,11 +9,17 @@ import { BaseService } from "../../services/base.service";
   selector: 'program',
   template: `
             <breadcrumb [params]="params"></breadcrumb>
-            <div class="list">
+            
+            <div class="ui container segment">
+              <div class="ui relaxed divided list">
                 <div class="item" *ngFor="let program of programs" (click)="onSelect(program)">
-                  <h3>{{program.title}}</h3>
+                    <div class="content">
+                        <a class="header">{{program.title}}</a>
+                        <div class="description"></div>
+                    </div>
                 </div>
-              </div>`
+              </div>
+            </div>`
 })
 
 export class ProgramComponent{
