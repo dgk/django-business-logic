@@ -30,9 +30,16 @@ import { VersionService } from "../../services/version.service";
     
     <br>
     
-    <p>{{verDescription}}</p>
+    <div class="ui segment">
+        <p>{{verDescription}}</p>
+    </div>    
     
     <blockly [version] = "version" [xmlForReferenceDescriptors] = "xmlForReferenceDescriptors" #blockly></blockly>
+   
+
+      <div *ngIf = "saving" class="ui active page dimmer">
+        <div class="ui text loader">Saving</div>
+      </div>
     `,
   styles: [`
          .ui.dropdown{
@@ -47,6 +54,8 @@ export class EditorComponent {
   version: any;
   title: any;
   verDescription: any;
+
+  saving: boolean = false;
 
   xmlForReferenceDescriptors: any;
 
@@ -69,6 +78,7 @@ export class EditorComponent {
 
 
   ngAfterViewInit() {
+
 
     $(".ui.dropdown").dropdown();
 
@@ -121,8 +131,13 @@ export class EditorComponent {
     this.version.title = changes.title;
     this.version.description = changes.description;
 
+    this.saving = true;
+
     this.ver.saveAsVersion(this.version).subscribe(() => {
       console.log("Save as works!");
+      this.saving = false;
+
+      //TODO: redirect to new version!
     });
   }
 
@@ -130,8 +145,11 @@ export class EditorComponent {
 
     this.version.xml = xml;
 
+    this.saving = true;
+
     this.ver.saveVersion(this.version).subscribe(() => {
       console.log("Save works!");
+      this.saving = false;
     });
   }
 
