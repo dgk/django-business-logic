@@ -19,6 +19,24 @@ class FunctionDefinition(PolymorphicModel):
     def __str__(self):
         return self.title
 
+    def call(self, context, *args):
+        raise NotImplementedError()
+
+
+@python_2_unicode_compatible
+class FunctionArgument(models.Model):
+    function = models.ForeignKey(FunctionDefinition)
+    name = models.CharField(max_length=255, null=True, blank=True)
+
+    # TODO: arg typing
+
+    class Meta:
+        verbose_name = _('Function argument')
+        verbose_name_plural = _('Function arguments')
+
+    def __str__(self):
+        return self.name or '*'
+
 
 class PythonModuleFunctionDefinition(FunctionDefinition):
     module = models.CharField(_('Module name'), max_length=255, default='__builtins__')
@@ -31,7 +49,7 @@ class PythonModuleFunctionDefinition(FunctionDefinition):
     def interpret(self, context, *args):
         pass
 
-    def __call__(self, context, *args):
+    def call(self, context, *args):
         if not self.module or self.module == '__builtins__':
             code = __builtins__[self.function]
         else:
@@ -52,7 +70,7 @@ class PythonCodeFunctionDefinition(FunctionDefinition):
     def interpret(self, context, *args):
         pass
 
-    def __call__(self, context, *args):
+    def call(self, context, *args):
         locals = dict(arg=args[0], ret=None)
         code = compile('''{}
 ret = function(arg)
@@ -85,6 +103,6 @@ class Function(models.Model):
         verbose_name_plural = _('Functions')
 
     def interpret(self, context, *args):
-        return self.definition(context, *args)
+        return self.definition.call(context, *args)
 
 
