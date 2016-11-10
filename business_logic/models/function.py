@@ -14,9 +14,11 @@ from polymorphic.models import PolymorphicModel
 class FunctionDefinition(PolymorphicModel):
     title = models.CharField(_('Function title'), max_length=255, unique=True)
     is_context_required = models.BooleanField(_('Is Context required'), default=False)
+    is_returns_value = models.BooleanField(_('Is returns value'), default=True)
 
     def __str__(self):
         return self.title
+
 
 class PythonModuleFunctionDefinition(FunctionDefinition):
     module = models.CharField(_('Module name'), max_length=255, default='__builtins__')
@@ -51,7 +53,15 @@ class PythonCodeFunctionDefinition(FunctionDefinition):
         pass
 
     def __call__(self, context, *args):
-        raise NotImplementedError()
+        locals = dict(arg=args[0], ret=None)
+        code = compile('''{}
+ret = function(arg)
+'''.format(self.code), '<string>', 'exec')
+        try:
+            eval(code, {}, locals)
+        except Exception as e:
+            print(e)
+        return locals['ret']
 
 
 @python_2_unicode_compatible

@@ -61,3 +61,19 @@ class PythonModuleFunctionTest(TestCase):
         result = func_node.interpret(context)
         self.failUnlessEqual(result, '3.0')
 
+
+class PythonCodeFunctionTest(TestCase):
+    def test_import(self):
+        context = Context()
+        root = Node.add_root()
+        func_def = PythonCodeFunctionDefinition(code='''
+def function(arg):
+    return str(abs(arg))
+''')
+        root.add_child(content_object=func_def)
+        root = Node.objects.get(id=root.id)
+        func = Function(definition=func_def)
+        func_node = root.add_child(content_object=func)
+        func_node.add_child(content_object=NumberConstant(value=-3.0))
+        result = func_node.interpret(context)
+        self.failUnlessEqual(result, '3.0')
