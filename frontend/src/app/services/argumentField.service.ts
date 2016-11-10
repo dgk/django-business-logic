@@ -19,12 +19,22 @@ export class ArgumentFieldService{
     //TODO: if getCurrent() return undefined?
     let programInterface = this.base.programInterfaces.getCurrent();
 
-    let tmp = value.split(".");
+    let ind = value.indexOf(".");
+    let arg_name = value.substr(0, ind);
+    let field_name = value.substr(ind+1, value.length);
 
     if(programInterface){
       let args = this.getArguments();
-      let arg = find(args, (arg) => {return arg.name == tmp[0];});
-      return find(arg.fields, (field) => {return field.name == tmp[1]}).verbose_name;
+      let arg = find(args, (arg) => {return arg.name == arg_name;});
+
+      let result = find(arg.fields, (field) => {return field.name == field_name});
+
+      if(result){
+        return result.verbose_name;
+      }else{
+        return value;
+      }
+
     }
   }
 

@@ -101,8 +101,7 @@ export class EditorComponent {
         this.params["Program"] = this.base.programs.getCurrent().getTitle();
         this.params["Version"] = this.base.versions.getCurrent().getTitle();
 
-        console.log(this.version.xml);
-
+        // console.log(this.version.xml);
 
         //TODO: maybe run with forkJoin?
         this.fetchReferences();

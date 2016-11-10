@@ -52,7 +52,7 @@ export class BlocksService {
 
     Blockly.Blocks['business_logic_argument_field_set'] = {
       init: function () {
-        this.appendValueInput("VAR")
+        this.appendValueInput("VALUE")
           .setCheck(null)
           .appendField(msg)
           .appendField(new ArgumentField("item", that.getArgumentFieldService()), "VAR")
