@@ -38,7 +38,9 @@ def api_root(request, format=None):
         ('program-interface', reverse(format_url('program-interface-list'), request=request, format=format)),
         ('program', reverse(format_url('program-list'), request=request, format=format)),
         ('program-version', reverse(format_url('program-version-list'), request=request, format=format)),
-        ('reference-descriptor', reverse(format_url('reference-descriptor-list'), request=request, format=format)),
+        ('program-version-create', reverse(format_url('program-version-create'), request=request, format=format)),
+        ('reference', reverse(format_url('reference-descriptor-list'), request=request, format=format)),
+        ('execution', reverse(format_url('execution-list'), request=request, format=format)),
     )))
 
 

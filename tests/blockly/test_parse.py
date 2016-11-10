@@ -370,3 +370,35 @@ class BlocklyXmlParserIfStatementTest(BlocklyXmlParserTestCase):
             self.assertEqual(get_content_type_id(BooleanConstant), child['children'][1]['data']['content_type'])
             self.assertEqual(True, child['children'][1]['data']['value'])
 
+
+class BlocklyXmlParserArgumentFieldTest(TestCase):
+    def test_argument_field_set(self):
+        root = variable_assign_value(variable_name='argument.field')
+        xml_str = BlocklyXmlBuilder().build(root)
+        parsed_argument_field_set = BlocklyXmlParser().parse(xml_str)
+
+        root = variable_assign_value(variable_name='X')
+        xml_str = BlocklyXmlBuilder().build(root)
+        parsed_variable_set = BlocklyXmlParser().parse(xml_str)
+
+        # replace variable name
+        parsed_variable_set[0]['children'][0]['data']['name'] = 'argument.field'
+
+        self.assertEqual(parsed_argument_field_set, parsed_variable_set)
+
+    def test_argument_field_get(self):
+        variable_definition = VariableDefinition.objects.create(name='argument.field')
+        variable = Variable.objects.create(definition=variable_definition)
+        root = Node.add_root(content_object=variable)
+        xml_str = BlocklyXmlBuilder().build(root)
+        parsed_argument_field_get = BlocklyXmlParser().parse(xml_str)
+
+        variable_definition = VariableDefinition.objects.create(name='X')
+        variable = Variable.objects.create(definition=variable_definition)
+        root = Node.add_root(content_object=variable)
+        xml_str = BlocklyXmlBuilder().build(root)
+        parsed_variable_get = BlocklyXmlParser().parse(xml_str)
+
+        # replace variable name
+        parsed_variable_get[0]['data']['name'] = 'argument.field'
+        self.assertEqual(parsed_argument_field_get, parsed_variable_get)
