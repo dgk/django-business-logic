@@ -28,6 +28,7 @@ export class BlocklyComponent {
 
   @Input() version: any;
   @Input() xmlForReferenceDescriptors: any;
+  @Input() xmlForArgumentFields: any;
 
   style = {
     width: '100%',
@@ -52,7 +53,11 @@ export class BlocklyComponent {
 
   createWorkspace(){
 
-      let toolbox = `<xml>${require('./blockly-toolset.html')}${this.xmlForReferenceDescriptors}</xml>`;
+      let toolbox = `<xml>
+                        ${require('./blockly-toolset.html')}
+                        ${this.xmlForReferenceDescriptors}
+                        ${this.xmlForArgumentFields}
+                     </xml>`;
       this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
         {
           toolbox: toolbox,
@@ -77,7 +82,7 @@ export class BlocklyComponent {
 
     }
 
-    if(changes.xmlForReferenceDescriptors && changes.xmlForReferenceDescriptors.currentValue){
+    if(this.xmlForReferenceDescriptors && this.xmlForArgumentFields){
       this.createWorkspace();
     }
 

@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 
 import * as find from "lodash/find";
 import { ReferenceService } from "../services/reference.service";
-import {ArgumentFieldGet} from "./fields/argument_field_get";
 import {RestService} from "../services/rest.service";
 import {ArgumentFieldService} from "../services/argumentField.service";
 import {LabelField} from "./fields/label_field";
 import {DropdownField} from "./fields/dropdown_field";
+import {ArgumentField} from "./fields/argument_field";
 
 @Injectable()
 export class BlocksService {
@@ -36,11 +36,29 @@ export class BlocksService {
       }
     };
 
-    Blockly.Blocks['business_logic_argument_get'] = {
+    Blockly.Blocks['business_logic_argument_field_get'] = {
       init: function(){
         this.appendDummyInput()
-          .appendField(new ArgumentFieldGet("item", that.getArgumentFieldService()), "NAME");
+          .appendField(new ArgumentField("item", that.getArgumentFieldService()), "VAR");
         this.setOutput(true, null);
+        this.setColour(330);
+        this.setTooltip('');
+        this.setHelpUrl('');
+      }
+    };
+
+    //attention: this is crutch!
+    let msg = Blockly.Msg.VARIABLES_SET.substr(0, Blockly.Msg.VARIABLES_SET.indexOf('%') );
+
+    Blockly.Blocks['business_logic_argument_field_set'] = {
+      init: function () {
+        this.appendValueInput("VAR")
+          .setCheck(null)
+          .appendField(msg)
+          .appendField(new ArgumentField("item", that.getArgumentFieldService()), "VAR")
+          .appendField("=");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
         this.setColour(330);
         this.setTooltip('');
         this.setHelpUrl('');

@@ -10,6 +10,7 @@ import { BlocksService } from "../../blocks/blocks.service";
 import { BaseService } from "../../services/base.service";
 import { ReferenceService } from "../../services/reference.service";
 import { VersionService } from "../../services/version.service";
+import {ArgumentFieldService} from "../../services/argumentField.service";
 
 @Component({
   selector: 'editor',
@@ -34,7 +35,10 @@ import { VersionService } from "../../services/version.service";
         <p>{{verDescription}}</p>
     </div>    
     
-    <blockly [version] = "version" [xmlForReferenceDescriptors] = "xmlForReferenceDescriptors" #blockly></blockly>
+    <blockly [version] = "version" 
+             [xmlForReferenceDescriptors] = "xmlForReferenceDescriptors" 
+             [xmlForArgumentFields] = "xmlForArgumentFields" #blockly>
+    </blockly>
    
     <div *ngIf = "saving" class="ui active page dimmer">
       <div class="ui text loader">Saving</div>
@@ -57,6 +61,7 @@ export class EditorComponent {
   saving: boolean = false;
 
   xmlForReferenceDescriptors: any;
+  xmlForArgumentFields: any;
 
   private params: any = {
     "Interface": 'Interface',
@@ -72,6 +77,7 @@ export class EditorComponent {
     private blocks: BlocksService,
     private base: BaseService,
     private ref: ReferenceService,
+    private argField: ArgumentFieldService,
     private ver: VersionService){
   }
 
@@ -95,13 +101,15 @@ export class EditorComponent {
         this.params["Program"] = this.base.programs.getCurrent().getTitle();
         this.params["Version"] = this.base.versions.getCurrent().getTitle();
 
-        // console.log(this.version.xml);
+        console.log(this.version.xml);
 
 
         //TODO: maybe run with forkJoin?
         this.fetchReferences();
 
-        this.base.fetchArguments().subscribe(() => {
+        this.argField.fetchArguments().subscribe(() => {
+
+          this.xmlForArgumentFields = this.argField.generateXmlForToolbox();
           // console.log(this.base.arguments);
         });
       });

@@ -1,6 +1,6 @@
 import {ArgumentFieldService} from "../../services/argumentField.service";
 
-export class ArgumentFieldGet extends Blockly.FieldDropdown{
+export class ArgumentField extends Blockly.FieldDropdown{
 
   argField: ArgumentFieldService;
 

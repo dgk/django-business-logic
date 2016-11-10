@@ -16,8 +16,6 @@ export class BaseService {
   programs: any;
   versions: any;
 
-  arguments: any;
-
   constructor(private rest: RestService){
 
   }
@@ -31,17 +29,6 @@ export class BaseService {
         this.programInterfaces.addNew( new ProgramInterface(result["id"], result["title"]) );
       } );
     });
-  }
-
-  fetchArguments(){
-    let url = this.programInterfaces.getCurrent().getUrl();
-    return this.rest.get(url).map((data) => {
-      this.arguments = data["arguments"];
-    })
-  }
-
-  getArguments(){
-    return this.arguments;
   }
 
   fetchPrograms( interfaceID: number ): any{
