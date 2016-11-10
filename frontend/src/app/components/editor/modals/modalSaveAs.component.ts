@@ -26,7 +26,7 @@ import {
             <input type="text" name="newDescription" [(ngModel)]="version.verDescription" #newDescription="ngModel">
         </div>
       <div class="actions">
-        <button class="ui grey deny button">
+        <button type = "button" class="ui grey deny button">
           Cancel
         </button>
         <button type="submit" class="ui positive right labeled icon button">
