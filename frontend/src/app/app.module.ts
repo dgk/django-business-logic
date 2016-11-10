@@ -17,6 +17,7 @@ import { AppState, InternalStateType } from './app.service';
 
 import { BaseService } from "./services/base.service";
 import { RestService } from "./services/rest.service";
+import {VersionService} from "./services/version.service";
 
 import { BlocklyComponent } from './components/blockly/blockly.component';
 import { InterfaceListComponent } from './components/interface/interface-list.component';
@@ -27,9 +28,14 @@ import { HomeComponent } from './components/home/home.component';
 
 import { NoContentComponent } from './components/no-content/no-content.component';
 
-import {MaterialModule} from '@angular/material';
-import {BlocksService} from "./components/blockly/blocks/blocks.service";
+// import {MaterialModule} from '@angular/material';
+import {BlocksService} from "./blocks/blocks.service";
 import {ReferenceService} from "./services/reference.service";
+import {EditorComponent} from "./components/editor/editor.component";
+import {ModalSaveComponent} from "./components/editor/modals/modalSave.component";
+import {ModalSaveAsComponent} from "./components/editor/modals/modalSaveAs.component";
+import {ArgumentFieldService} from "./services/argumentField.service";
+
 
 
 // Application wide providers
@@ -39,7 +45,9 @@ const APP_PROVIDERS = [
   BaseService,
   RestService,
   BlocksService,
-  ReferenceService
+  ReferenceService,
+  VersionService,
+  ArgumentFieldService
 ];
 
 type StoreType = {
@@ -61,14 +69,17 @@ type StoreType = {
     ProgramComponent,
     VersionComponent,
     BreadcrumbComponent,
-    HomeComponent
+    HomeComponent,
+    EditorComponent,
+    ModalSaveComponent,
+    ModalSaveAsComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
-    MaterialModule.forRoot()
+    // MaterialModule.forRoot()
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
