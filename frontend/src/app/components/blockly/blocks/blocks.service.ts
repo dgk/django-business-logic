@@ -155,4 +155,8 @@ export class BlocksService {
       }
     };
   }
+
+  test(){
+    return "This is BlocksService!";
+  }
 }

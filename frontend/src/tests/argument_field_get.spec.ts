@@ -9,8 +9,8 @@ import { By } from '@angular/platform-browser';
 
 import { BlocksService } from "../app/components/blockly/blocks/blocks.service";
 import { MockService } from "./mock.service";
-import { RestService } from "../app/services/rest.service";
 import {ArgumentFieldGet} from "../app/components/blockly/blocks/argument_field_get";
+import {ArgumentFieldService} from "../app/services/argumentField.service";
 import {ReferenceService} from "../app/services/reference.service";
 
 describe('business_logic_argument_get block', () => {
@@ -26,7 +26,8 @@ describe('business_logic_argument_get block', () => {
     TestBed.configureTestingModule({
       declarations: [  ],
       providers: [
-        {provide: RestService, useClass: MockService},
+        // {provide: RestService, useClass: MockService},
+        {provide: ArgumentFieldService, useClass: MockService},
         {provide: ReferenceService, useClass: MockService},
         BlocksService
       ],
@@ -34,26 +35,27 @@ describe('business_logic_argument_get block', () => {
     });
 
     workspace = new Blockly.Workspace();
-
     TestBed.get(BlocksService).initArgSet();
-
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), workspace);
-
     block = workspace.getTopBlocks(true)[0];
+
   }) );
 
-  it('swap BackendService to MockService', () => {
-    expect( TestBed.get(BlocksService).backend.test() ).toEqual("This is MockService!");
+  it('swap ArgFieldService to MockService', () => {
+    expect( TestBed.get(BlocksService).test() ).toEqual("This is BlocksService!");
+
+    expect( TestBed.get(BlocksService).argField.test() ).toEqual("This is MockService!");
   });
 
   it('getText() getValue() test', () => {
+
     expect( block.type ).toEqual("business_logic_argument_get");
 
     let text = block.getField("NAME").getText();
     expect(text).toEqual('Book title');
 
     let value = block.getField("NAME").getValue();
-    expect(text).toEqual('book.title');
+    expect(value).toEqual('book.title');
   });
 
 });

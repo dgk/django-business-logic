@@ -1,6 +1,6 @@
 import {ArgumentFieldService} from "../../../services/argumentField.service";
 
-export class ArgumentFieldGet extends Blockly.FieldVariable{
+export class ArgumentFieldGet extends Blockly.FieldDropdown{
 
   argField: ArgumentFieldService;
 
@@ -9,7 +9,7 @@ export class ArgumentFieldGet extends Blockly.FieldVariable{
   };
 
   constructor(text: string, argField: ArgumentFieldService){
-    super(text);
+    super([['', '']]);
     this.argField = argField;
   }
 

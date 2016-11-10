@@ -14,7 +14,7 @@ export class ArgumentFieldService{
 
   }
 
-  getVerboseNameForField(value: string){
+  getVerboseNameForField(value: string): any{
     //TODO: if getCurrent() return undefined?
     let programInterface = this.base.programInterfaces.getCurrent();
 
@@ -27,7 +27,7 @@ export class ArgumentFieldService{
     }
   }
 
-  getFieldList(){
+  getFieldList(): any{
     let args = this.base.getArguments();
     let result = [];
 
