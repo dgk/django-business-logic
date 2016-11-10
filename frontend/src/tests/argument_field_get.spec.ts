@@ -7,9 +7,9 @@ import {
 import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { BlocksService } from "../app/components/blockly/blocks/blocks.service";
+import { BlocksService } from "../app/blocks/blocks.service";
 import { MockService } from "./mock.service";
-import {ArgumentFieldGet} from "../app/components/blockly/blocks/argument_field_get";
+import {ArgumentFieldGet} from "../app/blocks/fields/argument_field_get";
 import {ArgumentFieldService} from "../app/services/argumentField.service";
 import {ReferenceService} from "../app/services/reference.service";
 

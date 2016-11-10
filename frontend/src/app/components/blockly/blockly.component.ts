@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { BlocksService } from "./blocks/blocks.service";
+import { BlocksService } from "../../blocks/blocks.service";
 import { BaseService } from "../../services/base.service";
 import {ReferenceService} from "../../services/reference.service";
 

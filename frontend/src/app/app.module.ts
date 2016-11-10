@@ -29,7 +29,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NoContentComponent } from './components/no-content/no-content.component';
 
 // import {MaterialModule} from '@angular/material';
-import {BlocksService} from "./components/blockly/blocks/blocks.service";
+import {BlocksService} from "./blocks/blocks.service";
 import {ReferenceService} from "./services/reference.service";
 import {EditorComponent} from "./components/editor/editor.component";
 import {ModalSaveComponent} from "./components/editor/modals/modalSave.component";

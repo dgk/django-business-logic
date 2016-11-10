@@ -28,6 +28,14 @@ export class ReferenceService{
 
   }
 
+  getVerboseName(value: string){
+    let result = find(this.references.getCollection(), (ref) => {
+      return ref.getName() == value;
+    });
+
+    return result.getVerboseName();
+  }
+
   getReferenceName(type: string, id: string): any{
     // return this.fetchReferenceDescriptors().flatMap(() => {
     //   return this.getResultsForReferenceDescriptor(type, id);

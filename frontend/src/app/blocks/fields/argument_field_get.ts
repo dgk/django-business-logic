@@ -1,4 +1,4 @@
-import {ArgumentFieldService} from "../../../services/argumentField.service";
+import {ArgumentFieldService} from "../../services/argumentField.service";
 
 export class ArgumentFieldGet extends Blockly.FieldDropdown{
 

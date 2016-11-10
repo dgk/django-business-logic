@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { BlocksService } from "../blockly/blocks/blocks.service";
+import { BlocksService } from "../../blocks/blocks.service";
 import { BaseService } from "../../services/base.service";
 import { ReferenceService } from "../../services/reference.service";
 import { VersionService } from "../../services/version.service";
@@ -82,7 +82,6 @@ export class EditorComponent {
     $(".ui.dropdown").dropdown();
 
     this.blocks.init();
-    this.blocks.initArgSet();
 
     this.route.params.subscribe(params => {
 
@@ -98,6 +97,8 @@ export class EditorComponent {
 
         // console.log(this.version.xml);
 
+
+        //TODO: maybe run with forkJoin?
         this.fetchReferences();
 
         this.base.fetchArguments().subscribe(() => {
