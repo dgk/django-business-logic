@@ -30,10 +30,10 @@ export class ReferenceService{
 
   getVerboseName(value: string){
     let result = find(this.references.getCollection(), (ref) => {
-      return ref.getName() == value;
+      return ref["name"] == value;
     });
 
-    return result.getVerboseName();
+    return result["verbose_name"];
   }
 
   getReferenceName(type: string, id: string): any{

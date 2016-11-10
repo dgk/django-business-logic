@@ -19,18 +19,18 @@ export class ArgumentFieldService{
     //TODO: if getCurrent() return undefined?
     let programInterface = this.base.programInterfaces.getCurrent();
 
-    let ind = value.indexOf(".");
-    let arg_name = value.substr(0, ind);
-    let field_name = value.substr(ind+1, value.length);
+    let ind: number = value.indexOf(".");
+    let arg_name: string = value.substr(0, ind);
+    let field_name: string = value.substr(ind+1, value.length);
 
     if(programInterface){
-      let args = this.getArguments();
-      let arg = find(args, (arg) => {return arg.name == arg_name;});
+      let args: any = this.getArguments();
+      let arg: any = find(args, (arg) => {return arg["name"] == arg_name;});
 
-      let result = find(arg.fields, (field) => {return field.name == field_name});
+      let result: any = find(arg.fields, (field) => {return field["name"] == field_name});
 
       if(result){
-        return result.verbose_name;
+        return result["verbose_name"];
       }else{
         return value;
       }
@@ -39,13 +39,13 @@ export class ArgumentFieldService{
   }
 
   getFieldList(): any{
-    let args = this.getArguments();
+    let args: any = this.getArguments();
     let result = [];
 
     args.forEach( (arg) => {
-      let arg_name = arg.name;
+      let arg_name = arg["name"];
       arg.fields.forEach((field) => {
-        result.push([field.verbose_name, arg.name + '.' + field.name]);
+        result.push([field["verbose_name"], arg_name + '.' + field["name"]]);
       });
     });
     return result;
@@ -58,7 +58,7 @@ export class ArgumentFieldService{
     })
   }
 
-  getArguments(){
+  getArguments(): any{
     return this.arguments;
   }
 
