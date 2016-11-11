@@ -1,3 +1,5 @@
+// grep -E '^Blockly.Msg' node_modules/blockly/msg/messages.js | cut -d . -f 3 | awk '{ printf "const %s:string;\n", $1 }'> src/msg.d.ts
+
 declare module Blockly{
   namespace Msg{
     const VARIABLES_DEFAULT_NAME:string;
