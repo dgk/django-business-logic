@@ -103,6 +103,7 @@ export class EditorComponent {
 
         // console.log(this.version.xml);
 
+
         //TODO: maybe run with forkJoin?
         this.fetchReferences();
 
@@ -114,6 +115,8 @@ export class EditorComponent {
       });
 
     });
+
+
 
   }
 
@@ -146,11 +149,13 @@ export class EditorComponent {
 
     this.saving = true;
 
-    this.ver.saveAsVersion(this.version).subscribe(() => {
-      console.log("Save as works!");
+    this.ver.saveAsVersion(this.version).subscribe((response: any) => {
       this.saving = false;
 
       //TODO: redirect to new version!
+      // let id = response.id.toString();
+      // this.router.navigate([ id ], { relativeTo: this.route.parent });
+
     });
   }
 
