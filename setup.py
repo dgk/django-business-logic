@@ -102,6 +102,7 @@ setup(
                 'static/business_logic/*.js',
                 'static/business_logic/*.map',
                 'static/business_logic/blockly/*',
+                'static/business_logic/src/assets/fonts/*',
             ]
         },
 
