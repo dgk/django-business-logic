@@ -19,6 +19,7 @@
   overflow: hidden;
   border-radius: 5px;
   counter-reset: flag;
+  margin-top: 10px;
 }
 
 .breadcrumb > a {
@@ -74,7 +75,7 @@
   height: 36px;
   transform: scale(0.707) rotate(45deg);
   z-index: 1;
-  box-shadow: 2px -2px 0 2px #009688;
+  box-shadow: 2px -2px 0 2px #343434;
   border-radius: 0 5px 0 50px;
 }
 
@@ -94,7 +95,7 @@
 .flat a.active,
 .flat a:hover::after,
 .flat a.active::after {
-  background: #009688;
+  background: #343434;
 }
 
 .flat a.active:hover {

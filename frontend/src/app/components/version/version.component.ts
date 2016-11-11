@@ -8,11 +8,17 @@ import { BaseService } from "../../services/base.service";
   selector: 'version',
   template: `
             <breadcrumb [params]="params"></breadcrumb>
-            <md-list>
-                <md-list-item *ngFor="let version of versions" (click)="onSelect(version)">
-                  <h3 md-line>{{version.title}}</h3>
-                </md-list-item>
-              </md-list>`
+            
+            <div class="ui container segment">
+              <div class="ui relaxed divided list">
+                  <div class="item" *ngFor="let version of versions" (click)="onSelect(version)">
+                    <div class="content">
+                        <a class="header">{{version.title}}</a>
+                        <div class="description"></div>
+                    </div>
+                  </div>
+              </div>
+            </div>`
 })
 
 export class VersionComponent{

@@ -76,10 +76,12 @@
     "assets-webpack-plugin": "^3.4.0",
     "blockly": "https://github.com/google/blockly.git",
     "core-js": "^2.4.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "http-server": "^0.9.0",
     "ie-shim": "^0.1.0",
     "lodash": "^4.16.4",
     "rxjs": "5.0.0-beta.12",
+    "semantic-ui": "^2.2.6",
     "zone.js": "~0.6.17"
   },
   "devDependencies": {

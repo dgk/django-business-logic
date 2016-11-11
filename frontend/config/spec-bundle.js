@@ -30,6 +30,10 @@ require('zone.js/dist/fake-async-test');
 // RxJS
 require('rxjs/Rx');
 
+require('script!imports?module=>undefined!blockly/blockly_compressed.js');
+require('script!imports?module=>undefined!blockly/blocks_compressed.js');
+require('script!imports?module=>undefined!blockly/msg/js/ru.js');
+
 var testing = require('@angular/core/testing');
 var browser = require('@angular/platform-browser-dynamic/testing');
 

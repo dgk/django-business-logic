@@ -238,3 +238,9 @@ class BlocklyXmlParser(object):
             }
         ]
         return data
+
+    def visit_block_business_logic_argument_field_set(self, node):
+        return self.visit_block_variables_set(node)
+
+    def visit_block_business_logic_argument_field_get(self, node):
+        return self.visit_block_variables_get(node)
