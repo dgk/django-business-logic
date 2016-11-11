@@ -54,6 +54,8 @@ declare var System: SystemJS;
 // declare var Blockly: any;
 
 /// <reference path="blockly.d.ts" />
+/// <reference path="msg.d.ts" />
+/// <reference path="semantic.d.ts" />
 
 interface SystemJS {
   import: (path?: string) => Promise<any>;

@@ -9,6 +9,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NoContentComponent } from './components/no-content/no-content.component';
 
 import { DataResolver } from './app.resolver';
+import {EditorComponent} from "./components/editor/editor.component";
 
 
 export const ROUTES: Routes = [
@@ -53,7 +54,7 @@ export const ROUTES: Routes = [
                       },
                       {
                         path: ':versionID',
-                        component: BlocklyComponent
+                        component: EditorComponent
                       }
                     ]
 

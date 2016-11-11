@@ -12,6 +12,7 @@ const commonConfig = require('./webpack.common.js'); // the settings that are co
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const ExtractTextPlugin     = require('extract-text-webpack-plugin')
 
 /**
  * Webpack Constants
@@ -133,6 +134,21 @@ module.exports = function(options) {
         new NamedModulesPlugin(),
 
     ],
+
+    module: {
+          loaders: [
+            // {
+            //   test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/,
+            //   loaders: ['raw-loader', 'url-loader']
+            // }
+            // { test: /^.*\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap')},
+            { test: /\.woff(2)?(\?v=\d+\.\d+\.\d+)?$/,    loader: 'file-loader?mimetype=application/font-woff&name=[path][name].[ext]' },
+            { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,         loader: 'file-loader?mimetype=application/x-font-ttf&name=[path][name].[ext]' },
+            { test: /\.eot(\?v=\d+\.\d+\.\d+)?\??$/,      loader: 'file-loader?mimetype=application/vnd.ms-fontobject&name=[path][name].[ext]' },
+            { test: /\.otf(\?v=\d+\.\d+\.\d+)?$/,         loader: 'file-loader?mimetype=application/font-otf&name=[path][name].[ext]' },
+            { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,         loader: 'url-loader'   }
+          ]
+    },
 
     /**
      * Static analysis linter for TypeScript advanced options configuration
