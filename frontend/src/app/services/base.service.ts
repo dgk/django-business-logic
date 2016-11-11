@@ -71,7 +71,7 @@ export class BaseService {
       [ [ 'program',  this.programs.getCurrent().getID()] ]
     ).map((data) => {
       data.results.map( (result) => {
-        this.versions.addNew( new Version(result["id"], result["title"]) );
+        this.versions.addNew( new Version(result["id"], result["title"], result["description"]) );
       } );
     });
   }

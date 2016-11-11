@@ -30,7 +30,7 @@ export class BlocksService {
           .appendField(new DropdownField(that.getRefService()), "VALUE");
         this.setInputsInline(false);
         this.setOutput(true, null);
-        this.setColour(160);
+        this.setColour('#0078d7');
         this.setTooltip('');
         this.setHelpUrl('');
       }
@@ -41,7 +41,7 @@ export class BlocksService {
         this.appendDummyInput()
           .appendField(new ArgumentField("item", that.getArgumentFieldService()), "VAR");
         this.setOutput(true, null);
-        this.setColour(330);
+        this.setColour('#35bdb2');
         this.setTooltip('');
         this.setHelpUrl('');
       }
@@ -59,7 +59,7 @@ export class BlocksService {
           .appendField("=");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour('#35bdb2');
         this.setTooltip('');
         this.setHelpUrl('');
       }
