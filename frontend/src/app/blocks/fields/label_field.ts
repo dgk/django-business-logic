@@ -22,7 +22,10 @@ export class LabelField extends Blockly.FieldLabel {
 
     if(this.refService){
       let verbose_name = this.refService.getVerboseName(this.getValue());
-      this.setText(verbose_name+" ["+this.getValue()+"]");
+      this.setText(verbose_name);
+
+      //TODO: set Tooltip
+      // this.setTooltip(" ["+this.getValue()+"]");
     }
   }
 

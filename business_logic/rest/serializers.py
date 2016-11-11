@@ -125,13 +125,13 @@ class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReferenceDescriptor
-        fields = '__all__'
+        exclude = ('title', )
 
     def get_name(self, obj):
         return get_model_name(obj.content_type)
 
     def get_verbose_name(self, obj):
-        return obj.content_type.model_class()._meta.verbose_name
+        return obj.title or obj.content_type.model_class()._meta.verbose_name
 
     def get_url(self, obj):
         return reverse('business-logic:rest:reference-list', kwargs=dict(model=get_model_name(obj.content_type)))

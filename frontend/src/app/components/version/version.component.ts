@@ -14,7 +14,7 @@ import { BaseService } from "../../services/base.service";
                   <div class="item" *ngFor="let version of versions" (click)="onSelect(version)">
                     <div class="content">
                         <a class="header">{{version.title}}</a>
-                        <div class="description"></div>
+                        <div class="description">{{version.description}}</div>
                     </div>
                   </div>
               </div>
