@@ -26,6 +26,9 @@ require('script!imports?module=>undefined!blockly/blockly_compressed.js');
 require('script!imports?module=>undefined!blockly/blocks_compressed.js');
 require('script!imports?module=>undefined!blockly/msg/js/ru.js');
 
+require('script!jquery/dist/jquery.js');
+require('script!semantic-ui/dist/semantic.js');
+
 if ('production' === ENV) {
   // Production
 

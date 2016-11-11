@@ -10,11 +10,11 @@ import { AppState } from '../../app.service';
   ],
   template: `
       <breadcrumb [params]="params"></breadcrumb>
-      <md-list>
-        <md-list-item [routerLink]=" ['./interface'] ">
+      <div class="list">
+        <div class="item" [routerLink]=" ['./interface'] ">
           <h3 md-line>Interfaces</h3>
-        </md-list-item>
-      </md-list>
+        </div>
+      </div>
   `
 })
 export class HomeComponent {

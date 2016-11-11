@@ -206,6 +206,16 @@ module.exports = function(env) {
 
     ],
 
+    module: {
+      loaders: [
+        { test: /\.woff(2)?(\?v=\d+\.\d+\.\d+)?$/,    loader: 'file-loader?mimetype=application/font-woff&name=[path][name].[ext]' },
+        { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,         loader: 'file-loader?mimetype=application/x-font-ttf&name=[path][name].[ext]' },
+        { test: /\.eot(\?v=\d+\.\d+\.\d+)?\??$/,      loader: 'file-loader?mimetype=application/vnd.ms-fontobject&name=[path][name].[ext]' },
+        { test: /\.otf(\?v=\d+\.\d+\.\d+)?$/,         loader: 'file-loader?mimetype=application/font-otf&name=[path][name].[ext]' },
+        { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,         loader: 'url-loader'   }
+      ]
+    },
+
     /**
      * Static analysis linter for TypeScript advanced options configuration
      * Description: An extensible linter for the TypeScript language.
