@@ -12,6 +12,7 @@ from .node import NodeAccessor
 @python_2_unicode_compatible
 class ReferenceDescriptor(models.Model):
     content_type = models.OneToOneField(ContentType)
+    title = models.CharField(max_length=255, null=True, blank=True)
     search_fields = models.TextField(null=True, blank=True)
     name_field = models.SlugField(max_length=255, null=True, blank=True)
 
