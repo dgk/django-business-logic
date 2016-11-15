@@ -3123,8 +3123,8 @@ declare module Blockly {
     getVars?: () => any[];
     renameVar?: (oldName: string, newName: string) => void;
     customContextMenu?: any;
-
-    backend?: any;
+    mutationToDom?: () => any;
+    domToMutation?: (xmlElement: any) => void;
   }
 
   const Blocks: {

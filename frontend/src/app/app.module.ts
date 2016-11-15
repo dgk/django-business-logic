@@ -35,6 +35,7 @@ import {EditorComponent} from "./components/editor/editor.component";
 import {ModalSaveComponent} from "./components/editor/modals/modalSave.component";
 import {ModalSaveAsComponent} from "./components/editor/modals/modalSaveAs.component";
 import {ArgumentFieldService} from "./services/argumentField.service";
+import {FunctionService} from "./services/function.service";
 
 
 
@@ -47,7 +48,8 @@ const APP_PROVIDERS = [
   BlocksService,
   ReferenceService,
   VersionService,
-  ArgumentFieldService
+  ArgumentFieldService,
+  FunctionService
 ];
 
 type StoreType = {

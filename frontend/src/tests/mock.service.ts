@@ -5,6 +5,23 @@ import { Observable } from 'rxjs/Observable';
 export class MockService {
 
   private arguments: Observable<any>;
+  public environment = {
+    libraries: [
+      {
+        title: "BookLibrary",
+        functions: [
+          {
+            name: "Get Book from the shelf",
+            returnValue: false,
+            arguments: [
+              { name: "shelf", data_type: "number" },
+              { name: "count", data_type: "number" }
+            ]
+          }
+        ]
+      }
+    ]
+  };
 
   constructor(){
     this.arguments = new Observable(observer => {
@@ -44,6 +61,10 @@ export class MockService {
     if(value == 'book.title'){
       return 'Book title';
     }else return "I dont know";
+  }
+
+  getArgumentsForFunction(func_name: string){
+    return this.environment.libraries[0].functions[0].arguments;
   }
 
 }

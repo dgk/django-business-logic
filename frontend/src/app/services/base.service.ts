@@ -96,5 +96,9 @@ export class BaseService {
     return this.rest.get(version.getUrl());
   }
 
+  getEnvironment(){
+
+  }
+
 
 }

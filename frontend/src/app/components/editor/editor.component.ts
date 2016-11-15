@@ -11,6 +11,7 @@ import { BaseService } from "../../services/base.service";
 import { ReferenceService } from "../../services/reference.service";
 import { VersionService } from "../../services/version.service";
 import {ArgumentFieldService} from "../../services/argumentField.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'editor',
@@ -103,15 +104,14 @@ export class EditorComponent {
 
         // console.log(this.version.xml);
 
-
-        //TODO: maybe run with forkJoin?
-        this.fetchReferences();
-
-        this.argField.fetchArguments().subscribe(() => {
-
+        Observable.forkJoin(
+            this.ref.fetchReferenceDescriptors(),
+            this.argField.fetchArguments()
+        ).subscribe(() => {
+          this.xmlForReferenceDescriptors = this.ref.generateXmlForToolbox();
           this.xmlForArgumentFields = this.argField.generateXmlForToolbox();
-          // console.log(this.base.arguments);
         });
+
       });
 
     });
@@ -125,15 +125,6 @@ export class EditorComponent {
       return this.version.title;
     }
     return "";
-  }
-
-  fetchReferences(){
-
-    this.ref.fetchReferenceDescriptors().subscribe(() => {
-
-      this.xmlForReferenceDescriptors = this.ref.generateXmlForToolbox();
-
-    });
   }
 
   ngOnChanges(changes: any): any {
