@@ -18,23 +18,34 @@ import {Observable} from "rxjs";
   template: `
     <breadcrumb [params]="params"></breadcrumb>
     
-    <div class="ui icon top pointing right pointing dropdown button black">
-      <div class="header"><i class="dropdown icon"></i> Version</div>
+    <div class="ui section">
+    
+      <button class="ui icon violet button" (click) = "modalSave.show()"><i class="save icon"></i></button>
       
-      <div class="menu">
-        <div class="item" (click) = "modalSave.show()"><i class="save icon"></i>Save</div>
-        <div class="item" (click) = "modalSaveAs.show()">Save as ...</div>
+      <div class="ui icon top pointing right pointing dropdown button black">
+        <div class="header"><i class="dropdown icon"></i> Version</div>
+        
+        <div class="menu">
+            <div class="header">
+              <div class="ui compact violet message">
+                <p>{{verDescription}}</p>
+              </div>
+            </div>
+          <!--<div class="item" (click) = "modalSave.show()"><i class="save icon"></i>Save</div>-->
+          <div class="item" (click) = "modalSaveAs.show()">Save as ...</div>
+        </div>
       </div>
+    
     </div>
     
     <modal-save #modalSave (onSave)="onSave( blockly.getXml() )"></modal-save>
     <modal-save-as #modalSaveAs (onSaveAs)="onSaveAs($event, blockly.getXml())" [title] = "title" [verDescription] = "verDescription"></modal-save-as>
     
     <br>
-    
-    <div class="ui segment">
-        <p>{{verDescription}}</p>
-    </div>    
+    <!---->
+    <!--<div class="ui segment">-->
+        <!--<p>{{verDescription}}</p>-->
+    <!--</div>    -->
     
     <blockly [version] = "version" 
              [xmlForReferenceDescriptors] = "xmlForReferenceDescriptors" 
@@ -46,10 +57,13 @@ import {Observable} from "rxjs";
     </div>
     `,
   styles: [`
-         .ui.dropdown{
+         .ui.section{
             top: 10px!important;
             right: 10px!important;
             position: absolute;
+         }
+         .header{
+            text-transform: none!important;
          }`],
   providers: []
 })

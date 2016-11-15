@@ -10,7 +10,7 @@ import _ from 'lodash';
   template: `
       <div class="md">
           <div class="breadcrumb flat">
-          <a *ngFor="let breadcrumb of breadcrumbs" [routerLink] = [breadcrumb] >
+          <a *ngFor="let breadcrumb of breadcrumbs; let i = index; let last = last" [routerLink] = [breadcrumb] [ngClass]="{notActiveLink: last}">
             {{this.friendlyName(breadcrumb)}}
           </a>
           </div>
