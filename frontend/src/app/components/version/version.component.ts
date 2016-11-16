@@ -40,7 +40,7 @@ export class VersionComponent{
 
     this.route.params.subscribe(params => {
 
-      this.base.fetchVersions( +params["interfaceID"], +params["programID"] ).subscribe(() => {
+      this.base.fetchAll( +params["interfaceID"], +params["programID"] ).subscribe(() => {
         this.versions = this.base.versions.getCollection();
 
         this.params["Interface"] = this.base.programInterfaces.getCurrent().getTitle();

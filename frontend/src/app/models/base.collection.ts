@@ -16,6 +16,10 @@ export abstract class BaseCollection{
     this.currentID = model.getID();
   }
 
+  setCurrentID(id: number){
+    this.currentID = id;
+  }
+
   getCurrent(){
     if(this.models.length == 0){
       return undefined;

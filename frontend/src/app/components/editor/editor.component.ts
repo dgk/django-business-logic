@@ -106,17 +106,14 @@ export class EditorComponent {
 
     this.route.params.subscribe(params => {
 
-      this.base.fetchVersion( +params["interfaceID"], +params["programID"], +params["versionID"] ).subscribe((data) => {
+      this.base.fetchAll( +params["interfaceID"], +params["programID"], +params["versionID"] ).subscribe(() => {
 
-        this.version = data;
-        this.title = data.title;
-        this.verDescription = data.description;
+        this.version = this.base.currentVersion;
+        this.verDescription = this.version.description;
 
         this.params["Interface"] = this.base.programInterfaces.getCurrent().getTitle();
         this.params["Program"] = this.base.programs.getCurrent().getTitle();
         this.params["Version"] = this.base.versions.getCurrent().getTitle();
-
-        // console.log(this.version.xml);
 
         Observable.forkJoin(
             this.ref.fetchReferenceDescriptors(),
@@ -125,7 +122,6 @@ export class EditorComponent {
           this.xmlForReferenceDescriptors = this.ref.generateXmlForToolbox();
           this.xmlForArgumentFields = this.argField.generateXmlForToolbox();
         });
-
       });
 
     });

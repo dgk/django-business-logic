@@ -47,7 +47,7 @@ export class InterfaceListComponent {
 
   ngOnInit() {
 
-    this.base.fetchProgramInterfaces().subscribe(() => {
+    this.base.fetchAll().subscribe(() => {
       this.programInterfaces = this.base.programInterfaces.getCollection();
     });
 

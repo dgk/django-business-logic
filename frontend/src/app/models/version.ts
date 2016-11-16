@@ -19,4 +19,8 @@ export class VersionCollection extends BaseCollection{
   constructor(){
     super('/program-version');
   }
+
+  static getBaseURL(){
+    return '/business-logic/rest/program-version'
+  }
 }

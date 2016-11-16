@@ -12,6 +12,7 @@ export class MockService {
         functions: [
           {
             name: "Get Book from the shelf",
+            description: "This is function!",
             returnValue: false,
             arguments: [
               { name: "shelf", data_type: "number" },

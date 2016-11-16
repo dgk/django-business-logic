@@ -12,7 +12,7 @@ import { MockService } from "./mock.service";
 // import {ArgumentFieldGet} from "../app/blocks/fields/argument_field_get";
 import {ArgumentFieldService} from "../app/services/argumentField.service";
 import {ReferenceService} from "../app/services/reference.service";
-import {FunctionService} from "../app/services/function.service";
+import {EnvironmentService} from "../app/services/function.service";
 
 describe('business_logic_argument_get business_logic_argument_set block', () => {
   let workspace: any;
@@ -49,7 +49,7 @@ describe('business_logic_argument_get business_logic_argument_set block', () => 
         // {provide: RestService, useClass: MockService},
         {provide: ArgumentFieldService, useClass: MockService},
         {provide: ReferenceService, useClass: MockService},
-        {provide: FunctionService, useClass: MockService},
+        {provide: EnvironmentService, useClass: MockService},
         BlocksService
       ],
       schemas:[ NO_ERRORS_SCHEMA ]
@@ -111,7 +111,7 @@ describe('business_logic_argument_get business_logic_argument_set block', () => 
     let func = block_func_noreturn.getField("FUNC").getValue();
     expect(func).toEqual('Get Book from the shelf');
 
-    expect(block_func_noreturn.functionService.test()).toEqual('This is MockService!');
+    expect(block_func_noreturn.environment.test()).toEqual('This is MockService!');
 
     console.log(block_func_noreturn.getFieldValue("ARG0"));
 
