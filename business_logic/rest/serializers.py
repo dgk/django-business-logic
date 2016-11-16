@@ -10,17 +10,19 @@ from django.utils import six
 from rest_framework import serializers
 
 from ..models import (
+    ExceptionLog,
     Execution,
     ExecutionArgument,
     ExecutionEnvironment,
-    ExceptionLog,
+    FunctionDefinition,
+    FunctionLibrary,
     LogEntry,
-    ProgramInterface,
-    ProgramArgumentField,
-    ProgramArgument,
-    ReferenceDescriptor,
     Program,
-    ProgramVersion
+    ProgramArgument,
+    ProgramArgumentField,
+    ProgramInterface,
+    ProgramVersion,
+    ReferenceDescriptor,
 )
 
 from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
@@ -48,10 +50,25 @@ class ContentTypeSerializer(serializers.Serializer):
     def get_name(self, obj):
         return get_model_name(obj)
 
+
+class FunctionDefinitionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FunctionDefinition
+        exclude = ('id', 'polymorphic_ctype')
+
+
+class FunctionLibrarySerializer(serializers.ModelSerializer):
+    functions = FunctionDefinitionSerializer(many=True)
+    class Meta:
+        model = FunctionLibrary
+        exclude = ('id', )
+
+
 class ExecutionEnvironmentSerializer(serializers.ModelSerializer):
+    libraries = FunctionLibrarySerializer(many=True)
     class Meta:
         model = ExecutionEnvironment
-        fields = '__all__'
+        exclude = ('id', )
 
 
 class ProgramInterfaceListSerializer(serializers.ModelSerializer):
@@ -132,6 +149,7 @@ class ProgramVersionCreateSerializer(serializers.ModelSerializer):
 class ProgramVersionSerializer(serializers.ModelSerializer):
     xml = BlocklyXMLSerializer(source='entry_point', required=True)
     program = serializers.PrimaryKeyRelatedField(read_only=True)
+    environment = ExecutionEnvironmentSerializer(read_only=True)
 
     class Meta:
         model = ProgramVersion
@@ -219,6 +237,7 @@ class ProgramArgumentSerializer(serializers.ModelSerializer):
 
 class ProgramInterfaceSerializer(serializers.ModelSerializer):
     arguments = ProgramArgumentSerializer(many=True)
+    environment = ExecutionEnvironmentSerializer()
 
     class Meta:
         model = ProgramInterface

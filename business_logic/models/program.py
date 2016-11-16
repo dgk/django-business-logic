@@ -21,6 +21,7 @@ from ..fields import DeepAttributeField
 @python_2_unicode_compatible
 class ExecutionEnvironment(models.Model):
     title = models.CharField(_('Title'), max_length=255, unique=True)
+    description = models.TextField(_('Description'), null=True, blank=True)
     libraries = models.ManyToManyField('FunctionLibrary', related_name='environments', blank=True)
     debug = models.BooleanField(default=False)
     log = models.BooleanField(default=False)

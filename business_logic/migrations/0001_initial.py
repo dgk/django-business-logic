@@ -97,10 +97,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(unique=True, max_length=255, verbose_name='Title')),
+                ('description', models.TextField(null=True, verbose_name='Description', blank=True)),
                 ('debug', models.BooleanField(default=False)),
                 ('log', models.BooleanField(default=False)),
                 ('cache', models.BooleanField(default=True)),
-                ('exception_handling_policy', models.CharField(default=b'INTERRUPT', max_length=15, verbose_name='Exception handling policy', choices=[('Ignore', b'IGNORE'), ('Interrupt', b'INTERRUPT'), ('Raise', b'RAISE')])),
+                ('exception_handling_policy', models.CharField(default=b'INTERRUPT', max_length=15, verbose_name='Exception handling policy', choices=[(b'IGNORE', 'Ignore'), (b'INTERRUPT', 'Interrupt'), (b'RAISE', 'Raise')])),
             ],
         ),
         migrations.CreateModel(
@@ -124,11 +125,26 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='FunctionArgument',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=255, null=True, blank=True)),
+                ('order', models.PositiveIntegerField(default=0, db_index=True)),
+            ],
+            options={
+                'ordering': ('order',),
+                'verbose_name': 'Function argument',
+                'verbose_name_plural': 'Function arguments',
+            },
+        ),
+        migrations.CreateModel(
             name='FunctionDefinition',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(unique=True, max_length=255, verbose_name='Function title')),
+                ('title', models.CharField(unique=True, max_length=255, verbose_name='Title')),
+                ('description', models.TextField(null=True, verbose_name='Description', blank=True)),
                 ('is_context_required', models.BooleanField(default=False, verbose_name='Is Context required')),
+                ('is_returns_value', models.BooleanField(default=True, verbose_name='Is returns value')),
             ],
             options={
                 'abstract': False,
@@ -140,6 +156,10 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(unique=True, max_length=255, verbose_name='Function library title')),
             ],
+            options={
+                'verbose_name': 'Function library',
+                'verbose_name_plural': 'Function libraries',
+            },
         ),
         migrations.CreateModel(
             name='IfStatement',
@@ -280,6 +300,7 @@ class Migration(migrations.Migration):
             name='ReferenceDescriptor',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(max_length=255, null=True, blank=True)),
                 ('search_fields', models.TextField(null=True, blank=True)),
                 ('name_field', models.SlugField(max_length=255, null=True, blank=True)),
                 ('content_type', models.OneToOneField(to='contenttypes.ContentType')),
@@ -421,6 +442,11 @@ class Migration(migrations.Migration):
             model_name='functiondefinition',
             name='polymorphic_ctype',
             field=models.ForeignKey(related_name='polymorphic_business_logic.functiondefinition_set+', editable=False, to='contenttypes.ContentType', null=True),
+        ),
+        migrations.AddField(
+            model_name='functionargument',
+            name='function',
+            field=models.ForeignKey(related_name='arguments', to='business_logic.FunctionDefinition'),
         ),
         migrations.AddField(
             model_name='function',

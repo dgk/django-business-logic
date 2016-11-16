@@ -125,7 +125,7 @@ class PythonCodeFunctionDefinitionAdminForm(forms.ModelForm):
 
     class Meta:
         model = PythonCodeFunctionDefinition
-        fields = ('title', 'is_context_required', 'code')
+        fields = ('title', 'description', 'is_returns_value', 'is_context_required', 'code')
 
 
 class PythonCodeFunctionDefinitionAdmin(FunctionDefinitionAdmin):

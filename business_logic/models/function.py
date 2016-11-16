@@ -12,7 +12,8 @@ from polymorphic.models import PolymorphicModel
 
 @python_2_unicode_compatible
 class FunctionDefinition(PolymorphicModel):
-    title = models.CharField(_('Function title'), max_length=255, unique=True)
+    title = models.CharField(_('Title'), max_length=255, unique=True)
+    description = models.TextField(_('Description'), null=True, blank=True)
     is_context_required = models.BooleanField(_('Is Context required'), default=False)
     is_returns_value = models.BooleanField(_('Is returns value'), default=True)
 
