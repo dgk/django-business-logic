@@ -25,14 +25,16 @@ class FunctionDefinition(PolymorphicModel):
 
 @python_2_unicode_compatible
 class FunctionArgument(models.Model):
-    function = models.ForeignKey(FunctionDefinition)
+    function = models.ForeignKey(FunctionDefinition, related_name='arguments')
     name = models.CharField(max_length=255, null=True, blank=True)
 
-    # TODO: arg typing
+    order = models.PositiveIntegerField(default=0, db_index=True)
 
     class Meta:
         verbose_name = _('Function argument')
         verbose_name_plural = _('Function arguments')
+
+        ordering = ('order', )
 
     def __str__(self):
         return self.name or '*'

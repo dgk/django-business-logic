@@ -39,10 +39,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'nested_inline',
     'polymorphic',
     'ace_overlay',
+    'adminsortable2',
+
     'bootstrap3',
 
 #    'django_extensions',

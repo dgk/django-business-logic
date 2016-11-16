@@ -2,11 +2,14 @@
 from django import forms
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.admin import TabularInline
 
 from nested_inline.admin import NestedStackedInline, NestedModelAdmin
 
 from polymorphic.admin import PolymorphicChildModelAdmin
 from polymorphic.admin import PolymorphicParentModelAdmin
+
+from adminsortable2.admin import SortableInlineAdminMixin
 
 from ace_overlay.widgets import AceOverlayWidget
 
@@ -22,7 +25,9 @@ from .models import (
     PythonCodeFunctionDefinition,
     PythonModuleFunctionDefinition,
     FunctionLibrary,
+    FunctionArgument,
     ExecutionEnvironment)
+
 from .utils import get_customer_available_content_types
 
 
@@ -93,7 +98,16 @@ class ReferenceDescriptorAdmin(admin.ModelAdmin):
     form = ContentTypeHolderForm
 
 
-class PythonModuleFunctionDefinitionAdmin(PolymorphicChildModelAdmin):
+class FunctionArgumentInline(SortableInlineAdminMixin, admin.TabularInline):
+    model = FunctionArgument
+    extra = 1
+
+
+class FunctionDefinitionAdmin(PolymorphicChildModelAdmin):
+    inlines = (FunctionArgumentInline, )
+
+
+class PythonModuleFunctionDefinitionAdmin(FunctionDefinitionAdmin):
     base_model = PythonModuleFunctionDefinition
 
 
@@ -114,7 +128,7 @@ class PythonCodeFunctionDefinitionAdminForm(forms.ModelForm):
         fields = ('title', 'is_context_required', 'code')
 
 
-class PythonCodeFunctionDefinitionAdmin(PolymorphicChildModelAdmin):
+class PythonCodeFunctionDefinitionAdmin(FunctionDefinitionAdmin):
     base_model = PythonCodeFunctionDefinition
     form = PythonCodeFunctionDefinitionAdminForm
 

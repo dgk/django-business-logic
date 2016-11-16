@@ -7,3 +7,4 @@ django-nested-inline==0.3.6
 lxml<4.0
 django-polymorphic==1.0.2
 django-ace-overlay==0.5
+django-admin-sortable2==0.6.5
