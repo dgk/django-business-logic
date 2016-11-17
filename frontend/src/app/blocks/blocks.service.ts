@@ -103,7 +103,7 @@ export class BlocksService {
                 this.appendValueInput("ARG"+i)
                   .setCheck(null)
                   .setAlign(Blockly.ALIGN_RIGHT)
-                  .appendField(args[i]["verbose_name"], "ARG");
+                  .appendField(args[i].getName(), "ARG");
               }
 
             }
@@ -128,6 +128,8 @@ export class BlocksService {
         this.appendDummyInput()
           // .appendField('date:');
         .appendField(new Blockly.FieldDate('2015-02-05'), 'DATE');
+        this.setOutput(true, null);
+        this.setColour('#0078d7');
       }
     };
 

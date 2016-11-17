@@ -45,7 +45,7 @@ export class BaseService {
         if(version){
           this.currentVersion = this.versions.getCurrent();
 
-          this.currentVersion.setEnvironment(version.environment);
+          if(version.environment) this.currentVersion.setEnvironment(version.environment);
           this.currentVersion.setXml(version.xml);
         }
     });

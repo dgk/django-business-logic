@@ -51,9 +51,8 @@ export class Function{
     this.description = func['description'];
     this.is_returns_value = func['is_returns_value'];
 
-
-    if(func.arg){
-      func.args.forEach((arg) => {
+    if(func['arguments']){
+      func['arguments'].forEach((arg) => {
         this.args.push(new Arg(arg));
       });
     }
@@ -74,9 +73,19 @@ export class Arg{
     this.verbose_name = arg.verbose_name;
     this.data_type = arg.data_type;
 
-    arg.choices.forEach((choice) => {
-      this.choices.push(new Choice(choice));
-    });
+    if(arg.choices){
+      arg.choices.forEach((choice) => {
+        this.choices.push(new Choice(choice));
+      });
+    }
+  }
+
+  getName(){
+    if(this.verbose_name){
+      return this.verbose_name;
+    }else{
+      return this.name;
+    }
   }
 }
 
