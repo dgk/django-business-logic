@@ -23,7 +23,7 @@ from ..models import (
     ProgramInterface,
     ProgramVersion,
     ReferenceDescriptor,
-)
+    FunctionArgument)
 
 from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
 
@@ -51,7 +51,14 @@ class ContentTypeSerializer(serializers.Serializer):
         return get_model_name(obj)
 
 
+class FunctionArgumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FunctionArgument
+        fields = ('name', 'description', )
+
+
 class FunctionDefinitionSerializer(serializers.ModelSerializer):
+    arguments = FunctionArgumentSerializer(many=True)
     class Meta:
         model = FunctionDefinition
         exclude = ('id', 'polymorphic_ctype')
@@ -77,13 +84,6 @@ class ProgramInterfaceListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProgramInterface
         fields = '__all__'
-
-
-class ProgramListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Program
-        fields = '__all__'
-
 
 
 class BlocklyXMLSerializer(serializers.CharField):
@@ -114,15 +114,17 @@ class BlocklyXMLSerializer(serializers.CharField):
         return value
 
 
-class ProgramInterfaceListSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program-interface')
+class ProgramSerializer(serializers.ModelSerializer):
+    environment = ExecutionEnvironmentSerializer(read_only=True)
 
     class Meta:
-        model = ProgramInterface
+        model = Program
         fields = '__all__'
 
 
 class ProgramListSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program')
+
     class Meta:
         model = Program
         fields = '__all__'

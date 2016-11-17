@@ -69,6 +69,11 @@ class ProgramList(generics.ListAPIView):
     filter_fields = ('program_interface', )
 
 
+class ProgramView(generics.RetrieveAPIView):
+    queryset = Program.objects.all()
+    serializer_class = ProgramSerializer
+
+
 class ProgramVersionList(generics.ListAPIView):
     queryset = ProgramVersion.objects.all()
     serializer_class = ProgramVersionListSerializer
