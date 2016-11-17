@@ -27,7 +27,9 @@ class FunctionDefinition(PolymorphicModel):
 @python_2_unicode_compatible
 class FunctionArgument(models.Model):
     function = models.ForeignKey(FunctionDefinition, related_name='arguments')
+
     name = models.CharField(max_length=255, null=True, blank=True)
+    description = models.TextField(_('Description'), null=True, blank=True)
 
     order = models.PositiveIntegerField(default=0, db_index=True)
 
@@ -39,6 +41,25 @@ class FunctionArgument(models.Model):
 
     def __str__(self):
         return self.name or '*'
+
+
+@python_2_unicode_compatible
+class FunctionArgumentChoice(models.Model):
+    argument = models.ForeignKey(FunctionArgument, related_name='choices')
+
+    value = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+
+    order = models.PositiveIntegerField(default=0, db_index=True)
+
+    class Meta:
+        verbose_name = _('Function argument choice')
+        verbose_name_plural = _('Function argument choices')
+
+        ordering = ('order', )
+
+    def __str__(self):
+        return self.title
 
 
 class PythonModuleFunctionDefinition(FunctionDefinition):

@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin import TabularInline
 
-from nested_inline.admin import NestedStackedInline, NestedModelAdmin
+from nested_inline.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
 
 from polymorphic.admin import PolymorphicChildModelAdmin
 from polymorphic.admin import PolymorphicParentModelAdmin
@@ -26,7 +26,9 @@ from .models import (
     PythonModuleFunctionDefinition,
     FunctionLibrary,
     FunctionArgument,
-    ExecutionEnvironment)
+    FunctionArgumentChoice,
+    ExecutionEnvironment,
+)
 
 from .utils import get_customer_available_content_types
 
@@ -98,9 +100,28 @@ class ReferenceDescriptorAdmin(admin.ModelAdmin):
     form = ContentTypeHolderForm
 
 
-class FunctionArgumentInline(SortableInlineAdminMixin, admin.TabularInline):
+class FunctionArgumentChoiceAdmin(SortableInlineAdminMixin, admin.TabularInline):
+    model = FunctionArgumentChoice
+    extra = 1
+
+
+class FunctionArgumentAdmin(admin.ModelAdmin):
+    model = FunctionArgument
+    inlines = (FunctionArgumentChoiceAdmin, )
+    readonly_fields = ('function', 'order')
+
+    list_filter = (
+        'function',
+    )
+
+    def has_add_permission(self, request):
+        return False
+
+
+class FunctionArgumentInline(SortableInlineAdminMixin, admin.StackedInline):
     model = FunctionArgument
     extra = 1
+    show_change_link = True
 
 
 class FunctionDefinitionAdmin(PolymorphicChildModelAdmin):
@@ -147,6 +168,7 @@ admin.site.register(ProgramVersion, ProgramVersionAdmin)
 
 admin.site.register(ReferenceDescriptor, ReferenceDescriptorAdmin)
 
+admin.site.register(FunctionArgument, FunctionArgumentAdmin)
 admin.site.register(FunctionDefinition, FunctionDefinitionAdmin)
 admin.site.register(PythonModuleFunctionDefinition, PythonModuleFunctionDefinitionAdmin)
 admin.site.register(PythonCodeFunctionDefinition, PythonCodeFunctionDefinitionAdmin)

@@ -129,12 +129,28 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=255, null=True, blank=True)),
+                ('description', models.TextField(null=True, verbose_name='Description', blank=True)),
                 ('order', models.PositiveIntegerField(default=0, db_index=True)),
             ],
             options={
                 'ordering': ('order',),
                 'verbose_name': 'Function argument',
                 'verbose_name_plural': 'Function arguments',
+            },
+        ),
+        migrations.CreateModel(
+            name='FunctionArgumentChoice',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('value', models.CharField(max_length=255)),
+                ('title', models.CharField(max_length=255)),
+                ('order', models.PositiveIntegerField(default=0, db_index=True)),
+                ('argument', models.ForeignKey(related_name='choices', to='business_logic.FunctionArgument')),
+            ],
+            options={
+                'ordering': ('order',),
+                'verbose_name': 'Function argument choice',
+                'verbose_name_plural': 'Function argument choices',
             },
         ),
         migrations.CreateModel(
