@@ -10,12 +10,17 @@ import { AppState } from '../../app.service';
   ],
   template: `
       <breadcrumb [params]="params"></breadcrumb>
-      <div class="list">
-        <div class="item" [routerLink]=" ['./interface'] ">
-          <h3 md-line>Interfaces</h3>
-        </div>
-      </div>
-  `
+      
+      <div class="ui container segment">
+          <div class="ui relaxed divided list">
+            <div class="item" [routerLink]=" ['./interface'] ">
+              <div class="content">
+                  <a class="header">Interfaces</a>
+                  <div class="description"></div>
+              </div>
+            </div>
+          </div>
+        </div>`
 })
 export class HomeComponent {
   private params: any = {};

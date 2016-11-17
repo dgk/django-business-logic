@@ -34,7 +34,7 @@ export class BaseService {
     if(versionID) observables.push( this.fetchVersion(versionID) );
 
 
-    return Observable.forkJoin(observables)
+    let all = Observable.forkJoin(observables)
       .map(( [ , , , version] ) => {
         if(interfaceID) this.programInterfaces.setCurrentID( interfaceID );
 
@@ -48,9 +48,15 @@ export class BaseService {
           this.currentVersion.setEnvironment(version.environment);
           this.currentVersion.setXml(version.xml);
         }
-    }).flatMap(() => {
-      return this.fetchInterface();
+    });
+
+    if(interfaceID){
+      return all.flatMap(() => {
+        return this.fetchInterface();
       });
+    }else{
+      return all;
+    }
   }
 
   fetchInterface(){
@@ -103,11 +109,6 @@ export class BaseService {
 
   fetchVersion(versionID: number){
     return this.rest.get(`${VersionCollection.getBaseURL()}/${versionID}`);
-  }
-
-
-  getEnvironment(){
-
   }
 
 
