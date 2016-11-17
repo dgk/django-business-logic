@@ -29,6 +29,7 @@ export class BlocklyComponent {
   @Input() version: any;
   @Input() xmlForReferenceDescriptors: any;
   @Input() xmlForArgumentFields: any;
+  @Input() xmlForFunctionLibs: any;
 
   style = {
     width: '100%',
@@ -57,6 +58,7 @@ export class BlocklyComponent {
                         ${require('./blockly-toolset.html')}
                         ${this.xmlForReferenceDescriptors}
                         ${this.xmlForArgumentFields}
+                        ${this.xmlForFunctionLibs}
                      </xml>`;
       this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
         {

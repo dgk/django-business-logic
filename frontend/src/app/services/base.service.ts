@@ -16,6 +16,8 @@ export class BaseService {
   programs: any;
   versions: any;
 
+  currentProgramInterface: any;
+  currentProgram: any;
   currentVersion: any;
 
   constructor(private rest: RestService){
@@ -33,16 +35,31 @@ export class BaseService {
 
 
     return Observable.forkJoin(observables)
-      .map((data) => {
+      .map(( [ , , , version] ) => {
         if(interfaceID) this.programInterfaces.setCurrentID( interfaceID );
 
         if(programID) this.programs.setCurrentID( programID );
 
         if(versionID) this.versions.setCurrentID( versionID );
 
-        if(data[3]){
-          this.currentVersion = data[3];
+        if(version){
+          this.currentVersion = this.versions.getCurrent();
+
+          this.currentVersion.setEnvironment(version.environment);
+          this.currentVersion.setXml(version.xml);
         }
+    }).flatMap(() => {
+      return this.fetchInterface();
+      });
+  }
+
+  fetchInterface(){
+    this.currentProgramInterface = this.programInterfaces.getCurrent();
+    let url = this.currentProgramInterface.getUrl();
+
+    return this.rest.get(url).map((data) => {
+      this.currentProgramInterface.setEnvironment(data['environment']);
+      this.currentProgramInterface.setArgs(data['arguments']);
     });
   }
 

@@ -1,28 +1,49 @@
+import { Injectable } from '@angular/core';
 import {BaseService} from "./base.service";
+import {RestService} from "./rest.service";
 
+@Injectable()
 export class EnvironmentService {
 
-  constructor(){
+  constructor(private base: BaseService){
 
+  }
+
+  getEnvironment(){
+    return this.base.currentVersion.getEnvironment()
+      || this.base.currentProgramInterface.getEnvironment();
   }
 
   getFunction(func_name: string){
-    return {
-      name: "Get Book from the shelf",
-      description: "some description",
-      returnValue: false,
-      args: [
-        { verbose_name: "shelf",
-          name: '123shelf',
-          data_type: "number" },
-        { verbose_name: "count",
-          name: '123count',
-          data_type: "number" }
-      ]
-    }
+
+    let env = this.getEnvironment();
+    let func;
+
+    env['libraries'].forEach((lib) => {
+      func = lib.getFunctionByName(func_name);
+    });
+
+    return func;
   }
 
-  test(){
-    return "this is Func Service";
+  generateXmlForToolbox(){
+    let xml =   `<category name="Function libraries">`;
+
+    this.getEnvironment()['libraries'].forEach((lib) => {
+      xml += `<category name="${lib.title}">`;
+
+      lib['functions'].forEach((func) => {
+        xml += `<block type="business_logic_function">
+                  <mutation args="true"></mutation>
+                    <field name="FUNC">${func.title}</field>
+                </block>`;
+      });
+
+      xml += `</category>`;
+    });
+
+    xml += `</category>`;
+
+    return xml;
   }
 }

@@ -12,6 +12,7 @@ import { ReferenceService } from "../../services/reference.service";
 import { VersionService } from "../../services/version.service";
 import {ArgumentFieldService} from "../../services/argumentField.service";
 import {Observable} from "rxjs";
+import {EnvironmentService} from "../../services/environment.service";
 
 @Component({
   selector: 'editor',
@@ -49,7 +50,8 @@ import {Observable} from "rxjs";
     
     <blockly [version] = "version" 
              [xmlForReferenceDescriptors] = "xmlForReferenceDescriptors" 
-             [xmlForArgumentFields] = "xmlForArgumentFields" #blockly>
+             [xmlForArgumentFields] = "xmlForArgumentFields" 
+             [xmlForFunctionLibs] = "xmlForFunctionLibs" #blockly>
     </blockly>
    
     <div *ngIf = "saving" class="ui active page dimmer">
@@ -77,6 +79,7 @@ export class EditorComponent {
 
   xmlForReferenceDescriptors: any;
   xmlForArgumentFields: any;
+  xmlForFunctionLibs: any
 
   private params: any = {
     "Interface": 'Interface',
@@ -93,6 +96,7 @@ export class EditorComponent {
     private base: BaseService,
     private ref: ReferenceService,
     private argField: ArgumentFieldService,
+    private environment: EnvironmentService,
     private ver: VersionService){
   }
 
@@ -115,10 +119,9 @@ export class EditorComponent {
         this.params["Program"] = this.base.programs.getCurrent().getTitle();
         this.params["Version"] = this.base.versions.getCurrent().getTitle();
 
-        Observable.forkJoin(
-            this.ref.fetchReferenceDescriptors(),
-            this.argField.fetchArguments()
-        ).subscribe(() => {
+        this.xmlForFunctionLibs = this.environment.generateXmlForToolbox();
+
+        this.ref.fetchReferenceDescriptors().subscribe(() => {
           this.xmlForReferenceDescriptors = this.ref.generateXmlForToolbox();
           this.xmlForArgumentFields = this.argField.generateXmlForToolbox();
         });

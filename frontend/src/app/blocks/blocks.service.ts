@@ -19,22 +19,13 @@ export class BlocksService {
     public environment: EnvironmentService){
   }
 
-  getRefService(){
-    return this.refService;
-  }
-
-  getArgumentFieldService(){
-    return this.argField;
-  }
-
-
   init(){
     let that = this;
     Blockly.Blocks['business_logic_reference'] = {
       init: function(){
         this.appendDummyInput()
-          .appendField(new ReferenceLabelField(that.getRefService()), 'TYPE')
-          .appendField(new ReferenceDropdownField(that.getRefService()), "VALUE");
+          .appendField(new ReferenceLabelField(that.refService), 'TYPE')
+          .appendField(new ReferenceDropdownField(that.refService), "VALUE");
         this.setInputsInline(false);
         this.setOutput(true, null);
         this.setColour('#0078d7');
@@ -46,7 +37,7 @@ export class BlocksService {
     Blockly.Blocks['business_logic_argument_field_get'] = {
       init: function(){
         this.appendDummyInput()
-          .appendField(new ArgumentField("item", that.getArgumentFieldService()), "VAR");
+          .appendField(new ArgumentField("item", that.argField), "VAR");
         this.setOutput(true, null);
         this.setColour('#35bdb2');
         this.setTooltip('');
@@ -62,7 +53,7 @@ export class BlocksService {
         this.appendValueInput("VALUE")
           .setCheck(null)
           .appendField(msg)
-          .appendField(new ArgumentField("item", that.getArgumentFieldService()), "VAR")
+          .appendField(new ArgumentField("item", that.argField), "VAR")
           .appendField("=");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
@@ -76,7 +67,6 @@ export class BlocksService {
       init: function() {
         this.appendDummyInput()
           .appendField(new FunctionLabelField(), "FUNC");
-        this.setOutput(true, null);
         this.setColour('#2c985e');
         this.setTooltip('');
         this.setHelpUrl('');
@@ -102,30 +92,42 @@ export class BlocksService {
 
         let func = this.environment.getFunction(func_name);
 
-        let args = func.args;
-        let isReturnedValue = func.returnValue;
+        if(func){
+          let args = func.args;
+          let isReturnedValue = func.is_returns_value;
 
-        for(let i = 0; i < args.length; i++){
+          if(args){
+            for(let i = 0; i < args.length; i++){
 
-          if(!this.getInput("ARG"+i)){
-            this.appendValueInput("ARG"+i)
-              .setCheck(null)
-              .setAlign(Blockly.ALIGN_RIGHT)
-              .appendField(args[i]["verbose_name"], "ARG");
+              if(!this.getInput("ARG"+i)){
+                this.appendValueInput("ARG"+i)
+                  .setCheck(null)
+                  .setAlign(Blockly.ALIGN_RIGHT)
+                  .appendField(args[i]["verbose_name"], "ARG");
+              }
+
+            }
           }
 
+          if(!isReturnedValue){
+            this.setPreviousStatement(true, null);
+            this.setNextStatement(true, null);
+          }else{
+            this.setOutput(true, null);
+          }
+
+          this.setTooltip(func.description);
         }
 
-        if(isReturnedValue){
-          this.setPreviousStatement(true, null);
-          this.setNextStatement(true, null);
-        }else{
-          this.setOutput(true, null);
-        }
 
-        this.setTooltip(func.description);
+      }
+    };
 
-
+    Blockly.Blocks['business_logic_date'] = {
+      init: function() {
+        this.appendDummyInput()
+          // .appendField('date:');
+        .appendField(new Blockly.FieldDate('2015-02-05'), 'DATE');
       }
     };
 
