@@ -18,6 +18,7 @@ class BlocklyXmlBuilderConstantTest(TestCase):
         self.assertEqual(1, len(block))
         block = block[0]
         self.assertEqual(block_type, block.get('type'))
+        self.assertEqual(str(node.id), block.get('id'))
         field = block.find('field')
         self.assertIsNotNone(field)
         self.assertEqual(field_name, field.get('name'))
@@ -59,6 +60,7 @@ class BlocklyXmlBuilderReferenceConstantTest(TestCase):
         self.assertEqual(1, len(block))
         block = block[0]
         self.assertEqual('business_logic_reference', block.get('type'))
+        self.assertEqual(str(node.id), block.get('id'))
 
         fields = block.findall('field')
         self.assertEqual(2, len(fields))
@@ -83,6 +85,7 @@ class BlocklyXmlBuilderAssignmentTest(TestCase):
         self.assertEqual(1, len(block))
         block = block[0]
         self.assertEqual('variables_set', block.get('type'))
+        self.assertEqual(str(assign_node.id), block.get('id'))
 
         field, value = block.getchildren()
 

@@ -56,6 +56,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
                 for child in self.get_children(node):
                     self.visit(child, parent_xml)
 
+            node_xml.set('id', str(node.id))
             return node_xml
 
         if content_object.__class__ not in (VariableDefinition, ):

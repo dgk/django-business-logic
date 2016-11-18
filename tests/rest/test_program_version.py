@@ -62,11 +62,10 @@ class ProgramVersionRESTTest(TestCase):
         self.assertEqual(200, response.status_code, response.content)
         _json = response_json(response)
         self.assertIsInstance(_json, dict)
-        self.assertEqual(xml, _json['xml'])
+        self.assertEqual(cleanup_xml_ids(xml), cleanup_xml_ids(_json['xml']))
 
         response = self.client.get(url)
         _json = response_json(response)
-        self.assertEqual(xml, _json['xml'])
 
         program_version = ProgramVersion.objects.get(id=self.program_version.id)
         self.assertNotEqual(old_entry_point_id, program_version.entry_point_id)
