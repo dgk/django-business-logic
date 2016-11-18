@@ -14,6 +14,9 @@ import {ArgumentFieldService} from "../../services/argumentField.service";
 import {Observable} from "rxjs";
 import {EnvironmentService} from "../../services/environment.service";
 
+import {NotificationsService} from "angular2-notifications/src/notifications.service";
+import {SimpleNotificationsComponent} from 'angular2-notifications/src/simple-notifications.component';
+
 @Component({
   selector: 'editor',
   template: `
@@ -43,10 +46,6 @@ import {EnvironmentService} from "../../services/environment.service";
     <modal-save-as #modalSaveAs (onSaveAs)="onSaveAs($event, blockly.getXml())" [title] = "title" [verDescription] = "verDescription"></modal-save-as>
     
     <br>
-    <!---->
-    <!--<div class="ui segment">-->
-        <!--<p>{{verDescription}}</p>-->
-    <!--</div>    -->
     
     <blockly [version] = "version" 
              [xmlForReferenceDescriptors] = "xmlForReferenceDescriptors" 
@@ -57,6 +56,8 @@ import {EnvironmentService} from "../../services/environment.service";
     <div *ngIf = "saving" class="ui active page dimmer">
       <div class="ui text loader">Saving</div>
     </div>
+    
+    <simple-notifications [options]="options"></simple-notifications>
     `,
   styles: [`
          .ui.section{
@@ -79,7 +80,22 @@ export class EditorComponent {
 
   xmlForReferenceDescriptors: any;
   xmlForArgumentFields: any;
-  xmlForFunctionLibs: any
+  xmlForFunctionLibs: any;
+
+  public options = {
+    timeOut: 5000,
+    lastOnBottom: true,
+    clickToClose: true,
+    maxLength: 0,
+    maxStack: 7,
+    showProgressBar: true,
+    pauseOnHover: true,
+    preventDuplicates: false,
+    preventLastDuplicates: 'visible',
+    rtl: false,
+    // animate: 'scale',
+    position: ['right', 'bottom']
+  };
 
   private params: any = {
     "Interface": 'Interface',
@@ -97,7 +113,9 @@ export class EditorComponent {
     private ref: ReferenceService,
     private argField: ArgumentFieldService,
     private environment: EnvironmentService,
-    private ver: VersionService){
+    private ver: VersionService,
+
+    private notification: NotificationsService){
   }
 
 
@@ -113,6 +131,7 @@ export class EditorComponent {
       this.base.fetchAll( +params["interfaceID"], +params["programID"], +params["versionID"] ).subscribe(() => {
 
         this.version = this.base.currentVersion;
+        this.title = this.version.title;
         this.verDescription = this.version.description;
 
         this.params["Interface"] = this.base.programInterfaces.getCurrent().getTitle();
@@ -153,14 +172,22 @@ export class EditorComponent {
 
     this.saving = true;
 
-    this.ver.saveAsVersion(this.version).subscribe((response: any) => {
-      this.saving = false;
+    this.ver.saveAsVersion(this.version)
+      .catch((e) => {
+        if(e.status != 200){
+          this.saving = false;
+          this.notification.error('Error!', 'Saving failed');
+        }
+      })
+      .subscribe((response: any) => {
+        this.saving = false;
+        this.notification.success('Success!', 'Version saved!');
 
-      //TODO: redirect to new version!
-      // let id = response.id.toString();
-      // this.router.navigate([ id ], { relativeTo: this.route.parent });
+        //TODO: redirect to new version!
+        // let id = response.id.toString();
+        // this.router.navigate([ id ], { relativeTo: this.route.parent });
 
-    });
+      });
   }
 
   onSave(xml: string) {
@@ -170,8 +197,8 @@ export class EditorComponent {
     this.saving = true;
 
     this.ver.saveVersion(this.version).subscribe(() => {
-      console.log("Save works!");
       this.saving = false;
+      this.notification.success('Success!', 'Version saved!');
     });
   }
 

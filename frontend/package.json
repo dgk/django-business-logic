@@ -73,6 +73,7 @@
     "@angularclass/hmr": "~1.2.0",
     "@angularclass/hmr-loader": "~3.0.2",
     "@types/lodash": "^4.14.37",
+    "angular2-notifications": "^0.4.46",
     "assets-webpack-plugin": "^3.4.0",
     "blockly": "https://github.com/google/blockly.git",
     "core-js": "^2.4.1",
