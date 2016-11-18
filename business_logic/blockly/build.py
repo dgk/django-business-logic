@@ -191,9 +191,3 @@ class BlocklyXmlBuilder(NodeCacheHolder):
     visit_if_statement.process_children = True
 
 
-def tree_to_blockly_xml(tree_root):
-    return BlocklyXmlBuilder().build(tree_root)
-
-
-def blockly_xml_to_tree(xml):
-    pass
