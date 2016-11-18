@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {BaseService} from "./base.service";
 import {RestService} from "./rest.service";
 
+import * as find from 'lodash/find';
+
 @Injectable()
 export class EnvironmentService {
 
@@ -24,6 +26,17 @@ export class EnvironmentService {
     });
 
     return func;
+  }
+
+  getChoicesFor(func: any, arg_name: string){
+    let choices = [];
+
+    let arg = find(func["args"], (arg) => {return arg.getName() == arg_name});
+    arg.choices.forEach((choice) => {
+      choices.push([choice['title'], choice['value']]);
+    });
+
+    return choices;
   }
 
   generateXmlForToolbox(){

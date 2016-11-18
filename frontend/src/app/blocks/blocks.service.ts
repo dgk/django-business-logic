@@ -5,11 +5,12 @@ import { ReferenceService } from "../services/reference.service";
 import {RestService} from "../services/rest.service";
 import {ArgumentFieldService} from "../services/argumentField.service";
 import {ReferenceLabelField} from "./fields/label_field";
-import {ReferenceDropdownField} from "./fields/dropdown_field";
+import {ReferenceDropdownField} from "./fields/ref_dropdown_field";
 import {ArgumentField} from "./fields/argument_field";
 // import {MockService} from "../../tests/mock.service";
 import {FunctionLabelField} from "./fields/func_label_field";
 import {EnvironmentService} from "../services/environment.service";
+import {DropdownField} from "./fields/dropdown_field";
 
 @Injectable()
 export class BlocksService {
@@ -99,6 +100,13 @@ export class BlocksService {
           if(args){
             for(let i = 0; i < args.length; i++){
 
+              if(!this.getInput("ARG"+i) && args[i]["choices"].length != 0){
+                this.appendDummyInput("ARG"+i)
+                  .setAlign(Blockly.ALIGN_RIGHT)
+                  .appendField(args[i].getName(), "ARG")
+                  .appendField(new Blockly.FieldDropdown( this.environment.getChoicesFor(func, args[i].getName()) ), "ARG"+i);
+              }
+
               if(!this.getInput("ARG"+i)){
                 this.appendValueInput("ARG"+i)
                   .setCheck(null)
@@ -127,7 +135,7 @@ export class BlocksService {
       init: function() {
         this.appendDummyInput()
           // .appendField('date:');
-        .appendField(new Blockly.FieldDate('2015-02-05'), 'DATE');
+        .appendField(new Blockly.FieldColour('#ff0000'), 'DATE');
         this.setOutput(true, null);
         this.setColour('#0078d7');
       }
