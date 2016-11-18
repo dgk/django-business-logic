@@ -23,7 +23,7 @@ from ..models import (
     ProgramInterface,
     ProgramVersion,
     ReferenceDescriptor,
-    FunctionArgument)
+    FunctionArgument, FunctionArgumentChoice)
 
 from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
 
@@ -51,10 +51,17 @@ class ContentTypeSerializer(serializers.Serializer):
         return get_model_name(obj)
 
 
+class FunctionArgumentChoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FunctionArgumentChoice
+        fields = ('value', 'title', )
+
+
 class FunctionArgumentSerializer(serializers.ModelSerializer):
+    choices = FunctionArgumentChoiceSerializer(many=True)
     class Meta:
         model = FunctionArgument
-        fields = ('name', 'description', )
+        fields = ('name', 'description', 'choices')
 
 
 class FunctionDefinitionSerializer(serializers.ModelSerializer):
