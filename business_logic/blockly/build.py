@@ -190,4 +190,20 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
     visit_if_statement.process_children = True
 
+    def visit_function(self, node, parent_xml):
+        function = node.content_object
+        function_definition = function.definition
+        children = self.get_children(node)
 
+        block = etree.SubElement(parent_xml, 'block', type='business_logic_function')
+        etree.SubElement(block, 'mutation', args='true')
+        field = etree.SubElement(block, 'field', name='FUNC')
+        field.text = function_definition.title
+
+        for i, child_node in enumerate(children):
+            value = etree.SubElement(block, 'value', name='ARG{}'.format(i))
+            self.visit(child_node, value)
+
+        return block
+
+    visit_function.process_children = True
