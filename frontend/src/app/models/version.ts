@@ -5,13 +5,15 @@ import {Environment} from "./environment";
 export class Version extends BaseModel{
   environment: Environment;
   xml: string;
+  program: number;
 
   description: string;
 
-  constructor(id: number, title: string, description: string){
+  constructor(id: number, title: string, description: string, programID: number){
     super(id, title);
     this.description = description;
     this.url = `/program-version/${this.id}`;
+    this.program = programID;
   }
 
   getDescription(){

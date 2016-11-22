@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 import * as find from "lodash/find";
-import { ReferenceService } from "../services/reference.service";
+import {ReferenceService} from "../services/reference.service";
 import {RestService} from "../services/rest.service";
 import {ArgumentFieldService} from "../services/argumentField.service";
 import {ReferenceLabelField} from "./fields/label_field";
@@ -10,20 +10,18 @@ import {ArgumentField} from "./fields/argument_field";
 // import {MockService} from "../../tests/mock.service";
 import {FunctionLabelField} from "./fields/func_label_field";
 import {EnvironmentService} from "../services/environment.service";
-import {DropdownField} from "./fields/dropdown_field";
 
 @Injectable()
 export class BlocksService {
-  constructor(
-    public refService: ReferenceService,
-    public argField: ArgumentFieldService,
-    public environment: EnvironmentService){
+  constructor(public refService: ReferenceService,
+              public argField: ArgumentFieldService,
+              public environment: EnvironmentService) {
   }
 
-  init(){
+  init() {
     let that = this;
     Blockly.Blocks['business_logic_reference'] = {
-      init: function(){
+      init: function () {
         this.appendDummyInput()
           .appendField(new ReferenceLabelField(that.refService), 'TYPE')
           .appendField(new ReferenceDropdownField(that.refService), "VALUE");
@@ -36,7 +34,7 @@ export class BlocksService {
     };
 
     Blockly.Blocks['business_logic_argument_field_get'] = {
-      init: function(){
+      init: function () {
         this.appendDummyInput()
           .appendField(new ArgumentField("item", that.argField), "VAR");
         this.setOutput(true, null);
@@ -47,7 +45,7 @@ export class BlocksService {
     };
 
     //attention: this is crutch!
-    let msg = Blockly.Msg.VARIABLES_SET.substr(0, Blockly.Msg.VARIABLES_SET.indexOf('%') );
+    let msg = Blockly.Msg.VARIABLES_SET.substr(0, Blockly.Msg.VARIABLES_SET.indexOf('%'));
 
     Blockly.Blocks['business_logic_argument_field_set'] = {
       init: function () {
@@ -65,7 +63,7 @@ export class BlocksService {
     };
 
     Blockly.Blocks['business_logic_function'] = {
-      init: function() {
+      init: function () {
         this.appendDummyInput()
           .appendField(new FunctionLabelField(), "FUNC");
         this.setColour('#2c985e');
@@ -74,41 +72,56 @@ export class BlocksService {
 
         this.environment = that.environment;
       },
-      mutationToDom: function(){
+      mutationToDom: function () {
         this.addARGfields();
 
         let func_name = this.getFieldValue('FUNC');
 
         let container = document.createElement('mutation');
-        container.setAttribute('args', this.getFieldValue('FUNC') == func_name );
+        container.setAttribute('args', this.getFieldValue('FUNC') == func_name);
         return container;
       },
 
-      domToMutation: function(xmlElement) {
-        this.addARGfields();
+      domToMutation: function (xmlChild) {
+        //TODO: find better way
+        let alternate_func_name_node = find(xmlChild.parentNode.childNodes, (node) => {
+          if (node.getAttribute) {
+            return node.getAttribute('name') == 'FUNC';
+          } else return false;
+        });
+
+        this.addARGfields(alternate_func_name_node.textContent);
       },
 
-      addARGfields: function() {
-        let func_name = this.getFieldValue('FUNC');
+      addARGfields: function (alternate_func_name?: string) {
+        let func_name;
+
+        if (alternate_func_name) {
+          func_name = alternate_func_name;
+        } else {
+          func_name = this.getFieldValue('FUNC');
+        }
 
         let func = this.environment.getFunction(func_name);
 
-        if(func){
+        if (func) {
           let args = func.args;
           let isReturnedValue = func.is_returns_value;
 
-          if(args){
-            for(let i = 0; i < args.length; i++){
+          if (args) {
+            for (let i = 0; i < args.length; i++) {
 
-              if(!this.getInput("ARG"+i) && args[i]["choices"].length != 0){
-                this.appendDummyInput("ARG"+i)
-                  .setAlign(Blockly.ALIGN_RIGHT)
-                  .appendField(args[i].getName(), "ARG")
-                  .appendField(new Blockly.FieldDropdown( this.environment.getChoicesFor(func, args[i].getName()) ), "ARG"+i);
-              }
+              // if(!this.getInput("ARG"+i) && args[i]["choices"].length != 0){
+              //   this.appendDummyInput("ARG"+i)
+              //     .setAlign(Blockly.ALIGN_RIGHT)
+              //     .appendField(args[i].getName(), "ARG")
+              //     .appendField(new Blockly.FieldDropdown( this.environment.getChoicesFor(func, args[i].getName()) ), "ARG"+i);
+              // }
 
-              if(!this.getInput("ARG"+i)){
-                this.appendValueInput("ARG"+i)
+              let argInput = this.getInput("ARG" + i);
+
+              if (!argInput) {
+                this.appendValueInput("ARG" + i)
                   .setCheck(null)
                   .setAlign(Blockly.ALIGN_RIGHT)
                   .appendField(args[i].getName(), "ARG");
@@ -117,10 +130,10 @@ export class BlocksService {
             }
           }
 
-          if(!isReturnedValue){
+          if (!isReturnedValue) {
             this.setPreviousStatement(true, null);
             this.setNextStatement(true, null);
-          }else{
+          } else {
             this.setOutput(true, null);
           }
 
@@ -132,10 +145,10 @@ export class BlocksService {
     };
 
     Blockly.Blocks['business_logic_date'] = {
-      init: function() {
+      init: function () {
         this.appendDummyInput()
-          // .appendField('date:');
-        .appendField(new Blockly.FieldColour('#ff0000'), 'DATE');
+        // .appendField('date:');
+          .appendField(new Blockly.FieldDate(''), 'DATE');
         this.setOutput(true, null);
         this.setColour('#0078d7');
       }
@@ -143,7 +156,7 @@ export class BlocksService {
 
   }
 
-  test(){
+  test() {
     return "This is BlocksService!";
   }
 }
