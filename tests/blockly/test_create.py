@@ -115,6 +115,17 @@ class NodeTreeCreatorTest(NodeTreeCreatorTestCase):
         self.assertFalse(self.tree_diff(tree1, tree2))
 
 
+    def test_create_function(self):
+        function_definition = PythonCodeFunctionDefinition.objects.create(title='xxx')
+
+        tree1 = Node.add_root(content_object=Function(definition=function_definition))
+        tree1.add_child(content_object=NumberConstant(value=3))
+        tree1 = Node.objects.get(id=tree1.id)
+        dict1 = self.build_dict(tree1)
+
+        tree2 = NodeTreeCreator().create(dict1)
+        self.assertFalse(self.tree_diff(tree1, tree2))
+
 class NodeTreeCreatorProgramVersionTest(ProgramTestBase, NodeTreeCreatorTestCase):
     def test_create_variable_definitions_should_use_program_variable_definitions(self):
         tree1 = variable_assign_value(variable_name='test_model.int_value')

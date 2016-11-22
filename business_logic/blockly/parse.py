@@ -244,3 +244,17 @@ class BlocklyXmlParser(object):
 
     def visit_block_business_logic_argument_field_get(self, node):
         return self.visit_block_variables_get(node)
+
+    def visit_block_business_logic_function(self, node):
+        children = node.getchildren()
+
+        data = {
+            'data': {
+                'content_type': get_content_type_id(Function),
+                'definition_id': FunctionDefinition.objects.get(title=children[1].text).id
+            }
+        }
+
+        self._visit_children(node, data, children=children[2:])
+
+        return data
