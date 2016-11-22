@@ -95,9 +95,14 @@ class PythonCodeFunctionDefinition(FunctionDefinition):
         pass
 
     def call(self, context, *args):
-        locals = dict(arg=args[0], ret=None)
+        kwargs = dict(zip((x.name for x in self.arguments.all()), args))
+
+        if self.is_context_required:
+            kwargs['context'] = context
+
+        locals = dict(kwargs=kwargs, ret=None)
         code = compile('''{}
-ret = function(arg)
+ret = function(**kwargs)
 '''.format(self.code), '<string>', 'exec')
         try:
             eval(code, {}, locals)
