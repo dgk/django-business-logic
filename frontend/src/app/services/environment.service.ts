@@ -13,6 +13,7 @@ export class EnvironmentService {
 
   getEnvironment(){
     return this.base.currentVersion.getEnvironment()
+      // || this.base.currentProgram.getEnvironment()
       || this.base.currentProgramInterface.getEnvironment();
   }
 
