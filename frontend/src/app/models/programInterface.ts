@@ -13,7 +13,7 @@ export class ProgramInterface extends BaseModel{
   }
 
   setEnvironment(data: any){
-    this.environment = new Environment(data);
+    if(data) this.environment = new Environment(data);
   }
 
   setArgs(args: any){
