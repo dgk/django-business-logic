@@ -100,7 +100,11 @@ export class EditorComponent {
         this.params["Program"] = this.base.programs.getCurrent().getTitle();
         this.params["Version"] = this.base.versions.getCurrent().getTitle();
 
-        this.xmlForFunctionLibs = this.environment.generateXmlForToolbox();
+        if( this.environment.getEnvironment() ){
+          this.xmlForFunctionLibs = this.environment.generateXmlForToolbox();
+        }else{
+          this.xmlForFunctionLibs = '';
+        }
 
         this.ref.fetchReferenceDescriptors().subscribe(() => {
           this.xmlForReferenceDescriptors = this.ref.generateXmlForToolbox();

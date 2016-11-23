@@ -25,7 +25,7 @@ export class Version extends BaseModel{
   }
 
   setEnvironment(data: any){
-    this.environment = new Environment(data);
+    if(data) this.environment = new Environment(data);
   }
 
   setXml(xml: string){
