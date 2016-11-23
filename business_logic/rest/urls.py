@@ -10,6 +10,7 @@ urlpatterns = [
     url('^program-interface/(?P<pk>\d+)$', ProgramInterfaceView.as_view(), name='program-interface'),
 
     url('^program$', ProgramList.as_view(), name='program-list'),
+    url('^program/(?P<pk>\d+)$', ProgramView.as_view(), name='program'),
 
     url('^program-version$', ProgramVersionList.as_view(), name='program-version-list'),
     url('^program-version/new$', ProgramVersionCreate.as_view(), name='program-version-create'),

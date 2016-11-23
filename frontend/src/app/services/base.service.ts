@@ -16,8 +16,57 @@ export class BaseService {
   programs: any;
   versions: any;
 
+  currentProgramInterface: any;
+  currentProgram: any;
+  currentVersion: any;
+
   constructor(private rest: RestService){
 
+  }
+
+  fetchAll(interfaceID?: number, programID?: number, versionID?: number){
+    let observables = [];
+    //TODO: don't fetch if collection exist
+    observables.push( this.fetchProgramInterfaces() );
+
+    if(interfaceID) observables.push( this.fetchPrograms(interfaceID) );
+    if(programID) observables.push( this.fetchVersions(programID) );
+    if(versionID) observables.push( this.fetchVersion(versionID) );
+
+
+    let all = Observable.forkJoin(observables)
+      .map(( [ , , , version] ) => {
+        if(interfaceID) this.programInterfaces.setCurrentID( interfaceID );
+
+        if(programID) this.programs.setCurrentID( programID );
+
+        if(versionID) this.versions.setCurrentID( versionID );
+
+        if(version){
+          this.currentVersion = this.versions.getCurrent();
+
+          if(version["environment"]) this.currentVersion.setEnvironment(version["environment"]);
+          this.currentVersion.setXml(version["xml"]);
+        }
+    });
+
+    if(interfaceID){
+      return all.flatMap(() => {
+        return this.fetchInterface();
+      });
+    }else{
+      return all;
+    }
+  }
+
+  fetchInterface(){
+    this.currentProgramInterface = this.programInterfaces.getCurrent();
+    let url = this.currentProgramInterface.getUrl();
+
+    return this.rest.get(url).map((data) => {
+      this.currentProgramInterface.setEnvironment(data['environment']);
+      this.currentProgramInterface.setArgs(data['arguments']);
+    });
   }
 
   fetchProgramInterfaces(){
@@ -32,13 +81,6 @@ export class BaseService {
   }
 
   fetchPrograms( interfaceID: number ): any{
-    if(!this.programInterfaces){
-      return this.fetchProgramInterfaces().flatMap(() => {
-        return this.fetchPrograms(interfaceID);
-      });
-    }
-
-    this.programInterfaces.setCurrent(this.programInterfaces.getModelByID( interfaceID ));
 
     this.programs = new ProgramCollection();
 
@@ -52,48 +94,21 @@ export class BaseService {
     });
   }
 
-  fetchVersions( interfaceID: number, programID: number  ): any{
-    if(!this.programs){
-      return this.fetchProgramInterfaces().flatMap(() => {
-        return this.fetchPrograms(interfaceID).flatMap(() => {
-          return this.fetchVersions(interfaceID, programID);
-        });
-      });
-    }
-
-    this.programInterfaces.setCurrent(this.programInterfaces.getModelByID( interfaceID ));
-    this.programs.setCurrent(this.programs.getModelByID( programID ));
-
+  fetchVersions(programID: number){
     this.versions = new VersionCollection();
 
     return this.rest.getWithSearchParams(
       this.versions.getUrl(),
-      [ [ 'program',  this.programs.getCurrent().getID()] ]
+      [ [ 'program',  programID] ]
     ).map((data) => {
       data.results.map( (result) => {
-        this.versions.addNew( new Version(result["id"], result["title"], result["description"]) );
+        this.versions.addNew( new Version(result["id"], result["title"], result["description"], result["program"]) );
       } );
     });
   }
 
-  fetchVersion( interfaceID: number, programID: number, versionID: number ): any{
-    if(!this.versions){
-      return this.fetchProgramInterfaces().flatMap(() => {
-        return this.fetchPrograms(interfaceID).flatMap(() => {
-          return this.fetchVersions(interfaceID, programID).flatMap(() => {
-            return this.fetchVersion(interfaceID, programID, versionID);
-          });
-        });
-      });
-    }
-
-    this.programInterfaces.setCurrent(this.programInterfaces.getModelByID( interfaceID ));
-    this.programs.setCurrent(this.programs.getModelByID( programID ));
-    this.versions.setCurrent(this.versions.getModelByID( versionID ));
-
-    let version = this.versions.getModelByID(versionID);
-
-    return this.rest.get(version.getUrl());
+  fetchVersion(versionID: number){
+    return this.rest.get(`${VersionCollection.getBaseURL()}/${versionID}`);
   }
 
 

@@ -1,5 +1,6 @@
 import { BaseModel } from './base.model';
 import * as filter from 'lodash/filter';
+import * as find from 'lodash/find';
 
 export abstract class BaseCollection{
   baseUrl: string = '/business-logic/rest';
@@ -16,13 +17,17 @@ export abstract class BaseCollection{
     this.currentID = model.getID();
   }
 
+  setCurrentID(id: number){
+    this.currentID = id;
+  }
+
   getCurrent(){
     if(this.models.length == 0){
       return undefined;
     }else{
-      return filter(this.models, (model) => {
+      return find(this.models, (model) => {
         return model.getID() == this.currentID;
-      })[0];
+      });
     }
 
   }

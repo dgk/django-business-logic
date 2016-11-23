@@ -56,6 +56,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
                 for child in self.get_children(node):
                     self.visit(child, parent_xml)
 
+            node_xml.set('id', str(node.id))
             return node_xml
 
         if content_object.__class__ not in (VariableDefinition, ):
@@ -189,10 +190,20 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
     visit_if_statement.process_children = True
 
+    def visit_function(self, node, parent_xml):
+        function = node.content_object
+        function_definition = function.definition
+        children = self.get_children(node)
 
-def tree_to_blockly_xml(tree_root):
-    return BlocklyXmlBuilder().build(tree_root)
+        block = etree.SubElement(parent_xml, 'block', type='business_logic_function')
+        etree.SubElement(block, 'mutation', args='true')
+        field = etree.SubElement(block, 'field', name='FUNC')
+        field.text = function_definition.title
 
+        for i, child_node in enumerate(children):
+            value = etree.SubElement(block, 'value', name='ARG{}'.format(i))
+            self.visit(child_node, value)
 
-def blockly_xml_to_tree(xml):
-    pass
+        return block
+
+    visit_function.process_children = True

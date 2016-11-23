@@ -10,17 +10,20 @@ from django.utils import six
 from rest_framework import serializers
 
 from ..models import (
+    ExceptionLog,
     Execution,
     ExecutionArgument,
-    ExceptionLog,
+    ExecutionEnvironment,
+    FunctionDefinition,
+    FunctionLibrary,
     LogEntry,
-    ProgramInterface,
-    ProgramArgumentField,
-    ProgramArgument,
-    ReferenceDescriptor,
     Program,
-    ProgramVersion
-)
+    ProgramArgument,
+    ProgramArgumentField,
+    ProgramInterface,
+    ProgramVersion,
+    ReferenceDescriptor,
+    FunctionArgument, FunctionArgumentChoice)
 
 from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
 
@@ -46,6 +49,48 @@ class ContentTypeSerializer(serializers.Serializer):
 
     def get_name(self, obj):
         return get_model_name(obj)
+
+
+class FunctionArgumentChoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FunctionArgumentChoice
+        fields = ('value', 'title', )
+
+
+class FunctionArgumentSerializer(serializers.ModelSerializer):
+    choices = FunctionArgumentChoiceSerializer(many=True)
+    class Meta:
+        model = FunctionArgument
+        fields = ('name', 'description', 'choices')
+
+
+class FunctionDefinitionSerializer(serializers.ModelSerializer):
+    arguments = FunctionArgumentSerializer(many=True)
+    class Meta:
+        model = FunctionDefinition
+        exclude = ('id', 'polymorphic_ctype')
+
+
+class FunctionLibrarySerializer(serializers.ModelSerializer):
+    functions = FunctionDefinitionSerializer(many=True)
+    class Meta:
+        model = FunctionLibrary
+        exclude = ('id', )
+
+
+class ExecutionEnvironmentSerializer(serializers.ModelSerializer):
+    libraries = FunctionLibrarySerializer(many=True)
+    class Meta:
+        model = ExecutionEnvironment
+        exclude = ('id', )
+
+
+class ProgramInterfaceListSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program-interface')
+
+    class Meta:
+        model = ProgramInterface
+        fields = '__all__'
 
 
 class BlocklyXMLSerializer(serializers.CharField):
@@ -76,15 +121,17 @@ class BlocklyXMLSerializer(serializers.CharField):
         return value
 
 
-class ProgramInterfaceListSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program-interface')
+class ProgramSerializer(serializers.ModelSerializer):
+    environment = ExecutionEnvironmentSerializer(read_only=True)
 
     class Meta:
-        model = ProgramInterface
+        model = Program
         fields = '__all__'
 
 
 class ProgramListSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='business-logic:rest:program')
+
     class Meta:
         model = Program
         fields = '__all__'
@@ -111,6 +158,7 @@ class ProgramVersionCreateSerializer(serializers.ModelSerializer):
 class ProgramVersionSerializer(serializers.ModelSerializer):
     xml = BlocklyXMLSerializer(source='entry_point', required=True)
     program = serializers.PrimaryKeyRelatedField(read_only=True)
+    environment = ExecutionEnvironmentSerializer(read_only=True)
 
     class Meta:
         model = ProgramVersion
@@ -198,6 +246,7 @@ class ProgramArgumentSerializer(serializers.ModelSerializer):
 
 class ProgramInterfaceSerializer(serializers.ModelSerializer):
     arguments = ProgramArgumentSerializer(many=True)
+    environment = ExecutionEnvironmentSerializer()
 
     class Meta:
         model = ProgramInterface

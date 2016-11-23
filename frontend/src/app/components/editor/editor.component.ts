@@ -11,44 +11,23 @@ import { BaseService } from "../../services/base.service";
 import { ReferenceService } from "../../services/reference.service";
 import { VersionService } from "../../services/version.service";
 import {ArgumentFieldService} from "../../services/argumentField.service";
+import {Observable} from "rxjs";
+import {EnvironmentService} from "../../services/environment.service";
+
+import {NotificationsService} from "angular2-notifications/src/notifications.service";
+import {SimpleNotificationsComponent} from 'angular2-notifications/src/simple-notifications.component';
 
 @Component({
   selector: 'editor',
-  template: `
-    <breadcrumb [params]="params"></breadcrumb>
-    
-    <div class="ui icon top pointing right pointing dropdown button black">
-      <div class="header"><i class="dropdown icon"></i> Version</div>
-      
-      <div class="menu">
-        <div class="item" (click) = "modalSave.show()"><i class="save icon"></i>Save</div>
-        <div class="item" (click) = "modalSaveAs.show()">Save as ...</div>
-      </div>
-    </div>
-    
-    <modal-save #modalSave (onSave)="onSave( blockly.getXml() )"></modal-save>
-    <modal-save-as #modalSaveAs (onSaveAs)="onSaveAs($event, blockly.getXml())" [title] = "title" [verDescription] = "verDescription"></modal-save-as>
-    
-    <br>
-    
-    <div class="ui segment">
-        <p>{{verDescription}}</p>
-    </div>    
-    
-    <blockly [version] = "version" 
-             [xmlForReferenceDescriptors] = "xmlForReferenceDescriptors" 
-             [xmlForArgumentFields] = "xmlForArgumentFields" #blockly>
-    </blockly>
-   
-    <div *ngIf = "saving" class="ui active page dimmer">
-      <div class="ui text loader">Saving</div>
-    </div>
-    `,
+  templateUrl: './editor.component.html',
   styles: [`
-         .ui.dropdown{
+         .ui.section{
             top: 10px!important;
             right: 10px!important;
             position: absolute;
+         }
+         .header{
+            text-transform: none!important;
          }`],
   providers: []
 })
@@ -62,6 +41,22 @@ export class EditorComponent {
 
   xmlForReferenceDescriptors: any;
   xmlForArgumentFields: any;
+  xmlForFunctionLibs: any;
+
+  public options = {
+    timeOut: 5000,
+    lastOnBottom: true,
+    clickToClose: true,
+    maxLength: 0,
+    maxStack: 7,
+    showProgressBar: true,
+    pauseOnHover: true,
+    preventDuplicates: false,
+    preventLastDuplicates: 'visible',
+    rtl: false,
+    // animate: 'scale',
+    position: ['right', 'bottom']
+  };
 
   private params: any = {
     "Interface": 'Interface',
@@ -78,12 +73,14 @@ export class EditorComponent {
     private base: BaseService,
     private ref: ReferenceService,
     private argField: ArgumentFieldService,
-    private ver: VersionService){
+    private environment: EnvironmentService,
+    private ver: VersionService,
+
+    private notification: NotificationsService){
   }
 
 
   ngAfterViewInit() {
-
 
     $(".ui.dropdown").dropdown();
 
@@ -91,26 +88,23 @@ export class EditorComponent {
 
     this.route.params.subscribe(params => {
 
-      this.base.fetchVersion( +params["interfaceID"], +params["programID"], +params["versionID"] ).subscribe((data) => {
+      this.base.fetchAll( +params["interfaceID"], +params["programID"], +params["versionID"] ).subscribe(() => {
 
-        this.version = data;
-        this.title = data.title;
-        this.verDescription = data.description;
+        this.version = this.base.currentVersion;
+        this.title = this.version.title;
+        this.verDescription = this.version.description;
+
+        console.log(this.environment.getEnvironment());
 
         this.params["Interface"] = this.base.programInterfaces.getCurrent().getTitle();
         this.params["Program"] = this.base.programs.getCurrent().getTitle();
         this.params["Version"] = this.base.versions.getCurrent().getTitle();
 
-        // console.log(this.version.xml);
+        this.xmlForFunctionLibs = this.environment.generateXmlForToolbox();
 
-
-        //TODO: maybe run with forkJoin?
-        this.fetchReferences();
-
-        this.argField.fetchArguments().subscribe(() => {
-
+        this.ref.fetchReferenceDescriptors().subscribe(() => {
+          this.xmlForReferenceDescriptors = this.ref.generateXmlForToolbox();
           this.xmlForArgumentFields = this.argField.generateXmlForToolbox();
-          // console.log(this.base.arguments);
         });
       });
 
@@ -127,15 +121,6 @@ export class EditorComponent {
     return "";
   }
 
-  fetchReferences(){
-
-    this.ref.fetchReferenceDescriptors().subscribe(() => {
-
-      this.xmlForReferenceDescriptors = this.ref.generateXmlForToolbox();
-
-    });
-  }
-
   ngOnChanges(changes: any): any {
 
   }
@@ -149,14 +134,22 @@ export class EditorComponent {
 
     this.saving = true;
 
-    this.ver.saveAsVersion(this.version).subscribe((response: any) => {
-      this.saving = false;
+    this.ver.saveAsVersion(this.version)
+      .subscribe(
+        data => {
+          this.saving = false;
+          this.notification.success('Success!', 'Version saved!');
 
-      //TODO: redirect to new version!
-      // let id = response.id.toString();
-      // this.router.navigate([ id ], { relativeTo: this.route.parent });
-
-    });
+          //TODO: redirect to new version!
+          // let id = data.id.toString();
+          // this.router.navigate([ id ], { relativeTo: this.route.parent });
+        },
+        err => {
+          this.saving = false;
+          this.notification.error('Error!', 'Saving failed');
+        },
+        () => {}
+      );
   }
 
   onSave(xml: string) {
@@ -165,10 +158,19 @@ export class EditorComponent {
 
     this.saving = true;
 
-    this.ver.saveVersion(this.version).subscribe(() => {
-      console.log("Save works!");
-      this.saving = false;
-    });
+    this.ver.saveVersion(this.version)
+      .subscribe(
+        data => {
+          this.saving = false;
+          this.notification.success('Success!', 'Version saved!');
+        },
+        err => {
+          this.saving = false;
+          this.notification.error('Error!', 'Saving failed');
+        },
+        () => {}
+      );
+
   }
 
 }

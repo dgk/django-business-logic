@@ -16,7 +16,7 @@ class NodeTreeCreatorTestCase(TestCase):
         return BlocklyXmlParser().parse(xml_str)[0]
 
     def tree_diff(self, tree1, tree2):
-        return BlocklyXmlBuilder().build(tree1) != BlocklyXmlBuilder().build(tree2)
+        return cleanup_xml_ids(BlocklyXmlBuilder().build(tree1)) != cleanup_xml_ids(BlocklyXmlBuilder().build(tree2))
 
 
 class NodeTreeCreatorTest(NodeTreeCreatorTestCase):
@@ -114,6 +114,17 @@ class NodeTreeCreatorTest(NodeTreeCreatorTestCase):
         self.assertIsNot(tree1, tree2)
         self.assertFalse(self.tree_diff(tree1, tree2))
 
+
+    def test_create_function(self):
+        function_definition = PythonCodeFunctionDefinition.objects.create(title='xxx')
+
+        tree1 = Node.add_root(content_object=Function(definition=function_definition))
+        tree1.add_child(content_object=NumberConstant(value=3))
+        tree1 = Node.objects.get(id=tree1.id)
+        dict1 = self.build_dict(tree1)
+
+        tree2 = NodeTreeCreator().create(dict1)
+        self.assertFalse(self.tree_diff(tree1, tree2))
 
 class NodeTreeCreatorProgramVersionTest(ProgramTestBase, NodeTreeCreatorTestCase):
     def test_create_variable_definitions_should_use_program_variable_definitions(self):

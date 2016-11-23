@@ -1,11 +1,35 @@
 # -*- coding: utf-8 -*-
-from django.contrib import admin
 from django import forms
+from django.conf import settings
+from django.contrib import admin
+from django.contrib.admin import TabularInline
 
-from nested_inline.admin import NestedStackedInline, NestedModelAdmin
+from nested_inline.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
 
-from .models import ProgramInterface, ProgramArgument, ProgramArgumentField, Program, ReferenceDescriptor, \
-    ProgramVersion
+from polymorphic.admin import PolymorphicChildModelAdmin
+from polymorphic.admin import PolymorphicParentModelAdmin
+
+from adminsortable2.admin import SortableInlineAdminMixin
+
+from ace_overlay.widgets import AceOverlayWidget
+
+
+from .models import (
+    ProgramInterface,
+    ProgramArgument,
+    ProgramArgumentField,
+    Program,
+    ReferenceDescriptor,
+    ProgramVersion,
+    FunctionDefinition,
+    PythonCodeFunctionDefinition,
+    PythonModuleFunctionDefinition,
+    FunctionLibrary,
+    FunctionArgument,
+    FunctionArgumentChoice,
+    ExecutionEnvironment,
+)
+
 from .utils import get_customer_available_content_types
 
 
@@ -76,10 +100,79 @@ class ReferenceDescriptorAdmin(admin.ModelAdmin):
     form = ContentTypeHolderForm
 
 
+class FunctionArgumentChoiceAdmin(SortableInlineAdminMixin, admin.TabularInline):
+    model = FunctionArgumentChoice
+    extra = 1
+
+
+class FunctionArgumentAdmin(admin.ModelAdmin):
+    model = FunctionArgument
+    inlines = (FunctionArgumentChoiceAdmin, )
+    readonly_fields = ('function', 'order')
+
+    list_filter = (
+        'function',
+    )
+
+    def has_add_permission(self, request):
+        return False
+
+
+class FunctionArgumentInline(SortableInlineAdminMixin, admin.StackedInline):
+    model = FunctionArgument
+    extra = 1
+    show_change_link = True
+
+
+class FunctionDefinitionAdmin(PolymorphicChildModelAdmin):
+    inlines = (FunctionArgumentInline, )
+
+
+class PythonModuleFunctionDefinitionAdmin(FunctionDefinitionAdmin):
+    base_model = PythonModuleFunctionDefinition
+
+
+class PythonCodeFunctionDefinitionAdminForm(forms.ModelForm):
+    if 'ace_overlay' in settings.INSTALLED_APPS:
+        code = forms.CharField(
+            widget=AceOverlayWidget(
+                mode='python',
+                wordwrap=False,
+                theme='solarized_light',
+                width="850px",
+                height="800px",
+                showprintmargin=True
+            ), required=True)
+
+    class Meta:
+        model = PythonCodeFunctionDefinition
+        fields = ('title', 'description', 'is_returns_value', 'is_context_required', 'code')
+
+
+class PythonCodeFunctionDefinitionAdmin(FunctionDefinitionAdmin):
+    base_model = PythonCodeFunctionDefinition
+    form = PythonCodeFunctionDefinitionAdminForm
+
+
+class FunctionDefinitionAdmin(PolymorphicParentModelAdmin):
+    base_model = FunctionDefinition
+    child_models = (
+        PythonCodeFunctionDefinition,
+        PythonModuleFunctionDefinition
+    )
+
+admin.site.register(ExecutionEnvironment)
 admin.site.register(ProgramInterface, ProgramInterfaceAdmin)
 admin.site.register(Program, ProgramAdmin)
 admin.site.register(ProgramVersion, ProgramVersionAdmin)
+
 admin.site.register(ReferenceDescriptor, ReferenceDescriptorAdmin)
+
+admin.site.register(FunctionArgument, FunctionArgumentAdmin)
+admin.site.register(FunctionDefinition, FunctionDefinitionAdmin)
+admin.site.register(PythonModuleFunctionDefinition, PythonModuleFunctionDefinitionAdmin)
+admin.site.register(PythonCodeFunctionDefinition, PythonCodeFunctionDefinitionAdmin)
+admin.site.register(FunctionLibrary)
 
 # register all app models for debug purposes
 # from django.apps import apps
