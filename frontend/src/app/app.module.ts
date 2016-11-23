@@ -36,6 +36,7 @@ import {ModalSaveComponent} from "./components/editor/modals/modalSave.component
 import {ModalSaveAsComponent} from "./components/editor/modals/modalSaveAs.component";
 import {ArgumentFieldService} from "./services/argumentField.service";
 import {EnvironmentService} from "./services/environment.service";
+import {SimpleNotificationsModule} from "angular2-notifications/src/simple-notifications.module";
 
 
 
@@ -81,6 +82,7 @@ type StoreType = {
     FormsModule,
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
+    SimpleNotificationsModule
     // MaterialModule.forRoot()
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection

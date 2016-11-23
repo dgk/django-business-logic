@@ -1,28 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import {Environment} from '../app/models/environment';
 
 @Injectable()
 export class MockService {
 
   private arguments: Observable<any>;
-  public environment = {
+  public environment = new Environment({
+    description: "description",
     libraries: [
       {
         title: "BookLibrary",
         functions: [
           {
-            name: "Get Book from the shelf",
+            title: "Get Book from the shelf",
             description: "This is function!",
-            returnValue: false,
+            is_returns_value: false,
             arguments: [
-              { name: "shelf", data_type: "number" },
-              { name: "count", data_type: "number" }
+              { name: "shelf", verbose_name: "shelff", data_type: "number" },
+              { name: "count", verbose_name: "countt", data_type: "number" }
             ]
           }
         ]
       }
     ]
-  };
+  });
 
   constructor(){
     this.arguments = new Observable(observer => {
@@ -64,8 +66,14 @@ export class MockService {
     }else return "I dont know";
   }
 
-  getArgumentsForFunction(func_name: string){
-    return this.environment.libraries[0].functions[0].arguments;
+  getEnvironment(){
+    return this.environment;
   }
+
+  getFunction(func_name: string){
+
+    return this.environment.libraries[0].functions[0];
+  }
+
 
 }

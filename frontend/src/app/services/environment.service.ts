@@ -31,8 +31,8 @@ export class EnvironmentService {
   getChoicesFor(func: any, arg_name: string){
     let choices = [];
 
-    let arg = find(func["args"], (arg) => {return arg.getName() == arg_name});
-    arg.choices.forEach((choice) => {
+    let arg = find(func["args"], (arg: any) => {return arg.getName() == arg_name});
+    arg["choices"].forEach((choice) => {
       choices.push([choice['title'], choice['value']]);
     });
 
@@ -47,8 +47,9 @@ export class EnvironmentService {
 
       lib['functions'].forEach((func) => {
         xml += `<block type="business_logic_function">
-                  <mutation args="true"></mutation>
+                    <mutation args="true"></mutation>
                     <field name="FUNC">${func.title}</field>
+                    
                 </block>`;
       });
 

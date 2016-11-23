@@ -26,7 +26,7 @@ export class BaseService {
 
   fetchAll(interfaceID?: number, programID?: number, versionID?: number){
     let observables = [];
-
+    //TODO: don't fetch if collection exist
     observables.push( this.fetchProgramInterfaces() );
 
     if(interfaceID) observables.push( this.fetchPrograms(interfaceID) );
@@ -45,8 +45,8 @@ export class BaseService {
         if(version){
           this.currentVersion = this.versions.getCurrent();
 
-          if(version.environment) this.currentVersion.setEnvironment(version.environment);
-          this.currentVersion.setXml(version.xml);
+          if(version["environment"]) this.currentVersion.setEnvironment(version["environment"]);
+          this.currentVersion.setXml(version["xml"]);
         }
     });
 
@@ -102,7 +102,7 @@ export class BaseService {
       [ [ 'program',  programID] ]
     ).map((data) => {
       data.results.map( (result) => {
-        this.versions.addNew( new Version(result["id"], result["title"], result["description"]) );
+        this.versions.addNew( new Version(result["id"], result["title"], result["description"], result["program"]) );
       } );
     });
   }

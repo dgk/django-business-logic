@@ -1,6 +1,6 @@
 html, body{
   height: 100%;
-  /*font-family: Arial, Helvetica, sans-serif*/
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, Helvetica, sans-serif
 }
 
 span.active {
@@ -23,4 +23,15 @@ body {
 .ui.positive.buttons .button, .ui.positive.button
 {
   background-color: #009688!important;
+}
+
+.blocklyTreeRow {
+  padding-top: 0.75rem !important;
+  padding-bottom: 2rem !important;
+  border-left-width: 12px !important;
+}
+.blocklyTreeRoot div div div div .blocklyTreeRow {
+  border-left-width: 18px !important;
+  padding-top: 0px !important;
+  padding-bottom: 1.6rem !important;
 }

@@ -19,46 +19,7 @@ import {SimpleNotificationsComponent} from 'angular2-notifications/src/simple-no
 
 @Component({
   selector: 'editor',
-  template: `
-    <breadcrumb [params]="params"></breadcrumb>
-    
-    <div class="ui section">
-    
-      <button class="ui icon violet button" (click) = "modalSave.show()"><i class="save icon"></i></button>
-      
-      <div class="ui icon top pointing right pointing dropdown button black">
-        <div class="header"><i class="dropdown icon"></i> Version</div>
-        
-        <div class="menu">
-            <div class="header">
-              <div class="ui compact violet message">
-                <p>{{verDescription}}</p>
-              </div>
-            </div>
-          <!--<div class="item" (click) = "modalSave.show()"><i class="save icon"></i>Save</div>-->
-          <div class="item" (click) = "modalSaveAs.show()">Save as ...</div>
-        </div>
-      </div>
-    
-    </div>
-    
-    <modal-save #modalSave (onSave)="onSave( blockly.getXml() )"></modal-save>
-    <modal-save-as #modalSaveAs (onSaveAs)="onSaveAs($event, blockly.getXml())" [title] = "title" [verDescription] = "verDescription"></modal-save-as>
-    
-    <br>
-    
-    <blockly [version] = "version" 
-             [xmlForReferenceDescriptors] = "xmlForReferenceDescriptors" 
-             [xmlForArgumentFields] = "xmlForArgumentFields" 
-             [xmlForFunctionLibs] = "xmlForFunctionLibs" #blockly>
-    </blockly>
-   
-    <div *ngIf = "saving" class="ui active page dimmer">
-      <div class="ui text loader">Saving</div>
-    </div>
-    
-    <simple-notifications [options]="options"></simple-notifications>
-    `,
+  templateUrl: './editor.component.html',
   styles: [`
          .ui.section{
             top: 10px!important;
@@ -121,7 +82,6 @@ export class EditorComponent {
 
   ngAfterViewInit() {
 
-
     $(".ui.dropdown").dropdown();
 
     this.blocks.init();
@@ -133,6 +93,8 @@ export class EditorComponent {
         this.version = this.base.currentVersion;
         this.title = this.version.title;
         this.verDescription = this.version.description;
+
+        console.log(this.environment.getEnvironment());
 
         this.params["Interface"] = this.base.programInterfaces.getCurrent().getTitle();
         this.params["Program"] = this.base.programs.getCurrent().getTitle();
@@ -173,21 +135,21 @@ export class EditorComponent {
     this.saving = true;
 
     this.ver.saveAsVersion(this.version)
-      .catch((e) => {
-        if(e.status != 200){
+      .subscribe(
+        data => {
+          this.saving = false;
+          this.notification.success('Success!', 'Version saved!');
+
+          //TODO: redirect to new version!
+          // let id = data.id.toString();
+          // this.router.navigate([ id ], { relativeTo: this.route.parent });
+        },
+        err => {
           this.saving = false;
           this.notification.error('Error!', 'Saving failed');
-        }
-      })
-      .subscribe((response: any) => {
-        this.saving = false;
-        this.notification.success('Success!', 'Version saved!');
-
-        //TODO: redirect to new version!
-        // let id = response.id.toString();
-        // this.router.navigate([ id ], { relativeTo: this.route.parent });
-
-      });
+        },
+        () => {}
+      );
   }
 
   onSave(xml: string) {
@@ -196,10 +158,19 @@ export class EditorComponent {
 
     this.saving = true;
 
-    this.ver.saveVersion(this.version).subscribe(() => {
-      this.saving = false;
-      this.notification.success('Success!', 'Version saved!');
-    });
+    this.ver.saveVersion(this.version)
+      .subscribe(
+        data => {
+          this.saving = false;
+          this.notification.success('Success!', 'Version saved!');
+        },
+        err => {
+          this.saving = false;
+          this.notification.error('Error!', 'Saving failed');
+        },
+        () => {}
+      );
+
   }
 
 }
