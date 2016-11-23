@@ -402,3 +402,18 @@ class BlocklyXmlParserArgumentFieldTest(TestCase):
         # replace variable name
         parsed_variable_get[0]['data']['name'] = 'argument.field'
         self.assertEqual(parsed_argument_field_get, parsed_variable_get)
+
+
+class BlocklyXmlParserFunctionTest(TestCase):
+    def test_parse_function(self):
+        function_definition = PythonCodeFunctionDefinition.objects.create(title='xxx')
+
+        root = Node.add_root(content_object=Function(definition=function_definition))
+        root.add_child(content_object=NumberConstant(value=3))
+        root = Node.objects.get(id=root.id)
+
+        xml_str = BlocklyXmlBuilder().build(root)
+        parsed_function = BlocklyXmlParser().parse(xml_str)[0]
+
+        self.assertEqual(get_content_type_id(Function), parsed_function['data']['content_type'])
+        self.assertEqual(function_definition.id, parsed_function['data']['definition_id'])

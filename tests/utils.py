@@ -197,3 +197,7 @@ def create_if_statement(branches_count, use_binary_operator=False, root=None):
         assignment.add_child(content_object=BooleanConstant(value=True))
 
     return reload_node(root), var_defs
+
+
+def cleanup_xml_ids(xml):
+    return re.sub(' id="\d+"', '', xml, re.MULTILINE|re.DOTALL)

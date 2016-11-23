@@ -1,6 +1,6 @@
 import {ReferenceService} from "../../services/reference.service";
 
-export class LabelField extends Blockly.FieldLabel {
+export class ReferenceLabelField extends Blockly.FieldLabel {
   refService: ReferenceService;
 
   EDITABLE = true;
@@ -26,6 +26,8 @@ export class LabelField extends Blockly.FieldLabel {
 
       //TODO: set Tooltip
       // this.setTooltip(" ["+this.getValue()+"]");
+    }else{
+      this.setText(this.getValue());
     }
   }
 

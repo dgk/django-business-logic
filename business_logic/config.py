@@ -5,6 +5,7 @@
 class ExceptionHandlingPolicy:
     IGNORE = 'IGNORE'
     INTERRUPT = 'INTERRUPT'
+    RAISE = 'RAISE'
 
 
 class ContextConfig(object):

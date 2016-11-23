@@ -1,19 +1,8 @@
 import {
   Component,
   Input,
-  Output,
-  OnInit,
   ViewChild,
-  Directive,
-  AfterViewInit,
-  OnChanges,
-  EventEmitter
 } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-
-import { BlocksService } from "../../blocks/blocks.service";
-import { BaseService } from "../../services/base.service";
-import {ReferenceService} from "../../services/reference.service";
 
 @Component({
   selector: 'blockly',
@@ -29,17 +18,17 @@ export class BlocklyComponent {
   @Input() version: any;
   @Input() xmlForReferenceDescriptors: any;
   @Input() xmlForArgumentFields: any;
-
-  style = {
-    width: '100%',
-    height: '80%',
-    position: 'absolute'
-  };
+  @Input() xmlForFunctionLibs: any;
 
   @ViewChild('blocklyDiv') blocklyDiv;
   @ViewChild('blocklyArea') blocklyArea;
-  //@ViewChild('toolbox') toolbox;
-  // @Output() xml = new EventEmitter();
+
+  style = {
+    width: '100%',
+    height: '90%',
+    position: 'absolute'
+  };
+
   private workspace: Blockly.Workspace;
 
   constructor(){
@@ -57,6 +46,7 @@ export class BlocklyComponent {
                         ${require('./blockly-toolset.html')}
                         ${this.xmlForReferenceDescriptors}
                         ${this.xmlForArgumentFields}
+                        ${this.xmlForFunctionLibs}
                      </xml>`;
       this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
         {
@@ -72,6 +62,7 @@ export class BlocklyComponent {
 
   loadVersionXml(){
     let xml = Blockly.Xml.textToDom(this.version["xml"]);
+
     Blockly.Xml.domToWorkspace(xml, this.workspace);
   }
 

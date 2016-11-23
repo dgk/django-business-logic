@@ -1,6 +1,6 @@
 import {ReferenceService} from "../../services/reference.service";
 
-export class DropdownField extends Blockly.FieldDropdown {
+export class ReferenceDropdownField extends Blockly.FieldDropdown {
   refService: ReferenceService;
 
   menuGenerator_ = () => {

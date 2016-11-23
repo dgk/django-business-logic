@@ -18,6 +18,7 @@ class BlocklyXmlBuilderConstantTest(TestCase):
         self.assertEqual(1, len(block))
         block = block[0]
         self.assertEqual(block_type, block.get('type'))
+        self.assertEqual(str(node.id), block.get('id'))
         field = block.find('field')
         self.assertIsNotNone(field)
         self.assertEqual(field_name, field.get('name'))
@@ -59,6 +60,7 @@ class BlocklyXmlBuilderReferenceConstantTest(TestCase):
         self.assertEqual(1, len(block))
         block = block[0]
         self.assertEqual('business_logic_reference', block.get('type'))
+        self.assertEqual(str(node.id), block.get('id'))
 
         fields = block.findall('field')
         self.assertEqual(2, len(fields))
@@ -83,6 +85,7 @@ class BlocklyXmlBuilderAssignmentTest(TestCase):
         self.assertEqual(1, len(block))
         block = block[0]
         self.assertEqual('variables_set', block.get('type'))
+        self.assertEqual(str(assign_node.id), block.get('id'))
 
         field, value = block.getchildren()
 
@@ -452,3 +455,55 @@ class BlocklyXmlBuilderArgumentFieldTest(TestCase):
         xml = etree.parse(StringIO(xml_str))
         block = xml.find('/block')
         self.assertEqual('business_logic_argument_field_get', block.get('type'))
+
+
+class BlocklyXmlBuilderFunctionTest(TestCase):
+    def test_function_without_args(self):
+        function_definition = PythonCodeFunctionDefinition.objects.create(title='xxx')
+
+        root = Node.add_root(content_object=Function(definition=function_definition))
+        xml_str = BlocklyXmlBuilder().build(root)
+        xml = etree.parse(StringIO(xml_str))
+        block = xml.find('/block')
+        self.assertEqual('business_logic_function', block.get('type'))
+
+        children = block.getchildren()
+        self.assertEqual(2, len(children))
+        mutation = children[0]
+        self.assertEqual('true', mutation.get('args'))
+
+        name_field = children[1]
+        self.assertEqual('FUNC', name_field.get('name'))
+        self.assertEqual(function_definition.title, name_field.text)
+
+    def test_function_with_args(self):
+        function_definition = PythonCodeFunctionDefinition.objects.create(title='xxx')
+
+        root = Node.add_root(content_object=Function(definition=function_definition))
+        root.add_child(content_object=NumberConstant(value=3))
+        root = Node.objects.get(id=root.id)
+
+        xml_str = BlocklyXmlBuilder().build(root)
+        xml = etree.parse(StringIO(xml_str))
+        block = xml.find('/block')
+        self.assertEqual('business_logic_function', block.get('type'))
+
+        children = block.getchildren()
+        self.assertEqual(3, len(children))
+        mutation = children[0]
+        self.assertEqual('true', mutation.get('args'))
+
+        name_field = children[1]
+        self.assertEqual('FUNC', name_field.get('name'))
+        self.assertEqual(function_definition.title, name_field.text)
+
+        arg0_value = children[2]
+        self.assertEqual('value', arg0_value.tag)
+        self.assertEqual('ARG0', arg0_value.get('name'))
+
+        arg0_value_children =  arg0_value.getchildren()
+        self.assertEqual(1, len(arg0_value_children))
+
+        arg0_value_block = arg0_value_children[0]
+        self.assertEqual('block', arg0_value_block.tag)
+        self.assertEqual('math_number', arg0_value_block.get('type'))

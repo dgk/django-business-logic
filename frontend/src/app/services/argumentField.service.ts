@@ -9,7 +9,6 @@ import {BaseService} from "./base.service";
 
 @Injectable()
 export class ArgumentFieldService{
-  arguments: any;
 
   constructor( private rest: RestService, private base: BaseService ){
 
@@ -39,7 +38,7 @@ export class ArgumentFieldService{
   }
 
   getFieldList(): any{
-    let args: any = this.getArguments();
+    let args = this.getArguments();
     let result = [];
 
     args.forEach( (arg) => {
@@ -51,21 +50,14 @@ export class ArgumentFieldService{
     return result;
   }
 
-  fetchArguments(){
-    let url = this.base.programInterfaces.getCurrent().getUrl();
-    return this.rest.get(url).map((data) => {
-      this.arguments = data["arguments"];
-    })
-  }
-
   getArguments(): any{
-    return this.arguments;
+    return this.base.currentProgramInterface.getArguments();
   }
 
   generateXmlForToolbox(): string{
     let xml =   `<category name="Argument fields">`;
 
-    this.arguments.forEach((arg) => {
+    this.getArguments().forEach((arg) => {
       xml += `<category name="${arg.verbose_name}">`;
 
       xml += `<block type="business_logic_argument_field_set">

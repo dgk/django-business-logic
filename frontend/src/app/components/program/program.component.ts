@@ -41,7 +41,7 @@ export class ProgramComponent{
 
     this.route.params.subscribe(params => {
 
-      this.base.fetchPrograms( +params["interfaceID"] ).subscribe(() => {
+      this.base.fetchAll( +params["interfaceID"] ).subscribe(() => {
         this.programs = this.base.programs.getCollection();
 
         this.params["Interface"] = this.base.programInterfaces.getCurrent().getTitle();
