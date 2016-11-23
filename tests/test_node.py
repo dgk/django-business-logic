@@ -133,6 +133,17 @@ class NodeTest(TestCase):
 
         root.delete()
 
+    def test_node_deletion_should_not_delete_content_objects_from_other_apps(self):
+        root = Node.add_root()
+        test_model = TestModel.objects.create()
+        root.add_child(content_object=test_model)
+        root = Node.objects.get(id=root.id)
+
+        root.delete()
+
+        self.assertTrue(TestModel.objects.filter(id=test_model.id))
+        self.assertFalse(Node.objects.all())
+
     def test_statement_or_block(self):
         root = Node.add_root()
         self.failUnless(root.is_block())
