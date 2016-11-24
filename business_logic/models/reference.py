@@ -4,7 +4,7 @@ import re
 
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
+from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
 
 from .node import NodeAccessor
@@ -21,7 +21,7 @@ class ReferenceDescriptor(models.Model):
         verbose_name_plural = _('Reference descriptors')
 
     def __str__(self):
-        return str(self.content_type)
+        return force_text(self.content_type)
 
     def get_search_fields(self):
         if not self.search_fields:
