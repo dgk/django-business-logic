@@ -6,7 +6,8 @@ import * as fromRoot from '../reducers';
 
 import {Observable} from "rxjs";
 import {RestService} from "../services/rest.service";
-import * as actions from "../actions/versionList";
+import * as actions from "../actions/referenceList";
+import {ReferenceService} from "../services/reference.service";
 
 
 @Component({
@@ -18,23 +19,30 @@ import * as actions from "../actions/versionList";
 export class EditorPage {
   version: any;
 
+  argFileds: any;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromRoot.State>,
-    private rest: RestService) {
+    private rest: RestService,
+    private ref: ReferenceService) {
 
       this.version = this.store.let(fromRoot.getCurrentVersion);
+      // this.argFileds = this.store.let(fromRoot.getArgFields);
 
   }
 
   ngOnInit() {
-    // this.store.take(1).subscribe(state => {
-    //   let id = state.versions.currentID;
-    //
-    //   console.log(state.versions.details[+id]);
-    // });
+    // Observable.forkJoin(this.getReferences).subscribe();
   }
+
+  getReferences(){
+    return this.rest.get('/business-logic/rest/reference');
+      // this.store.dispatch(new actions.LoadAction(data));
+  }
+
+
 
 
 }

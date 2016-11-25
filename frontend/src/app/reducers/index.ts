@@ -5,27 +5,29 @@ import { Observable } from 'rxjs/Observable';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { ActionReducer } from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
-
-import * as Test from './testReducer';
-import * as PrInterfaceList from './prInterfaceList.reducer';
-import * as ProgramList from './programList.reducer';
-import * as VersionList from './versionList.reducer';
-
 import { compose } from '@ngrx/core/compose';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { combineReducers } from '@ngrx/store';
 
 
+import * as PrInterfaceList from './prInterfaceList.reducer';
+import * as ProgramList from './programList.reducer';
+import * as VersionList from './versionList.reducer';
+import * as ReferenceList from './referenceList.reducer';
+
+
 export interface State {
   prInterfaces: PrInterfaceList.State,
   programs: ProgramList.State,
-  versions: VersionList.State
+  versions: VersionList.State,
+  references: ReferenceList.State
 }
 
 const reducers = {
   prInterfaces: PrInterfaceList.reducer,
   programs: ProgramList.reducer,
-  versions: VersionList.reducer
+  versions: VersionList.reducer,
+  references: ReferenceList.reducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -34,13 +36,6 @@ const productionReducer: ActionReducer<State> = combineReducers(reducers);
 export function reducer(state: any, action: any) {
     return developmentReducer(state, action);
 }
-
-
-// export const getTState = (state$: Observable<State>) =>
-//   state$.select(state => state.test);
-//
-// export const getME = compose(Test.getCountState, getTState);
-
 
 
 export const getPrInterfaceListState = (state$: Observable<State>) =>
@@ -61,5 +56,6 @@ export const getVersionListState = (state$: Observable<State>) =>
 
 export const getVersions = compose(VersionList.getList, getVersionListState);
 
-
 export const getCurrentVersion = compose(VersionList.getCurrent, getVersionListState);
+
+export const getArgFields = compose(PrInterfaceList.getArgFields, getPrInterfaceListState);

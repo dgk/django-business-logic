@@ -7,28 +7,26 @@ import { Reference, ReferenceCollection } from "../models/reference";
 import {Observable} from "rxjs";
 
 import * as find from "lodash/find";
+import * as fromRoot from '../reducers';
+import {Store} from "@ngrx/store";
+
 
 @Injectable()
 export class ReferenceService{
   references: any = new ReferenceCollection();
 
-  constructor( private rest: RestService ){
+  constructor( private rest: RestService, private store: Store<fromRoot.State> ){
 
   }
 
   fetchReferenceDescriptors(){
 
-    return this.rest.get(this.references.getUrl()).map((data) => {
-        if(this.references.getCollection().length == 0){
-          data.forEach((ref) => {
-            this.references.addNew( new Reference( ref.id, ref.name, ref.verbose_name ) );
-          });
-        }
-    });
+    return this.rest.get(this.references.getUrl());
 
   }
 
   getVerboseName(value: string){
+
     let result = find(this.references.getCollection(), (ref) => {
       return ref["name"] == value;
     });
