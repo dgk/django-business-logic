@@ -10,16 +10,21 @@ import { NoContentComponent } from './components/no-content/no-content.component
 
 import { DataResolver } from './app.resolver';
 import {EditorComponent} from "./components/editor/editor.component";
+import {HomePage} from "./pages/HomePage";
+import {InterfaceListPage} from "./pages/InterfaceListPage";
+import {ProgramListPage} from "./pages/ProgramListPage";
+import {VersionListPage} from "./pages/VersionListPage";
+import {EditorPage} from "./pages/EditorPage";
 
 
 export const ROUTES: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomePage },
   {
     path: 'interface',
     children: [
       {
         path: '',
-        component: InterfaceListComponent
+        component: InterfaceListPage
       },
       {
         path: ':interfaceID',
@@ -34,7 +39,7 @@ export const ROUTES: Routes = [
             children: [
               {
                 path: '',
-                component: ProgramComponent
+                component: ProgramListPage
               },
               {
                 path: ':programID',
@@ -50,11 +55,11 @@ export const ROUTES: Routes = [
                     children: [
                       {
                         path: '',
-                        component: VersionComponent
+                        component: VersionListPage
                       },
                       {
                         path: ':versionID',
-                        component: EditorComponent
+                        component: EditorPage
                       }
                     ]
 

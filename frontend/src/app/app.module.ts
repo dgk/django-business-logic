@@ -20,11 +20,7 @@ import { RestService } from "./services/rest.service";
 import {VersionService} from "./services/version.service";
 
 import { BlocklyComponent } from './components/blockly/blockly.component';
-import { InterfaceListComponent } from './components/interface/interface-list.component';
-import { ProgramComponent } from './components/program/program.component';
-import { VersionComponent } from './components/version/version.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
-import { HomeComponent } from './components/home/home.component';
 
 import { NoContentComponent } from './components/no-content/no-content.component';
 
@@ -37,6 +33,20 @@ import {ModalSaveAsComponent} from "./components/editor/modals/modalSaveAs.compo
 import {ArgumentFieldService} from "./services/argumentField.service";
 import {EnvironmentService} from "./services/environment.service";
 import {SimpleNotificationsModule} from "angular2-notifications/src/simple-notifications.module";
+import {HomePage} from "./pages/HomePage";
+import {InterfaceListPage} from "./pages/InterfaceListPage";
+import {ListComponent} from "./components/list.component";
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { DBModule } from '@ngrx/db';
+import { RouterStoreModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import {reducer} from "./reducers";
+import {ProgramListPage} from "./pages/ProgramListPage";
+import {VersionListPage} from "./pages/VersionListPage";
+import {EditorPage} from "./pages/EditorPage";
 
 
 
@@ -68,21 +78,27 @@ type StoreType = {
     App,
     NoContentComponent,
     BlocklyComponent,
-    InterfaceListComponent,
-    ProgramComponent,
-    VersionComponent,
     BreadcrumbComponent,
-    HomeComponent,
-    EditorComponent,
+    // EditorComponent,
     ModalSaveComponent,
-    ModalSaveAsComponent
+    ModalSaveAsComponent,
+
+    HomePage,
+    InterfaceListPage,
+    ProgramListPage,
+    VersionListPage,
+    EditorPage,
+    ListComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
-    SimpleNotificationsModule
+    SimpleNotificationsModule,
+
+    StoreModule.provideStore(reducer),
+    StoreDevtoolsModule.instrumentOnlyWithExtension()
     // MaterialModule.forRoot()
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection

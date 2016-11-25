@@ -53,19 +53,23 @@ export class BreadcrumbService {
   }
 
   getFriendlyName(url: string) {
-    if(url == '/'){
-      return 'Home';
-    }else if(url == '/interface'){
-      return 'Interfaces';
-    }else{
-      if( url.indexOf('interface') != -1 && url.indexOf('program') != -1 && url.indexOf('version') != -1){
-        return this.params["Version"];
-      }else if(url.indexOf('interface') != -1 && url.indexOf('program') != -1){
-        return this.params["Program"];
-      }else if(url.indexOf('interface') != -1){
-        return this.params["Interface"];
-      }
-    }
+    return url;
+
+    // if(url == '/'){
+    //   return 'Home';
+    // }else if(url == '/interface'){
+    //   return 'Interfaces';
+    // }else{
+    //   if( url.indexOf('interface') != -1 && url.indexOf('program') != -1 && url.indexOf('version') != -1){
+    //     return this.params["Version"];
+    //   }else if(url.indexOf('interface') != -1 && url.indexOf('program') != -1){
+    //     return this.params["Program"];
+    //   }else if(url.indexOf('interface') != -1){
+    //     return this.params["Interface"];
+    //   }else{
+    //     return url;
+    //   }
+    // }
 
   }
 }

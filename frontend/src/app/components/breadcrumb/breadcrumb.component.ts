@@ -15,6 +15,7 @@ import _ from 'lodash';
           </a>
           </div>
       </div>
+      <br>
 `,
   styleUrls: [ 'breadcrumb.component.css' ],
   providers: [ BreadcrumbService ]

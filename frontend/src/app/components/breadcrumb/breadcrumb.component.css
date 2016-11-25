@@ -81,7 +81,7 @@
 
 .flat a,
 .flat a::after {
-  background: #bfbfbf;
+  background: #e0e0e0;
   color: #393939;
   transition: all 0.5s;
 }

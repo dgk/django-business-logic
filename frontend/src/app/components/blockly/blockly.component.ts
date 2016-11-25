@@ -16,18 +16,18 @@ import {
 export class BlocklyComponent {
 
   @Input() version: any;
-  @Input() xmlForReferenceDescriptors: any;
-  @Input() xmlForArgumentFields: any;
-  @Input() xmlForFunctionLibs: any;
+  // @Input() xmlForReferenceDescriptors: any;
+  // @Input() xmlForArgumentFields: any;
+  // @Input() xmlForFunctionLibs: any;
 
   @ViewChild('blocklyDiv') blocklyDiv;
   @ViewChild('blocklyArea') blocklyArea;
 
-  style = {
-    width: '100%',
-    height: '90%',
-    position: 'absolute'
-  };
+  // style = {
+  //   width: '100%',
+  //   height: '90%',
+  //   position: 'absolute'
+  // };
 
   private workspace: Blockly.Workspace;
 
@@ -40,13 +40,14 @@ export class BlocklyComponent {
 
   }
 
+  // ${this.xmlForReferenceDescriptors}
+  // ${this.xmlForArgumentFields}
+  // ${this.xmlForFunctionLibs}
+
   createWorkspace(){
 
       let toolbox = `<xml>
                         ${require('./blockly-toolset.html')}
-                        ${this.xmlForReferenceDescriptors}
-                        ${this.xmlForArgumentFields}
-                        ${this.xmlForFunctionLibs}
                      </xml>`;
       this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
         {
@@ -70,12 +71,12 @@ export class BlocklyComponent {
   ngOnChanges(changes: any): any {
 
     if(changes.version && changes.version.currentValue){
-
-    }
-
-    if(this.xmlForReferenceDescriptors && this.xmlForArgumentFields){
       this.createWorkspace();
     }
+
+    // if(this.xmlForReferenceDescriptors && this.xmlForArgumentFields){
+    //   this.createWorkspace();
+    // }
 
   }
 

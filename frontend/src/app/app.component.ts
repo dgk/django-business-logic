@@ -1,14 +1,15 @@
 /*
  * Angular 2 decorators and services
  */
-import { Component, ViewEncapsulation } from '@angular/core';
 
-import { AppState } from './app.service';
+import {Component, ViewEncapsulation, Inject} from '@angular/core';
+import {BreadcrumbComponent} from './components/breadcrumb/breadcrumb.component';
 
-/*
- * App Component
- * Top Level Component
- */
+import { Store } from '@ngrx/store';
+import * as fromRoot from './reducers';
+import {Observable} from "rxjs";
+
+
 @Component({
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
@@ -18,32 +19,20 @@ import { AppState } from './app.service';
   ],
   template: `
     <main>
+      <breadcrumb [params] = 'params'></breadcrumb>
+      
       <router-outlet></router-outlet>
     </main>
-
-    <!--<pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>-->
-
-    <!--<footer>-->
-      <!--<span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>-->
-      <!--<div>-->
-        <!--<a [href]="url">-->
-          <!--<img [src]="angularclassLogo" width="25%">-->
-        <!--</a>-->
-      <!--</div>-->
-    <!--</footer>-->
   `
 })
 export class App {
-  angularclassLogo = 'assets/img/angularclass-avatar.png';
-  name = 'Angular 2 Webpack Starter';
-  url = 'https://twitter.com/AngularClass';
+  private params: any = {};
 
-  constructor(
-    public appState: AppState) {
-  }
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
-    console.log('Initial App State', this.appState.state);
+
   }
 
 }
+
