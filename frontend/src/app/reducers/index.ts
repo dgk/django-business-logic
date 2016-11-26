@@ -8,26 +8,32 @@ import * as fromRouter from '@ngrx/router-store';
 import { compose } from '@ngrx/core/compose';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { combineReducers } from '@ngrx/store';
+import * as fromRouter from '@ngrx/router-store';
 
 
 import * as PrInterfaceList from './prInterfaceList.reducer';
 import * as ProgramList from './programList.reducer';
 import * as VersionList from './versionList.reducer';
 import * as ReferenceList from './referenceList.reducer';
+import * as Info from './info.reducer';
 
 
 export interface State {
   prInterfaces: PrInterfaceList.State,
   programs: ProgramList.State,
   versions: VersionList.State,
-  references: ReferenceList.State
+  references: ReferenceList.State,
+  info: Info.State,
+  router: fromRouter.RouterState
 }
 
 const reducers = {
   prInterfaces: PrInterfaceList.reducer,
   programs: ProgramList.reducer,
   versions: VersionList.reducer,
-  references: ReferenceList.reducer
+  references: ReferenceList.reducer,
+  info: Info.reducer,
+  router: fromRouter.routerReducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -43,13 +49,14 @@ export const getPrInterfaceListState = (state$: Observable<State>) =>
 
 export const getInterfaces = compose(PrInterfaceList.getList, getPrInterfaceListState);
 
-
+export const getCurrentInterfaceID = compose(PrInterfaceList.getCurrentID, getPrInterfaceListState);
 
 export const getProgramListState = (state$: Observable<State>) =>
   state$.select(state => state.programs);
 
 export const getPrograms = compose(ProgramList.getList, getProgramListState);
 
+export const getCurrentProgramID = compose(ProgramList.getCurrentID, getProgramListState);
 
 export const getVersionListState = (state$: Observable<State>) =>
   state$.select(state => state.versions);
@@ -58,4 +65,15 @@ export const getVersions = compose(VersionList.getList, getVersionListState);
 
 export const getCurrentVersion = compose(VersionList.getCurrent, getVersionListState);
 
+export const getCurrentVersionID = compose(VersionList.getCurrentID, getVersionListState);
+
 export const getArgFields = compose(PrInterfaceList.getArgFields, getPrInterfaceListState);
+
+export const getInfoState = (state$: Observable<State>) =>
+  state$.select(state => state.info);
+
+export const getLoadState = compose(Info.getLoading, getInfoState);
+
+export const getStep = compose(Info.getStep, getInfoState);
+
+

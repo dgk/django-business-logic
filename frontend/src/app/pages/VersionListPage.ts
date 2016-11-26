@@ -4,9 +4,12 @@ import {Router, ActivatedRoute} from "@angular/router";
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../reducers';
 
+import * as actionsInfo from "../actions/info";
+
 import {Observable} from "rxjs";
 import {RestService} from "../services/rest.service";
 import * as actions from "../actions/versionList";
+import * as actionsProgram from "../actions/programList";
 
 
 @Component({
@@ -30,31 +33,17 @@ export class VersionListPage {
 
   ngOnInit() {
 
-    this.store.take(1).subscribe(state => {
-      this.programID = state.programs.currentID;
+    this.store.dispatch(new actionsInfo.SetStepAction("VersionList"));
 
-      this.getVersions().subscribe(data => {
-        this.store.dispatch(new actions.LoadAction(data));
-      });
+    this.route["params"].subscribe(params => {
+      this.store.dispatch(new actionsProgram.SetCurrentAction(+params["programID"]));
     });
 
-  }
-
-  getVersions(){
-    return this.rest.getWithSearchParams('/business-logic/rest/program-version', ['program', this.programID]);
-  }
-
-  getVersion(id){
-    return this.rest.get(`/business-logic/rest/program-version/${id}`);
   }
 
   onSelect(item){
-    this.getVersion(item["id"]).subscribe((data) => {
-      this.store.dispatch(new actions.SetCurrentAction(item["id"]));
-      this.store.dispatch(new actions.LoadDetailAction(data));
-
-      this.router.navigate([item["id"]], { relativeTo: this.route });
-    });
+    this.store.dispatch(new actions.SetCurrentAction(item["id"]));
+    this.router.navigate([item["id"]], { relativeTo: this.route });
   }
 
 }

@@ -47,6 +47,7 @@ import {reducer} from "./reducers";
 import {ProgramListPage} from "./pages/ProgramListPage";
 import {VersionListPage} from "./pages/VersionListPage";
 import {EditorPage} from "./pages/EditorPage";
+import {FetchService} from "./services/fetch.service";
 
 
 
@@ -60,7 +61,8 @@ const APP_PROVIDERS = [
   ReferenceService,
   VersionService,
   ArgumentFieldService,
-  EnvironmentService
+  EnvironmentService,
+  FetchService
 ];
 
 type StoreType = {
@@ -98,7 +100,8 @@ type StoreType = {
     SimpleNotificationsModule,
 
     StoreModule.provideStore(reducer),
-    StoreDevtoolsModule.instrumentOnlyWithExtension()
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    RouterStoreModule.connectRouter()
     // MaterialModule.forRoot()
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection

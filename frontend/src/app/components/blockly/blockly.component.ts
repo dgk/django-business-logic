@@ -3,6 +3,8 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
+import {Store} from "@ngrx/store";
+import * as fromRoot from '../../reducers';
 
 @Component({
   selector: 'blockly',
@@ -14,6 +16,7 @@ import {
 })
 
 export class BlocklyComponent {
+  private loading: any;
 
   @Input() version: any;
   // @Input() xmlForReferenceDescriptors: any;
@@ -31,12 +34,18 @@ export class BlocklyComponent {
 
   private workspace: Blockly.Workspace;
 
-  constructor(){
+  constructor(private store: Store<fromRoot.State>){
+    this.loading = this.store.let(fromRoot.getInfoState);
 
+    this.loading.subscribe(info => {
+      if(info.loaded && info.step == "Editor"){
+        console.log("now!");
+      }
+    });
   }
 
 
-  ngAfterViewInit() {
+  ngOnViewInit() {
 
   }
 

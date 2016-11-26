@@ -53,10 +53,16 @@ export function reducer(state = initialState, action: programList.Actions): Stat
       let payload = action.payload;
 
       let program = find(state.entities, (entity) => entity.title == payload.title);
+      let id;
+      if(program){
+        id = program["id"];
+      }else{
+        id = state.currentID;
+      }
 
       let new_state = Object.assign({}, state);
       new_state.details = Object.assign({}, state.details, {
-        [ program["id"] ]: payload
+        [ id ]: payload
       });
 
       return new_state;
@@ -71,5 +77,9 @@ export function reducer(state = initialState, action: programList.Actions): Stat
 
 export function getList(state$: Observable<State>) {
   return state$.select(state => state.entities);
+}
+
+export function getCurrentID(state$: Observable<State>) {
+  return state$.select(state => state.currentID);
 }
 

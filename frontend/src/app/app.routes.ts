@@ -1,11 +1,4 @@
 import { Routes, RouterModule } from '@angular/router';
-
-import { BlocklyComponent } from './components/blockly/blockly.component';
-import { InterfaceListComponent } from './components/interface/interface-list.component';
-import { ProgramComponent } from './components/program/program.component';
-import { VersionComponent } from './components/version/version.component';
-import { HomeComponent } from './components/home/home.component';
-
 import { NoContentComponent } from './components/no-content/no-content.component';
 
 import { DataResolver } from './app.resolver';

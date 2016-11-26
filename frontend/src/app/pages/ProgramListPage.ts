@@ -4,9 +4,12 @@ import {Router, ActivatedRoute} from "@angular/router";
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../reducers';
 
+import * as actionsInfo from "../actions/info";
+
 import {Observable} from "rxjs";
 import {RestService} from "../services/rest.service";
-import * as actions from "../actions/programList";
+import * as actionsProgram from "../actions/programList";
+import * as actionsInterface from "../actions/prInterfaceList";
 
 
 @Component({
@@ -29,32 +32,16 @@ export class ProgramListPage {
   }
 
   ngOnInit() {
+    this.store.dispatch(new actionsInfo.SetStepAction("ProgramList"));
 
-    this.store.take(1).subscribe(state => {
-      this.interfaceID = state.prInterfaces.currentID;
-
-      this.getPrograms().subscribe(data => {
-        this.store.dispatch(new actions.LoadAction(data));
-      });
+    this.route["params"].subscribe(params => {
+      this.store.dispatch(new actionsInterface.SetCurrentAction(+params["interfaceID"]));
     });
-
-  }
-
-  getPrograms(){
-    return this.rest.getWithSearchParams('/business-logic/rest/program', ['program-interface', this.interfaceID]);
-  }
-
-  getProgram(id){
-    return this.rest.get(`/business-logic/rest/program/${id}`);
   }
 
   onSelect(item){
-    this.getProgram(item["id"]).subscribe((data) => {
-      this.store.dispatch(new actions.SetCurrentAction(item["id"]));
-      this.store.dispatch(new actions.LoadDetailAction(data));
-
-      this.router.navigate([item["id"]], { relativeTo: this.route });
-    });
+    this.store.dispatch(new actionsProgram.SetCurrentAction(item["id"]));
+    this.router.navigate([item["id"]], { relativeTo: this.route });
   }
 
 }

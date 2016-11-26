@@ -50,11 +50,17 @@ export function reducer(state = initialState, action: versionList.Actions): Stat
     case versionList.ActionTypes.LOAD_DETAIL: {
       let payload = action.payload;
 
-      let prInterface = find(state.entities, (entity) => entity.title == payload.title);
+      let version = find(state.entities, (entity) => entity.title == payload.title);
+      let id;
+      if(version){
+        id = version["id"];
+      }else{
+        id = state.currentID;
+      }
 
       let new_state = Object.assign({}, state);
       new_state.details = Object.assign({}, state.details, {
-        [ prInterface["id"] ]: payload
+        [ id ]: payload
       });
 
       return new_state;

@@ -43,7 +43,6 @@ export class BreadcrumbComponent{
   }
 
   ngOnInit() {
-
   }
 
   friendlyName(breadcrumb: string) {

@@ -6,9 +6,10 @@ import * as fromRoot from '../reducers';
 
 import {Observable} from "rxjs";
 import {RestService} from "../services/rest.service";
-import * as actions from "../actions/referenceList";
 import {ReferenceService} from "../services/reference.service";
-
+import * as actions from '../actions/referenceList';
+import * as actionsInfo from '../actions/info';
+import * as actionsVersion from '../actions/versionList';
 
 @Component({
   selector: 'editor-page',
@@ -19,30 +20,20 @@ import {ReferenceService} from "../services/reference.service";
 export class EditorPage {
   version: any;
 
-  argFileds: any;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromRoot.State>,
-    private rest: RestService,
     private ref: ReferenceService) {
 
       this.version = this.store.let(fromRoot.getCurrentVersion);
-      // this.argFileds = this.store.let(fromRoot.getArgFields);
-
   }
 
   ngOnInit() {
-    // Observable.forkJoin(this.getReferences).subscribe();
+    this.store.dispatch(new actionsInfo.SetStepAction("Editor"));
+
+    this.route["params"].subscribe(params => {
+      this.store.dispatch(new actionsVersion.SetCurrentAction(+params["versionID"]));
+    });
   }
-
-  getReferences(){
-    return this.rest.get('/business-logic/rest/reference');
-      // this.store.dispatch(new actions.LoadAction(data));
-  }
-
-
-
-
 }

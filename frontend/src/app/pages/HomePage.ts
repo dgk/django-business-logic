@@ -1,6 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import {AppState} from "../app.service";
 import {Router, ActivatedRoute} from "@angular/router";
+import * as actionsInfo from "../actions/info";
+import {Store} from "@ngrx/store";
+import * as fromRoot from '../reducers';
 
 @Component({
   selector: 'home-page',
@@ -18,11 +20,11 @@ export class HomePage {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    public appState: AppState) {
+    private store: Store<fromRoot.State>) {
   }
 
   ngOnInit() {
-
+    this.store.dispatch(new actionsInfo.SetStepAction("Home"));
   }
 
   onSelect(item){

@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
 import {RestService} from "../services/rest.service";
 
 import * as actions from "../actions/prInterfaceList";
+import * as actionsInfo from "../actions/info";
 
 @Component({
   selector: 'interface-list-page',
@@ -27,24 +28,11 @@ export class InterfaceListPage {
   }
 
   ngOnInit() {
-    this.getPrInterfaces().subscribe((data) => {
-      this.store.dispatch(new actions.LoadAction(data));
-    });
-  }
-
-  getPrInterfaces(){
-    return this.rest.get('/business-logic/rest/program-interface');
-  }
-
-  getInterface(id: number){
-    return this.rest.get(`/business-logic/rest/program-interface/${id}`);
+    this.store.dispatch(new actionsInfo.SetStepAction("InterfaceList"));
   }
 
   onSelect(item){
-    this.getInterface(item["id"]).subscribe((data) => {
-      this.store.dispatch(new actions.SetCurrentAction(item["id"]));
-      this.store.dispatch(new actions.LoadDetailAction(data));
-      this.router.navigate([item["id"]], { relativeTo: this.route });
-    });
+    this.store.dispatch(new actions.SetCurrentAction(item["id"]));
+    this.router.navigate([item["id"]], { relativeTo: this.route });
   }
 }
