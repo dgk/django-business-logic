@@ -10,6 +10,8 @@ import {ReferenceService} from "../services/reference.service";
 import * as actions from '../actions/referenceList';
 import * as actionsInfo from '../actions/info';
 import * as actionsVersion from '../actions/versionList';
+import * as actionsProgram from '../actions/programList';
+import * as actionsInterface from '../actions/prInterfaceList';
 
 @Component({
   selector: 'editor-page',
@@ -30,10 +32,13 @@ export class EditorPage {
   }
 
   ngOnInit() {
+    this.store.dispatch(new actionsInfo.SetLoadingAction());
     this.store.dispatch(new actionsInfo.SetStepAction("Editor"));
 
     this.route["params"].subscribe(params => {
       this.store.dispatch(new actionsVersion.SetCurrentAction(+params["versionID"]));
+      this.store.dispatch(new actionsProgram.SetCurrentAction(+params["programID"]));
+      this.store.dispatch(new actionsInterface.SetCurrentAction(+params["interfaceID"]));
     });
   }
 }

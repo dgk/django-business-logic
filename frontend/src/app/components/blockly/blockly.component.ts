@@ -54,6 +54,7 @@ export class BlocklyComponent {
   // ${this.xmlForFunctionLibs}
 
   createWorkspace(){
+      this.workspace.clear();
 
       let toolbox = `<xml>
                         ${require('./blockly-toolset.html')}
@@ -80,7 +81,7 @@ export class BlocklyComponent {
   ngOnChanges(changes: any): any {
 
     if(changes.version && changes.version.currentValue){
-      this.createWorkspace();
+      // this.createWorkspace();
     }
 
     // if(this.xmlForReferenceDescriptors && this.xmlForArgumentFields){

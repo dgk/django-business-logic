@@ -9,8 +9,10 @@ import * as fromRoot from '../reducers';
 import * as actionsInterfaceList from "../actions/prInterfaceList";
 import * as actionsProgramList from "../actions/programList";
 import * as actionsVersionList from "../actions/versionList";
+import * as actionsReferenceList from "../actions/referenceList";
 import * as actionsInfo from "../actions/info";
 import {ActivatedRoute} from "@angular/router";
+import {isNullOrUndefined} from "util";
 
 @Injectable()
 export class FetchService {
@@ -24,6 +26,10 @@ export class FetchService {
   }
 
   fetchAllWeNeed(step: string){
+    let interfaceID = this.store.let(fromRoot.getCurrentInterfaceID);
+    let programID = this.store.let(fromRoot.getCurrentProgramID);
+    let versionID = this.store.let(fromRoot.getCurrentVersionID);
+
     switch (step) {
       case "Home":
         break;
@@ -31,37 +37,59 @@ export class FetchService {
         this.loadInterfaces().subscribe();
         break;
       case "ProgramList":
-        let interfaceID = this.store.let(fromRoot.getCurrentInterfaceID);
         interfaceID.subscribe(id => {
           if(id != null){
-            Observable.forkJoin(
-              this.loadPrograms(id),
-              this.loadInterface(id)
-            ).subscribe( this.store.dispatch(new actionsInfo.SetLoadedAction() ));
+            this.loadPrograms(id).subscribe( this.setLoaded() );
           }
         });
         break;
       case "VersionList":
-        let programID = this.store.let(fromRoot.getCurrentProgramID);
         programID.subscribe(id => {
           if(id != null){
-            Observable.forkJoin(
-              this.loadVersions(id),
-              this.loadProgram(id)
-            ).subscribe( this.store.dispatch(new actionsInfo.SetLoadedAction() ));
+            this.loadVersions(id).subscribe( this.setLoaded() );
           }
         });
         break;
       case "Editor":
-        let versionID = this.store.let(fromRoot.getCurrentVersionID);
-        versionID.subscribe(id => {
-          if(id != null){
-            this.loadVersion(id)
-              .subscribe( this.store.dispatch(new actionsInfo.SetLoadedAction() ));
+        Observable.combineLatest(
+          this.store.select('versions'),
+          this.store.select('programs'),
+          this.store.select('prInterfaces'),
+          this.store.select('info')
+        ).subscribe( ([versions, programs, interfaces, info]) => {
+          let vid = versions["currentID"];
+          let pid = programs["currentID"];
+          let iid = interfaces["currentID"];
+
+          if(vid != null && pid != null && iid != null){
+            let obs = [];
+            if(isNullOrUndefined(interfaces['details'][iid]))
+              obs.push(this.loadInterface(iid));
+
+            if(isNullOrUndefined(programs['details'][pid]))
+              obs.push(this.loadProgram(pid));
+
+            if(isNullOrUndefined(versions['details'][vid]))
+              obs.push(this.loadVersion(vid));
+
+            obs.push(this.loadReferences());
+
+            if(!info.loaded && obs.length != 0)
+            Observable.forkJoin(obs).subscribe( this.setLoaded() );
           }
         });
         break;
     }
+  }
+
+  setLoaded(){
+    this.store.dispatch(new actionsInfo.SetLoadedAction());
+  }
+
+  loadReferences(){
+    return this.rest.get(`${this.baseUrl}/reference`).do(data => {
+      this.store.dispatch(new actionsReferenceList.LoadAction(data));
+    });
   }
 
   loadInterfaces(){
