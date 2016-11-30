@@ -114,6 +114,16 @@ class NodeTreeCreatorTest(NodeTreeCreatorTestCase):
         self.assertIsNot(tree1, tree2)
         self.assertFalse(self.tree_diff(tree1, tree2))
 
+    def test_create_date(self):
+        today = datetime.date.today()
+        tree1 = variable_assign_value(value=DateConstant(value=today))
+        dict1 = self.build_dict(tree1)
+
+        tree2 = NodeTreeCreator().create(dict1)
+
+        self.assertIsInstance(tree2, Node)
+        self.assertIsNot(tree1, tree2)
+        self.assertFalse(self.tree_diff(tree1, tree2))
 
     def test_create_function(self):
         function_definition = PythonCodeFunctionDefinition.objects.create(title='xxx')

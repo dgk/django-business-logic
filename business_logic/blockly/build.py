@@ -67,11 +67,13 @@ class BlocklyXmlBuilder(NodeCacheHolder):
             NumberConstant: 'math_number',
             StringConstant: 'text',
             BooleanConstant: 'logic_boolean',
+            DateConstant: 'business_logic_date',
         }
         field_name = {
             NumberConstant: 'NUM',
             StringConstant: 'TEXT',
             BooleanConstant: 'BOOL',
+            DateConstant: 'DATE',
         }
         content_object = node.content_object
         cls = content_object.__class__
