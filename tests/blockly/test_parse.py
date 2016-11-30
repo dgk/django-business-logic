@@ -93,6 +93,9 @@ class BlocklyXmlParserConstantTest(BlocklyXmlParserTestCase):
         for value in (True, False):
             self._test_constant(BooleanConstant, value)
 
+    def test_date_constantant(self):
+        self._test_constant(DateConstant, datetime.date.today())
+
 
 class BlocklyXmlParserReferenceConstantTest(BlocklyXmlParserTestCase):
     def setUp(self):

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+import datetime
 from lxml import etree, objectify
 
 from django.utils.six import StringIO
@@ -213,10 +213,16 @@ class BlocklyXmlParser(object):
     def visit_field_bool(self, node):
         return self._visit_field(BooleanConstant, value=node.text.lower() == 'true')
 
+    def visit_field_date(self, node):
+        return self._visit_field(DateConstant, value=datetime.datetime.strptime(node.text, '%Y-%m-%d').date())
+
     def visit_value(self, node):
         return self._visit_single_child(node)
 
     def visit_statement(self, node):
+        return self._visit_single_child(node)
+
+    def visit_block_business_logic_date(self, node):
         return self._visit_single_child(node)
 
     def visit_block_business_logic_reference(self, node):
