@@ -159,6 +159,22 @@ class BlocklyXmlBuilderBlockTest(TestCase):
         block = block[0]
         self.assertEqual('controls_if', block.get('type'))
 
+class BlocklyXmlDateTest(TestCase):
+    def test_block_date(self):
+        today = datetime.date.today()
+        root = Node.add_root(content_object=DateConstant(value=today))
+        xml_str = BlocklyXmlBuilder().build(root)
+        xml = etree.parse(StringIO(xml_str))
+
+        block = xml.xpath('/xml/block')
+        self.assertEqual(1, len(block))
+        block = block[0]
+        self.assertEqual('business_logic_date', block.get('type'))
+
+        field = block.find('field')
+        self.assertEqual('DATE', field.get('name'))
+        self.assertEqual(today.strftime('%Y-%m-%d'), field.text)
+
 
 class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
     def _test_math_binary_operator(self, operator, block_type, operator_field_value):
