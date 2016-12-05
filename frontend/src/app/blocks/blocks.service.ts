@@ -4,7 +4,7 @@ import * as find from "lodash/find";
 import {ReferenceService} from "../services/reference.service";
 import {RestService} from "../services/rest.service";
 import {ArgumentFieldService} from "../services/argumentField.service";
-import {ReferenceLabelField} from "./fields/label_field";
+import {ReferenceLabelField} from "./fields/ref_label_field";
 import {ReferenceDropdownField} from "./fields/ref_dropdown_field";
 import {ArgumentField} from "./fields/argument_field";
 // import {MockService} from "../../tests/mock.service";
@@ -12,12 +12,16 @@ import {FunctionLabelField} from "./fields/func_label_field";
 import {EnvironmentService} from "../services/environment.service";
 
 import {block_reference, block_function, block_field_get, block_field_set, block_date} from "./consts/blockTypes";
+import {stateService} from "../services/state.service";
+import {FetchService} from "../services/fetch.service";
 
 @Injectable()
 export class BlocksService {
   constructor(public refService: ReferenceService,
               public argField: ArgumentFieldService,
-              public environment: EnvironmentService) {
+              public environment: EnvironmentService,
+              public _state: stateService,
+              public _fetch: FetchService) {
   }
 
   init() {
@@ -25,8 +29,8 @@ export class BlocksService {
     Blockly.Blocks[block_reference.title] = {
       init: function () {
         this.appendDummyInput()
-          .appendField(new ReferenceLabelField(that.refService), 'TYPE');
-          //.appendField(new ReferenceDropdownField(that.refService), "VALUE");
+          .appendField(new ReferenceLabelField(that._state), 'TYPE')
+          .appendField(new ReferenceDropdownField(that._state, that._fetch), "VALUE");
         this.setInputsInline(false);
         this.setOutput(true, null);
         this.setColour(block_reference.color);
@@ -43,7 +47,7 @@ export class BlocksService {
     //     this.setTooltip('');
     //   }
     // };
-    //
+
     // //TODO: attention: this is crutch!
     // let msg = Blockly.Msg.VARIABLES_SET.substr(0, Blockly.Msg.VARIABLES_SET.indexOf('%'));
     //

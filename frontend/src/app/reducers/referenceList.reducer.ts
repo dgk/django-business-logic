@@ -29,6 +29,17 @@ export function reducer(state = initialState, action: referenceList.Actions): St
       };
     }
 
+    case referenceList.ActionTypes.LOAD_DETAIL:{
+      let payload = action.payload;
+
+      let new_state = Object.assign({}, state);
+      new_state.details = Object.assign({}, state.details, {
+        [ payload.name ]: payload.data
+      });
+
+      return new_state;
+    }
+
     default: {
       return state;
     }

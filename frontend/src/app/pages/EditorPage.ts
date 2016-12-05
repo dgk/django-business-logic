@@ -16,7 +16,7 @@ import * as actionsInterface from '../actions/prInterfaceList';
 @Component({
   selector: 'editor-page',
   template: `
-            <blockly [version] = "version | async" #blockly>
+            <blockly #blockly>
             </blockly>`
 })
 export class EditorPage {

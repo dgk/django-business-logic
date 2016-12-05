@@ -4,7 +4,6 @@ import 'rxjs/add/operator/let';
 import { Observable } from 'rxjs/Observable';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { ActionReducer } from '@ngrx/store';
-import * as fromRouter from '@ngrx/router-store';
 import { compose } from '@ngrx/core/compose';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { combineReducers } from '@ngrx/store';
@@ -43,6 +42,8 @@ export function reducer(state: any, action: any) {
     return developmentReducer(state, action);
 }
 
+export const getState = (state$: Observable<State>) =>
+  state$.select(state => state);
 
 export const getPrInterfaceListState = (state$: Observable<State>) =>
   state$.select(state => state.prInterfaces);
@@ -66,6 +67,11 @@ export const getVersions = compose(VersionList.getList, getVersionListState);
 export const getCurrentVersion = compose(VersionList.getCurrent, getVersionListState);
 
 export const getCurrentVersionID = compose(VersionList.getCurrentID, getVersionListState);
+
+export const getReferenceState = (state$: Observable<State>) =>
+  state$.select(state => state.references);
+
+export const getReferences = compose(ReferenceList.getList, getReferenceState);
 
 export const getArgFields = compose(PrInterfaceList.getArgFields, getPrInterfaceListState);
 

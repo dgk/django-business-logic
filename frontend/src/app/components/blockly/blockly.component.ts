@@ -3,8 +3,14 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import {Store} from "@ngrx/store";
+import {Store, State} from "@ngrx/store";
 import * as fromRoot from '../../reducers';
+import {Observable} from "rxjs";
+import {isNullOrUndefined} from "util";
+import * as find from "lodash/find";
+import {stateService} from "../../services/state.service";
+import {BlocksService} from "../../blocks/blocks.service";
+import {xmlGenerator} from "../../services/xmlGenerator.service";
 
 @Component({
   selector: 'blockly',
@@ -18,7 +24,10 @@ import * as fromRoot from '../../reducers';
 export class BlocklyComponent {
   private loading: any;
 
-  @Input() version: any;
+  private version: Observable<any>;
+  private references: Observable<any>;
+
+  // @Input() version: any;
   // @Input() xmlForReferenceDescriptors: any;
   // @Input() xmlForArgumentFields: any;
   // @Input() xmlForFunctionLibs: any;
@@ -26,20 +35,38 @@ export class BlocklyComponent {
   @ViewChild('blocklyDiv') blocklyDiv;
   @ViewChild('blocklyArea') blocklyArea;
 
-  // style = {
-  //   width: '100%',
-  //   height: '90%',
-  //   position: 'absolute'
-  // };
+  style = {
+    width: '100%',
+    height: '90%',
+    position: 'absolute'
+  };
 
   private workspace: Blockly.Workspace;
 
-  constructor(private store: Store<fromRoot.State>){
+  constructor(
+    private store: Store<fromRoot.State>,
+    private _stateService: stateService,
+    private blocks: BlocksService,
+    private _xmlGenerator: xmlGenerator
+  ){
+    this.blocks.init();
     this.loading = this.store.let(fromRoot.getInfoState);
 
     this.loading.subscribe(info => {
       if(info.loaded && info.step == "Editor"){
-        console.log("now!");
+
+        let state = _stateService.getState();
+
+        this.version = find(state["versions"].details, version => {
+          return version["id"] == state["versions"].currentID;
+        });
+
+        this.references = state["references"];
+
+        this.createWorkspace();
+        console.log(this.version, this.references);
+
+
       }
     });
   }
@@ -54,10 +81,11 @@ export class BlocklyComponent {
   // ${this.xmlForFunctionLibs}
 
   createWorkspace(){
-      this.workspace.clear();
+      if(!isNullOrUndefined(this.workspace)) this.workspace.clear();
 
       let toolbox = `<xml>
                         ${require('./blockly-toolset.html')}
+                        ${this._xmlGenerator.forReferences(this.references)}
                      </xml>`;
       this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
         {

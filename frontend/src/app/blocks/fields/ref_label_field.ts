@@ -1,13 +1,14 @@
-import {ReferenceService} from "../../services/reference.service";
+import {stateService} from "../../services/state.service";
+import find = require("lodash/find");
 
 export class ReferenceLabelField extends Blockly.FieldLabel {
-  refService: ReferenceService;
+  state: stateService;
 
   EDITABLE = true;
 
-  constructor(ref: ReferenceService){
+  constructor(_state: stateService){
     super('');
-    this.refService = ref;
+    this.state = _state;
   }
 
   setValue(newValue: string){
@@ -20,9 +21,13 @@ export class ReferenceLabelField extends Blockly.FieldLabel {
     }
     this.value_ = newValue;
 
-    if(this.refService){
-      let verbose_name = this.refService.getVerboseName(this.getValue());
-      this.setText(verbose_name);
+    if(this.state){
+      let references = this.state.getState()["references"].entities;
+      let ref = find(references, ref => {
+        return ref["name"] == this.getValue();
+      });
+
+      this.setText(ref["verbose_name"]);
 
       //TODO: set Tooltip
       // this.setTooltip(" ["+this.getValue()+"]");

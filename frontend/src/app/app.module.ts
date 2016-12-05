@@ -48,6 +48,8 @@ import {ProgramListPage} from "./pages/ProgramListPage";
 import {VersionListPage} from "./pages/VersionListPage";
 import {EditorPage} from "./pages/EditorPage";
 import {FetchService} from "./services/fetch.service";
+import {stateService} from "./services/state.service";
+import {xmlGenerator} from "./services/xmlGenerator.service";
 
 
 
@@ -56,13 +58,17 @@ const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
   BaseService,
-  RestService,
-  BlocksService,
   ReferenceService,
   VersionService,
   ArgumentFieldService,
   EnvironmentService,
-  FetchService
+
+
+  BlocksService,
+  RestService,
+  FetchService,
+  stateService,
+  xmlGenerator
 ];
 
 type StoreType = {

@@ -39,24 +39,25 @@ export class FetchService {
       case "ProgramList":
         interfaceID.subscribe(id => {
           if(id != null){
-            this.loadPrograms(id).subscribe( this.setLoaded() );
+            this.loadPrograms(id).subscribe( data => this.setLoaded() );
           }
         });
         break;
       case "VersionList":
         programID.subscribe(id => {
           if(id != null){
-            this.loadVersions(id).subscribe( this.setLoaded() );
+            this.loadVersions(id).subscribe( data => this.setLoaded() );
           }
         });
         break;
       case "Editor":
+        let process = false;
+
         Observable.combineLatest(
           this.store.select('versions'),
           this.store.select('programs'),
-          this.store.select('prInterfaces'),
-          this.store.select('info')
-        ).subscribe( ([versions, programs, interfaces, info]) => {
+          this.store.select('prInterfaces')
+        ).subscribe( ([versions, programs, interfaces]) => {
           let vid = versions["currentID"];
           let pid = programs["currentID"];
           let iid = interfaces["currentID"];
@@ -74,8 +75,13 @@ export class FetchService {
 
             obs.push(this.loadReferences());
 
-            if(!info.loaded && obs.length != 0)
-            Observable.forkJoin(obs).subscribe( this.setLoaded() );
+            if(!process && obs.length != 0){
+              process = true;
+              Observable.forkJoin(obs).subscribe( data => {
+                this.setLoaded();
+              });
+            }
+
           }
         });
         break;
@@ -89,6 +95,16 @@ export class FetchService {
   loadReferences(){
     return this.rest.get(`${this.baseUrl}/reference`).do(data => {
       this.store.dispatch(new actionsReferenceList.LoadAction(data));
+    });
+  }
+
+  loadReferenceDetail(referenceName: string){
+    //TODO: don't fetch if exist
+    return this.rest.get(`${this.baseUrl}/reference/${referenceName}`).do(data => {
+      this.store.dispatch(new actionsReferenceList.LoadDetailAction({
+        name: referenceName,
+        data: data
+      }));
     });
   }
 
