@@ -6,7 +6,6 @@ import * as fromRoot from '../reducers';
 
 import {Observable} from "rxjs";
 import {RestService} from "../services/rest.service";
-import {ReferenceService} from "../services/reference.service";
 import * as actions from '../actions/referenceList';
 import * as actionsInfo from '../actions/info';
 import * as actionsVersion from '../actions/versionList';
@@ -25,8 +24,7 @@ export class EditorPage {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<fromRoot.State>,
-    private ref: ReferenceService) {
+    private store: Store<fromRoot.State>) {
 
       this.version = this.store.let(fromRoot.getCurrentVersion);
   }

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BaseService } from '../services/base.service';
 
 @Injectable()
 export class BreadcrumbService {
@@ -8,7 +7,7 @@ export class BreadcrumbService {
   private regexp: RegExp;
   private params;
 
-  constructor(private base: BaseService) {
+  constructor() {
 
   }
 

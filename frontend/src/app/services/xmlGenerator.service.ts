@@ -1,8 +1,14 @@
 import {Injectable} from "@angular/core";
 import {block_reference, block_function, block_field_get, block_field_set, block_date} from "../blocks/consts/blockTypes";
+import {stateService} from "./state.service";
+import {isNullOrUndefined} from "util";
 
 @Injectable()
 export class xmlGenerator{
+
+  constructor(private _state: stateService){
+
+  }
 
   forReferences(references): string{
     let xml =   `<category name="References">`;
@@ -33,6 +39,32 @@ export class xmlGenerator{
                   <field name="VAR">${arg.name}.${field.name}</field>
                 </block>`;
       });
+      xml += `</category>`;
+    });
+
+    xml += `</category>`;
+
+    return xml;
+  }
+
+  forFunctions(): string {
+    let environment = this._state.getEnv();
+
+    if(isNullOrUndefined(environment)) return '';
+
+    let xml =   `<category name="Function libraries">`;
+
+    environment['libraries'].forEach((lib) => {
+      xml += `<category name="${lib.title}">`;
+
+      lib['functions'].forEach((func) => {
+        xml += `<block type="business_logic_function">
+                    <mutation args="true"></mutation>
+                    <field name="FUNC">${func.title}</field>
+                    
+                </block>`;
+      });
+
       xml += `</category>`;
     });
 

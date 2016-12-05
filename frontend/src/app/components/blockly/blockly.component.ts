@@ -61,10 +61,7 @@ export class BlocklyComponent {
           return version["id"] == state["versions"].currentID;
         });
 
-        this.references = state["references"];
-
         this.createWorkspace();
-        console.log(this.version, this.references);
 
 
       }
@@ -85,7 +82,9 @@ export class BlocklyComponent {
 
       let toolbox = `<xml>
                         ${require('./blockly-toolset.html')}
-                        ${this._xmlGenerator.forReferences(this.references)}
+                        ${this._xmlGenerator.forReferences(this._stateService.getState()["references"])}
+                        ${this._xmlGenerator.forArguments(this._stateService.getArguments())}
+                        ${this._xmlGenerator.forFunctions()}
                      </xml>`;
       this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
         {

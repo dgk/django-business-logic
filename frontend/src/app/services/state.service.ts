@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import {Store, State} from "@ngrx/store";
 import * as fromRoot from '../reducers';
+import find = require("lodash/find");
 
 @Injectable()
 export class stateService{
@@ -15,5 +16,30 @@ export class stateService{
 
     this.store.take(1).subscribe(s => state = s);
     return state;
+  }
+
+  getArguments(){
+    let state = this.getState();
+    return state["prInterfaces"].details[state["prInterfaces"].currentID]["arguments"];
+  }
+
+  getEnv(){
+    let state = this.getState();
+    let version_env = state["versions"].details[state["versions"].currentID]["environment"];
+
+    return version_env;
+  }
+
+  getFunction(func_name: string){
+    let func;
+
+    let env = this.getEnv();
+    env['libraries'].forEach((lib) => {
+      func = find(lib["functions"], (func) => {
+        return func.title == func_name;
+      });
+    });
+
+    return func;
   }
 }

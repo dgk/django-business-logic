@@ -8,9 +8,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { BlocksService } from "../../blocks/blocks.service";
 import { BaseService } from "../../services/base.service";
-import { ReferenceService } from "../../services/reference.service";
 import { VersionService } from "../../services/version.service";
-import {ArgumentFieldService} from "../../services/argumentField.service";
 import {Observable} from "rxjs";
 import {EnvironmentService} from "../../services/environment.service";
 

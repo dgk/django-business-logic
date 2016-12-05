@@ -15,9 +15,7 @@ import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 
-import { BaseService } from "./services/base.service";
 import { RestService } from "./services/rest.service";
-import {VersionService} from "./services/version.service";
 
 import { BlocklyComponent } from './components/blockly/blockly.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
@@ -26,12 +24,8 @@ import { NoContentComponent } from './components/no-content/no-content.component
 
 // import {MaterialModule} from '@angular/material';
 import {BlocksService} from "./blocks/blocks.service";
-import {ReferenceService} from "./services/reference.service";
-import {EditorComponent} from "./components/editor/editor.component";
 import {ModalSaveComponent} from "./components/editor/modals/modalSave.component";
 import {ModalSaveAsComponent} from "./components/editor/modals/modalSaveAs.component";
-import {ArgumentFieldService} from "./services/argumentField.service";
-import {EnvironmentService} from "./services/environment.service";
 import {SimpleNotificationsModule} from "angular2-notifications/src/simple-notifications.module";
 import {HomePage} from "./pages/HomePage";
 import {InterfaceListPage} from "./pages/InterfaceListPage";
@@ -57,12 +51,6 @@ import {xmlGenerator} from "./services/xmlGenerator.service";
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
-  BaseService,
-  ReferenceService,
-  VersionService,
-  ArgumentFieldService,
-  EnvironmentService,
-
 
   BlocksService,
   RestService,
@@ -87,7 +75,6 @@ type StoreType = {
     NoContentComponent,
     BlocklyComponent,
     BreadcrumbComponent,
-    // EditorComponent,
     ModalSaveComponent,
     ModalSaveAsComponent,
 

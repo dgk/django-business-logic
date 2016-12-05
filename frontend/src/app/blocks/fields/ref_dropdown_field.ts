@@ -31,6 +31,7 @@ export class ReferenceDropdownField extends Blockly.FieldDropdown {
     if(this.sourceBlock_ != null){
       let referenceName = this.sourceBlock_.inputList[0].fieldRow[0].getValue();
 
+      //TODO: don't fetch if exist
       this.fetch.loadReferenceDetail(referenceName).subscribe(() => {
         let ref = this.state.getState()["references"].details[referenceName];
 

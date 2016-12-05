@@ -99,7 +99,6 @@ export class FetchService {
   }
 
   loadReferenceDetail(referenceName: string){
-    //TODO: don't fetch if exist
     return this.rest.get(`${this.baseUrl}/reference/${referenceName}`).do(data => {
       this.store.dispatch(new actionsReferenceList.LoadDetailAction({
         name: referenceName,
