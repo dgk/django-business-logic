@@ -1,8 +1,8 @@
 import { Component, NgModule, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 
-import { BreadcrumbService } from '../../services/breadcrumb.service';
-import { AppState } from '../../app.service';
+import { BreadcrumbService } from '../services/breadcrumb.service';
+import { AppState } from '../app.service';
 import _ from 'lodash';
 
 @Component({
@@ -17,7 +17,7 @@ import _ from 'lodash';
       </div>
       <br>
 `,
-  styleUrls: [ 'breadcrumb.component.css' ],
+  styleUrls: [ '../css/breadcrumb.component.css' ],
   providers: [ BreadcrumbService ]
 })
 

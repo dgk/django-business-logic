@@ -18,7 +18,7 @@ import { AppState, InternalStateType } from './app.service';
 import { RestService } from "./services/rest.service";
 
 import { BlocklyComponent } from './components/blockly/blockly.component';
-import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { BreadcrumbComponent } from './components/breadcrumb.component';
 
 import { NoContentComponent } from './components/no-content/no-content.component';
 
@@ -44,6 +44,8 @@ import {EditorPage} from "./pages/EditorPage";
 import {FetchService} from "./services/fetch.service";
 import {stateService} from "./services/state.service";
 import {xmlGenerator} from "./services/xmlGenerator.service";
+import {ExecutionListPage} from "./pages/ExecutionListPage";
+import {ReadonlyEditorPage} from "./pages/ReadonlyEditorPage";
 
 
 
@@ -83,6 +85,8 @@ type StoreType = {
     ProgramListPage,
     VersionListPage,
     EditorPage,
+    ReadonlyEditorPage,
+    ExecutionListPage,
     ListComponent
   ],
   imports: [ // import Angular's modules

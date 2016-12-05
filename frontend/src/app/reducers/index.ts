@@ -14,6 +14,7 @@ import * as PrInterfaceList from './prInterfaceList.reducer';
 import * as ProgramList from './programList.reducer';
 import * as VersionList from './versionList.reducer';
 import * as ReferenceList from './referenceList.reducer';
+import * as ExecutionList from './executionList.reducer';
 import * as Info from './info.reducer';
 
 
@@ -22,6 +23,8 @@ export interface State {
   programs: ProgramList.State,
   versions: VersionList.State,
   references: ReferenceList.State,
+  executions: ExecutionList.State,
+
   info: Info.State,
   router: fromRouter.RouterState
 }
@@ -31,6 +34,8 @@ const reducers = {
   programs: ProgramList.reducer,
   versions: VersionList.reducer,
   references: ReferenceList.reducer,
+  executions: ExecutionList.reducer,
+
   info: Info.reducer,
   router: fromRouter.routerReducer
 };
@@ -49,6 +54,11 @@ export const getPrInterfaceListState = (state$: Observable<State>) =>
   state$.select(state => state.prInterfaces);
 
 export const getInterfaces = compose(PrInterfaceList.getList, getPrInterfaceListState);
+
+export const getExecutionListState = (state$: Observable<State>) =>
+  state$.select(state => state.executions);
+
+export const getExecutions = compose(ExecutionList.getList, getExecutionListState);
 
 export const getCurrentInterfaceID = compose(PrInterfaceList.getCurrentID, getPrInterfaceListState);
 

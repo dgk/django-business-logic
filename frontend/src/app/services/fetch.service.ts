@@ -10,9 +10,11 @@ import * as actionsInterfaceList from "../actions/prInterfaceList";
 import * as actionsProgramList from "../actions/programList";
 import * as actionsVersionList from "../actions/versionList";
 import * as actionsReferenceList from "../actions/referenceList";
+import * as actionsExecution from "../actions/execution";
 import * as actionsInfo from "../actions/info";
 import {ActivatedRoute} from "@angular/router";
 import {isNullOrUndefined} from "util";
+import {stateService} from "./state.service";
 
 @Injectable()
 export class FetchService {
@@ -21,7 +23,8 @@ export class FetchService {
   constructor(
     private rest: RestService,
     private store: Store<fromRoot.State>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _state: stateService
   ){
   }
 
@@ -58,31 +61,56 @@ export class FetchService {
           this.store.select('programs'),
           this.store.select('prInterfaces')
         ).subscribe( ([versions, programs, interfaces]) => {
-          let vid = versions["currentID"];
-          let pid = programs["currentID"];
-          let iid = interfaces["currentID"];
+            let vid = versions["currentID"];
+            let pid = programs["currentID"];
+            let iid = interfaces["currentID"];
 
-          if(vid != null && pid != null && iid != null){
-            let obs = [];
-            if(isNullOrUndefined(interfaces['details'][iid]))
-              obs.push(this.loadInterface(iid));
+            if(vid != null && pid != null && iid != null){
+              let obs = [];
+              if(isNullOrUndefined(interfaces['details'][iid]))
+                obs.push(this.loadInterface(iid));
 
-            if(isNullOrUndefined(programs['details'][pid]))
-              obs.push(this.loadProgram(pid));
+              if(isNullOrUndefined(programs['details'][pid]))
+                obs.push(this.loadProgram(pid));
 
-            if(isNullOrUndefined(versions['details'][vid]))
-              obs.push(this.loadVersion(vid));
+              if(isNullOrUndefined(versions['details'][vid]))
+                obs.push(this.loadVersion(vid));
 
-            obs.push(this.loadReferences());
+              obs.push(this.loadReferences());
 
-            if(!process && obs.length != 0){
+              if(!process && obs.length != 0){
+                process = true;
+                Observable.forkJoin(obs).subscribe( data => {
+                  this.setLoaded();
+                });
+              }
+
+            }
+        });
+        break;
+      case "ExecutionList":
+        this.loadExecutionList().subscribe(data => {
+          this.setLoaded();
+        });
+        break;
+      case "ReadonlyEditor":
+        let process = false;
+
+        this.store.select("executions").subscribe((executions) => {
+          if(!process){
+            let eid = executions.currentID;
+
+            if(eid != null){
               process = true;
-              Observable.forkJoin(obs).subscribe( data => {
-                this.setLoaded();
+
+              this.loadExecutionDetail(eid).subscribe(data => {
+                let versionID = this._state.getState()["executions"].details[eid]["program_version"];
+
+                Observable.forkJoin(this.loadLog(eid), this.loadUp(versionID)).subscribe(data => this.setLoaded());
               });
             }
-
           }
+
         });
         break;
     }
@@ -140,6 +168,40 @@ export class FetchService {
   loadVersion(id: number){
     return this.rest.get(`${this.baseUrl}/program-version/${id}`).do(data => {
       this.store.dispatch(new actionsVersionList.LoadDetailAction(data));
+    });
+  }
+
+  loadExecutionList(){
+    return this.rest.get(`${this.baseUrl}/execution`).do(data => {
+      this.store.dispatch(new actionsExecution.LoadAction(data));
+    });
+  }
+
+  loadLog(id){
+    return this.rest.get(`${this.baseUrl}/execution/${id}/log`).do(data => {
+      this.store.dispatch(new actionsExecution.LoadLogAction(data));
+    });
+  }
+
+  loadExecutionDetail(id){
+    return this.rest.get(`${this.baseUrl}/execution/${id}`).do(data => {
+      this.store.dispatch(new actionsExecution.LoadDetailAction(data));
+    });
+  }
+
+  loadUp(versionID){
+    this.store.dispatch(new actionsVersionList.SetCurrentAction(versionID));
+
+    return this.loadVersion(versionID).flatMap(data => {
+      let programID = this._state.getState()["versions"].details[this._state.getState()["versions"].currentID].program;
+      this.store.dispatch(new actionsProgramList.SetCurrentAction(programID));
+
+      return this.loadProgram(programID).flatMap(data => {
+        let interfaceID = this._state.getState()["programs"].details[this._state.getState()["programs"].currentID].program_interface;
+        this.store.dispatch(new actionsInterfaceList.SetCurrentAction(interfaceID));
+
+        return this.loadInterface(interfaceID);
+      });
     });
   }
 

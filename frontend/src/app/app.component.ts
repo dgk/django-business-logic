@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation, Inject} from '@angular/core';
-import {BreadcrumbComponent} from './components/breadcrumb/breadcrumb.component';
+import {BreadcrumbComponent} from './components/breadcrumb.component';
 
 import { Store } from '@ngrx/store';
 import * as fromRoot from './reducers';

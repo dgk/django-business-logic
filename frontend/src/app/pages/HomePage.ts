@@ -14,6 +14,11 @@ export class HomePage {
       title: 'Interfaces',
       description: '',
       link: './interface'
+    },
+    {
+      title: 'Execution',
+      description: '',
+      link: './execution'
     }
   ];
 

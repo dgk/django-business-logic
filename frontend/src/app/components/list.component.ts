@@ -7,7 +7,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
                 <div class="ui relaxed divided list">
                   <div class="item" *ngFor = "let item of list" (click) = "onSelect(item)">
                     <div class="content">
-                      <a class="header">{{item.title}}</a>
+                      <a class="header">{{item.title || item.id}}</a>
                       <div class="description">{{item.description}}</div>
                     </div>
                   </div>

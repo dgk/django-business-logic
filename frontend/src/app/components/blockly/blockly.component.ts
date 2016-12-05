@@ -63,6 +63,17 @@ export class BlocklyComponent {
 
         this.createWorkspace();
 
+      }
+
+      if(info.loaded && info.step == "ReadonlyEditor"){
+
+        let state = _stateService.getState();
+
+        this.version = find(state["versions"].details, version => {
+          return version["id"] == state["versions"].currentID;
+        });
+
+        this.createWorkspaceReadonly();
 
       }
     });
@@ -96,6 +107,23 @@ export class BlocklyComponent {
 
       this.loadVersionXml();
 
+  }
+
+  createWorkspaceReadonly(){
+      if(!isNullOrUndefined(this.workspace)) this.workspace.clear();
+
+      let toolbox = `<xml></xml>`;
+      this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
+        {
+          toolbox: toolbox,
+          trashcan: true,
+          sounds: false,
+          media: "./blockly/",
+          readOnly: true,
+          scrollbars: true
+        });
+
+      this.loadVersionXml();
   }
 
   loadVersionXml(){

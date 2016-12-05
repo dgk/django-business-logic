@@ -8,10 +8,25 @@ import {InterfaceListPage} from "./pages/InterfaceListPage";
 import {ProgramListPage} from "./pages/ProgramListPage";
 import {VersionListPage} from "./pages/VersionListPage";
 import {EditorPage} from "./pages/EditorPage";
+import {ExecutionListPage} from "./pages/ExecutionListPage";
+import {ReadonlyEditorPage} from "./pages/ReadonlyEditorPage";
 
 
 export const ROUTES: Routes = [
   { path: '', component: HomePage },
+  {
+    path: 'execution',
+    children: [
+      {
+        path: '',
+        component: ExecutionListPage
+      },
+      {
+        path: ':executionID',
+        component: ReadonlyEditorPage
+      }
+    ]
+  },
   {
     path: 'interface',
     children: [
