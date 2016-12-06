@@ -10,10 +10,10 @@ import {isNullOrUndefined} from "util";
 import * as find from "lodash/find";
 import {stateService} from "../../services/state.service";
 import {BlocksService} from "../../blocks/blocks.service";
-import {xmlGenerator} from "../../services/xmlGenerator.service";
+
 
 @Component({
-  selector: 'blockly',
+  selector: 'blockly-readonly',
   template: `
     <div #blocklyArea></div>   
     <div #blocklyDiv [ngStyle]="style"></div>
@@ -21,7 +21,7 @@ import {xmlGenerator} from "../../services/xmlGenerator.service";
   providers: []
 })
 
-export class BlocklyComponent {
+export class BlocklyReadOnlyComponent {
   private blocks: any;
 
   private loading: any;
@@ -42,15 +42,15 @@ export class BlocklyComponent {
   constructor(
     private store: Store<fromRoot.State>,
     private _stateService: stateService,
-    private blocks: BlocksService,
-    private _xmlGenerator: xmlGenerator
+    private blocks: BlocksService
   ){
 
     this.blocks.init();
     this.loading = this.store.let(fromRoot.getInfoState);
 
     this.loading.subscribe(info => {
-      if(info.loaded && info.step == "Editor"){
+
+      if(info.loaded && info.step == "ReadonlyEditor"){
 
         let state = _stateService.getState();
 
@@ -58,40 +58,64 @@ export class BlocklyComponent {
           return version["id"] == state["versions"].currentID;
         });
 
-        if(isNullOrUndefined(this.workspace)) this.createWorkspace();
+        if(isNullOrUndefined(this.workspace)) this.createWorkspaceReadonly();
 
         this.loadVersionXml();
+        this.highlightActiveBlocks();
 
       }
     });
   }
 
 
-  ngOnViewInit() {
+  createWorkspaceReadonly(){
 
-  }
-
-  // ${this.xmlForReferenceDescriptors}
-  // ${this.xmlForArgumentFields}
-  // ${this.xmlForFunctionLibs}
-
-  createWorkspace(){
-
-    let toolbox = `<xml>
-                      ${require('./blockly-toolset.html')}
-                      ${this._xmlGenerator.forReferences(this._stateService.getState()["references"])}
-                      ${this._xmlGenerator.forArguments(this._stateService.getArguments())}
-                      ${this._xmlGenerator.forFunctions()}
-                   </xml>`;
+    let toolbox = `<xml></xml>`;
     this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
       {
         toolbox: toolbox,
         trashcan: true,
         sounds: false,
-        media: "./blockly/"
+        media: "./blockly/",
+        readOnly: true,
+        scrollbars: true
       });
+  }
 
+  highlightActiveBlocks(){
+    let state = this._stateService.getState();
 
+    let executions = state["executions"];
+    this.blocks = [];
+
+    let log = executions["logs"][executions.currentID];
+
+    this.bypassTree([ log ]);
+
+    let all_blocks = this.workspace.getAllBlocks();
+
+    all_blocks.forEach(block => {
+      let block_log = find(this.blocks, item => {return item.id == +block.id });
+
+      if(isNullOrUndefined(block_log)){
+        block.setDisabled(true);
+        block.setShadow(true);
+      }else{
+        block.setTooltip(`Previous value : ${block_log.previous_value}\n Current value : ${block_log.current_value}`);
+      }
+    });
+  }
+
+  bypassTree(nodes){
+    nodes.forEach(node => {
+      this.blocks.push({
+        exception: node["exception"],
+        previous_value: node["previous_value"],
+        current_value: node["current_value"],
+        id: node["node"]
+      });
+      if(node["children"].length != 0) this.bypassTree(node["children"]);
+    });
   }
 
   loadVersionXml(){
@@ -102,26 +126,4 @@ export class BlocklyComponent {
     Blockly.Xml.domToWorkspace(xml, this.workspace);
   }
 
-
-  ngOnChanges(changes: any): any {
-
-    // if(changes.version && changes.version.currentValue){
-      // this.createWorkspace();
-    // }
-
-    // if(this.xmlForReferenceDescriptors && this.xmlForArgumentFields){
-    //   this.createWorkspace();
-    // }
-
-  }
-
-  getXml(){
-    return Blockly.Xml.domToText( Blockly.Xml.workspaceToDom(this.workspace, false) );
-  }
-
-  initXml(xmlText) {
-    this.workspace.clear();
-    let xml = Blockly.Xml.textToDom(xmlText);
-    Blockly.Xml.domToWorkspace(xml, this.workspace);
-  }
 }

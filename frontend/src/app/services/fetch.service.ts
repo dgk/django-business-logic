@@ -103,10 +103,10 @@ export class FetchService {
             if(eid != null){
               process = true;
 
-              this.loadExecutionDetail(eid).subscribe(data => {
+              Observable.forkJoin( this.loadLog(eid), this.loadExecutionDetail(eid) ).subscribe(data => {
                 let versionID = this._state.getState()["executions"].details[eid]["program_version"];
 
-                Observable.forkJoin(this.loadLog(eid), this.loadUp(versionID)).subscribe(data => this.setLoaded());
+                this.loadUp(versionID).subscribe(data => this.setLoaded());
               });
             }
           }
@@ -179,7 +179,7 @@ export class FetchService {
 
   loadLog(id){
     return this.rest.get(`${this.baseUrl}/execution/${id}/log`).do(data => {
-      this.store.dispatch(new actionsExecution.LoadLogAction(data));
+      this.store.dispatch(new actionsExecution.LoadLogAction({id: id, data: data}));
     });
   }
 

@@ -10,8 +10,8 @@ import * as actionsExecution from '../actions/execution';
 @Component({
   selector: 'readonly-editor-page',
   template: `
-            <blockly #blockly>
-            </blockly>`
+            <blockly-readonly #blockly>
+            </blockly-readonly>`
 })
 export class ReadonlyEditorPage {
   version: any;

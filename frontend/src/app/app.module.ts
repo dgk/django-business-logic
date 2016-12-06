@@ -46,6 +46,7 @@ import {stateService} from "./services/state.service";
 import {xmlGenerator} from "./services/xmlGenerator.service";
 import {ExecutionListPage} from "./pages/ExecutionListPage";
 import {ReadonlyEditorPage} from "./pages/ReadonlyEditorPage";
+import {BlocklyReadOnlyComponent} from "./components/blockly/blocklyReadOnly.component";
 
 
 
@@ -76,6 +77,7 @@ type StoreType = {
     App,
     NoContentComponent,
     BlocklyComponent,
+    BlocklyReadOnlyComponent,
     BreadcrumbComponent,
     ModalSaveComponent,
     ModalSaveAsComponent,

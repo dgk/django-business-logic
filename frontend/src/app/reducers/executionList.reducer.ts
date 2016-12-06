@@ -61,17 +61,9 @@ export function reducer(state = initialState, action: execution.Actions): State 
     case execution.ActionTypes.LOAD_EXECUTION_LOG: {
       let payload = action.payload;
 
-      let execution = find(state.entities, (entity) => entity.title == payload.title);
-      let id;
-      if(execution){
-        id = execution["id"];
-      }else{
-        id = state.currentID;
-      }
-
       let new_state = Object.assign({}, state);
       new_state.logs = Object.assign({}, state.logs, {
-        [ id ]: payload
+        [ payload.id ]: payload.data
       });
 
       return new_state;
