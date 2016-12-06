@@ -40,6 +40,14 @@ class ProgramInterfaceTest(ProgramRestTestBase):
                 data_type='string',
                 verbose_name='Test Model.string value',
                 ),
+            'date_value': dict(
+                data_type='date',
+                verbose_name='Test Model.date value',
+                ),
+            'datetime_value': dict(
+                data_type='datetime',
+                verbose_name='Test Model.datetime value',
+                ),
             'foreign_value': dict(
                 data_type='model',
                 content_type='test_app.TestRelatedModel',
