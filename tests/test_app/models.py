@@ -10,6 +10,8 @@ class TestModel(models.Model):
     int_value = models.PositiveIntegerField('Integer value', default=1)
     decimal_value = models.DecimalField('Decimal value', default=Decimal('2.0'))
     string_value = models.CharField(max_length=255)
+    date_value = models.DateField(null=True, blank=True)
+    datetime_value = models.DateTimeField(null=True, blank=True)
     foreign_value = models.ForeignKey('TestRelatedModel', null=True)
 
     class Meta:
