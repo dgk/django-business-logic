@@ -29,6 +29,8 @@ class ProgramTestBase(TestCase):
         'int_value',
         'string_value',
         'decimal_value',
+        'date_value',
+        'datetime_value',
         'foreign_value',
         'foreign_value.int_value',
         'foreign_value.string_value',
