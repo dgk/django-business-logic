@@ -12,10 +12,11 @@ import * as actions from "../actions/execution";
 
 @Component({
   selector: 'execution-list-page',
-  template: `<block-list (select)="onSelect($event)" [list] = "list | async"></block-list>`
+  template: `<block-list (select)="onSelect($event)" [list] = "list | async" [list_icon] = "icon"></block-list>`
 })
 export class ExecutionListPage {
   list: any;
+  icon = "asterisk";
 
   constructor(
     private route: ActivatedRoute,
