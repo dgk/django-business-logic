@@ -47,6 +47,7 @@ import {xmlGenerator} from "./services/xmlGenerator.service";
 import {ExecutionListPage} from "./pages/ExecutionListPage";
 import {ReadonlyEditorPage} from "./pages/ReadonlyEditorPage";
 import {BlocklyReadOnlyComponent} from "./components/blockly/blocklyReadOnly.component";
+import {HelpCardComponent} from "./components/helpcard.component";
 
 
 
@@ -81,6 +82,7 @@ type StoreType = {
     BreadcrumbComponent,
     ModalSaveComponent,
     ModalSaveAsComponent,
+    HelpCardComponent,
 
     HomePage,
     InterfaceListPage,

@@ -17,6 +17,8 @@ import {BlocksService} from "../../blocks/blocks.service";
   template: `
     <div #blocklyArea></div>   
     <div #blocklyDiv [ngStyle]="style"></div>
+    
+    <help-card [current_value]="currentValue" [previous_value]="previousValue" *ngIf="helpcardShow"></help-card>
     `,
   providers: []
 })
@@ -27,6 +29,11 @@ export class BlocklyReadOnlyComponent {
   private loading: any;
 
   private version: Observable<any>;
+
+  private helpcardShow: boolean = false;
+
+  previousValue: any;
+  currentValue: any;
 
   @ViewChild('blocklyDiv') blocklyDiv;
   @ViewChild('blocklyArea') blocklyArea;
@@ -63,6 +70,7 @@ export class BlocklyReadOnlyComponent {
         this.loadVersionXml();
         this.highlightActiveBlocks();
 
+
       }
     });
   }
@@ -73,13 +81,32 @@ export class BlocklyReadOnlyComponent {
     let toolbox = `<xml></xml>`;
     this.workspace = Blockly.inject(this.blocklyDiv.nativeElement,
       {
-        toolbox: toolbox,
-        trashcan: true,
+        toolbox: false,
+        trashcan: false,
         sounds: false,
         media: "./blockly/",
-        readOnly: true,
+        readOnly: false,
         scrollbars: true
       });
+
+    this.workspace.addChangeListener(event => {
+        if(event["element"] == 'selected'){
+          let block_id = event.newValue;
+          let bl = find(this.blocks, block => {
+            return block.id == block_id;
+          });
+
+          if(Blockly.selected != null){
+            this.helpcardShow = true;
+            this.previousValue = bl["previous_value"];
+            this.currentValue = bl["current_value"];
+          }else{
+            this.helpcardShow = false;
+          }
+
+
+        }
+    });
   }
 
   highlightActiveBlocks(){
@@ -95,13 +122,16 @@ export class BlocklyReadOnlyComponent {
     let all_blocks = this.workspace.getAllBlocks();
 
     all_blocks.forEach(block => {
+      // disable dragging
+      block.onMouseMove_ = () => {};
+
       let block_log = find(this.blocks, item => {return item.id == +block.id });
 
       if(isNullOrUndefined(block_log)){
         block.setDisabled(true);
         block.setShadow(true);
       }else{
-        block.setTooltip(`Previous value : ${block_log.previous_value}\n Current value : ${block_log.current_value}`);
+        // block.setTooltip(`Previous value : ${block_log.previous_value}\n Current value : ${block_log.current_value}`);
       }
     });
   }

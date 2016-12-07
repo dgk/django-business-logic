@@ -16,7 +16,20 @@ import _ from 'lodash';
           </div>
       </div>
       <br>
-`,
+         <!--<div class="ui mini steps">-->
+          <!--<div class="step" *ngFor="let breadcrumb of breadcrumbs; let i = index; let last = last">-->
+            <!--&lt;!&ndash;<i class="truck icon"></i>&ndash;&gt;-->
+            <!--<div class="content">-->
+              <!--<div class="title">-->
+                  <!--<a [routerLink] = [breadcrumb] [ngClass]="{notActiveLink: last}">-->
+                  <!--{{this.friendlyName(breadcrumb)}}-->
+                  <!--</a>-->
+              <!--</div>-->
+              <!--&lt;!&ndash;<div class="description">Choose your shipping options</div>&ndash;&gt;-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+  `,
   styleUrls: [ '../css/breadcrumb.component.css' ],
   providers: [ BreadcrumbService ]
 })

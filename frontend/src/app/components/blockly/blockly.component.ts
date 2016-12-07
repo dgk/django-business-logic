@@ -91,7 +91,10 @@ export class BlocklyComponent {
         media: "./blockly/"
       });
 
-
+    this.workspace.addChangeListener(event => {
+      // console.log(event);
+      console.log(Blockly.selected);
+    });
   }
 
   loadVersionXml(){
