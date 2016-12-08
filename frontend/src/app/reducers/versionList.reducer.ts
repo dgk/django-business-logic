@@ -12,7 +12,7 @@ export interface State {
   next: any,
   previous: any,
   entities: any[],
-  currentID: number,
+  currentID: any,
   details: any
 };
 
@@ -65,6 +65,39 @@ export function reducer(state = initialState, action: versionList.Actions): Stat
 
       return new_state;
 
+    }
+
+    case versionList.ActionTypes.SAVE: {
+      let payload = action.payload;
+
+      let new_state = Object.assign({}, state);
+
+      let ver = Object.assign({}, state.details[payload["id"]], {
+        xml: payload["xml"]
+      });
+
+      new_state.details = Object.assign({}, state.details, {
+        [ payload["id"] ]: ver
+      });
+
+      return new_state;
+    }
+
+    case versionList.ActionTypes.CREATE: {
+      let payload = action.payload;
+
+      let new_state = Object.assign({}, state);
+      new_state.details = Object.assign({}, state.details, {
+        tmp : {
+          title: payload.title,
+          description: payload.description,
+          xml: "<xml xmlns='http://www.w3.org/1999/xhtml'></xml>",
+          program: payload.programID
+        }
+      });
+
+      new_state.currentID = 'tmp';
+      return new_state;
     }
 
     default: {

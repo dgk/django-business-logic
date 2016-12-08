@@ -25,7 +25,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
                 </div>
               </div>
               `,
-  styleUrls: ['list.component.css']
+  styleUrls: ['../css/list.component.css']
 })
 export class ListComponent {
 

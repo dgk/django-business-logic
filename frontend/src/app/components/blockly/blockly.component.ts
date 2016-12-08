@@ -54,9 +54,13 @@ export class BlocklyComponent {
 
         let state = _stateService.getState();
 
-        this.version = find(state["versions"].details, version => {
-          return version["id"] == state["versions"].currentID;
-        });
+        if(state["versions"].currentID == 'tmp'){
+          this.version = state["versions"].details["tmp"];
+        }else{
+          this.version = find(state["versions"].details, version => {
+            return version["id"] == state["versions"].currentID;
+          });
+        }
 
         if(isNullOrUndefined(this.workspace)) this.createWorkspace();
 
@@ -93,7 +97,6 @@ export class BlocklyComponent {
 
     this.workspace.addChangeListener(event => {
       // console.log(event);
-      console.log(Blockly.selected);
     });
   }
 

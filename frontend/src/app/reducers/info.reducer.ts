@@ -9,11 +9,13 @@ import * as find from 'lodash/find';
 
 export interface State {
   loaded: boolean,
+  saving: boolean,
   step: string
 };
 
 const initialState: State = {
   loaded: false,
+  saving: false,
   step: "Home"
 };
 
@@ -21,24 +23,34 @@ export function reducer(state = initialState, action: Info.Actions): State {
   switch (action.type) {
 
     case Info.ActionTypes.SET_LOADED: {
-      return {
-        loaded: true,
-        step: state.step
-      };
+      return Object.assign({}, state , {
+        loaded: true
+      });
     }
 
     case Info.ActionTypes.SET_LOADING: {
-      return {
-        loaded: false,
-        step: state.step
-      };
+      return Object.assign({}, state , {
+        loaded: false
+      });
     }
 
     case Info.ActionTypes.SET_STEP: {
-      return {
+      return Object.assign({}, state , {
         loaded: false,
         step: action.payload
-      };
+      });
+    }
+
+    case Info.ActionTypes.SET_SAVING: {
+      return Object.assign({}, state , {
+        saving: true
+      });
+    }
+
+    case Info.ActionTypes.SET_SAVED: {
+      return Object.assign({}, state , {
+        saving: false
+      });
     }
 
     default: {

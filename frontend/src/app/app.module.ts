@@ -48,6 +48,8 @@ import {ExecutionListPage} from "./pages/ExecutionListPage";
 import {ReadonlyEditorPage} from "./pages/ReadonlyEditorPage";
 import {BlocklyReadOnlyComponent} from "./components/blockly/blocklyReadOnly.component";
 import {HelpCardComponent} from "./components/helpcard.component";
+import {PostService} from "./services/post.service";
+import {ModalComponent} from "./components/modal.component";
 
 
 
@@ -59,6 +61,7 @@ const APP_PROVIDERS = [
   BlocksService,
   RestService,
   FetchService,
+  PostService,
   stateService,
   xmlGenerator
 ];
@@ -82,6 +85,7 @@ type StoreType = {
     BreadcrumbComponent,
     ModalSaveComponent,
     ModalSaveAsComponent,
+    ModalComponent,
     HelpCardComponent,
 
     HomePage,

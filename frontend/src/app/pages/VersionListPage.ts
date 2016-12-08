@@ -10,11 +10,44 @@ import {Observable} from "rxjs";
 import {RestService} from "../services/rest.service";
 import * as actions from "../actions/versionList";
 import * as actionsProgram from "../actions/programList";
+import * as actionsVersionList from "../actions/versionList";
+import {PostService} from "../services/post.service";
+import {stateService} from "../services/state.service";
 
 
 @Component({
   selector: 'version-list-page',
-  template: `<block-list (select)="onSelect($event)" [list] = "list | async"></block-list>`
+  template: `
+        <div class="ui container">
+           <div class="ui grid one column">
+              <div class="row">
+                  <!--<div class="column">-->
+                      <!--<h2 class="ui center aligned icon medium header">-->
+                        <!--Versions-->
+                      <!--</h2>-->
+                  <!--</div>-->
+                  <div class="column" align="right">
+                      <button class="ui active button blue" (click)="modal.show()">
+                          <i class="plus icon"></i>
+                          Create
+                      </button>
+                  </div>
+              </div>
+          </div>       
+        </div>
+        <br>
+        
+        <modal #modal 
+               [header]="'Create empty program version'" 
+               [title]="'Title'" 
+               [title_value]="''" 
+               [description]="'Description'" 
+               [description_value]="''" 
+               [content]="false"
+               (submit)="onCreate($event)"></modal>
+       
+        <block-list (select)="onSelect($event)" [list] = "list | async"></block-list>
+    `
 })
 export class VersionListPage {
   list: any;
@@ -25,7 +58,7 @@ export class VersionListPage {
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromRoot.State>,
-    private rest: RestService) {
+    private state: stateService) {
 
     this.list = this.store.let(fromRoot.getVersions);
 
@@ -44,6 +77,19 @@ export class VersionListPage {
   onSelect(item){
     this.store.dispatch(new actions.SetCurrentAction(item["id"]));
     this.router.navigate([item["id"]], { relativeTo: this.route });
+  }
+
+  onCreate($event){
+    // this.post.createNewVersion($event["title"], $event["description"]).subscribe(() => {});
+    let data = Object.assign({}, $event, {
+      programID: this.state.getState()['programs'].currentID
+    });
+
+    this.store.dispatch(new actionsVersionList.createAction(data));
+
+    this.store.let(fromRoot.getCurrentVersionID).subscribe(id => {
+      this.router.navigate(['tmp'], { relativeTo: this.route });
+    });
   }
 
 }

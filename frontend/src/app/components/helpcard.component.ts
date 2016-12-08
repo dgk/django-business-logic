@@ -40,7 +40,7 @@ import {stateService} from "../services/state.service";
         
       </div>  
     </div>`,
-  styleUrls: ['helpcard.component.css'],
+  styleUrls: ['../css/helpcard.component.css'],
   providers: []
 })
 
