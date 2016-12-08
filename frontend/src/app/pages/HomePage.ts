@@ -6,7 +6,35 @@ import * as fromRoot from '../reducers';
 
 @Component({
   selector: 'home-page',
-  template: `<block-list (select)="onSelect($event)" [list] = "list"></block-list>`
+  template: `
+      <div class="ui container">
+        <div class="ui cards">
+        <div class="card" (click) = "onSelect(list[0])">
+          <div class="content">
+            <div class="header"><i class="folder open icon"></i>Interfaces</div>
+            <div class="meta"></div>
+            <div class="description">
+              List of program interfaces.
+            </div>
+          </div>
+        </div>
+        <div class="card" (click) = "onSelect(list[1])">
+          <div class="content">
+            <div class="header"><i class="lightning icon"></i>Execution</div>
+            <div class="meta"></div>
+            <div class="description">
+              List of calculation logs.
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      
+      <!--<block-list (select)="onSelect($event)" [list] = "list"></block-list>-->`,
+  styles: [`
+         .card{
+            cursor: pointer
+         }`]
 })
 export class HomePage {
   list: any = [
