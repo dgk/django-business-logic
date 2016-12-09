@@ -27,7 +27,11 @@ export class ReferenceLabelField extends Blockly.FieldLabel {
         return ref["name"] == this.getValue();
       });
 
-      this.setText(ref["verbose_name"]);
+      if(ref){
+        this.setText(ref["verbose_name"]);
+      }else{
+        this.setText(this.getValue());
+      }
 
       //TODO: set Tooltip
       // this.setTooltip(" ["+this.getValue()+"]");
