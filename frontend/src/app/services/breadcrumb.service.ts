@@ -85,9 +85,6 @@ export class BreadcrumbService {
       }
     }
 
-
-    return url;
-
   }
 
   wrapToObservable(value){
