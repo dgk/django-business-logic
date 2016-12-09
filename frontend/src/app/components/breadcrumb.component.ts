@@ -19,7 +19,7 @@ import {Observable} from "rxjs";
       <div class="md">
           <div class="breadcrumb flat">
           <a *ngFor="let breadcrumb of breadcrumbs | async; let i = index; let last = last" [routerLink] = [breadcrumb.link] [ngClass]="{notActiveLink: last}">
-            {{breadcrumb.friendlyName | async}}
+            {{breadcrumb.friendlyName}}
           </a>
           </div>
       </div>

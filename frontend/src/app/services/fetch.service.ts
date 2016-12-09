@@ -43,22 +43,29 @@ export class FetchService {
         this.loadInterfaces().subscribe(data => this.setLoaded());
         break;
       case "ProgramList":
-        interfaceID.subscribe(id => {
-          if(id != null){
-            this.loadPrograms(id).subscribe( data => this.setLoaded() );
+        process = false;
+
+        interfaceID.subscribe(iid => {
+          if(iid != null){
+
+            Observable.forkJoin(this.loadInterface(iid), this.loadPrograms(iid))
+                .subscribe(data => this.setLoaded());
           }
         });
         break;
       case "VersionList":
-        programID.subscribe(id => {
-          if(id != null){
-            this.loadVersions(id).subscribe( data => this.setLoaded() );
+        process = false;
+        Observable.combineLatest(interfaceID, programID).subscribe(([iid, pid]) => {
+          if(iid != null && pid != null){
+            process = true;
+            Observable.forkJoin(this.loadInterface(iid), this.loadProgram(pid), this.loadVersions(pid))
+                .subscribe(data => this.setLoaded());
           }
         });
         break;
       case "Editor":
         process = false;
-
+        //TODO: rewrite!
         Observable.combineLatest(
           this.store.select('versions'),
           this.store.select('programs'),
@@ -106,11 +113,12 @@ export class FetchService {
             if(eid != null){
               process = true;
 
-              Observable.forkJoin( this.loadLog(eid), this.loadExecutionDetail(eid) ).subscribe(data => {
-                let versionID = this._state.getState()["executions"].details[eid]["program_version"];
+              Observable.forkJoin( this.loadLog(eid), this.loadExecutionDetail(eid) )
+                  .subscribe(data => {
+                    let versionID = this._state.getState()["executions"].details[eid]["program_version"];
 
-                this.loadUp(versionID).subscribe(data => this.setLoaded());
-              });
+                    this.loadUp(versionID).subscribe(data => this.setLoaded());
+                  });
             }
           }
 

@@ -11,6 +11,7 @@ import {RestService} from "../services/rest.service";
 import * as actions from "../actions/versionList";
 import * as actionsProgram from "../actions/programList";
 import * as actionsVersionList from "../actions/versionList";
+import * as actionsPrInterface from '../actions/prInterfaceList';
 import {PostService} from "../services/post.service";
 import {stateService} from "../services/state.service";
 
@@ -70,6 +71,7 @@ export class VersionListPage {
 
     this.route["params"].subscribe(params => {
       this.store.dispatch(new actionsProgram.SetCurrentAction(+params["programID"]));
+      this.store.dispatch(new actionsPrInterface.SetCurrentAction(+params["interfaceID"]));
     });
 
   }

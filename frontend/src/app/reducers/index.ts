@@ -58,6 +58,8 @@ export const getPrInterfaceListState = (state$: Observable<State>) =>
 
 export const getInterfaces = compose(PrInterfaceList.getList, getPrInterfaceListState);
 
+export const getCurrentPrInterface = compose(PrInterfaceList.getCurrent, getPrInterfaceListState);
+
 export const getExecutionListState = (state$: Observable<State>) =>
   state$.select(state => state.executions);
 

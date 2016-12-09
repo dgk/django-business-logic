@@ -15,6 +15,14 @@ import {BlocksService} from "../../blocks/blocks.service";
 @Component({
   selector: 'blockly-readonly',
   template: `
+    
+    <div class="ui message">
+      <div class="header">
+        Log info
+      </div>
+      <p>Interface : <i>{{information.prInterface}}</i> | Program: <i>{{information.program}}</i> | Version: <i>{{information.version}}</i></p>
+    </div>
+
     <div #blocklyArea></div>   
     <div #blocklyDiv [ngStyle]="style"></div>
     
@@ -34,6 +42,12 @@ export class BlocklyReadOnlyComponent {
 
   previousValue: any;
   currentValue: any;
+
+  information = {
+    prInterface: '',
+    program: '',
+    version: ''
+  };
 
   @ViewChild('blocklyDiv') blocklyDiv;
   @ViewChild('blocklyArea') blocklyArea;
@@ -64,6 +78,10 @@ export class BlocklyReadOnlyComponent {
         this.version = find(state["versions"].details, version => {
           return version["id"] == state["versions"].currentID;
         });
+
+        this.information.prInterface = _stateService.getCurrentPrInterface().title;
+        this.information.program = _stateService.getCurrentProgram().title;
+        this.information.version = _stateService.getCurrentVersion().title;
 
         if(isNullOrUndefined(this.workspace)) this.createWorkspaceReadonly();
 

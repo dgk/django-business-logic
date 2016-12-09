@@ -32,7 +32,19 @@ export class stateService{
   }
 
   getCurrentVersion(){
-    return this.getState()["versions"].details[this.getState()["versions"]["currentID"]];
+    return this.getState()["versions"]["details"][this.getState()["versions"]["currentID"]];
+  }
+
+  getCurrentPrInterface(){
+    return this.getState()["prInterfaces"]["details"][this.getState()["prInterfaces"]["currentID"]];
+  }
+
+  getCurrentProgram(){
+    return this.getState()["programs"]["details"][this.getState()["programs"]["currentID"]];
+  }
+
+  getCurrentExecution(){
+    return this.getState()["executions"]["details"][this.getState()["executions"]["currentID"]];
   }
 
   getFunction(func_name: string){

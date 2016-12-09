@@ -56,32 +56,37 @@ export class BreadcrumbService {
   }
 
   getFriendlyName(url: string) {
-    let st = this.state.getState();
 
     if(url == '/'){
-      return this.wrapToObservable('Home');
+      return 'Home';
     }else if(url == '/interface') {
-      return this.wrapToObservable('Interfaces');
+      return 'Interfaces';
     }else if(url == '/execution'){
-      return this.wrapToObservable('Execution');
-    }
-    // else{
-    //   if( url.indexOf('interface') != -1 && url.indexOf('program') != -1 && url.indexOf('version') != -1){
-    //
-    //     return st["versions"]["details"][st["versions"]["currentID"]].title;
-    //
-    //   }else if(url.indexOf('interface') != -1 && url.indexOf('program') != -1){
-    //
-    //     return st["programs"]["details"][st["programs"]["currentID"]].title;
-    //
-    //   }else if(url.indexOf('interface') != -1){
-    //
-    //     return st["prInterfaces"]["details"][st["prInterfaces"]["currentID"]].title;
-    //
-    //   }
-    // }
+      return 'Execution';
+    }else{
+      if( url.indexOf('interface') != -1 && url.indexOf('program') != -1 && url.indexOf('version') != -1){
 
-    return this.wrapToObservable(url);
+        return this.state.getCurrentVersion().title;
+
+      }
+      else if(url.indexOf('interface') != -1 && url.indexOf('program') != -1){
+
+        return this.state.getCurrentProgram().title;
+
+      }
+      else if(url.indexOf('interface') != -1){
+
+        return this.state.getCurrentPrInterface().title;
+
+      }else if(url.indexOf('execution') != -1){
+        return this.state.getCurrentExecution().id;
+      }else{
+        return url;
+      }
+    }
+
+
+    return url;
 
   }
 
