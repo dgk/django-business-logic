@@ -1,16 +1,27 @@
-import {ArgumentFieldService} from "../../services/argumentField.service";
+import {stateService} from "../../services/state.service";
+import find = require("lodash/find");
+import {isNullOrUndefined} from "util";
 
 export class ArgumentField extends Blockly.FieldDropdown{
-
-  argField: ArgumentFieldService;
+  state: stateService;
 
   menuGenerator_ = () => {
-    return this.argField.getFieldList();
+    let args = this.state.getArguments();
+    let options = [];
+
+    args.forEach( (arg) => {
+      let arg_name = arg["name"];
+      arg.fields.forEach((field) => {
+        options.push([field["verbose_name"], arg_name + '.' + field["name"]]);
+      });
+    });
+
+    return options;
   };
 
-  constructor(text: string, argField: ArgumentFieldService){
+  constructor(text: string, _state: stateService){
     super([['', '']]);
-    this.argField = argField;
+    this.state = _state;
   }
 
   setValue(newValue: string){
@@ -23,9 +34,27 @@ export class ArgumentField extends Blockly.FieldDropdown{
     }
     this.value_ = newValue;
 
-    if(this.argField){
-       this.setText( this.argField.getVerboseNameForField(newValue) );
+    if(this.state){
+      let args = this.state.getArguments();
+
+      if(args){
+        let ind: number = this.getValue().indexOf(".");
+        let arg_name: string = this.getValue().substr(0, ind);
+        let field_name: string = this.getValue().substr(ind+1, this.getValue().length);
+
+        let arg: any = find(args, (arg) => {return arg["name"] == arg_name;});
+
+        let result: any = find(arg.fields, (field) => {return field["name"] == field_name});
+
+        if(result){
+          this.setText( result["verbose_name"] );
+        }else{
+          this.setText( this.getValue() );
+        }
+      }
+
     }
+
 
   }
 

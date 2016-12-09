@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.views import generic
 
-from business_logic.models import Program
+from business_logic.models import Program, Context
 
 from .models import *
 
@@ -62,7 +62,7 @@ class BookDetail(generic.DetailView):
         book = super(BookDetail, self).get_object(queryset)
         program = Program.objects.get(code='on_book_view')
         version = program.versions.order_by('id').last()
-        version.execute(book=book)
+        version.execute(context=Context(debug=True, log=True), book=book)
         book.publisher.save()
 
         return book

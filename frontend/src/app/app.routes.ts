@@ -1,25 +1,38 @@
 import { Routes, RouterModule } from '@angular/router';
-
-import { BlocklyComponent } from './components/blockly/blockly.component';
-import { InterfaceListComponent } from './components/interface/interface-list.component';
-import { ProgramComponent } from './components/program/program.component';
-import { VersionComponent } from './components/version/version.component';
-import { HomeComponent } from './components/home/home.component';
-
 import { NoContentComponent } from './components/no-content/no-content.component';
 
 import { DataResolver } from './app.resolver';
 import {EditorComponent} from "./components/editor/editor.component";
+import {HomePage} from "./pages/HomePage";
+import {InterfaceListPage} from "./pages/InterfaceListPage";
+import {ProgramListPage} from "./pages/ProgramListPage";
+import {VersionListPage} from "./pages/VersionListPage";
+import {EditorPage} from "./pages/EditorPage";
+import {ExecutionListPage} from "./pages/ExecutionListPage";
+import {ReadonlyEditorPage} from "./pages/ReadonlyEditorPage";
 
 
 export const ROUTES: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomePage },
+  {
+    path: 'execution',
+    children: [
+      {
+        path: '',
+        component: ExecutionListPage
+      },
+      {
+        path: ':executionID',
+        component: ReadonlyEditorPage
+      }
+    ]
+  },
   {
     path: 'interface',
     children: [
       {
         path: '',
-        component: InterfaceListComponent
+        component: InterfaceListPage
       },
       {
         path: ':interfaceID',
@@ -34,7 +47,7 @@ export const ROUTES: Routes = [
             children: [
               {
                 path: '',
-                component: ProgramComponent
+                component: ProgramListPage
               },
               {
                 path: ':programID',
@@ -50,11 +63,11 @@ export const ROUTES: Routes = [
                     children: [
                       {
                         path: '',
-                        component: VersionComponent
+                        component: VersionListPage
                       },
                       {
                         path: ':versionID',
-                        component: EditorComponent
+                        component: EditorPage
                       }
                     ]
 
