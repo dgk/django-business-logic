@@ -14,11 +14,14 @@ import * as actionsInterface from '../actions/prInterfaceList';
 import {stateService} from "../services/state.service";
 import {PostService} from "../services/post.service";
 
+import {NotificationsService} from "angular2-notifications/src/notifications.service";
+import {SimpleNotificationsComponent} from 'angular2-notifications/src/simple-notifications.component';
+
 @Component({
   selector: 'editor-page',
   template: `
             <div class="ui section">
-                <button class="ui icon violet button" (click) = "modalSave.show()"><i class="save icon"></i></button>
+                <button class="ui icon violet button" (click) = "onSave(blockly.getXml())"><i class="save icon"></i></button>
 
                 <div class="ui icon top pointing right pointing dropdown button black">
                   <div class="header"><i class="dropdown icon"></i> Version</div>
@@ -29,16 +32,27 @@ import {PostService} from "../services/post.service";
                         <p>{{verDescription}}</p>
                       </div>
                     </div>
-                    <div class="item" (click) = "modal.show()">Save as ...</div>
+                    <div class="item" (click) = "saveAs.show()">Save as ...</div>
                   </div>
                 </div>    
             </div>
-                
+             
             
-            <modal #modalSave 
-               [header]="'Save'"
-               [content]="'This action change current version of program, save anyway?'"
-               (submit)="onSave($event, blockly.getXml())"></modal>
+            <div>
+            <modal #saveAs 
+               [header]="'Save as ...'"
+               [title]="'Title'" 
+               [title_value]="verTitle" 
+               [description]="'Description'" 
+               [description_value]="verDescription"
+               (submit)="onSaveAs($event, blockly.getXml())"></modal>   
+            </div>
+               
+            <div *ngIf = "saving" class="ui active page dimmer">
+              <div class="ui text loader">Saving</div>
+            </div>
+            
+            <simple-notifications [options]="options"></simple-notifications>
             
             <blockly #blockly>
             </blockly>`,
@@ -54,7 +68,25 @@ import {PostService} from "../services/post.service";
 })
 export class EditorPage {
   version: any;
+  saving: boolean = false;
+
   verDescription: any;
+  verTitle: any;
+
+  options = {
+    timeOut: 5000,
+    lastOnBottom: true,
+    clickToClose: true,
+    maxLength: 0,
+    maxStack: 7,
+    showProgressBar: true,
+    pauseOnHover: true,
+    preventDuplicates: false,
+    preventLastDuplicates: 'visible',
+    rtl: false,
+    // animate: 'scale',
+    position: ['right', 'bottom']
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -62,13 +94,17 @@ export class EditorPage {
     private store: Store<fromRoot.State>,
     private state: stateService,
     private post: PostService,
-    private _location: Location
+    private _location: Location,
+    private notification: NotificationsService
   ) {
 
       this.version = this.store.let(fromRoot.getCurrentVersion);
 
       this.version.subscribe(version => {
-        if(version != undefined) this.verDescription = version.description;
+        if(version != undefined){
+          this.verDescription = version.description;
+          this.verTitle = version.title;
+        }
       });
   }
 
@@ -94,7 +130,9 @@ export class EditorPage {
     });
   }
 
-  onSave($event, xml){
+  onSave(xml){
+    this.saving = true;
+
     let state = this.state.getState();
     let currentID = state["versions"].currentID;
 
@@ -103,12 +141,53 @@ export class EditorPage {
       xml: xml
     }));
 
-    let version = this.state.getState()["versions"].details[this.state.getState()["versions"]["currentID"]];
+    let version = this.state.getCurrentVersion();
 
     if(currentID == "tmp"){
-      this.post.saveVersion(version).subscribe(() => { this._location.back() });
+      this.post.saveVersion(version)
+          .subscribe(
+              data => {
+                this.saving = false;
+                this._location.back()
+              },
+              this.onSavingError
+          );
     }else{
-      this.post.putVersion(version).subscribe(() => {});
+      this.post.putVersion(version)
+          .subscribe(
+              data => {
+                this.saving = false;
+                this.notification.success('Success!', 'Version saved!');
+              },
+              this.onSavingError
+          );
     }
+  }
+
+  onSavingError(err){
+    this.saving = false;
+    this.notification.error('Error!', 'Saving failed');
+  }
+
+  onSaveAs($event, xml){
+    this.saving = true;
+
+    let currentVersion = this.state.getCurrentVersion();
+
+    let version = {
+      xml: xml,
+      title: $event["title"],
+      description: $event["description"],
+      program: currentVersion["program"]
+    };
+
+    this.post.saveVersion(version)
+        .subscribe(
+            data => {
+              this.saving = false;
+              this._location.back()
+            },
+            this.onSavingError
+        );
   }
 }

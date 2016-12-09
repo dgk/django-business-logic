@@ -31,6 +31,10 @@ export class stateService{
     return version_env;
   }
 
+  getCurrentVersion(){
+    return this.getState()["versions"].details[this.getState()["versions"]["currentID"]];
+  }
+
   getFunction(func_name: string){
     let func;
 

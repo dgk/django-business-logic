@@ -46,7 +46,11 @@ export class ArgumentField extends Blockly.FieldDropdown{
 
         let result: any = find(arg.fields, (field) => {return field["name"] == field_name});
 
-        this.setText( result["verbose_name"] );
+        if(result){
+          this.setText( result["verbose_name"] );
+        }else{
+          this.setText( this.getValue() );
+        }
       }
 
     }
