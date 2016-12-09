@@ -27,8 +27,10 @@ export class stateService{
     //TODO: return version_env or program_env or interface_env
     let state = this.getState();
     let version_env = state["versions"].details[state["versions"].currentID]["environment"];
+    let program_env = state["programs"].details[state["programs"].currentID]["environment"];
+    let interface_env = state["prInterfaces"].details[state["prInterfaces"].currentID]["environment"];
 
-    return version_env;
+    return version_env || program_env || interface_env;
   }
 
   getCurrentVersion(){
