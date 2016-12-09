@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import {stateService} from "./state.service";
+import {Observable} from "rxjs";
+import {Store} from "@ngrx/store";
+import * as fromRoot from '../reducers';
 
 @Injectable()
 export class BreadcrumbService {
@@ -7,7 +11,7 @@ export class BreadcrumbService {
   private regexp: RegExp;
   private params;
 
-  constructor() {
+  constructor(private state: stateService, private store: Store<fromRoot.State>) {
 
   }
 
@@ -52,23 +56,38 @@ export class BreadcrumbService {
   }
 
   getFriendlyName(url: string) {
-    return url;
+    let st = this.state.getState();
 
-    // if(url == '/'){
-    //   return 'Home';
-    // }else if(url == '/interface'){
-    //   return 'Interfaces';
-    // }else{
+    if(url == '/'){
+      return this.wrapToObservable('Home');
+    }else if(url == '/interface') {
+      return this.wrapToObservable('Interfaces');
+    }else if(url == '/execution'){
+      return this.wrapToObservable('Execution');
+    }
+    // else{
     //   if( url.indexOf('interface') != -1 && url.indexOf('program') != -1 && url.indexOf('version') != -1){
-    //     return this.params["Version"];
+    //
+    //     return st["versions"]["details"][st["versions"]["currentID"]].title;
+    //
     //   }else if(url.indexOf('interface') != -1 && url.indexOf('program') != -1){
-    //     return this.params["Program"];
+    //
+    //     return st["programs"]["details"][st["programs"]["currentID"]].title;
+    //
     //   }else if(url.indexOf('interface') != -1){
-    //     return this.params["Interface"];
-    //   }else{
-    //     return url;
+    //
+    //     return st["prInterfaces"]["details"][st["prInterfaces"]["currentID"]].title;
+    //
     //   }
     // }
 
+    return this.wrapToObservable(url);
+
+  }
+
+  wrapToObservable(value){
+    return new Observable(observer => {
+      observer.next(value);
+    });
   }
 }

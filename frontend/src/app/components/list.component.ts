@@ -37,7 +37,7 @@ export class ListComponent {
     this.select.emit(item);
   }
 
-  calculateDelta(finish, start){
-    return Math.abs(new Date(finish) - new Date(start)) / 1000;
+  calculateDelta(finish: string, start: string): any{
+    return Math.abs(+new Date(finish) - (+new Date(start)) ) / 1000;
   }
 }

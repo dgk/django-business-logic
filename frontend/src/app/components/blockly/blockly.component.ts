@@ -22,11 +22,9 @@ import {xmlGenerator} from "../../services/xmlGenerator.service";
 })
 
 export class BlocklyComponent {
-  private blocks: any;
-
   private loading: any;
 
-  private version: Observable<any>;
+  private version: any;
 
   @ViewChild('blocklyDiv') blocklyDiv;
   @ViewChild('blocklyArea') blocklyArea;
@@ -42,11 +40,11 @@ export class BlocklyComponent {
   constructor(
     private store: Store<fromRoot.State>,
     private _stateService: stateService,
-    private blocks: BlocksService,
+    private blocksService: BlocksService,
     private _xmlGenerator: xmlGenerator
   ){
 
-    this.blocks.init();
+    this.blocksService.init();
     this.loading = this.store.let(fromRoot.getInfoState);
 
     this.loading.subscribe(info => {

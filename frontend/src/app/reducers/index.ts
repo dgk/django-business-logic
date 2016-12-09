@@ -16,6 +16,7 @@ import * as VersionList from './versionList.reducer';
 import * as ReferenceList from './referenceList.reducer';
 import * as ExecutionList from './executionList.reducer';
 import * as Info from './info.reducer';
+import * as Breadcrumbs from './breadcrumbs.reducer';
 
 
 export interface State {
@@ -26,6 +27,7 @@ export interface State {
   executions: ExecutionList.State,
 
   info: Info.State,
+  breadcrumbs: Breadcrumbs.State,
   router: fromRouter.RouterState
 }
 
@@ -37,6 +39,7 @@ const reducers = {
   executions: ExecutionList.reducer,
 
   info: Info.reducer,
+  breadcrumbs: Breadcrumbs.reducer,
   router: fromRouter.routerReducer
 };
 
@@ -59,6 +62,12 @@ export const getExecutionListState = (state$: Observable<State>) =>
   state$.select(state => state.executions);
 
 export const getExecutions = compose(ExecutionList.getList, getExecutionListState);
+
+export const getBreadcrumbsState = (state$: Observable<State>) =>
+  state$.select(state => state.breadcrumbs);
+
+export const getBreadcrumbs = compose(Breadcrumbs.getList, getBreadcrumbsState);
+export const getNavigationEnd = compose(Breadcrumbs.getNavigationEnd, getBreadcrumbsState);
 
 export const getCurrentInterfaceID = compose(PrInterfaceList.getCurrentID, getPrInterfaceListState);
 

@@ -18,14 +18,12 @@ import { AppState, InternalStateType } from './app.service';
 import { RestService } from "./services/rest.service";
 
 import { BlocklyComponent } from './components/blockly/blockly.component';
-import { BreadcrumbComponent } from './components/breadcrumb.component';
+import {BreadcrumbComponent} from './components/breadcrumb.component';
 
 import { NoContentComponent } from './components/no-content/no-content.component';
 
 // import {MaterialModule} from '@angular/material';
 import {BlocksService} from "./blocks/blocks.service";
-import {ModalSaveComponent} from "./components/editor/modals/modalSave.component";
-import {ModalSaveAsComponent} from "./components/editor/modals/modalSaveAs.component";
 import {SimpleNotificationsModule} from "angular2-notifications/src/simple-notifications.module";
 import {HomePage} from "./pages/HomePage";
 import {InterfaceListPage} from "./pages/InterfaceListPage";
@@ -83,8 +81,6 @@ type StoreType = {
     BlocklyComponent,
     BlocklyReadOnlyComponent,
     BreadcrumbComponent,
-    ModalSaveComponent,
-    ModalSaveAsComponent,
     ModalComponent,
     HelpCardComponent,
 

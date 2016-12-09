@@ -33,11 +33,14 @@ export class FetchService {
     let programID = this.store.let(fromRoot.getCurrentProgramID);
     let versionID = this.store.let(fromRoot.getCurrentVersionID);
 
+    let process = false;
+
     switch (step) {
       case "Home":
+        this.setLoaded();
         break;
       case "InterfaceList":
-        this.loadInterfaces().subscribe();
+        this.loadInterfaces().subscribe(data => this.setLoaded());
         break;
       case "ProgramList":
         interfaceID.subscribe(id => {
@@ -54,7 +57,7 @@ export class FetchService {
         });
         break;
       case "Editor":
-        let process = false;
+        process = false;
 
         Observable.combineLatest(
           this.store.select('versions'),
@@ -94,11 +97,11 @@ export class FetchService {
         });
         break;
       case "ReadonlyEditor":
-        let process = false;
+        process = false;
 
         this.store.select("executions").subscribe((executions) => {
           if(!process){
-            let eid = executions.currentID;
+            let eid = executions["currentID"];
 
             if(eid != null){
               process = true;

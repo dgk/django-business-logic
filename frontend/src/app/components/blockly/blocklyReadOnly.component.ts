@@ -28,7 +28,7 @@ export class BlocklyReadOnlyComponent {
 
   private loading: any;
 
-  private version: Observable<any>;
+  private version: any;
 
   private helpcardShow: boolean = false;
 
@@ -49,10 +49,10 @@ export class BlocklyReadOnlyComponent {
   constructor(
     private store: Store<fromRoot.State>,
     private _stateService: stateService,
-    private blocks: BlocksService
+    private blocksService: BlocksService
   ){
 
-    this.blocks.init();
+    this.blocksService.init();
     this.loading = this.store.let(fromRoot.getInfoState);
 
     this.loading.subscribe(info => {
@@ -93,7 +93,7 @@ export class BlocklyReadOnlyComponent {
         if(event["element"] == 'selected'){
           let block_id = event.newValue;
           let bl = find(this.blocks, block => {
-            return block.id == block_id;
+            return block["id"] == block_id;
           });
 
           if(Blockly.selected != null){
@@ -123,9 +123,9 @@ export class BlocklyReadOnlyComponent {
 
     all_blocks.forEach(block => {
       // disable dragging
-      block.onMouseMove_ = () => {};
+      block["onMouseMove_"] = () => {};
 
-      let block_log = find(this.blocks, item => {return item.id == +block.id });
+      let block_log = find(this.blocks, item => {return item["id"] == +block["id"]});
 
       if(isNullOrUndefined(block_log)){
         block.setDisabled(true);

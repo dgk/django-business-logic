@@ -32,16 +32,13 @@ export function reducer(state = initialState, action: execution.Actions): State 
   switch (action.type) {
 
     case execution.ActionTypes.LOAD: {
-      let copy_payload = Object.assign({}, action.payload);
 
-      return {
+      return Object.assign({}, state, {
         count: action.payload.count,
-        next: 0,
-        previous: 0,
         entities: action.payload.results,
         currentID: state.currentID,
         logs: Object.assign({}, state.logs)
-      };
+      });
     }
 
     case execution.ActionTypes.SET_CURRENT_ID: {

@@ -12,7 +12,7 @@ export class stateService{
   }
 
   getState(){
-    let state: State;
+    let state: fromRoot.State;
 
     this.store.take(1).subscribe(s => state = s);
     return state;
@@ -24,6 +24,7 @@ export class stateService{
   }
 
   getEnv(){
+    //TODO: return version_env or program_env or interface_env
     let state = this.getState();
     let version_env = state["versions"].details[state["versions"].currentID]["environment"];
 
@@ -36,7 +37,7 @@ export class stateService{
     let env = this.getEnv();
     env['libraries'].forEach((lib) => {
       func = find(lib["functions"], (func) => {
-        return func.title == func_name;
+        return func["title"] == func_name;
       });
     });
 
