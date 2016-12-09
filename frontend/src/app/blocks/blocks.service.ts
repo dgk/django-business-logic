@@ -1,23 +1,22 @@
 import {Injectable} from '@angular/core';
 
 import * as find from "lodash/find";
-import {ReferenceService} from "../services/reference.service";
 import {RestService} from "../services/rest.service";
-import {ArgumentFieldService} from "../services/argumentField.service";
-import {ReferenceLabelField} from "./fields/label_field";
+import {ReferenceLabelField} from "./fields/ref_label_field";
 import {ReferenceDropdownField} from "./fields/ref_dropdown_field";
 import {ArgumentField} from "./fields/argument_field";
 // import {MockService} from "../../tests/mock.service";
 import {FunctionLabelField} from "./fields/func_label_field";
-import {EnvironmentService} from "../services/environment.service";
 
 import {block_reference, block_function, block_field_get, block_field_set, block_date} from "./consts/blockTypes";
+import {stateService} from "../services/state.service";
+import {FetchService} from "../services/fetch.service";
 
 @Injectable()
 export class BlocksService {
-  constructor(public refService: ReferenceService,
-              public argField: ArgumentFieldService,
-              public environment: EnvironmentService) {
+  constructor(
+              public _state: stateService,
+              public _fetch: FetchService) {
   }
 
   init() {
@@ -25,8 +24,8 @@ export class BlocksService {
     Blockly.Blocks[block_reference.title] = {
       init: function () {
         this.appendDummyInput()
-          .appendField(new ReferenceLabelField(that.refService), 'TYPE')
-          .appendField(new ReferenceDropdownField(that.refService), "VALUE");
+          .appendField(new ReferenceLabelField(that._state), 'TYPE')
+          .appendField(new ReferenceDropdownField(that._state, that._fetch), "VALUE");
         this.setInputsInline(false);
         this.setOutput(true, null);
         this.setColour(block_reference.color);
@@ -37,7 +36,7 @@ export class BlocksService {
     Blockly.Blocks[block_field_get.title] = {
       init: function () {
         this.appendDummyInput()
-          .appendField(new ArgumentField('', that.argField), "VAR");
+          .appendField(new ArgumentField('', that._state), "VAR");
         this.setOutput(true, null);
         this.setColour(block_field_get.color);
         this.setTooltip('');
@@ -52,7 +51,7 @@ export class BlocksService {
         this.appendValueInput("VALUE")
           .setCheck(null)
           .appendField(msg)
-          .appendField(new ArgumentField('', that.argField), "VAR")
+          .appendField(new ArgumentField('', that._state), "VAR")
           .appendField("=");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
@@ -70,7 +69,7 @@ export class BlocksService {
         this.setTooltip('');
         this.setHelpUrl('');
 
-        this.environment = that.environment;
+        this.state = that._state;
 
         this.addARGfields = function (alternate_func_name?: string) {
           let func_name;
@@ -81,10 +80,10 @@ export class BlocksService {
             func_name = this.getFieldValue('FUNC');
           }
 
-          let func = this.environment.getFunction(func_name);
+          let func = this.state.getFunction(func_name);
 
           if (func) {
-            let args = func.args;
+            let args = func["arguments"];
             let isReturnedValue = func.is_returns_value;
 
             if (args) {
@@ -103,7 +102,7 @@ export class BlocksService {
                   this.appendValueInput("ARG" + i)
                     .setCheck(null)
                     .setAlign(Blockly.ALIGN_RIGHT)
-                    .appendField(args[i].getName(), "ARG");
+                    .appendField(args[i].name, "ARG");
                 }
 
               }

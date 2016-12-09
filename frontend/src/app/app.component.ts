@@ -1,14 +1,15 @@
-/*
- * Angular 2 decorators and services
- */
-import { Component, ViewEncapsulation } from '@angular/core';
+import {Component, ViewEncapsulation, Inject} from '@angular/core';
+import {BreadcrumbComponent} from './components/breadcrumb.component';
 
-import { AppState } from './app.service';
+import { Store } from '@ngrx/store';
+import * as fromRoot from './reducers';
+import {Observable} from "rxjs";
 
-/*
- * App Component
- * Top Level Component
- */
+import * as actionsInfo from "./actions/info";
+import {FetchService} from "./services/fetch.service";
+import {ActivatedRoute} from "@angular/router";
+
+
 @Component({
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
@@ -18,32 +19,33 @@ import { AppState } from './app.service';
   ],
   template: `
     <main>
+    <!--<div class="ui segment">-->
+      <breadcrumb [params] = 'params'></breadcrumb>
+    <!--</div>-->
+      
+      
       <router-outlet></router-outlet>
     </main>
-
-    <!--<pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>-->
-
-    <!--<footer>-->
-      <!--<span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>-->
-      <!--<div>-->
-        <!--<a [href]="url">-->
-          <!--<img [src]="angularclassLogo" width="25%">-->
-        <!--</a>-->
-      <!--</div>-->
-    <!--</footer>-->
   `
 })
 export class App {
-  angularclassLogo = 'assets/img/angularclass-avatar.png';
-  name = 'Angular 2 Webpack Starter';
-  url = 'https://twitter.com/AngularClass';
+  private params: any = {};
+  private step: any;
 
   constructor(
-    public appState: AppState) {
+    private store: Store<fromRoot.State>,
+    private fetch: FetchService,
+    private route: ActivatedRoute
+  ) {
+    this.step = this.store.let(fromRoot.getStep);
+
+    this.step.subscribe(step => {
+      this.fetch.fetchAllWeNeed(step);
+    });
   }
 
   ngOnInit() {
-    console.log('Initial App State', this.appState.state);
   }
 
 }
+

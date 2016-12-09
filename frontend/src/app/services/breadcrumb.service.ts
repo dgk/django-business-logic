@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BaseService } from '../services/base.service';
+import {stateService} from "./state.service";
+import {Observable} from "rxjs";
+import {Store} from "@ngrx/store";
+import * as fromRoot from '../reducers';
 
 @Injectable()
 export class BreadcrumbService {
@@ -8,7 +11,7 @@ export class BreadcrumbService {
   private regexp: RegExp;
   private params;
 
-  constructor(private base: BaseService) {
+  constructor(private state: stateService, private store: Store<fromRoot.State>) {
 
   }
 
@@ -53,19 +56,40 @@ export class BreadcrumbService {
   }
 
   getFriendlyName(url: string) {
+
     if(url == '/'){
       return 'Home';
-    }else if(url == '/interface'){
+    }else if(url == '/interface') {
       return 'Interfaces';
+    }else if(url == '/execution'){
+      return 'Execution';
     }else{
       if( url.indexOf('interface') != -1 && url.indexOf('program') != -1 && url.indexOf('version') != -1){
-        return this.params["Version"];
-      }else if(url.indexOf('interface') != -1 && url.indexOf('program') != -1){
-        return this.params["Program"];
-      }else if(url.indexOf('interface') != -1){
-        return this.params["Interface"];
+
+        return this.state.getCurrentVersion().title;
+
+      }
+      else if(url.indexOf('interface') != -1 && url.indexOf('program') != -1){
+
+        return this.state.getCurrentProgram().title;
+
+      }
+      else if(url.indexOf('interface') != -1){
+
+        return this.state.getCurrentPrInterface().title;
+
+      }else if(url.indexOf('execution') != -1){
+        return this.state.getCurrentExecution().id;
+      }else{
+        return url;
       }
     }
 
+  }
+
+  wrapToObservable(value){
+    return new Observable(observer => {
+      observer.next(value);
+    });
   }
 }

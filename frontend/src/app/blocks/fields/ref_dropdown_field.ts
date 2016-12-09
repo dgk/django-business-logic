@@ -1,7 +1,10 @@
-import {ReferenceService} from "../../services/reference.service";
+import {stateService} from "../../services/state.service";
+import {FetchService} from "../../services/fetch.service";
+import find = require("lodash/find");
 
 export class ReferenceDropdownField extends Blockly.FieldDropdown {
-  refService: ReferenceService;
+  state: stateService;
+  fetch: FetchService;
 
   menuGenerator_ = () => {
     return this.options;
@@ -9,9 +12,10 @@ export class ReferenceDropdownField extends Blockly.FieldDropdown {
 
   options: any = [];
 
-  constructor(ref: ReferenceService){
+  constructor(_state: stateService, _fetch: FetchService){
     super([ ['', ''] ]);
-    this.refService = ref;
+    this.state = _state;
+    this.fetch = _fetch;
   }
 
   setValue(newValue: string){
@@ -25,27 +29,28 @@ export class ReferenceDropdownField extends Blockly.FieldDropdown {
     this.value_ = newValue;
 
     if(this.sourceBlock_ != null){
-      let referenceType = this.sourceBlock_.inputList[0].fieldRow[0].getValue();
+      let referenceName = this.sourceBlock_.inputList[0].fieldRow[0].getValue();
 
-      this.refService.getAllResultsForReferenceDescriptor(referenceType).subscribe(
-        (data) => {
-          this.options = [];
-          data.results.forEach((opt) => {
-            this.options.push([ ''+opt.name, ''+opt.id ]);
-          });
+      //TODO: don't fetch if exist
+      this.fetch.loadReferenceDetail(referenceName).subscribe(() => {
+        let ref = this.state.getState()["references"].details[referenceName];
 
-          if(this.getValue() == '-1')
-            return this.setText("Choose value");
+        this.options = [];
+        ref.results.forEach((opt) => {
+          this.options.push([ ''+opt.name, ''+opt.id ]);
+        });
 
-          let options = this.getOptions_();
+        if(this.getValue() == '-1')
+          return this.setText("Choose value");
 
-          for(let i = 0; i < options.length; i++){
-            if(options[i][1] == newValue)
-              return this.setText(options[i][0]);
-          }
+        let options = this.getOptions_();
 
+        for(let i = 0; i < options.length; i++){
+          if(options[i][1] == newValue)
+            return this.setText(options[i][0]);
         }
-      );
+
+      });
 
     }
 
