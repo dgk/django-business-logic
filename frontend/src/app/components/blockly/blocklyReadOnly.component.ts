@@ -20,7 +20,7 @@ import {BlocksService} from "../../blocks/blocks.service";
       <div class="header">
         Log info
       </div>
-      <p>Interface : <i>{{information.prInterface}}</i> | Program: <i>{{information.program}}</i> | Version: <i>{{information.version}}</i></p>
+      <p>Interface : <i>{{information.prInterface || ''}}</i> | Program: <i>{{information.program || ''}}</i> | Version: <i>{{information.version || ''}}</i></p>
     </div>
 
     <div #blocklyArea></div>   
@@ -167,7 +167,8 @@ export class BlocklyReadOnlyComponent {
   }
 
   loadVersionXml(){
-    this.workspace.clear();
+    // this.workspace.clear();
+    Blockly.mainWorkspace.clear();
 
     let xml = Blockly.Xml.textToDom(this.version["xml"]);
 

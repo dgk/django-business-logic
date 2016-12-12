@@ -90,7 +90,14 @@ export class BlocklyComponent {
         toolbox: toolbox,
         trashcan: true,
         sounds: false,
-        media: "./blockly/"
+        media: "./blockly/",
+        zoom:
+          {controls: true,
+            wheel: true,
+            startScale: 1.0,
+            maxScale: 3,
+            minScale: 0.3,
+            scaleSpeed: 1.2}
       });
 
     this.workspace.addChangeListener(event => {
@@ -109,14 +116,6 @@ export class BlocklyComponent {
 
   ngOnChanges(changes: any): any {
 
-    // if(changes.version && changes.version.currentValue){
-      // this.createWorkspace();
-    // }
-
-    // if(this.xmlForReferenceDescriptors && this.xmlForArgumentFields){
-    //   this.createWorkspace();
-    // }
-
   }
 
   getXml(){
@@ -124,7 +123,9 @@ export class BlocklyComponent {
   }
 
   initXml(xmlText) {
-    this.workspace.clear();
+    // this.workspace.clear();
+    Blockly.mainWorkspace.clear();
+
     let xml = Blockly.Xml.textToDom(xmlText);
     Blockly.Xml.domToWorkspace(xml, this.workspace);
   }
