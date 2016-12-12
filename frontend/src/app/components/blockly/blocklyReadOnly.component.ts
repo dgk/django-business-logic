@@ -167,8 +167,7 @@ export class BlocklyReadOnlyComponent {
   }
 
   clearWorkspace(){
-    if(!isNullOrUndefined(this.workspace)) Blockly.mainWorkspace.clear();
-    if(isNullOrUndefined(this.workspace)) this.createWorkspaceReadonly();
+
   }
 
   loadVersionXml(){

@@ -159,7 +159,7 @@ export class FetchService {
   }
 
   loadPrograms(interfaceId: number){
-    return this.rest.getWithSearchParams(`${this.baseUrl}/program`, [ ['program-interface', interfaceId] ]).do(data => {
+    return this.rest.getWithSearchParams(`${this.baseUrl}/program`, [ ['program_interface', interfaceId] ]).do(data => {
       this.store.dispatch(new actionsProgramList.LoadAction(data));
     });
   }
