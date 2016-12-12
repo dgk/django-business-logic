@@ -122,9 +122,14 @@ export class BlocklyComponent {
     return Blockly.Xml.domToText( Blockly.Xml.workspaceToDom(this.workspace, false) );
   }
 
+  clearWorkspace(){
+    if(!isNullOrUndefined(this.workspace)) Blockly.mainWorkspace.clear();
+    if(isNullOrUndefined(this.workspace)) this.createWorkspace();
+  }
+
   initXml(xmlText) {
     // this.workspace.clear();
-    Blockly.mainWorkspace.clear();
+    this.clearWorkspace();
 
     let xml = Blockly.Xml.textToDom(xmlText);
     Blockly.Xml.domToWorkspace(xml, this.workspace);

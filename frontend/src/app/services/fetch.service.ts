@@ -113,7 +113,7 @@ export class FetchService {
             if(eid != null){
               process = true;
 
-              Observable.forkJoin( this.loadLog(eid), this.loadExecutionDetail(eid) )
+              Observable.forkJoin( this.loadLog(eid), this.loadExecutionDetail(eid), this.loadReferences() )
                   .subscribe(data => {
                     let versionID = this._state.getState()["executions"].details[eid]["program_version"];
 
@@ -159,7 +159,7 @@ export class FetchService {
   }
 
   loadPrograms(interfaceId: number){
-    return this.rest.getWithSearchParams(`${this.baseUrl}/program`, ['program-interface', interfaceId]).do(data => {
+    return this.rest.getWithSearchParams(`${this.baseUrl}/program`, [ ['program-interface', interfaceId] ]).do(data => {
       this.store.dispatch(new actionsProgramList.LoadAction(data));
     });
   }
@@ -171,7 +171,7 @@ export class FetchService {
   }
 
   loadVersions(programId: number){
-    return this.rest.getWithSearchParams(`${this.baseUrl}/program-version`, ['program', programId]).do(data => {
+    return this.rest.getWithSearchParams(`${this.baseUrl}/program-version`, [ ['program', programId] ] ).do(data => {
       this.store.dispatch(new actionsVersionList.LoadAction(data));
     });
   }

@@ -20,7 +20,7 @@ import {BlocksService} from "../../blocks/blocks.service";
       <div class="header">
         Log info
       </div>
-      <p>Interface : <i>{{information.prInterface || ''}}</i> | Program: <i>{{information.program || ''}}</i> | Version: <i>{{information.version || ''}}</i></p>
+      <p>Interface : <i>{{information.prInterface}}</i> | Program: <i>{{information.program}}</i> | Version: <i>{{information.version}}</i></p>
     </div>
 
     <div #blocklyArea></div>   
@@ -79,9 +79,9 @@ export class BlocklyReadOnlyComponent {
           return version["id"] == state["versions"].currentID;
         });
 
-        this.information.prInterface = _stateService.getCurrentPrInterface().title;
-        this.information.program = _stateService.getCurrentProgram().title;
-        this.information.version = _stateService.getCurrentVersion().title;
+        this.information.prInterface = _stateService.getCurrentPrInterface() ? _stateService.getCurrentPrInterface().title: '';
+        this.information.program = _stateService.getCurrentProgram() ? _stateService.getCurrentProgram().title: '';
+        this.information.version = _stateService.getCurrentVersion() ? _stateService.getCurrentVersion().title: '';
 
         if(isNullOrUndefined(this.workspace)) this.createWorkspaceReadonly();
 
@@ -166,9 +166,14 @@ export class BlocklyReadOnlyComponent {
     });
   }
 
+  clearWorkspace(){
+    if(!isNullOrUndefined(this.workspace)) Blockly.mainWorkspace.clear();
+    if(isNullOrUndefined(this.workspace)) this.createWorkspaceReadonly();
+  }
+
   loadVersionXml(){
     // this.workspace.clear();
-    Blockly.mainWorkspace.clear();
+    this.clearWorkspace();
 
     let xml = Blockly.Xml.textToDom(this.version["xml"]);
 
