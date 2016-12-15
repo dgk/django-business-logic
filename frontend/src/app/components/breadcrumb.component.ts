@@ -22,7 +22,7 @@ import lastIndexOf = require("lodash/lastIndexOf");
       <div class="breadcrumbs">
    
         <span *ngFor="let breadcrumb of breadcrumbs">
-            <span *ngIf="breadcrumb.show">
+            <span *ngIf="breadcrumb.show" [ngClass]="{notActiveLink: breadcrumb.isLast}">
               <a [routerLink] = [breadcrumb.link]>{{breadcrumb.title | async}}</a>
               <span class="separator">/</span>
             </span>
@@ -46,9 +46,6 @@ export class BreadcrumbComponent{
 
   list: any;
 
-
-  @Input('params') params: any;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -62,43 +59,50 @@ export class BreadcrumbComponent{
         name: 'home',
         title: this.wrapToObservable('Home'),
         link: '/',
-        show: true
+        show: true,
+        isLast: false
       },
       {
         name: 'interfaces',
         title: this.wrapToObservable('Interfaces'),
         link: '/interfaces',
-        show: false
+        show: false,
+        isLast: false
       },
       {
         name: 'programs',
         title: this.store.let(fromRoot.getCurrentPrInterfaceTitle),
         link: '',
-        show: false
+        show: false,
+        isLast: false
       },
       {
         name: 'versions',
         title: this.store.let(fromRoot.getCurrentProgramTitle),
         link: '',
-        show: false
+        show: false,
+        isLast: false
       },
       {
         name: 'version',
         title: this.store.let(fromRoot.getCurrentVersionTitle),
         link: '',
-        show: false
+        show: false,
+        isLast: false
       },
       {
         name: 'executions',
         title: this.wrapToObservable('Executions'),
         link: '/execution',
-        show: false
+        show: false,
+        isLast: false
       },
       {
         name: 'execution',
         title: this.store.let(fromRoot.getCurrentExecutionId),
         link: '',
-        show: false
+        show: false,
+        isLast: false
       }
     ];
 
@@ -106,7 +110,7 @@ export class BreadcrumbComponent{
       if(data instanceof NavigationEnd){
         this.url = data.url;
 
-        this.links = this.breadcrumbService.update(this.params, this.router.config, this.url);
+        this.links = this.breadcrumbService.update(this.router.config, this.url);
 
         this.links.forEach(url => {
           let checkUrl = this.checkUrl(url);
@@ -144,14 +148,9 @@ export class BreadcrumbComponent{
           let active = find(this.breadcrumbs, item => item.link == this.url);
 
           if (active && active.name === 'execution') {
-            this.setActiveTo(this.breadcrumbs[0]);
-
-            this.breadcrumbs[6].show = true;
-            this.breadcrumbs[5].show = true;
+            this.setActiveTo(this.breadcrumbs[6], 5);
           }else if(active && active.name === 'executions'){
-            this.setActiveTo(this.breadcrumbs[0]);
-
-            this.breadcrumbs[5].show = true;
+            this.setActiveTo(this.breadcrumbs[5], 5);
           }else {
             this.setActiveTo(active);
           }
@@ -169,16 +168,28 @@ export class BreadcrumbComponent{
   }
 
   setActiveTo(activeBreadcrumb){
+    let start = 0;
+
+    if(arguments.length == 2) start = arguments[1];
+
     let foundCurrent = false;
-    this.breadcrumbs.forEach(breadcrumb => {
+    for(let i = start; i < this.breadcrumbs.length; i++){
+      let breadcrumb = this.breadcrumbs[i];
+
       breadcrumb["show"] = !foundCurrent;
 
-      // console.log(activeBreadcrumb, breadcrumb);
+      breadcrumb["isLast"] = false;
 
       if (breadcrumb.name === activeBreadcrumb.name) {
         foundCurrent = true;
+        breadcrumb["isLast"] = true;
       }
-    });
+    }
+
+    if(arguments.length == 2){
+      this.breadcrumbs[0].show = true;
+      this.breadcrumbs[0].isLast = false;
+    }
   }
 
   wrapToObservable(value){

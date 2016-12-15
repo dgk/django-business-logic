@@ -20,7 +20,7 @@ import {ActivatedRoute} from "@angular/router";
   template: `
     <main>
     <div class="ui container">
-      <breadcrumb [params] = 'params'></breadcrumb>
+      <breadcrumb></breadcrumb>
      
     </div>
       
@@ -30,7 +30,6 @@ import {ActivatedRoute} from "@angular/router";
   `
 })
 export class App {
-  private params: any = {};
   private step: any;
 
   constructor(

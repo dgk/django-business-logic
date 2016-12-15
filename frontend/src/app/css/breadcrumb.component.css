@@ -113,9 +113,13 @@
 }
 
 
-.notActiveLink{
+.notActiveLink {
   /*background: #e0e0e0!important;*/
-  color: #505050 !important;
+  /*color: #505050 !important;*/
   /*font-style: oblique;*/
   font-weight: bold;
+}
+
+.notActiveLink > a {
+  color: #505050 !important;
 }
