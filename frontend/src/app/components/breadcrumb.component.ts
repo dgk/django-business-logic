@@ -1,14 +1,13 @@
 import {Component, NgModule, Input} from '@angular/core';
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 
-import { BreadcrumbService } from '../services/breadcrumb.service';
 import { AppState } from '../app.service';
 import _ from 'lodash';
 
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../reducers';
 
-import * as breadcrumbsActions from '../actions/breadcrumbs';
+import { BreadcrumbService } from '../services/breadcrumb.service';
 import {stateService} from "../services/state.service";
 import {Observable} from "rxjs";
 import find = require("lodash/find");
@@ -136,8 +135,6 @@ export class BreadcrumbComponent{
                 this.breadcrumbs[2].link = url+'/program';
               } else if (checkUrl('execution')) {
                 this.breadcrumbs[6].link = url;
-              } else {
-                // return url;
               }
               break;
           }
@@ -200,11 +197,6 @@ export class BreadcrumbComponent{
 
   checkUrl(url){
     return (part) => url.indexOf(part) != -1;
-  }
-
-
-  ngOnChanges(change: any) {
-    // this.breadcrumbs = this.breadcrumbService.update(change.params.currentValue, this.router.config, this.url);
   }
 
 }

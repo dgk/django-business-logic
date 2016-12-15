@@ -84,11 +84,4 @@ export function getDetails(state$: Observable<State>) {
 export function getCurrentID(state$: Observable<State>) {
   return state$.select(state => state.currentID);
 }
-//
-// export function getArgFields(state$: Observable<State>) {
-//   return combineLatest(
-//     state$.let(getDetails),
-//     state$.let(getCurrentID)
-//   ).map(([ details, currentID ]) => details[+currentID]);
-// }
 
