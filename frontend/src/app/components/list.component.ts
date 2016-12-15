@@ -3,7 +3,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'block-list',
-  template: `<div class="ui container segment">
+  template: `<div class="ui container segment" *ngIf="list.length != 0">
                 <div class="ui relaxed divided list">
                   <div class="item" *ngFor = "let item of list" (click) = "onSelect(item)">
                     <i class="{{list_icon}} middle aligned icon color_blue"></i>
@@ -39,5 +39,9 @@ export class ListComponent {
 
   calculateDelta(finish: string, start: string): any{
     return Math.abs(+new Date(finish) - (+new Date(start)) ) / 1000;
+  }
+
+  ngOnDestroy(){
+    this.list = [];
   }
 }
