@@ -124,3 +124,10 @@ export function getCurrent(state$: Observable<State>) {
     state$.let(getCurrentID)
   ).map(([ details, currentID ]) => details[+currentID]);
 }
+
+export function getCurrentTitle(state$: Observable<State>) {
+  return combineLatest(
+    state$.let(getDetails),
+    state$.let(getCurrentID)
+  ).map(([ details, currentID ]) => details[+currentID] && details[+currentID]["title"]);
+}

@@ -114,7 +114,8 @@
 
 
 .notActiveLink{
-  background: #e0e0e0!important;
+  /*background: #e0e0e0!important;*/
   color: #505050 !important;
-  font-style: oblique;
+  /*font-style: oblique;*/
+  font-weight: bold;
 }

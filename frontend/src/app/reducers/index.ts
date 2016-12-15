@@ -60,6 +60,8 @@ export const getInterfaces = compose(PrInterfaceList.getList, getPrInterfaceList
 
 export const getCurrentPrInterface = compose(PrInterfaceList.getCurrent, getPrInterfaceListState);
 
+export const getCurrentPrInterfaceTitle = compose(PrInterfaceList.getCurrentTitle, getPrInterfaceListState);
+
 export const getExecutionListState = (state$: Observable<State>) =>
   state$.select(state => state.executions);
 
@@ -102,5 +104,9 @@ export const getInfoState = (state$: Observable<State>) =>
 export const getLoadState = compose(Info.getLoading, getInfoState);
 
 export const getStep = compose(Info.getStep, getInfoState);
+
+export const getCurrentProgramTitle = compose(ProgramList.getCurrentTitle, getProgramListState);
+export const getCurrentVersionTitle = compose(VersionList.getCurrentTitle, getVersionListState);
+export const getCurrentExecutionId = compose(ExecutionList.getCurrentID, getExecutionListState);
 
 

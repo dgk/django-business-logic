@@ -45,6 +45,7 @@ export function reducer(state = initialState, action: programInterface.Actions):
     case programInterface.ActionTypes.SET_CURRENT_ID: {
       let new_state = Object.assign({}, state);
       new_state["currentID"] = action.payload;
+
       return new_state;
     }
 
@@ -91,6 +92,13 @@ export function getCurrent(state$: Observable<State>) {
       state$.let(getDetails),
       state$.let(getCurrentID)
   ).map(([ details, currentID ]) => details[+currentID]);
+}
+
+export function getCurrentTitle(state$: Observable<State>) {
+  return combineLatest(
+    state$.let(getDetails),
+    state$.let(getCurrentID)
+  ).map(([ details, currentID ]) => details[+currentID] && details[+currentID]["title"]);
 }
 
 export function getArgFields(state$: Observable<State>) {

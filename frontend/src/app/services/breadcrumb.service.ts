@@ -3,6 +3,7 @@ import {stateService} from "./state.service";
 import {Observable} from "rxjs";
 import {Store} from "@ngrx/store";
 import * as fromRoot from '../reducers';
+import {wrapIntoObservable} from "@angular/router/src/utils/collection";
 
 @Injectable()
 export class BreadcrumbService {
@@ -34,13 +35,16 @@ export class BreadcrumbService {
   }
 
   findRedirects(routes: any){
-    for (var route of routes) {
-      if(route['redirectTo']){
-        this.redirects.push(route['redirectTo']);
+    for (let route in routes) {
+      if (routes.hasOwnProperty(route)) {
+        if(routes[route]['redirectTo']){
+          this.redirects.push(routes[route]['redirectTo']);
+        }
+        if(routes[route]['children']){
+          this.findRedirects(routes[route]['children']);
+        }
       }
-      if(route['children']){
-        this.findRedirects(route['children']);
-      }
+
     }
   }
 
@@ -58,25 +62,25 @@ export class BreadcrumbService {
   getFriendlyName(url: string) {
 
     if(url == '/'){
-      return 'Home';
+      return this.wrapToObservable('Home');
     }else if(url == '/interface') {
-      return 'Interfaces';
+      return this.wrapToObservable('Interfaces');
     }else if(url == '/execution'){
-      return 'Execution';
+      return this.wrapToObservable('Execution');
     }else{
       if( url.indexOf('interface') != -1 && url.indexOf('program') != -1 && url.indexOf('version') != -1){
 
-        return this.state.getCurrentVersion().title;
+        return this.wrapToObservable(this.state.getCurrentVersion().title);
 
       }
       else if(url.indexOf('interface') != -1 && url.indexOf('program') != -1){
 
-        return this.state.getCurrentProgram().title;
+        return this.wrapToObservable(this.state.getCurrentProgram().title);
 
       }
       else if(url.indexOf('interface') != -1){
 
-        return this.state.getCurrentPrInterface().title;
+        return this.store.let(fromRoot.getCurrentPrInterfaceTitle);
 
       }else if(url.indexOf('execution') != -1){
         return this.state.getCurrentExecution().id;
