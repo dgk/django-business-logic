@@ -142,11 +142,11 @@ export class BreadcrumbComponent{
         });
 
         try {
-          let active = find(this.breadcrumbs, item => item.link == this.url);
+          let active = find(this.breadcrumbs, item => item["link"] == this.url);
 
-          if (active && active.name === 'execution') {
+          if (active && active["name"] === 'execution') {
             this.setActiveTo(this.breadcrumbs[6], 5);
-          }else if(active && active.name === 'executions'){
+          }else if(active && active["name"] === 'executions'){
             this.setActiveTo(this.breadcrumbs[5], 5);
           }else {
             this.setActiveTo(active);
@@ -164,10 +164,13 @@ export class BreadcrumbComponent{
 
   }
 
-  setActiveTo(activeBreadcrumb){
-    let start = 0;
+  setActiveTo(activeBreadcrumb: any, start?: any){
 
-    if(arguments.length == 2) start = arguments[1];
+    if(start){
+      start = arguments[1];
+    }else{
+      start = 0;
+    }
 
     let foundCurrent = false;
     for(let i = start; i < this.breadcrumbs.length; i++){
@@ -183,7 +186,7 @@ export class BreadcrumbComponent{
       }
     }
 
-    if(arguments.length == 2){
+    if(start != 0){
       this.breadcrumbs[0].show = true;
       this.breadcrumbs[0].isLast = false;
     }
