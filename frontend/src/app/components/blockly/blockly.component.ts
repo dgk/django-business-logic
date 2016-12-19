@@ -32,7 +32,8 @@ export class BlocklyComponent {
   style = {
     width: '100%',
     height: '90%',
-    position: 'absolute'
+    position: 'absolute',
+    padding: '5px 10px 0 10px'
   };
 
   private workspace: Blockly.Workspace;
@@ -72,10 +73,6 @@ export class BlocklyComponent {
   ngOnViewInit() {
 
   }
-
-  // ${this.xmlForReferenceDescriptors}
-  // ${this.xmlForArgumentFields}
-  // ${this.xmlForFunctionLibs}
 
   createWorkspace(){
 

@@ -12,10 +12,11 @@ import * as actionsInfo from "../actions/info";
 
 @Component({
   selector: 'interface-list-page',
-  template: `<block-list (select)="onSelect($event)" [list] = "list | async"></block-list>`
+  template: `<block-list (select)="onSelect($event)" [list] = "list | async" [list_icon] = "icon"></block-list>`
 })
 export class InterfaceListPage {
   list: any;
+  icon = 'folder open';
 
   constructor(
     private route: ActivatedRoute,

@@ -19,17 +19,13 @@ import {ActivatedRoute} from "@angular/router";
   ],
   template: `
     <main>
-    <!--<div class="ui segment">-->
-      <breadcrumb [params] = 'params'></breadcrumb>
-    <!--</div>-->
+        <breadcrumb></breadcrumb>
       
-      
-      <router-outlet></router-outlet>
+        <router-outlet></router-outlet>
     </main>
   `
 })
 export class App {
-  private params: any = {};
   private step: any;
 
   constructor(

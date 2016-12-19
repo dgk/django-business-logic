@@ -14,10 +14,11 @@ import * as actionsInterface from "../actions/prInterfaceList";
 
 @Component({
   selector: 'program-list-page',
-  template: `<block-list (select)="onSelect($event)" [list] = "list | async"></block-list>`
+  template: `<block-list (select)="onSelect($event)" [list] = "list | async" [list_icon] = "icon"></block-list>`
 })
 export class ProgramListPage {
   list: any;
+  icon = 'folder open';
 
   private interfaceID: number;
 

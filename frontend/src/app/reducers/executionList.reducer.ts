@@ -77,19 +77,11 @@ export function getList(state$: Observable<State>) {
   return state$.select(state => state.entities);
 }
 
-// export function getDetails(state$: Observable<State>) {
-//   return state$.select(state => state.details);
-// }
-//
+export function getDetails(state$: Observable<State>) {
+  return state$.select(state => state.details);
+}
+
 export function getCurrentID(state$: Observable<State>) {
   return state$.select(state => state.currentID);
 }
-//
-// export function getArgFields(state$: Observable<State>) {
-//   return combineLatest(
-//     state$.let(getDetails),
-//     state$.let(getCurrentID)
-//   ).map(([ details, currentID ]) => details[+currentID]);
-// }
-
 

@@ -20,23 +20,27 @@ import {SimpleNotificationsComponent} from 'angular2-notifications/src/simple-no
 @Component({
   selector: 'editor-page',
   template: `
-            <div class="ui section">
-                <button class="ui icon violet button" (click) = "onSave(blockly.getXml())"><i class="save icon"></i></button>
+            <!--<div class="ui section">-->
+                <!--<button class="ui icon violet button" (click) = "onSave(blockly.getXml())"><i class="save icon"></i></button>-->
 
-                <div class="ui icon top pointing right pointing dropdown button black">
-                  <div class="header"><i class="dropdown icon"></i> Version</div>
-              
-                  <div class="menu">
-                    <div class="header">
-                      <div class="ui compact violet message">
-                        <p>{{verDescription}}</p>
-                      </div>
-                    </div>
-                    <div class="item" (click) = "saveAs.show()">Save as ...</div>
-                  </div>
-                </div>    
-            </div>
+                <!--<div class="ui icon top pointing right pointing dropdown button black">-->
+                  <!--<div class="header"><i class="dropdown icon"></i> Version</div>-->
+              <!---->
+                  <!--<div class="menu">-->
+                    <!--<div class="header">-->
+                      <!--<div class="ui compact violet message">-->
+                        <!--<p>{{verDescription}}</p>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="item" (click) = "saveAs.show()">Save as ...</div>-->
+                  <!--</div>-->
+                <!--</div>    -->
+            <!--</div>-->
              
+            <div class="btn-group">
+                <button class="btn-group-item" (click) = "onSave(blockly.getXml())">Save</button> 
+                <button class="btn-group-item" (click) = "saveAs.show()">Save as</button>
+            </div>
             
             <div>
             <modal #saveAs 

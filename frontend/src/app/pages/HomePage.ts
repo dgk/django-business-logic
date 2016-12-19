@@ -7,8 +7,8 @@ import * as fromRoot from '../reducers';
 @Component({
   selector: 'home-page',
   template: `
-      <div class="ui container">
-        <div class="ui cards">
+      <!--<div class="ui container">-->
+        <div class="ui cards" style="padding-left:10px">
         <div class="card" (click) = "onSelect(list[0])">
           <div class="content">
             <div class="header"><i class="folder open icon"></i>Interfaces</div>
@@ -28,7 +28,7 @@ import * as fromRoot from '../reducers';
           </div>
         </div>
       </div>
-      </div>
+      <!--</div>-->
       
       <!--<block-list (select)="onSelect($event)" [list] = "list"></block-list>-->`,
   styles: [`
