@@ -19,9 +19,9 @@ import {ActivatedRoute} from "@angular/router";
   ],
   template: `
     <main>
-      <breadcrumb></breadcrumb>     
+        <breadcrumb></breadcrumb>
       
-      <router-outlet></router-outlet>
+        <router-outlet></router-outlet>
     </main>
   `
 })

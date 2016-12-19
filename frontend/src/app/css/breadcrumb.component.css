@@ -112,6 +112,10 @@
   color: #393939;
 }
 
+.breadcrumbs{
+  padding-top: 15px;
+  padding-left: 10px;
+}
 
 .notActiveLink {
   /*background: #e0e0e0!important;*/

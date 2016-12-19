@@ -19,24 +19,28 @@ import {stateService} from "../services/state.service";
 @Component({
   selector: 'version-list-page',
   template: `
-        <div class="ui container">
-           <div class="ui grid one column">
-              <div class="row">
-                  <!--<div class="column">-->
-                      <!--<h2 class="ui center aligned icon medium header">-->
-                        <!--Versions-->
-                      <!--</h2>-->
+        <!--<div class="ui container">-->
+           <!--<div class="ui grid one column">-->
+              <!--<div class="row">-->
+                  <!--&lt;!&ndash;<div class="column">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<h2 class="ui center aligned icon medium header">&ndash;&gt;-->
+                        <!--&lt;!&ndash;Versions&ndash;&gt;-->
+                      <!--&lt;!&ndash;</h2>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--<div class="column" align="right">-->
+                      <!--<button class="ui active button blue" (click)="modal.show()">-->
+                          <!--<i class="plus icon"></i>-->
+                          <!--Create-->
+                      <!--</button>-->
                   <!--</div>-->
-                  <div class="column" align="right">
-                      <button class="ui active button blue" (click)="modal.show()">
-                          <i class="plus icon"></i>
-                          Create
-                      </button>
-                  </div>
-              </div>
-          </div>       
+              <!--</div>-->
+          <!--</div>       -->
+        <!--</div>-->
+        <!--<br>-->
+        
+        <div class="btn-group">
+            <button class="btn-group-item" (click)="modal.show()"><i class="plus icon"></i> Create</button>
         </div>
-        <br>
         
         <modal #modal 
                [header]="'Create empty program version'" 
@@ -47,11 +51,12 @@ import {stateService} from "../services/state.service";
                [content]="false"
                (submit)="onCreate($event)"></modal>
        
-        <block-list (select)="onSelect($event)" [list] = "list | async"></block-list>
+        <block-list (select)="onSelect($event)" [list] = "list | async"  [list_icon] = "icon"></block-list>
     `
 })
 export class VersionListPage {
   list: any;
+  icon = "file text";
 
   private programID: number;
 
