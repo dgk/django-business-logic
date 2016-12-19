@@ -53,9 +53,9 @@ declare var HMR: boolean;
 declare var System: SystemJS;
 // declare var Blockly: any;
 
-/// <reference path="blockly.d.ts" />
-/// <reference path="msg.d.ts" />
-/// <reference path="semantic.d.ts" />
+/// <reference path="../d_ts/blockly.d.ts" />
+/// <reference path="../d_ts/msg.d.ts" />
+/// <reference path="../d_ts/semantic.d.ts" />
 
 interface SystemJS {
   import: (path?: string) => Promise<any>;

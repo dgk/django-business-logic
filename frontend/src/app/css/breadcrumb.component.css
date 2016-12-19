@@ -112,9 +112,18 @@
   color: #393939;
 }
 
+.breadcrumbs{
+  padding-top: 15px;
+  padding-left: 10px;
+}
 
-.notActiveLink{
-  background: #e0e0e0!important;
+.notActiveLink {
+  /*background: #e0e0e0!important;*/
+  /*color: #505050 !important;*/
+  /*font-style: oblique;*/
+  font-weight: bold;
+}
+
+.notActiveLink > a {
   color: #505050 !important;
-  font-style: oblique;
 }
