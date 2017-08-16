@@ -38,6 +38,7 @@ There are a few different ways you can install django-business-logic:
           ...
           'django.contrib.contenttypes',
           'rest_framework', # optional, for browsable API only
+          'nested_inline',
           'business_logic',
           ...
         )
