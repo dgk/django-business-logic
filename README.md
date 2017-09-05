@@ -120,14 +120,14 @@ ProgramVersion.execute() returns the Context instance.
 
 Many thanks to:
 * [contributors][contributors] of this library
-* authors of blockly, django, django-rest-framework, django-treebeard and angular 2.
-* all folks from Insurance Technologies LLC ([b2bpolis.ru](http://b2bpolis.ru/), @b2bpolis), 
-St.Petersburg, Russia and personally to its CEO Roman Kurdoev @romankurdo
+* authors of all used opensource libraries
+* all folks from Insurance Technologies LLC ([b2bpolis.ru](http://b2bpolis.ru/), [@b2bpolis](https://github.com/b2bpolis/)), 
+St.Petersburg, Russia and personally to its CEO [Roman Kurdo](https://www.facebook.com/roman.kurdo)
 
 ## TODO
-- [ ] References support
-- [ ] Execution log viewer
-- [ ] Imported and editable via admin interface python functions
+- [x] References support
+- [x] Execution log viewer
+- [x] Imported and editable via admin interface python functions
 - [ ] Visually editable functions and its libraries
 - [ ] Two-dimensional constant tables (matrices)
 - [ ] Code sharing
