@@ -23,11 +23,11 @@ class ProgramInterfaceTest(ProgramRestTestBase):
         arguments = _json['arguments']
         argument = arguments[0]
         self.assertEqual('test_model', argument['name'])
-        self.assertEqual(TestModel._meta.verbose_name, argument['verbose_name'])
+        self.assertEqual(Model._meta.verbose_name, argument['verbose_name'])
         content_type = argument['content_type']
-        self.assertEqual('test_app.TestModel', content_type['name'])
-        self.assertEqual(TestModel._meta.verbose_name, content_type['verbose_name'])
-        self.assertEqual(ContentType.objects.get_for_model(TestModel).id, content_type['id'])
+        self.assertEqual('test_app.Model', content_type['name'])
+        self.assertEqual(Model._meta.verbose_name, content_type['verbose_name'])
+        self.assertEqual(ContentType.objects.get_for_model(Model).id, content_type['id'])
 
         fields = dict((x['name'], x) for x in argument['fields'])
 
@@ -50,7 +50,7 @@ class ProgramInterfaceTest(ProgramRestTestBase):
                 ),
             'foreign_value': dict(
                 data_type='model',
-                content_type='test_app.TestRelatedModel',
+                content_type='test_app.RelatedModel',
                 verbose_name='Test Model.foreign value',
                 ),
             'foreign_value.string_value': dict(

@@ -101,7 +101,7 @@ class NodeTreeCreatorTest(NodeTreeCreatorTestCase):
         tree1 = Node.add_root()
 
         constant1 = ReferenceConstant.objects.create()
-        test_model1 = TestModel.objects.create()
+        test_model1 = Model.objects.create()
         node = tree1.add_child(content_object=constant1)
         node.add_child(content_object=test_model1)
         tree1 = Node.objects.get(id=tree1.id)

@@ -38,8 +38,8 @@ class VariableTest(TestCase):
 
         test_model_int_value_variable_definition = VariableDefinition.objects.create(name='test_model.int_value')
 
-        test_related_model = TestRelatedModel.objects.create(string_value=string_value)
-        test_model = TestModel.objects.create(int_value=int_value, foreign_value=test_related_model)
+        test_related_model = RelatedModel.objects.create(string_value=string_value)
+        test_model = Model.objects.create(int_value=int_value, foreign_value=test_related_model)
 
         context = Context()
         context.set_variable(test_model_variable_definition, test_model)
@@ -66,7 +66,7 @@ class VariableTest(TestCase):
         for variable_definition in variable_definitions.values():
             self.assertIsInstance(context.get_variable(variable_definition), Variable.Undefined)
 
-        test_model = TestModel.objects.create()
+        test_model = Model.objects.create()
         context.set_variable(test_model_variable_definition, test_model)
 
         for field, variable_definition in variable_definitions.items():

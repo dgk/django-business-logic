@@ -41,7 +41,7 @@ class ProgramTestBase(TestCase):
 
         self.argument = ProgramArgument.objects.create(
             program_interface=self.program_interface,
-            content_type=ContentType.objects.get_for_model(TestModel),
+            content_type=ContentType.objects.get_for_model(Model),
             name='test_model'
         )
 
@@ -53,7 +53,7 @@ class ProgramTestBase(TestCase):
         self.program_version = ProgramVersion.objects.create(program=program,
                                                              entry_point=self.create_entry_point())
 
-        self.test_model = TestModel.objects.create()
+        self.test_model = Model.objects.create()
 
     def create_argument_fields(self, argument):
         fields = {}

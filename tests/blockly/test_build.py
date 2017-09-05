@@ -49,7 +49,7 @@ class BlocklyXmlBuilderReferenceConstantTest(TestCase):
         root = Node.add_root()
 
         constant1 = ReferenceConstant.objects.create()
-        test_model1 = TestModel.objects.create()
+        test_model1 = Model.objects.create()
         node = root.add_child(content_object=constant1)
         node.add_child(content_object=test_model1)
         node = Node.objects.get(id=node.id)
@@ -67,7 +67,7 @@ class BlocklyXmlBuilderReferenceConstantTest(TestCase):
         type_field, value_field = fields
 
         self.assertEqual('TYPE', type_field.get('name'))
-        self.assertEqual('test_app.TestModel', type_field.text)
+        self.assertEqual('test_app.Model', type_field.text)
 
         self.assertEqual('VALUE', value_field.get('name'))
         self.assertEqual(str(test_model1.id), value_field.text)
