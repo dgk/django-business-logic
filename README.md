@@ -33,25 +33,33 @@ There are a few different ways you can install django-business-logic:
 
 1. Edit `settings.py` and add  `business_logic` to your `INSTALLED_APPS` 
     
-        # settings.py
-        INSTALLED_APPS = (
-          ...
-          'django.contrib.contenttypes',
-          'rest_framework', # optional, for browsable API only
-          'nested_inline',
-          'business_logic',
-          ...
-        )
+```python
+# settings.py
+INSTALLED_APPS = (
+    # ...
+    'django.contrib.contenttypes',
+    
+    'ace_overlay', # optional, for comfortable python functions editing
+    'adminsortable2',
+    'nested_inline',
+    'polymorphic',
+    'rest_framework', # optional, provided browsable API for this library handy development
+    
+    'business_logic',
+    # ...
+)
+```
 
 1. Edit `urls.py` and include `business_logic.urls`
- 
-        # urls.py
-        urlpatterns = (
-          ...
-          url('^business-logic/', include('business_logic.urls')),
-          ...
-        )
 
+```python
+# urls.py
+urlpatterns = (
+  # ...
+  url('^business-logic/', include('business_logic.urls')),
+  # ...
+)
+```
 1. Make migrations
 ```bash
 python manage.py migrate
@@ -120,9 +128,9 @@ ProgramVersion.execute() returns the Context instance.
 
 Many thanks to:
 * [contributors][contributors] of this library
-* authors of all used opensource libraries
 * all folks from Insurance Technologies LLC ([b2bpolis.ru](http://b2bpolis.ru/), [@b2bpolis](https://github.com/b2bpolis/)), 
 St.Petersburg, Russia and personally to its CEO [Roman Kurdo](https://www.facebook.com/roman.kurdo)
+* authors of all used opensource libraries
 
 ## TODO
 - [x] References support
