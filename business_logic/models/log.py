@@ -95,4 +95,4 @@ class Execution(models.Model):
     finish_time = models.DateTimeField(null=True)
 
     class Meta:
-        ordering = ('id', )
+        ordering = ('-id', )
