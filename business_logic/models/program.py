@@ -50,6 +50,7 @@ class ProgramInterface(models.Model):
     modification_time = models.DateTimeField(auto_now=True)
 
     class Meta:
+        ordering = ('id', )
         verbose_name = _('Program interface')
         verbose_name_plural = _('Program interfaces')
 
