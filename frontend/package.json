@@ -81,7 +81,7 @@
     "@types/lodash": "4.14.37",
     "angular2-notifications": "0.4.46",
     "assets-webpack-plugin": "3.4.0",
-    "blockly": "https://github.com/google/blockly.git",
+    "blockly": "https://github.com/google/blockly.git#69d4ebb6dd9ac3df7ab257d5f509d5a3f7f42eb0",
     "core-js": "2.4.1",
     "extract-text-webpack-plugin": "1.0.1",
     "http-server": "^0.9.0",
