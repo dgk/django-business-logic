@@ -24,7 +24,7 @@ import 'rxjs/add/operator/mergeMap';
 
 require('script!imports?module=>undefined!../blockly/blockly_compressed.js');
 require('script!imports?module=>undefined!blockly/blocks_compressed.js');
-require('script!imports?module=>undefined!blockly/msg/js/ru.js');
+require('script!imports?module=>undefined!blockly/msg/js/en.js');
 
 require('script!jquery/dist/jquery.js');
 require('script!semantic-ui/dist/semantic.js');
