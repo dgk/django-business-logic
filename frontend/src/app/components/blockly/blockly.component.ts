@@ -6,7 +6,7 @@ import {
 import {Store, State} from "@ngrx/store";
 import * as fromRoot from '../../reducers';
 import {Observable} from "rxjs";
-import {isNullOrUndefined} from "util";
+import * as isNil from "lodash/isNil";
 import * as find from "lodash/find";
 import {stateService} from "../../services/state.service";
 import {BlocksService} from "../../blocks/blocks.service";
@@ -61,7 +61,7 @@ export class BlocklyComponent {
           });
         }
 
-        if(isNullOrUndefined(this.workspace)) this.createWorkspace();
+        if(isNil(this.workspace)) this.createWorkspace();
 
         this.loadVersionXml();
 
@@ -120,8 +120,8 @@ export class BlocklyComponent {
   }
 
   clearWorkspace(){
-    if(!isNullOrUndefined(this.workspace)) Blockly.mainWorkspace.clear();
-    if(isNullOrUndefined(this.workspace)) this.createWorkspace();
+    if(!isNil(this.workspace)) Blockly.mainWorkspace.clear();
+    if(isNil(this.workspace)) this.createWorkspace();
   }
 
   initXml(xmlText) {

@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {block_reference, block_function, block_field_get, block_field_set, block_date} from "../blocks/consts/blockTypes";
 import {stateService} from "./state.service";
-import {isNullOrUndefined} from "util";
+import * as isNil from "lodash/isNil";
 
 @Injectable()
 export class xmlGenerator{
@@ -50,7 +50,7 @@ export class xmlGenerator{
   forFunctions(): string {
     let environment = this._state.getEnv();
 
-    if(isNullOrUndefined(environment)) return '';
+    if(isNil(environment)) return '';
 
     let xml =   `<category name="Function libraries">`;
 

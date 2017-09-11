@@ -13,7 +13,6 @@ import * as actionsReferenceList from "../actions/referenceList";
 import * as actionsExecution from "../actions/execution";
 import * as actionsInfo from "../actions/info";
 import {ActivatedRoute} from "@angular/router";
-import {isNullOrUndefined} from "util";
 import {stateService} from "./state.service";
 
 @Injectable()

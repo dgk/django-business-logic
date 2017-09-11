@@ -13,7 +13,8 @@ import * as actionsReferenceList from "../actions/referenceList";
 import * as actionsExecution from "../actions/execution";
 import * as actionsInfo from "../actions/info";
 import {ActivatedRoute} from "@angular/router";
-import {isNullOrUndefined} from "util";
+import * as isNil from "lodash/isNil";
+
 import {stateService} from "./state.service";
 
 @Injectable()
@@ -77,13 +78,13 @@ export class FetchService {
 
             if(vid != null && pid != null && iid != null){
               let obs = [];
-              if(isNullOrUndefined(interfaces['details'][iid]))
+              if(isNil(interfaces['details'][iid]))
                 obs.push(this.loadInterface(iid));
 
-              if(isNullOrUndefined(programs['details'][pid]))
+              if(isNil(programs['details'][pid]))
                 obs.push(this.loadProgram(pid));
 
-              if(isNullOrUndefined(versions['details'][vid]))
+              if(isNil(versions['details'][vid]))
                 obs.push(this.loadVersion(vid));
 
               obs.push(this.loadReferences());

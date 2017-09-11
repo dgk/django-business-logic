@@ -1,6 +1,5 @@
 import {stateService} from "../../services/state.service";
 import find = require("lodash/find");
-import {isNullOrUndefined} from "util";
 
 export class ArgumentField extends Blockly.FieldDropdown{
   state: stateService;

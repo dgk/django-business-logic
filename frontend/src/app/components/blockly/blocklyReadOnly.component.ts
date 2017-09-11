@@ -6,7 +6,7 @@ import {
 import {Store, State} from "@ngrx/store";
 import * as fromRoot from '../../reducers';
 import {Observable} from "rxjs";
-import {isNullOrUndefined} from "util";
+import * as isNil from "lodash/isNil";
 import * as find from "lodash/find";
 import {stateService} from "../../services/state.service";
 import {BlocksService} from "../../blocks/blocks.service";
@@ -66,7 +66,7 @@ export class BlocklyReadOnlyComponent {
           return version["id"] == state["versions"].currentID;
         });
 
-        if(isNullOrUndefined(this.workspace)) this.createWorkspaceReadonly();
+        if(isNil(this.workspace)) this.createWorkspaceReadonly();
 
         this.loadVersionXml();
         this.highlightActiveBlocks();
@@ -128,7 +128,7 @@ export class BlocklyReadOnlyComponent {
 
       let block_log = find(this.blocks, item => {return item["id"] == +block["id"]});
 
-      if(isNullOrUndefined(block_log)){
+      if(isNil(block_log)){
         block.setDisabled(true);
         block.setShadow(true);
       }else{
