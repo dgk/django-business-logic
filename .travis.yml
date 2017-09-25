@@ -4,17 +4,19 @@ python:
   - 2.7
   - 3.4
   - 3.5
+  - 3.6
 
 env:
-  - DJANGO_VERSION=1.8.13
-  - DJANGO_VERSION=1.9.6
-  - DJANGO_VERSION=1.10.1
+  - DJANGO_VERSION=Django>=1.8,<1.9
+  - DJANGO_VERSION=Django>=1.9,<1.10
+  - DJANGO_VERSION=Django>=1.10,<1.11
+  - DJANGO_VERSION=Django>=1.11,<1.12
 before_install:
   - export DJANGO_SETTINGS_MODULE=sites.test.settings
 
 install:
   - pip install -r requirements.txt
-  - pip install -q Django==$DJANGO_VERSION
+  - pip install -q $DJANGO_VERSION
   - pip install codecov
 
 script: coverage run manage.py test tests

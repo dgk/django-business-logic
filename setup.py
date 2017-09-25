@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# pandoc --from=markdown --to=rst README.md -o README.rst
-
 import os
 import codecs
 import re
@@ -64,10 +62,6 @@ def clean():
 
 
 if sys.argv[-1] == 'publish':
-    try:
-        import pypandoc
-    except ImportError:
-        print("pypandoc not installed.\nUse `pip install pypandoc`.\nExiting.")
 
     clean()
 
@@ -109,16 +103,24 @@ setup(
         license='MIT',
         keywords=['django', ],
         classifiers=[
-            'Development Status :: 2 - Pre-Alpha',
+            'Development Status :: 3 - Alpha',
             'Environment :: Web Environment',
             'Intended Audience :: Developers',
             'License :: OSI Approved :: MIT License',
             'Operating System :: OS Independent',
+            'Programming Language :: Python :: 2',
             'Programming Language :: Python :: 2.7',
+            'Programming Language :: Python :: 3',
             'Programming Language :: Python :: 3.4',
             'Programming Language :: Python :: 3.5',
+            'Programming Language :: Python :: 3.6',
             'Topic :: Internet :: WWW/HTTP',
+            'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
             'Framework :: Django',
+            'Framework :: Django :: 1.8',
+            'Framework :: Django :: 1.9',
+            'Framework :: Django :: 1.10',
+            'Framework :: Django :: 1.11',
         ],
         zip_safe=False,
         install_requires=[

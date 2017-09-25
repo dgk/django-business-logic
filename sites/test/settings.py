@@ -14,6 +14,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import sys
 
+import django
+
 SITE_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.join(SITE_DIR, os.pardir, os.pardir)
 
@@ -99,23 +101,24 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-# http://stackoverflow.com/a/28560805/138063
-class DisableMigrations(object):
-
-    def __contains__(self, item):
-        return True
-
-    def __getitem__(self, item):
-        return "notmigrations"
-
-
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
 )
 
 DEBUG = False
 TEMPLATE_DEBUG = False
+
+# http://stackoverflow.com/a/28560805/138063
+class DisableMigrations(object):
+    def __contains__(self, item):
+        return True
+
+    def __getitem__(self, item):
+        if django.VERSION[1] < 9:
+            # django < 1.9
+            return "notmigrations"
+        return None
+
 MIGRATION_MODULES = DisableMigrations()
 
 # for django>=1.10

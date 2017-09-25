@@ -93,3 +93,6 @@ class Execution(models.Model):
     program_version = models.ForeignKey('business_logic.ProgramVersion')
     start_time = models.DateTimeField(auto_now_add=True)
     finish_time = models.DateTimeField(null=True)
+
+    class Meta:
+        ordering = ('-id', )

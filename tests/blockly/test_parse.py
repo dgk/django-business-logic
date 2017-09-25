@@ -99,13 +99,13 @@ class BlocklyXmlParserConstantTest(BlocklyXmlParserTestCase):
 
 class BlocklyXmlParserReferenceConstantTest(BlocklyXmlParserTestCase):
     def setUp(self):
-        self.test_model = TestModel.objects.create()
+        self.test_model = Model.objects.create()
 
     def test_reference_constant(self):
         xml_str = self.set_namespace('''
         <xml>
           <block type="business_logic_reference">
-            <field name="TYPE">test_app.TestModel</field>
+            <field name="TYPE">test_app.Model</field>
             <field name="VALUE">{}</field>
           </block>
         </xml>
@@ -124,7 +124,7 @@ class BlocklyXmlParserReferenceConstantTest(BlocklyXmlParserTestCase):
 
         self.assertEqual(1, len(children))
         child = children[0]['data']
-        self.assertEqual(get_content_type_id(TestModel), child['content_type'])
+        self.assertEqual(get_content_type_id(Model), child['content_type'])
         self.assertEqual(str(self.test_model.id), child['object_id'])
 
 

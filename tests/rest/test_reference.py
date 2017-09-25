@@ -6,7 +6,7 @@ from .common import *
 class ReferenceDescriptorTest(TestCase):
     def setUp(self):
         self.reference_descriptor = ReferenceDescriptor.objects.create(
-            content_type=ContentType.objects.get_for_model(TestModel)
+            content_type=ContentType.objects.get_for_model(Model)
         )
         self.client = JSONClient()
 
@@ -20,7 +20,7 @@ class ReferenceDescriptorTest(TestCase):
         self.assertEqual(1, len(_json))
 
         descriptor = _json[0]
-        model = 'test_app.TestModel'
+        model = 'test_app.Model'
         self.assertEqual(model, descriptor['name'])
         self.assertEqual('Test Model', descriptor['verbose_name'])
         self.assertEqual(reverse('business-logic:rest:reference-list', kwargs=dict(model=model)), descriptor['url'])
@@ -41,17 +41,17 @@ class ReferenceDescriptorTest(TestCase):
 class ReferenceListTest(TestCase):
     def setUp(self):
         self.reference_descriptor = ReferenceDescriptor.objects.create(
-            content_type=ContentType.objects.get_for_model(TestModel)
+            content_type=ContentType.objects.get_for_model(Model)
         )
         self.client = JSONClient()
 
-        model = 'test_app.TestModel'
+        model = 'test_app.Model'
         self.url = reverse('business-logic:rest:reference-list', kwargs=dict(model=model))
 
         self.test_models = []
 
         for i in range(11):
-            self.test_models.append(TestModel.objects.create(string_value='str_{}'.format(str(i) * 3)))
+            self.test_models.append(Model.objects.create(string_value='str_{}'.format(str(i) * 3)))
 
     def test_reference_list(self):
         response = self.client.get(self.url)
@@ -67,7 +67,7 @@ class ReferenceListTest(TestCase):
         response = self.client.get(self.url, dict(search='111'))
         self.assertEqual(400, response.status_code)
         _json = response_json(response)
-        self.assertEqual(['ReferenceDescriptor for `test_app.TestModel` are not configured: incorrect `search_fields` field'], _json)
+        self.assertEqual(['ReferenceDescriptor for `test_app.Model` are not configured: incorrect `search_fields` field'], _json)
 
     def test_reference_list_search(self):
         self.reference_descriptor.search_fields = 'string_value'
@@ -82,7 +82,7 @@ class ReferenceListTest(TestCase):
         self.reference_descriptor.save()
 
         test_model = self.test_models[2]
-        test_related_model = TestRelatedModel.objects.create(string_value='xxx')
+        test_related_model = RelatedModel.objects.create(string_value='xxx')
         test_model.foreign_value = test_related_model
         test_model.save()
 
@@ -97,12 +97,12 @@ class ReferenceListTest(TestCase):
 class ReferenceViewTest(TestCase):
     def setUp(self):
         self.reference_descriptor = ReferenceDescriptor.objects.create(
-            content_type=ContentType.objects.get_for_model(TestModel)
+            content_type=ContentType.objects.get_for_model(Model)
         )
         self.client = JSONClient()
 
-        model = 'test_app.TestModel'
-        self.test_model = TestModel.objects.create(string_value='str_value')
+        model = 'test_app.Model'
+        self.test_model = Model.objects.create(string_value='str_value')
 
         self.url = reverse('business-logic:rest:reference', kwargs=dict(model=model, pk=self.test_model.id))
 

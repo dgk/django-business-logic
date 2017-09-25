@@ -92,7 +92,7 @@ class ProgramTest(ProgramTestBase):
     def test_program_version_execute_set_reference_variable(self):
         int_value_field = self.fields['foreign_value']
         variable_definition = int_value_field.variable_definition
-        test_related_model = TestRelatedModel.objects.create()
+        test_related_model = RelatedModel.objects.create()
 
         parent = Node.add_root()
         assignment_node = parent.add_child(content_object=Assignment())
@@ -112,7 +112,7 @@ class ProgramTest(ProgramTestBase):
         context = self.program_version.execute(test_model=self.test_model)
 
         self.test_model.save()
-        self.test_model = TestModel.objects.get(id=self.test_model.id)
+        self.test_model = Model.objects.get(id=self.test_model.id)
 
         self.assertEqual(test_related_model, context.get_variable(variable_definition))
         self.assertEqual(test_related_model, self.test_model.foreign_value)
@@ -125,7 +125,7 @@ class ProgramTest(ProgramTestBase):
                                                                  variable_definition=variable_definition)
         self.program_version.save()
 
-        self.test_model.foreign_value = TestRelatedModel.objects.create()
+        self.test_model.foreign_value = RelatedModel.objects.create()
         self.test_model.save()
 
         context = self.program_version.execute(test_model=self.test_model)

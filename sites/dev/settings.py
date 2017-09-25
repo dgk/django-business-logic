@@ -14,6 +14,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import sys
 
+import django
+
 SITE_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.join(SITE_DIR, os.pardir, os.pardir)
 
@@ -128,12 +130,14 @@ STATIC_URL = '/static/'
 
 # http://stackoverflow.com/a/28560805/138063
 class DisableMigrations(object):
-
     def __contains__(self, item):
         return True
 
     def __getitem__(self, item):
-        return "notmigrations"
+        if django.VERSION[1] < 9:
+            # django < 1.9
+            return "notmigrations"
+        return None
 
 
 if 'test' in sys.argv[1:] or 'jenkins' in sys.argv[1:]:
