@@ -1,650 +1,2059 @@
 [
 {
+    "model": "auth.user",
+    "pk": 1,
     "fields": {
+        "password": "pbkdf2_sha256$36000$UbzbxvAEFG5J$7+4QnDoJuKKilgTH7fUoO3lwATJdhxISj0H3pSbkUSs=",
+        "last_login": "2017-10-05T19:28:00.305Z",
+        "is_superuser": true,
         "username": "test",
         "first_name": "",
         "last_name": "",
-        "is_active": true,
-        "is_superuser": true,
-        "is_staff": true,
-        "last_login": "2016-05-16T08:51:32.780Z",
-        "groups": [],
-        "user_permissions": [],
-        "password": "pbkdf2_sha256$20000$mpLi7E1QFI8s$xqNneGU9eBvj3T5PZiNIfDbHJuUoPQWG4B3qF0uAa0c=",
         "email": "test@example.com",
-        "date_joined": "2016-05-04T08:59:41.222Z"
-    },
-    "model": "auth.user",
-    "pk": 1
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2016-05-04T08:59:41.222Z",
+        "groups": [],
+        "user_permissions": []
+    }
 },
 {
-    "fields": {
-        "comment": null,
-        "rgt": 44,
-        "object_id": null,
-        "lft": 1,
-        "depth": 1,
-        "content_type": null,
-        "tree_id": 1
-    },
     "model": "business_logic.node",
-    "pk": 1
+    "pk": 241,
+    "fields": {
+        "lft": 1,
+        "rgt": 104,
+        "tree_id": 8,
+        "depth": 1,
+        "comment": null,
+        "content_type": null,
+        "object_id": null
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 242,
     "fields": {
-        "comment": null,
-        "rgt": 3,
-        "object_id": 3,
         "lft": 2,
+        "rgt": 3,
+        "tree_id": 8,
         "depth": 2,
+        "comment": null,
         "content_type": [
             "business_logic",
             "variabledefinition"
         ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 2
+        "object_id": 22
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 243,
     "fields": {
-        "comment": null,
-        "rgt": 43,
-        "object_id": 1,
         "lft": 4,
+        "rgt": 5,
+        "tree_id": 8,
         "depth": 2,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variabledefinition"
+        ],
+        "object_id": 23
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 244,
+    "fields": {
+        "lft": 6,
+        "rgt": 7,
+        "tree_id": 8,
+        "depth": 2,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variabledefinition"
+        ],
+        "object_id": 24
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 245,
+    "fields": {
+        "lft": 8,
+        "rgt": 9,
+        "tree_id": 8,
+        "depth": 2,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variabledefinition"
+        ],
+        "object_id": 25
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 246,
+    "fields": {
+        "lft": 10,
+        "rgt": 103,
+        "tree_id": 8,
+        "depth": 2,
+        "comment": null,
         "content_type": [
             "business_logic",
             "ifstatement"
         ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 3
+        "object_id": 12
+    }
 },
 {
-    "fields": {
-        "comment": null,
-        "rgt": 10,
-        "object_id": 1,
-        "lft": 5,
-        "depth": 3,
-        "content_type": [
-            "business_logic",
-            "binaryoperator"
-        ],
-        "tree_id": 1
-    },
     "model": "business_logic.node",
-    "pk": 4
-},
-{
+    "pk": 247,
     "fields": {
-        "comment": null,
-        "rgt": 7,
-        "object_id": 1,
-        "lft": 6,
-        "depth": 4,
-        "content_type": [
-            "business_logic",
-            "variable"
-        ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 5
-},
-{
-    "fields": {
-        "comment": null,
-        "rgt": 9,
-        "object_id": 1,
-        "lft": 8,
-        "depth": 4,
-        "content_type": [
-            "business_logic",
-            "numberconstant"
-        ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 6
-},
-{
-    "fields": {
-        "comment": null,
-        "rgt": 16,
-        "object_id": 1,
         "lft": 11,
+        "rgt": 16,
+        "tree_id": 8,
         "depth": 3,
+        "comment": null,
         "content_type": [
             "business_logic",
-            "assignment"
+            "binaryoperator"
         ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 7
+        "object_id": 45
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 248,
     "fields": {
-        "comment": null,
-        "rgt": 13,
-        "object_id": 2,
         "lft": 12,
+        "rgt": 13,
+        "tree_id": 8,
         "depth": 4,
+        "comment": null,
         "content_type": [
             "business_logic",
             "variable"
         ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 8
+        "object_id": 74
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 249,
     "fields": {
-        "comment": null,
-        "rgt": 15,
-        "object_id": 2,
         "lft": 14,
+        "rgt": 15,
+        "tree_id": 8,
         "depth": 4,
+        "comment": null,
         "content_type": [
             "business_logic",
             "numberconstant"
         ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 9
+        "object_id": 49
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 250,
     "fields": {
-        "comment": null,
-        "rgt": 22,
-        "object_id": 2,
         "lft": 17,
+        "rgt": 22,
+        "tree_id": 8,
         "depth": 3,
+        "comment": null,
         "content_type": [
             "business_logic",
-            "binaryoperator"
+            "assignment"
         ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 10
+        "object_id": 30
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 251,
     "fields": {
-        "comment": null,
-        "rgt": 19,
-        "object_id": 3,
         "lft": 18,
+        "rgt": 19,
+        "tree_id": 8,
         "depth": 4,
+        "comment": null,
         "content_type": [
             "business_logic",
             "variable"
         ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 11
+        "object_id": 75
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 252,
     "fields": {
-        "comment": null,
-        "rgt": 21,
-        "object_id": 3,
         "lft": 20,
+        "rgt": 21,
+        "tree_id": 8,
         "depth": 4,
+        "comment": null,
         "content_type": [
             "business_logic",
             "numberconstant"
         ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 12
+        "object_id": 50
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 253,
     "fields": {
-        "comment": null,
-        "rgt": 32,
-        "object_id": 2,
         "lft": 23,
-        "depth": 3,
-        "content_type": [
-            "business_logic",
-            "assignment"
-        ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 13
-},
-{
-    "fields": {
-        "comment": null,
-        "rgt": 25,
-        "object_id": 4,
-        "lft": 24,
-        "depth": 4,
-        "content_type": [
-            "business_logic",
-            "variable"
-        ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 14
-},
-{
-    "fields": {
-        "comment": null,
-        "rgt": 31,
-        "object_id": 3,
-        "lft": 26,
-        "depth": 4,
-        "content_type": [
-            "business_logic",
-            "binaryoperator"
-        ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 15
-},
-{
-    "fields": {
-        "comment": null,
         "rgt": 28,
-        "object_id": 5,
-        "lft": 27,
-        "depth": 5,
-        "content_type": [
-            "business_logic",
-            "variable"
-        ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 16
-},
-{
-    "fields": {
-        "comment": null,
-        "rgt": 30,
-        "object_id": 4,
-        "lft": 29,
-        "depth": 5,
-        "content_type": [
-            "business_logic",
-            "numberconstant"
-        ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 17
-},
-{
-    "fields": {
-        "comment": null,
-        "rgt": 42,
-        "object_id": 3,
-        "lft": 33,
+        "tree_id": 8,
         "depth": 3,
-        "content_type": [
-            "business_logic",
-            "assignment"
-        ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 18
-},
-{
-    "fields": {
         "comment": null,
-        "rgt": 35,
-        "object_id": 6,
-        "lft": 34,
-        "depth": 4,
-        "content_type": [
-            "business_logic",
-            "variable"
-        ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 19
-},
-{
-    "fields": {
-        "comment": null,
-        "rgt": 41,
-        "object_id": 4,
-        "lft": 36,
-        "depth": 4,
         "content_type": [
             "business_logic",
             "binaryoperator"
         ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 20
+        "object_id": 46
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 254,
     "fields": {
+        "lft": 24,
+        "rgt": 25,
+        "tree_id": 8,
+        "depth": 4,
         "comment": null,
-        "rgt": 38,
-        "object_id": 7,
-        "lft": 37,
-        "depth": 5,
         "content_type": [
             "business_logic",
             "variable"
         ],
-        "tree_id": 1
-    },
-    "model": "business_logic.node",
-    "pk": 21
+        "object_id": 76
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 255,
     "fields": {
+        "lft": 26,
+        "rgt": 27,
+        "tree_id": 8,
+        "depth": 4,
         "comment": null,
-        "rgt": 40,
-        "object_id": 5,
-        "lft": 39,
-        "depth": 5,
         "content_type": [
             "business_logic",
             "numberconstant"
         ],
-        "tree_id": 1
-    },
+        "object_id": 51
+    }
+},
+{
     "model": "business_logic.node",
-    "pk": 22
-},
-{
-    "fields": {},
-    "model": "business_logic.assignment",
-    "pk": 1
-},
-{
-    "fields": {},
-    "model": "business_logic.assignment",
-    "pk": 2
-},
-{
-    "fields": {},
-    "model": "business_logic.assignment",
-    "pk": 3
-},
-{
+    "pk": 256,
     "fields": {
-        "value": 0.0
-    },
-    "model": "business_logic.numberconstant",
-    "pk": 1
-},
-{
-    "fields": {
-        "value": 1.0
-    },
-    "model": "business_logic.numberconstant",
-    "pk": 2
-},
-{
-    "fields": {
-        "value": 5.0
-    },
-    "model": "business_logic.numberconstant",
-    "pk": 3
-},
-{
-    "fields": {
-        "value": 2.0
-    },
-    "model": "business_logic.numberconstant",
-    "pk": 4
-},
-{
-    "fields": {
-        "value": 1.0
-    },
-    "model": "business_logic.numberconstant",
-    "pk": 5
-},
-{
-    "fields": {
-        "name": "book"
-    },
-    "model": "business_logic.variabledefinition",
-    "pk": 1
-},
-{
-    "fields": {
-        "name": "book.title"
-    },
-    "model": "business_logic.variabledefinition",
-    "pk": 2
-},
-{
-    "fields": {
-        "name": "book.publisher.rank"
-    },
-    "model": "business_logic.variabledefinition",
-    "pk": 3
-},
-{
-    "fields": {
-        "definition": 3
-    },
-    "model": "business_logic.variable",
-    "pk": 1
-},
-{
-    "fields": {
-        "definition": 3
-    },
-    "model": "business_logic.variable",
-    "pk": 2
-},
-{
-    "fields": {
-        "definition": 3
-    },
-    "model": "business_logic.variable",
-    "pk": 3
-},
-{
-    "fields": {
-        "definition": 3
-    },
-    "model": "business_logic.variable",
-    "pk": 4
-},
-{
-    "fields": {
-        "definition": 3
-    },
-    "model": "business_logic.variable",
-    "pk": 5
-},
-{
-    "fields": {
-        "definition": 3
-    },
-    "model": "business_logic.variable",
-    "pk": 6
-},
-{
-    "fields": {
-        "definition": 3
-    },
-    "model": "business_logic.variable",
-    "pk": 7
-},
-{
-    "fields": {},
-    "model": "business_logic.ifstatement",
-    "pk": 1
-},
-{
-    "fields": {
-        "operator": "=="
-    },
-    "model": "business_logic.binaryoperator",
-    "pk": 1
-},
-{
-    "fields": {
-        "operator": "<="
-    },
-    "model": "business_logic.binaryoperator",
-    "pk": 2
-},
-{
-    "fields": {
-        "operator": "+"
-    },
-    "model": "business_logic.binaryoperator",
-    "pk": 3
-},
-{
-    "fields": {
-        "operator": "+"
-    },
-    "model": "business_logic.binaryoperator",
-    "pk": 4
-},
-{
-    "fields": {
-        "modification_time": "2016-05-16T08:55:30.911Z",
-        "creation_time": "2016-05-04T09:47:57.533Z",
-        "code": "",
-        "title": "Book"
-    },
-    "model": "business_logic.programinterface",
-    "pk": 1
-},
-{
-    "fields": {
-        "variable_definition": 1,
-        "program_interface": 1,
+        "lft": 29,
+        "rgt": 38,
+        "tree_id": 8,
+        "depth": 3,
+        "comment": null,
         "content_type": [
-            "books",
-            "book"
+            "business_logic",
+            "assignment"
         ],
-        "name": "book"
-    },
-    "model": "business_logic.programargument",
-    "pk": 1
+        "object_id": 31
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 257,
     "fields": {
-        "variable_definition": 2,
-        "name": "title",
-        "program_argument": 1
-    },
-    "model": "business_logic.programargumentfield",
-    "pk": 1
-},
-{
-    "fields": {
-        "variable_definition": 3,
-        "name": "publisher.rank",
-        "program_argument": 1
-    },
-    "model": "business_logic.programargumentfield",
-    "pk": 2
-},
-{
-    "fields": {
-        "creation_time": "2016-05-04T09:49:38.477Z",
-        "modification_time": "2016-05-04T09:49:38.477Z",
-        "program_interface": 1,
-        "code": "on_book_view",
-        "title": "Book view"
-    },
-    "model": "business_logic.program",
-    "pk": 1
-},
-{
-    "fields": {
-        "description": "https://blockly-demo.appspot.com/static/demos/code/index.html?lang=en#wo6asi",
-        "title": "Increase book publisher rank",
-        "creation_time": "2016-05-16T13:16:15.781Z",
-        "is_default": false,
-        "modification_time": "2016-05-16T13:16:15.781Z",
-        "program": 1,
-        "entry_point": 1
-    },
-    "model": "business_logic.programversion",
-    "pk": 1
-},
-{
-    "fields": {
-        "search_fields": "",
+        "lft": 30,
+        "rgt": 31,
+        "tree_id": 8,
+        "depth": 4,
+        "comment": null,
         "content_type": [
-            "books",
-            "book"
-        ]
-    },
-    "model": "business_logic.referencedescriptor",
-    "pk": 1
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 77
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 258,
     "fields": {
-        "search_fields": "",
+        "lft": 32,
+        "rgt": 37,
+        "tree_id": 8,
+        "depth": 4,
+        "comment": null,
         "content_type": [
-            "books",
-            "author"
-        ]
-    },
-    "model": "business_logic.referencedescriptor",
-    "pk": 2
+            "business_logic",
+            "binaryoperator"
+        ],
+        "object_id": 47
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 259,
     "fields": {
-        "search_fields": "",
+        "lft": 33,
+        "rgt": 34,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 78
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 260,
+    "fields": {
+        "lft": 35,
+        "rgt": 36,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "numberconstant"
+        ],
+        "object_id": 52
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 261,
+    "fields": {
+        "lft": 39,
+        "rgt": 102,
+        "tree_id": 8,
+        "depth": 3,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "ifstatement"
+        ],
+        "object_id": 13
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 262,
+    "fields": {
+        "lft": 40,
+        "rgt": 47,
+        "tree_id": 8,
+        "depth": 4,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "binaryoperator"
+        ],
+        "object_id": 48
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 263,
+    "fields": {
+        "lft": 41,
+        "rgt": 42,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 79
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 264,
+    "fields": {
+        "lft": 43,
+        "rgt": 46,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "referenceconstant"
+        ],
+        "object_id": 5
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 265,
+    "fields": {
+        "lft": 44,
+        "rgt": 45,
+        "tree_id": 8,
+        "depth": 6,
+        "comment": null,
         "content_type": [
             "books",
             "publisher"
-        ]
-    },
-    "model": "business_logic.referencedescriptor",
-    "pk": 3
+        ],
+        "object_id": 3
+    }
 },
 {
+    "model": "business_logic.node",
+    "pk": 266,
+    "fields": {
+        "lft": 48,
+        "rgt": 57,
+        "tree_id": 8,
+        "depth": 4,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "assignment"
+        ],
+        "object_id": 32
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 267,
+    "fields": {
+        "lft": 49,
+        "rgt": 50,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 80
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 268,
+    "fields": {
+        "lft": 51,
+        "rgt": 56,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "binaryoperator"
+        ],
+        "object_id": 49
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 269,
+    "fields": {
+        "lft": 52,
+        "rgt": 53,
+        "tree_id": 8,
+        "depth": 6,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 81
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 270,
+    "fields": {
+        "lft": 54,
+        "rgt": 55,
+        "tree_id": 8,
+        "depth": 6,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "numberconstant"
+        ],
+        "object_id": 53
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 271,
+    "fields": {
+        "lft": 58,
+        "rgt": 65,
+        "tree_id": 8,
+        "depth": 4,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "binaryoperator"
+        ],
+        "object_id": 50
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 272,
+    "fields": {
+        "lft": 59,
+        "rgt": 62,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "function"
+        ],
+        "object_id": 6
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 273,
+    "fields": {
+        "lft": 60,
+        "rgt": 61,
+        "tree_id": 8,
+        "depth": 6,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 82
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 274,
+    "fields": {
+        "lft": 63,
+        "rgt": 64,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "numberconstant"
+        ],
+        "object_id": 54
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 275,
+    "fields": {
+        "lft": 66,
+        "rgt": 75,
+        "tree_id": 8,
+        "depth": 4,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "assignment"
+        ],
+        "object_id": 33
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 276,
+    "fields": {
+        "lft": 67,
+        "rgt": 68,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 83
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 277,
+    "fields": {
+        "lft": 69,
+        "rgt": 74,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "binaryoperator"
+        ],
+        "object_id": 51
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 278,
+    "fields": {
+        "lft": 70,
+        "rgt": 71,
+        "tree_id": 8,
+        "depth": 6,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 84
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 279,
+    "fields": {
+        "lft": 72,
+        "rgt": 73,
+        "tree_id": 8,
+        "depth": 6,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "numberconstant"
+        ],
+        "object_id": 55
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 280,
+    "fields": {
+        "lft": 76,
+        "rgt": 81,
+        "tree_id": 8,
+        "depth": 4,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "binaryoperator"
+        ],
+        "object_id": 52
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 281,
+    "fields": {
+        "lft": 77,
+        "rgt": 78,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 85
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 282,
+    "fields": {
+        "lft": 79,
+        "rgt": 80,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "numberconstant"
+        ],
+        "object_id": 56
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 283,
+    "fields": {
+        "lft": 82,
+        "rgt": 91,
+        "tree_id": 8,
+        "depth": 4,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "assignment"
+        ],
+        "object_id": 34
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 284,
+    "fields": {
+        "lft": 83,
+        "rgt": 84,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 86
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 285,
+    "fields": {
+        "lft": 85,
+        "rgt": 90,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "binaryoperator"
+        ],
+        "object_id": 53
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 286,
+    "fields": {
+        "lft": 86,
+        "rgt": 87,
+        "tree_id": 8,
+        "depth": 6,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 87
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 287,
+    "fields": {
+        "lft": 88,
+        "rgt": 89,
+        "tree_id": 8,
+        "depth": 6,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "numberconstant"
+        ],
+        "object_id": 57
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 288,
+    "fields": {
+        "lft": 92,
+        "rgt": 101,
+        "tree_id": 8,
+        "depth": 4,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "assignment"
+        ],
+        "object_id": 35
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 289,
+    "fields": {
+        "lft": 93,
+        "rgt": 94,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 88
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 290,
+    "fields": {
+        "lft": 95,
+        "rgt": 100,
+        "tree_id": 8,
+        "depth": 5,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "binaryoperator"
+        ],
+        "object_id": 54
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 291,
+    "fields": {
+        "lft": 96,
+        "rgt": 97,
+        "tree_id": 8,
+        "depth": 6,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "variable"
+        ],
+        "object_id": 89
+    }
+},
+{
+    "model": "business_logic.node",
+    "pk": 292,
+    "fields": {
+        "lft": 98,
+        "rgt": 99,
+        "tree_id": 8,
+        "depth": 6,
+        "comment": null,
+        "content_type": [
+            "business_logic",
+            "numberconstant"
+        ],
+        "object_id": 58
+    }
+},
+{
+    "model": "business_logic.assignment",
+    "pk": 12,
+    "fields": {}
+},
+{
+    "model": "business_logic.assignment",
+    "pk": 17,
+    "fields": {}
+},
+{
+    "model": "business_logic.assignment",
+    "pk": 22,
+    "fields": {}
+},
+{
+    "model": "business_logic.assignment",
+    "pk": 27,
+    "fields": {}
+},
+{
+    "model": "business_logic.assignment",
+    "pk": 30,
+    "fields": {}
+},
+{
+    "model": "business_logic.assignment",
+    "pk": 31,
+    "fields": {}
+},
+{
+    "model": "business_logic.assignment",
+    "pk": 32,
+    "fields": {}
+},
+{
+    "model": "business_logic.assignment",
+    "pk": 33,
+    "fields": {}
+},
+{
+    "model": "business_logic.assignment",
+    "pk": 34,
+    "fields": {}
+},
+{
+    "model": "business_logic.assignment",
+    "pk": 35,
+    "fields": {}
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 1,
+    "fields": {
+        "value": 0.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 3,
+    "fields": {
+        "value": 5.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 5,
+    "fields": {
+        "value": 1.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 6,
+    "fields": {
+        "value": 0.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 8,
+    "fields": {
+        "value": 5.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 10,
+    "fields": {
+        "value": 8.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 11,
+    "fields": {
+        "value": 1.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 12,
+    "fields": {
+        "value": 0.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 14,
+    "fields": {
+        "value": 5.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 16,
+    "fields": {
+        "value": 1.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 17,
+    "fields": {
+        "value": 0.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 19,
+    "fields": {
+        "value": 5.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 21,
+    "fields": {
+        "value": 3.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 22,
+    "fields": {
+        "value": 3.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 24,
+    "fields": {
+        "value": 1.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 25,
+    "fields": {
+        "value": 0.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 27,
+    "fields": {
+        "value": 5.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 29,
+    "fields": {
+        "value": 3.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 30,
+    "fields": {
+        "value": 3.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 32,
+    "fields": {
+        "value": 1.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 33,
+    "fields": {
+        "value": 0.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 35,
+    "fields": {
+        "value": 8.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 37,
+    "fields": {
+        "value": 3.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 38,
+    "fields": {
+        "value": 3.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 40,
+    "fields": {
+        "value": 1.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 41,
+    "fields": {
+        "value": 0.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 43,
+    "fields": {
+        "value": 8.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 45,
+    "fields": {
+        "value": 3.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 46,
+    "fields": {
+        "value": 3.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 48,
+    "fields": {
+        "value": 1.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 49,
+    "fields": {
+        "value": 0.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 50,
+    "fields": {
+        "value": 1.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 51,
+    "fields": {
+        "value": 8.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 52,
+    "fields": {
+        "value": 2.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 53,
+    "fields": {
+        "value": 4.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 54,
+    "fields": {
+        "value": 3.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 55,
+    "fields": {
+        "value": 3.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 56,
+    "fields": {
+        "value": 30.5
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 57,
+    "fields": {
+        "value": 2.0
+    }
+},
+{
+    "model": "business_logic.numberconstant",
+    "pk": 58,
+    "fields": {
+        "value": 1.0
+    }
+},
+{
+    "model": "business_logic.variabledefinition",
+    "pk": 1,
+    "fields": {
+        "name": "book"
+    }
+},
+{
+    "model": "business_logic.variabledefinition",
+    "pk": 2,
+    "fields": {
+        "name": "book.title"
+    }
+},
+{
+    "model": "business_logic.variabledefinition",
+    "pk": 6,
+    "fields": {
+        "name": "book.publication_date"
+    }
+},
+{
+    "model": "business_logic.variabledefinition",
+    "pk": 7,
+    "fields": {
+        "name": "book.publisher"
+    }
+},
+{
+    "model": "business_logic.variabledefinition",
+    "pk": 14,
+    "fields": {
+        "name": "book.publisher.rank"
+    }
+},
+{
+    "model": "business_logic.variabledefinition",
+    "pk": 21,
+    "fields": {
+        "name": "book.price"
+    }
+},
+{
+    "model": "business_logic.variabledefinition",
+    "pk": 22,
+    "fields": {
+        "name": "book.publisher.rank"
+    }
+},
+{
+    "model": "business_logic.variabledefinition",
+    "pk": 23,
+    "fields": {
+        "name": "book.publisher"
+    }
+},
+{
+    "model": "business_logic.variabledefinition",
+    "pk": 24,
+    "fields": {
+        "name": "book.publication_date"
+    }
+},
+{
+    "model": "business_logic.variabledefinition",
+    "pk": 25,
+    "fields": {
+        "name": "book.price"
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 74,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 75,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 76,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 77,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 78,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 79,
+    "fields": {
+        "definition": 23
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 80,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 81,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 82,
+    "fields": {
+        "definition": 24
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 83,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 84,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 85,
+    "fields": {
+        "definition": 25
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 86,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 87,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 88,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.variable",
+    "pk": 89,
+    "fields": {
+        "definition": 22
+    }
+},
+{
+    "model": "business_logic.functiondefinition",
+    "pk": 1,
+    "fields": {
+        "polymorphic_ctype": [
+            "business_logic",
+            "pythonmodulefunctiondefinition"
+        ],
+        "title": "max",
+        "description": "",
+        "is_context_required": false,
+        "is_returns_value": true
+    }
+},
+{
+    "model": "business_logic.functiondefinition",
+    "pk": 2,
+    "fields": {
+        "polymorphic_ctype": [
+            "business_logic",
+            "pythoncodefunctiondefinition"
+        ],
+        "title": "Age (in years)",
+        "description": "",
+        "is_context_required": false,
+        "is_returns_value": true
+    }
+},
+{
+    "model": "business_logic.functionargument",
+    "pk": 1,
+    "fields": {
+        "function": 1,
+        "name": "a",
+        "description": "",
+        "order": 1
+    }
+},
+{
+    "model": "business_logic.functionargument",
+    "pk": 2,
+    "fields": {
+        "function": 1,
+        "name": "b",
+        "description": "",
+        "order": 2
+    }
+},
+{
+    "model": "business_logic.functionargument",
+    "pk": 3,
+    "fields": {
+        "function": 2,
+        "name": "date",
+        "description": "",
+        "order": 1
+    }
+},
+{
+    "model": "business_logic.pythonmodulefunctiondefinition",
+    "pk": 1,
+    "fields": {
+        "module": "__builtins__",
+        "function": "max"
+    }
+},
+{
+    "model": "business_logic.pythoncodefunctiondefinition",
+    "pk": 2,
+    "fields": {
+        "code": "def function(date): \r\n    # https: //stackoverflow.com/a/9754466\r\n    from datetime import datetime\r\n    today = datetime.date.today()\r\n    return today.year - date.year - ((today.month, today.day) < (date.month, date.day))"
+    }
+},
+{
+    "model": "business_logic.functionlibrary",
+    "pk": 1,
+    "fields": {
+        "title": "python builtins",
+        "functions": [
+            1
+        ]
+    }
+},
+{
+    "model": "business_logic.functionlibrary",
+    "pk": 2,
+    "fields": {
+        "title": "Date operations",
+        "functions": [
+            2
+        ]
+    }
+},
+{
+    "model": "business_logic.function",
+    "pk": 1,
+    "fields": {
+        "definition": 1
+    }
+},
+{
+    "model": "business_logic.function",
+    "pk": 2,
+    "fields": {
+        "definition": 2
+    }
+},
+{
+    "model": "business_logic.function",
+    "pk": 3,
+    "fields": {
+        "definition": 2
+    }
+},
+{
+    "model": "business_logic.function",
+    "pk": 4,
+    "fields": {
+        "definition": 2
+    }
+},
+{
+    "model": "business_logic.function",
+    "pk": 5,
+    "fields": {
+        "definition": 2
+    }
+},
+{
+    "model": "business_logic.function",
+    "pk": 6,
+    "fields": {
+        "definition": 2
+    }
+},
+{
+    "model": "business_logic.ifstatement",
+    "pk": 12,
+    "fields": {}
+},
+{
+    "model": "business_logic.ifstatement",
+    "pk": 13,
+    "fields": {}
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 1,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 4,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 5,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 8,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 9,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 12,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 13,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 16,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 17,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 18,
+    "fields": {
+        "operator": ">"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 20,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 21,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 24,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 25,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 26,
+    "fields": {
+        "operator": ">"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 28,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 29,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 32,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 33,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 34,
+    "fields": {
+        "operator": ">"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 36,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 37,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 40,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 41,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 42,
+    "fields": {
+        "operator": ">"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 44,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 45,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 46,
+    "fields": {
+        "operator": "<="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 47,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 48,
+    "fields": {
+        "operator": "=="
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 49,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 50,
+    "fields": {
+        "operator": ">"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 51,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 52,
+    "fields": {
+        "operator": "<"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 53,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.binaryoperator",
+    "pk": 54,
+    "fields": {
+        "operator": "+"
+    }
+},
+{
+    "model": "business_logic.executionenvironment",
+    "pk": 1,
+    "fields": {
+        "title": "test environment",
+        "description": "",
+        "debug": true,
+        "log": true,
+        "cache": true,
+        "exception_handling_policy": "INTERRUPT",
+        "libraries": [
+            2
+        ]
+    }
+},
+{
+    "model": "business_logic.programinterface",
+    "pk": 1,
+    "fields": {
+        "title": "Book",
+        "code": null,
+        "environment": 1,
+        "creation_time": "2016-05-04T09:47:57.533Z",
+        "modification_time": "2017-10-05T20:24:33.837Z"
+    }
+},
+{
+    "model": "business_logic.programargument",
+    "pk": 1,
+    "fields": {
+        "program_interface": 1,
+        "name": "book",
+        "content_type": [
+            "books",
+            "book"
+        ],
+        "variable_definition": 1
+    }
+},
+{
+    "model": "business_logic.programargumentfield",
+    "pk": 1,
+    "fields": {
+        "program_argument": 1,
+        "name": "title",
+        "title": "Book Title",
+        "variable_definition": 2
+    }
+},
+{
+    "model": "business_logic.programargumentfield",
+    "pk": 3,
+    "fields": {
+        "program_argument": 1,
+        "name": "publication_date",
+        "title": null,
+        "variable_definition": 6
+    }
+},
+{
+    "model": "business_logic.programargumentfield",
+    "pk": 4,
+    "fields": {
+        "program_argument": 1,
+        "name": "publisher",
+        "title": "Book Publisher",
+        "variable_definition": 7
+    }
+},
+{
+    "model": "business_logic.programargumentfield",
+    "pk": 5,
+    "fields": {
+        "program_argument": 1,
+        "name": "publisher.rank",
+        "title": "Publisher's rank",
+        "variable_definition": 14
+    }
+},
+{
+    "model": "business_logic.programargumentfield",
+    "pk": 6,
+    "fields": {
+        "program_argument": 1,
+        "name": "price",
+        "title": "This book price",
+        "variable_definition": 21
+    }
+},
+{
+    "model": "business_logic.program",
+    "pk": 1,
+    "fields": {
+        "title": "Book view",
+        "code": "on_book_view",
+        "program_interface": 1,
+        "environment": null,
+        "creation_time": "2016-05-04T09:49:38.477Z",
+        "modification_time": "2016-05-04T09:49:38.477Z"
+    }
+},
+{
+    "model": "business_logic.programversion",
+    "pk": 1,
+    "fields": {
+        "title": "Increase book publisher rank",
+        "description": "https://blockly-demo.appspot.com/static/demos/code/index.html?lang=en#wo6asi",
+        "is_default": false,
+        "program": 1,
+        "entry_point": 241,
+        "environment": null,
+        "creation_time": "2017-10-05T20:27:20.876Z",
+        "modification_time": "2017-10-05T20:27:20.876Z"
+    }
+},
+{
+    "model": "business_logic.referencedescriptor",
+    "pk": 1,
+    "fields": {
+        "content_type": [
+            "books",
+            "book"
+        ],
+        "title": null,
+        "search_fields": "",
+        "name_field": null
+    }
+},
+{
+    "model": "business_logic.referencedescriptor",
+    "pk": 2,
+    "fields": {
+        "content_type": [
+            "books",
+            "author"
+        ],
+        "title": null,
+        "search_fields": "",
+        "name_field": null
+    }
+},
+{
+    "model": "business_logic.referencedescriptor",
+    "pk": 3,
+    "fields": {
+        "content_type": [
+            "books",
+            "publisher"
+        ],
+        "title": null,
+        "search_fields": "",
+        "name_field": null
+    }
+},
+{
+    "model": "business_logic.referenceconstant",
+    "pk": 1,
+    "fields": {}
+},
+{
+    "model": "business_logic.referenceconstant",
+    "pk": 2,
+    "fields": {}
+},
+{
+    "model": "business_logic.referenceconstant",
+    "pk": 3,
+    "fields": {}
+},
+{
+    "model": "business_logic.referenceconstant",
+    "pk": 4,
+    "fields": {}
+},
+{
+    "model": "business_logic.referenceconstant",
+    "pk": 5,
+    "fields": {}
+},
+{
+    "model": "books.publisher",
+    "pk": 1,
     "fields": {
         "name": "Apress Publishing",
         "rank": 0
-    },
-    "model": "books.publisher",
-    "pk": 1
+    }
 },
 {
+    "model": "books.publisher",
+    "pk": 2,
+    "fields": {
+        "name": "Cherry Lake Publishing",
+        "rank": 0
+    }
+},
+{
+    "model": "books.publisher",
+    "pk": 3,
+    "fields": {
+        "name": "O'Reilly Media",
+        "rank": 0
+    }
+},
+{
+    "model": "books.author",
+    "pk": 1,
     "fields": {
         "first_name": "Mark",
         "last_name": "Pilgrim",
         "rank": 0
-    },
-    "model": "books.author",
-    "pk": 1
+    }
 },
 {
+    "model": "books.author",
+    "pk": 2,
     "fields": {
+        "first_name": "Ben",
+        "last_name": "Rearick",
+        "rank": 0
+    }
+},
+{
+    "model": "books.author",
+    "pk": 3,
+    "fields": {
+        "first_name": "Amber",
+        "last_name": "Lovett",
+        "rank": 0
+    }
+},
+{
+    "model": "books.author",
+    "pk": 4,
+    "fields": {
+        "first_name": "Julia",
+        "last_name": "Elman",
+        "rank": 0
+    }
+},
+{
+    "model": "books.author",
+    "pk": 5,
+    "fields": {
+        "first_name": "Mark",
+        "last_name": "Lavin",
+        "rank": 0
+    }
+},
+{
+    "model": "books.book",
+    "pk": 1,
+    "fields": {
+        "title": "Dive Into Python",
         "publisher": 1,
+        "publication_date": "2004-07-19",
         "price": 29.32,
         "authors": [
             1
-        ],
-        "publication_date": "2004-07-19",
-        "title": "Dive Into Python"
-    },
+        ]
+    }
+},
+{
     "model": "books.book",
-    "pk": 1
+    "pk": 2,
+    "fields": {
+        "title": "Blockly (21st Century Skills Innovation Library: Makers as Innovators)",
+        "publisher": 2,
+        "publication_date": "2017-09-01",
+        "price": 15.91,
+        "authors": [
+            2
+        ]
+    }
+},
+{
+    "model": "books.book",
+    "pk": 3,
+    "fields": {
+        "title": "Coding With Blockly (21st Century Skills Innovation Library: Makers as Innovators Junior)",
+        "publisher": 2,
+        "publication_date": "2017-02-01",
+        "price": 14.34,
+        "authors": [
+            3
+        ]
+    }
+},
+{
+    "model": "books.book",
+    "pk": 4,
+    "fields": {
+        "title": "Lightweight Django: Using REST, WebSockets, and Backbone",
+        "publisher": 3,
+        "publication_date": "2014-11-13",
+        "price": 21.23,
+        "authors": [
+            4,
+            5
+        ]
+    }
 }
 ]
