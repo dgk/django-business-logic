@@ -1861,7 +1861,7 @@
     "pk": 1,
     "fields": {
         "title": "Increase book publisher rank",
-        "description": "https://blockly-demo.appspot.com/static/demos/code/index.html?lang=en#wo6asi",
+        "description": "Increase book publisher rank on book view",
         "is_default": false,
         "program": 1,
         "entry_point": 241,

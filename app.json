@@ -1,0 +1,9 @@
+{
+  "name": "django-business-logic demo",
+  "description": "visual programming for django",
+  "repository": "https://github.com/dgk/django-business-logic",
+  "logo": "https://raw.githubusercontent.com/wiki/dgk/django-business-logic/media/blockly.png",
+  "addons": ["heroku-postgresql:hobby-dev"],
+  "keywords": ["python", "django", "visual-programming", "execution-engine", "blockly", "business-logic", "rapid-development"]
+
+}

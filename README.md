@@ -28,6 +28,12 @@ Assignment and so forth. Structure of syntax tree is held by class Node derived 
 Operators and operands are linked with Node objects via django contenttypes system.
 Other details are briefly described below in sections [Administrative setup](#administrative-setup) and [Execution](#execution)
 
+## Heroku demo
+You can deploy demo app directly to Heroku to see the app live. Just click the button below. 
+This will walk you through getting this app up and running on Heroku in minutes.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/dgk/django-business-logic)
+
 ## Install
 There are a few different ways you can install django-business-logic:
 

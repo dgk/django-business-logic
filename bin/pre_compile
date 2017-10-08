@@ -1,0 +1,2 @@
+# force heroku to use Pipfile instead requirements.txt
+rm requirements.txt
