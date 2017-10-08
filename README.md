@@ -15,6 +15,12 @@ based on awesome [blockly library][blockly].
 > The library is currently in active development and any API may be changed. Migration history for models is not supported now.
 > Some internal objects are world writable!
 
+## Requirements
+This library requires the following:
+* Python (2.7, 3.4, 3.5, 3.6)
+* Django (1.8, 1.9, 1.10, 1.11)
+* django-rest-framework 3.x up to 3.6 (because 3.7 lacks Django 1.8 and 1.9 support)
+
 ## Architecture
 
 Internally program code is stored as special django models such as NumberConstant, IfStatement,
@@ -202,7 +208,7 @@ tox
 
 
 
-[build-status-image]: https://img.shields.io/travis/dgk/django-business-logic.svg
+[build-status-image]: https://img.shields.io/travis/dgk/django-business-logic/master.svg
 [coverage-image]: https://img.shields.io/codecov/c/github/dgk/django-business-logic.svg
 [codecov]: https://codecov.io/gh/dgk/django-business-logic
 [travis]: http://travis-ci.org/dgk/django-business-logic?branch=master
