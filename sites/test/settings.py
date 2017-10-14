@@ -6,7 +6,7 @@ ROOT_URLCONF = 'sites.test.urls'
 
 INSTALLED_APPS += ['django_nose', 'tests.test_app']
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-TEST_OUTPUT_DIR = os.environ.get('TEST_OUTPUT_DIR', '.')
+TEST_OUTPUT_DIR = os.path.join(BASE_DIR, 'tests', 'reports')
 NOSE_ARGS = [
         '--verbosity=2',
         '--nologcapture',
@@ -27,6 +27,8 @@ DATABASES = {
             'NAME': ':memory:',
         },
 }
+
+STATIC_URL = '/admin-static/'
 
 #PASSWORD_HASHERS = (
 #    'django.contrib.auth.hashers.MD5PasswordHasher',
