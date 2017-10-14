@@ -125,7 +125,6 @@ setup(
     zip_safe=False,
     scripts=['manage.py'],
     install_requires=[
-        'Django>=1.11.5',
         #'pyparsing>=2.0.3',
         'django-treebeard==4.1.2',
         'djangorestframework<3.7',
@@ -151,8 +150,8 @@ setup(
             'pinocchio>=0.4.2', 
         ],
         'dev': [
+            'Django>=1.11.5',
             'tox>=2.8.1',
-
         ],
     },
 )
