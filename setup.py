@@ -135,6 +135,7 @@ setup(
         'lxml<4.0',
         'django-polymorphic==1.3.0',
         'django-ace-overlay==0.6',
+        'django-bootstrap3==9.0.0',
         'django-admin-sortable2==0.6.15',
     ],
     extras_require={
@@ -151,7 +152,7 @@ setup(
         ],
         'dev': [
             'tox>=2.8.1',
-            'django-bootstrap3>=9.0.0',
+
         ],
     },
 )
