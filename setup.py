@@ -12,7 +12,7 @@ from pip.req import parse_requirements
 
 PACKAGE = "business_logic"
 NAME = "django-business-logic"
-DESCRIPTION = "django business logic programming made easy"
+DESCRIPTION = "visual programming for django"
 AUTHOR = "Dmitry Kuksinsky"
 AUTHOR_EMAIL = "dgk@dgk.su"
 
