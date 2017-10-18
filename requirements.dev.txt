@@ -1,2 +1,2 @@
--e .[test]
--e .[dev]
+-tox==2.8.1
+-django-bootstrap3==9.0.0
