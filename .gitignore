@@ -13,3 +13,5 @@ dist/
 /htmlcov/
 /business_logic/static/
 /old/
+
+tests/reports/*.xml
