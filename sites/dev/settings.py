@@ -3,6 +3,13 @@ from ..settings import *
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
+INSTALLED_APPS += [
+#    'django_extensions',
+    'bootstrap3',
+
+    'sites.dev.books',
+]
+
 ROOT_URLCONF = 'sites.dev.urls'
 WSGI_APPLICATION = 'sites.dev.wsgi.application'
 

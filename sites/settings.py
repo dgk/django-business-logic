@@ -27,12 +27,7 @@ INSTALLED_APPS = [
     'ace_overlay',
     'adminsortable2',
 
-    'bootstrap3',
-
-#    'django_extensions',
     'business_logic',
-
-    'sites.dev.books',
 ]
 
 MIDDLEWARE_CLASSES = (
