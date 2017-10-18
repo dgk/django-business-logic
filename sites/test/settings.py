@@ -14,10 +14,10 @@ NOSE_ARGS = [
         '--cover-package=business_logic',
         #'--with-spec',
         #'--spec-color',
-        '--with-xunit',
-        '--xunit-file={}/unittests.xml'.format(TEST_OUTPUT_DIR),
-        '--cover-xml',
-        '--cover-xml-file={}/coverage.xml'.format(TEST_OUTPUT_DIR),
+        #'--with-xunit',
+        #'--xunit-file={}/unittests.xml'.format(TEST_OUTPUT_DIR),
+        #'--cover-xml',
+        #'--cover-xml-file={}/coverage.xml'.format(TEST_OUTPUT_DIR),
     ]
 
 
