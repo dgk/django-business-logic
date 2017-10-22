@@ -1,0 +1,28 @@
+---
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - python
+  pep8:
+    enabled: true
+  fixme:
+    enabled: true
+  radon:
+    enabled: true
+    config:
+      threshold: "C"
+ratings:
+  paths:
+  - "business_logic/**.py"
+exclude_paths:
+- "**/migrations/*.py"
+- "business_logic/static/**.*"
+- .tox/
+- build/
+- sites/
+- tests/
+- frontend/
+- venv/
+- virtualenv/
