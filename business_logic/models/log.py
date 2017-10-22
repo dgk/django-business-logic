@@ -52,7 +52,6 @@ class Logger(object):
                 traceback=format_exception(exception.__class__, exception, traceback)
             )
 
-
     def interpret_exception(self, node, exception, traceback, **kwargs):
         self.exceptions[node] = (exception, traceback)
 

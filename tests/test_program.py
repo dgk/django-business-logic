@@ -103,7 +103,6 @@ class ProgramTest(ProgramTestBase):
 
         constant_node.add_child(content_object=test_related_model)
 
-
         parent = Node.objects.get(id=parent.id)
 
         self.program_version.entry_point = parent

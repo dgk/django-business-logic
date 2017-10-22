@@ -34,7 +34,6 @@ class ExecutionEnvironment(models.Model):
             (ExceptionHandlingPolicy.RAISE, _('Raise')),
         ))
 
-
     def __str__(self):
         return self.title
 

@@ -10,7 +10,6 @@ class ReferenceDescriptorTest(TestCase):
         )
         self.client = JSONClient()
 
-
     def test_reference_descriptor_list(self):
         url = reverse('business-logic:rest:reference-descriptor-list')
         response = self.client.get(url)

@@ -119,7 +119,6 @@ class LogTest(TestCase):
         self.assertIn('Traceback (most recent call last):', exception_log.traceback)
         self.assertIn('ZeroDivisionError: float divmod()', exception_log.traceback)
 
-
     def test_log_variable_undefined(self):
         # Logger().prepare_value(Variable.Undefined()) causes
         # TypeError: coercing to Unicode: need string or buffer, __proxy__ found

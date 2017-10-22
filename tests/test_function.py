@@ -74,7 +74,6 @@ def function(arg1, another_arg):
         for i, argument_name in enumerate(('arg1', 'another_arg')):
             FunctionArgument.objects.create(name=argument_name, order=i, function=function_definition)
 
-
         root.add_child(content_object=function_definition)
         root = Node.objects.get(id=root.id)
         func = Function(definition=function_definition)
