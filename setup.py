@@ -28,6 +28,7 @@ def get_version(package):
 
 version = get_version(PACKAGE)
 
+
 def get_packages(package):
     """
     Return root package and all sub-packages.
@@ -35,6 +36,7 @@ def get_packages(package):
     return [dirpath
             for dirpath, dirnames, filenames in os.walk(package)
             if os.path.exists(os.path.join(dirpath, '__init__.py'))]
+
 
 def get_package_data(package):
     """
@@ -54,6 +56,7 @@ def get_package_data(package):
 
 def path(*parts):
     return os.path.join(os.path.dirname(__file__), *parts)
+
 
 def clean():
     for d in ('dist', 'build', '{}.egg-info'.format(NAME.replace('-', '_'))):

@@ -8,6 +8,7 @@ from .log import Logger
 from .node import NodeCacheHolder
 from .variable import Variable, VariableDefinition
 
+
 class Context(NodeCacheHolder):
     def __init__(self, **kwargs):
         self.config = ContextConfig(**kwargs)

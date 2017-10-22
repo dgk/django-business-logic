@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from .node import NodeAccessor
 
+
 @python_2_unicode_compatible
 class ReferenceDescriptor(models.Model):
     content_type = models.OneToOneField(ContentType)

@@ -136,6 +136,7 @@ class NodeTreeCreatorTest(NodeTreeCreatorTestCase):
         tree2 = NodeTreeCreator().create(dict1)
         self.assertFalse(self.tree_diff(tree1, tree2))
 
+
 class NodeTreeCreatorProgramVersionTest(ProgramTestBase, NodeTreeCreatorTestCase):
     def test_create_variable_definitions_should_use_program_variable_definitions(self):
         tree1 = variable_assign_value(variable_name='test_model.int_value')

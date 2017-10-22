@@ -72,6 +72,7 @@ class BlocklyXmlBuilderReferenceConstantTest(TestCase):
         self.assertEqual('VALUE', value_field.get('name'))
         self.assertEqual(str(test_model1.id), value_field.text)
 
+
 class BlocklyXmlBuilderAssignmentTest(TestCase):
     def test_assignment(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#b7driq
@@ -158,6 +159,7 @@ class BlocklyXmlBuilderBlockTest(TestCase):
         self.assertEqual(1, len(block))
         block = block[0]
         self.assertEqual('controls_if', block.get('type'))
+
 
 class BlocklyXmlDateTest(TestCase):
     def test_block_date(self):

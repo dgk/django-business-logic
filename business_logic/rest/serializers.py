@@ -35,6 +35,7 @@ from ..blockly.parse import BlocklyXmlParser
 def get_model_name(content_type):
     return '{}.{}'.format(content_type.app_label, content_type.model_class().__name__)
 
+
 def get_model_verbose_name(content_type):
     return content_type.model_class()._meta.verbose_name
 
@@ -257,6 +258,7 @@ class ExecutionListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Execution
         exclude = ('log',)
+
 
 class ExecutionArgumentSerializer(serializers.ModelSerializer):
     content_type = ContentTypeSerializer()
