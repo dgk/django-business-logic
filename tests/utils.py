@@ -200,4 +200,4 @@ def create_if_statement(branches_count, use_binary_operator=False, root=None):
 
 
 def cleanup_xml_ids(xml):
-    return re.sub(' id="\d+"', '', xml, re.MULTILINE|re.DOTALL)
+    return re.sub(' id="\d+"', '', xml, re.MULTILINE | re.DOTALL)
