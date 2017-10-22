@@ -306,7 +306,7 @@ class NodeInterpretExceptionTest(TestCase):
         result = node.interpret(context)
         self.assertTrue('no exception raised')
 
-    def test_interpret_should_handle_exception_and_interrrupt_interpretation(self):
+    def test_interpret_should_handle_exception_and_interrupt_interpretation(self):
         root = self.create_test_tree()
         context = Context()
         result = root.interpret(context)
