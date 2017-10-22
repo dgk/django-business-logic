@@ -9,7 +9,6 @@ from setuptools import setup, find_packages
 
 from pip.req import parse_requirements
 
-
 PACKAGE = "business_logic"
 NAME = "django-business-logic"
 DESCRIPTION = "visual programming for django"
@@ -25,6 +24,7 @@ def get_version(package):
     """
     init_py = open(os.path.join(package, '__init__.py')).read()
     return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
+
 
 version = get_version(PACKAGE)
 
@@ -78,53 +78,52 @@ if sys.argv[-1] == 'publish':
     print("  git push --tags")
     sys.exit()
 
-
 setup(
-        name=NAME,
-        version=get_version(PACKAGE),
-        description=DESCRIPTION,
-        long_description=codecs.open(path('README.rst'), encoding='utf-8').read(),
-        author=AUTHOR,
-        author_email=AUTHOR_EMAIL,
-        url=URL,
-        # download_url='{}/archive/{}.tar.gz'.format(URL, VERSION),
-        packages=get_packages(PACKAGE),
-        package_data={
-            PACKAGE: [
-                'locale/*/LC_MESSAGES/django.[mp]o',
-                'static/business_logic/*.html',
-                'static/business_logic/*.js',
-                'static/business_logic/*.map',
-                'static/business_logic/blockly/*',
-                'static/business_logic/src/assets/fonts/*',
-            ]
-        },
+    name=NAME,
+    version=get_version(PACKAGE),
+    description=DESCRIPTION,
+    long_description=codecs.open(path('README.rst'), encoding='utf-8').read(),
+    author=AUTHOR,
+    author_email=AUTHOR_EMAIL,
+    url=URL,
+    # download_url='{}/archive/{}.tar.gz'.format(URL, VERSION),
+    packages=get_packages(PACKAGE),
+    package_data={
+        PACKAGE: [
+            'locale/*/LC_MESSAGES/django.[mp]o',
+            'static/business_logic/*.html',
+            'static/business_logic/*.js',
+            'static/business_logic/*.map',
+            'static/business_logic/blockly/*',
+            'static/business_logic/src/assets/fonts/*',
+        ]
+    },
 
-        license='MIT',
-        keywords=['django', ],
-        classifiers=[
-            'Development Status :: 3 - Alpha',
-            'Environment :: Web Environment',
-            'Intended Audience :: Developers',
-            'License :: OSI Approved :: MIT License',
-            'Operating System :: OS Independent',
-            'Programming Language :: Python :: 2',
-            'Programming Language :: Python :: 2.7',
-            'Programming Language :: Python :: 3',
-            'Programming Language :: Python :: 3.4',
-            'Programming Language :: Python :: 3.5',
-            'Programming Language :: Python :: 3.6',
-            'Topic :: Internet :: WWW/HTTP',
-            'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
-            'Framework :: Django',
-            'Framework :: Django :: 1.8',
-            'Framework :: Django :: 1.9',
-            'Framework :: Django :: 1.10',
-            'Framework :: Django :: 1.11',
-        ],
-        zip_safe=False,
-        install_requires=[
-            str(x.req) for x
-                in parse_requirements(path('requirements.txt'), session=False)
-            ],
+    license='MIT',
+    keywords=['django', ],
+    classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Environment :: Web Environment',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Topic :: Internet :: WWW/HTTP',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        'Framework :: Django',
+        'Framework :: Django :: 1.8',
+        'Framework :: Django :: 1.9',
+        'Framework :: Django :: 1.10',
+        'Framework :: Django :: 1.11',
+    ],
+    zip_safe=False,
+    install_requires=[
+        str(x.req) for x
+        in parse_requirements(path('requirements.txt'), session=False)
+    ],
 )

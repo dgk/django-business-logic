@@ -29,4 +29,4 @@ REVERSE_OPERATOR_TABLE = {
         in operators.items()}
     for block_type, operators
     in OPERATOR_TABLE.items()
-    }
+}

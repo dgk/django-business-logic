@@ -9,17 +9,17 @@ from .constant import NumberConstant
 from .constant import StringConstant
 
 CONSTANTS_FOR_TYPES = {
-        'bool': BooleanConstant,
-        'float': NumberConstant,
-        'string': StringConstant,
-        }
+    'bool': BooleanConstant,
+    'float': NumberConstant,
+    'string': StringConstant,
+}
 
 TYPE_CHOICES = (
-        ('bool', _('Boolean')),
-        ('float', _('Float')),
-        ('string', _('String')),
-        ('model', _('Model')),
-        )
+    ('bool', _('Boolean')),
+    ('float', _('Float')),
+    ('string', _('String')),
+    ('model', _('Model')),
+)
 
 DJANGO_FIELDS_FOR_TYPES = {
     'bool': (

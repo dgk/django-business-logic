@@ -60,10 +60,9 @@ class BinaryOperator(Operator):
         '<=': operator.le,
 
         'in': operator.contains,
-        }
+    }
 
     def interpret(self, ctx, *args):
-
         def is_decimal(value):
             return isinstance(value, Decimal)
 
@@ -84,11 +83,11 @@ class UnaryOperator(Operator):
         verbose_name_plural = _('Unary operators')
 
     operator_table = {
-            '-': operator.neg,
-            'not': operator.not_,
-            'neg': operator.neg,
-            'abs': operator.abs,
-            }
+        '-': operator.neg,
+        'not': operator.not_,
+        'neg': operator.neg,
+        'abs': operator.abs,
+    }
 
     def interpret(self, ctx, rhs):
         return self.operator_table[self.operator](rhs)

@@ -43,9 +43,9 @@ class Node(NS_Node):
 
     def delete(self):
         if (
-            self.object_id and
-            self.content_object and
-            self.content_type.app_label == ContentType.objects.get_for_model(self.__class__).app_label
+                        self.object_id and
+                        self.content_object and
+                        self.content_type.app_label == ContentType.objects.get_for_model(self.__class__).app_label
         ):
             self.content_object.delete()
 
@@ -85,7 +85,7 @@ class Node(NS_Node):
                     clone.save()
                 else:
                     node_kwargs.update(dict([(field_name, getattr(node, field_name))
-                                            for field_name in ('rgt', 'lft', 'depth')]))
+                                             for field_name in ('rgt', 'lft', 'depth')]))
                     node_kwargs.update(dict(tree_id=self.clone.tree_id))
                     clone = Node.objects.create(**node_kwargs)
                     clone.save()
@@ -221,9 +221,9 @@ class NodeCache:
             self._child_by_parent_id[parent.id] = [
                 node for node in tree
                 if node.lft >= parent.lft and
-                node.lft <= parent.rgt - 1 and
-                node.depth == parent.depth + 1
-                ]
+                   node.lft <= parent.rgt - 1 and
+                   node.depth == parent.depth + 1
+            ]
 
 
 class NodeCacheHolder(object):
@@ -255,8 +255,8 @@ class NodeAccessor(models.Model):
             return self._node_cache
 
         return Node.objects.get(
-                content_type=ContentType.objects.get_for_model(self.__class__),
-                object_id=self.id)
+            content_type=ContentType.objects.get_for_model(self.__class__),
+            object_id=self.id)
 
     class Meta:
         abstract = True

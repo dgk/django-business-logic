@@ -35,28 +35,28 @@ class ProgramInterfaceTest(ProgramRestTestBase):
             'int_value': dict(
                 data_type='number',
                 verbose_name='Test Model.Integer value',
-                ),
+            ),
             'string_value': dict(
                 data_type='string',
                 verbose_name='Test Model.string value',
-                ),
+            ),
             'date_value': dict(
                 data_type='date',
                 verbose_name='Test Model.date value',
-                ),
+            ),
             'datetime_value': dict(
                 data_type='datetime',
                 verbose_name='Test Model.datetime value',
-                ),
+            ),
             'foreign_value': dict(
                 data_type='model',
                 content_type='test_app.RelatedModel',
                 verbose_name='Test Model.foreign value',
-                ),
+            ),
             'foreign_value.string_value': dict(
                 data_type='string',
                 verbose_name='Test Model.foreign value.string value',
-                ),
+            ),
 
         }
         for field_name, data in expected.items():

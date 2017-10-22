@@ -10,11 +10,11 @@ class ExceptionHandlingPolicy:
 
 class ContextConfig(object):
     defaults = dict(
-            log=False,
-            debug=False,
-            cache=True,
-            exception_handling_policy=ExceptionHandlingPolicy.INTERRUPT,
-            )
+        log=False,
+        debug=False,
+        cache=True,
+        exception_handling_policy=ExceptionHandlingPolicy.INTERRUPT,
+    )
 
     def __init__(self, **kwargs):
         for k in kwargs.keys():

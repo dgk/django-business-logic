@@ -67,7 +67,7 @@ class ProgramList(generics.ListAPIView):
     serializer_class = ProgramListSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('program_interface', )
+    filter_fields = ('program_interface',)
 
 
 class ProgramView(generics.RetrieveAPIView):
@@ -80,7 +80,7 @@ class ProgramVersionList(generics.ListAPIView):
     serializer_class = ProgramVersionListSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('program', )
+    filter_fields = ('program',)
 
 
 class ProgramVersionCreate(generics.CreateAPIView):
@@ -103,7 +103,7 @@ class ExecutionList(generics.ListAPIView):
     serializer_class = ExecutionListSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('program_version', )
+    filter_fields = ('program_version',)
 
 
 class ExecutionView(generics.RetrieveDestroyAPIView):
@@ -139,14 +139,14 @@ class ReferenceSearchFilter(SearchFilter):
         orm_lookups = [
             self.construct_search(six.text_type(search_field))
             for search_field in search_fields
-            ]
+        ]
 
         base = queryset
         for search_term in search_terms:
             queries = [
                 models.Q(**{orm_lookup: search_term})
                 for orm_lookup in orm_lookups
-                ]
+            ]
             queryset = queryset.filter(reduce(operator.or_, queries))
 
         if self.must_call_distinct(queryset, search_fields):
@@ -169,16 +169,13 @@ class ReferenceBaseView(object):
 
         return self.get_reference_model().objects.all()
 
-
     def get_reference_descriptor(self):
         return ReferenceDescriptor.objects.get(
             content_type=ContentType.objects.get_for_model(self.get_reference_model())
         )
 
-
     def get_reference_model_name(self):
         return self.kwargs['model']
-
 
     def get_reference_model(self):
         try:
@@ -193,7 +190,6 @@ class ReferenceBaseView(object):
 class ReferenceList(ReferenceBaseView, generics.ListAPIView):
     pagination_class = StandardResultsSetPagination
     filter_backends = [ReferenceSearchFilter]
-
 
 
 class ReferenceView(ReferenceBaseView, generics.RetrieveAPIView):
