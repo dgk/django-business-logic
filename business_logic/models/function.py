@@ -133,5 +133,3 @@ class Function(models.Model):
 
     def interpret(self, context, *args):
         return self.definition.call(context, *args)
-
-

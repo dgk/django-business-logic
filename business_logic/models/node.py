@@ -260,5 +260,3 @@ class NodeAccessor(models.Model):
 
     class Meta:
         abstract = True
-
-

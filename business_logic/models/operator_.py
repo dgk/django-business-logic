@@ -92,4 +92,3 @@ class UnaryOperator(Operator):
 
     def interpret(self, ctx, rhs):
         return self.operator_table[self.operator](rhs)
-

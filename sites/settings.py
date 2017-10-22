@@ -103,5 +103,3 @@ class DisableMigrations(object):
             # django < 1.9
             return "notmigrations"
         return None
-
-

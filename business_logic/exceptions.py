@@ -11,4 +11,3 @@ class StopInterpretationException(Exception):
 
 class BreakLoopException(Exception):
     pass
-

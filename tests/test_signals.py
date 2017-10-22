@@ -46,4 +46,3 @@ class SignalsTest(TestCase):
 
         signals.block_interpret_leave.connect(raise_on_enter)
         self.failUnlessRaises(SignalCatchException, node.interpret, context)
-

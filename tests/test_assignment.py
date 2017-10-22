@@ -55,6 +55,3 @@ class AssignmentTest(TestCase):
         result = root.interpret(context)
         var_value = context.get_variable(var_def2)
         self.failUnlessEqual(7, var_value)
-
-
-

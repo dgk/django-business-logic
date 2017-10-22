@@ -28,6 +28,3 @@ class RelatedModel(models.Model):
         ordering = ('id', )
         verbose_name = 'Test Related Model'
         verbose_name_plural = 'Test Related Models'
-
-
-

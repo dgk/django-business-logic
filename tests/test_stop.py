@@ -25,4 +25,3 @@ class StopTest(TestCase):
         context = Context()
         root.interpret(context)
         self.assertIsInstance(context.get_variable(VariableDefinition.objects.get(name='A')), Variable.Undefined)
-

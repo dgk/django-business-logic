@@ -23,4 +23,3 @@ class BreakLoop(models.Model):
 
     def interpret(self, ctx):
         raise BreakLoopException()
-

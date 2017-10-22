@@ -75,6 +75,3 @@ class ProgramInterfaceTest(ProgramRestTestBase):
                 self.assertIsNone(content_type)
 
             self.assertEqual(verbose_name, field['verbose_name'])
-
-
-

@@ -56,4 +56,3 @@ TYPES_FOR_DJANGO_FIELDS = {}
 for _type, fields in DJANGO_FIELDS_FOR_TYPES.items():
     for field in fields:
         TYPES_FOR_DJANGO_FIELDS[field] = _type
-

@@ -299,4 +299,3 @@ class LogSerializer(serializers.ModelSerializer):
         fields = super(LogSerializer, self).get_fields()
         fields['children'] = LogSerializer(many=True)
         return fields
-

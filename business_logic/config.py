@@ -26,4 +26,3 @@ class ContextConfig(object):
 
         for k, v in kwargs.items():
             setattr(self, k, v)
-

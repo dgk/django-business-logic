@@ -25,4 +25,3 @@ class IfStatement(NodeAccessor):
 
             if pair[0].interpret(ctx):
                 return pair[1].interpret(ctx)
-

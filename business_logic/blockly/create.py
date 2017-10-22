@@ -119,7 +119,3 @@ class NodeTreeCreator(object):
             variable['data']['definition_id'] = variable_definition_id
 
         return variable_definitions
-
-
-
-

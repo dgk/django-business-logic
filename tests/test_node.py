@@ -378,5 +378,3 @@ class NodeCacheTest(TestCase):
         content_object = root.content_object
         self.failUnless(content_object.node is root)
         self.failUnlessEqual(max_num_queries, len(queries))
-
-

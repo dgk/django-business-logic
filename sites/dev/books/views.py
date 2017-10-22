@@ -66,4 +66,3 @@ class BookDetail(generic.DetailView):
         book.publisher.save()
 
         return book
-

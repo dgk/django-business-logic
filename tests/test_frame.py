@@ -71,5 +71,3 @@ class FrameTest(TestCase):
         root.interpret(context)
         self.failIf(context.frame)
         self.failIf(context.frames)
-
-

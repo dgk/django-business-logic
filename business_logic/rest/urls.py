@@ -25,4 +25,3 @@ urlpatterns = [
     url('^reference/(?P<model>[\w.]+)$', ReferenceList.as_view(), name='reference-list'),
     url('^reference/(?P<model>[\w.]+)/(?P<pk>\d+)$', ReferenceView.as_view(), name='reference'),
 ]
-

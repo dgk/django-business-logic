@@ -44,4 +44,3 @@ class Variable(models.Model):
 
     def interpret(self, ctx):
         return ctx.get_variable(self.definition)
-

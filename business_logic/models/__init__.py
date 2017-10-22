@@ -17,4 +17,3 @@ from .stop import *
 from .table import *
 from .types_ import *
 from .variable import *
-

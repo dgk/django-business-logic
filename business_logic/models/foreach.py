@@ -9,4 +9,3 @@ class ForeachStatement(models.Model):
     class Meta:
         verbose_name = _('Foreach statement')
         verbose_name_plural = _('Foreach statements')
-
