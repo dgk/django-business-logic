@@ -62,7 +62,7 @@ class LogRestTest(ProgramRestTestBase):
         for log_entry in (_json, _json['children'][0]):
             self.assertNotIn('id', log_entry)
             self.assertEqual(
-                sorted(['node','previous_value', 'current_value', 'exception', 'children']),
+                sorted(['node', 'previous_value', 'current_value', 'exception', 'children']),
                 sorted(log_entry.keys()))
 
             self.assertIsInstance(log_entry['children'], list)
