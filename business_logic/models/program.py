@@ -85,12 +85,12 @@ class ProgramArgument(models.Model):
 
         super(ProgramArgument, self).save(force_insert, force_update, using, update_fields)
 
-    def delete(self, using=None):
+    def delete(self, **kwargs):
         for field in self.fields.all():
             field.delete()
 
         self.variable_definition.delete()
-        super(ProgramArgument, self).delete(using)
+        super(ProgramArgument, self).delete(**kwargs)
 
 
 @python_2_unicode_compatible
@@ -137,9 +137,9 @@ class ProgramArgumentField(models.Model):
 
         return '.'.join(titles)
 
-    def delete(self, using=None,):
+    def delete(self, **kwargs):
         self.variable_definition.delete()
-        super(ProgramArgumentField, self).delete(using)
+        super(ProgramArgumentField, self).delete(**kwargs)
 
 
 @python_2_unicode_compatible

@@ -72,7 +72,7 @@ class ProgramTest(ProgramTestBase):
             dict(test_model=1),
             dict(test_model=self.test_model, xxx=1),
             dict(tes_moddddel=self.test_model),
-            {},
+            dict(),
         ]:
             with self.assertRaises(Exception) as exc:
                 self.program_version.execute(**kwargs)

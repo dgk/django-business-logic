@@ -21,7 +21,7 @@ def get_customer_available_content_types():
         'admin',
         'contenttypes',
         'sessions',
-
+        #
         'business_logic',
     ]:
         exclude_choices |= Q(app_label=app_label)
