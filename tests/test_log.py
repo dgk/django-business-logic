@@ -6,6 +6,7 @@ from .common import *
 
 
 class LogTest(TestCase):
+
     def test_logger(self):
         context = Context(log=True)
         self.failUnless(context.logger)
@@ -133,6 +134,7 @@ class LogTest(TestCase):
 
 
 class ProgramTest(ProgramTestBase):
+
     def test_empty_execution(self):
         result = self.program_version.execute(test_model=self.test_model)
         self.assertIsNone(result.execution)

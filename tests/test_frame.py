@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 #
 
-
 from .common import *
 
 
 class FrameTest(TestCase):
+
     def test_context_init(self):
         context = Context()
         self.failUnless(context.frame is None)

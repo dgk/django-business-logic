@@ -13,6 +13,7 @@ def raise_on_enter(**kwargs):
 
 
 class SignalsTest(TestCase):
+
     def tearDown(self):
         signals.interpret_enter.disconnect(raise_on_enter)
         signals.interpret_leave.disconnect(raise_on_enter)

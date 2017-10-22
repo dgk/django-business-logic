@@ -37,7 +37,7 @@ class FunctionArgument(models.Model):
         verbose_name = _('Function argument')
         verbose_name_plural = _('Function arguments')
 
-        ordering = ('order', )
+        ordering = ('order',)
 
     def __str__(self):
         return self.name or '*'
@@ -56,7 +56,7 @@ class FunctionArgumentChoice(models.Model):
         verbose_name = _('Function argument choice')
         verbose_name_plural = _('Function argument choices')
 
-        ordering = ('order', )
+        ordering = ('order',)
 
     def __str__(self):
         return self.title

@@ -49,7 +49,7 @@ class ProgramInterface(models.Model):
     modification_time = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ('id', )
+        ordering = ('id',)
         verbose_name = _('Program interface')
         verbose_name_plural = _('Program interfaces')
 
@@ -104,7 +104,7 @@ class ProgramArgumentField(models.Model):
         unique_together = (('program_argument', 'name'),)
         verbose_name = _('Program argument field')
         verbose_name_plural = _('Program argument fields')
-        ordering = ('name', )
+        ordering = ('name',)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.id:
@@ -126,7 +126,9 @@ class ProgramArgumentField(models.Model):
             return self.title
 
         model = self.program_argument.content_type.model_class()
-        titles = [model._meta.verbose_name, ]
+        titles = [
+            model._meta.verbose_name,
+        ]
         for field_name in self.name.split('.'):
             field = model._meta.get_field(field_name)
             titles.append(field.verbose_name)
@@ -186,8 +188,7 @@ class ProgramVersion(models.Model):
 
     def copy(self, new_title):
         entry_point = self.entry_point.clone()
-        new_version = ProgramVersion.objects.create(title=new_title,
-                                                    program=self.program, entry_point=entry_point)
+        new_version = ProgramVersion.objects.create(title=new_title, program=self.program, entry_point=entry_point)
         new_version.save()
         return new_version
 
@@ -208,8 +209,7 @@ class ProgramVersion(models.Model):
                     execution=execution,
                     program_argument=program_argument,
                     content_type=program_argument.content_type,
-                    object_id=argument.id
-                )
+                    object_id=argument.id)
 
             for field in program_argument.fields.all():
                 parts = field.name.split('.')

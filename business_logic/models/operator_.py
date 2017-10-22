@@ -63,6 +63,7 @@ class BinaryOperator(Operator):
     }
 
     def interpret(self, ctx, *args):
+
         def is_decimal(value):
             return isinstance(value, Decimal)
 
@@ -78,6 +79,7 @@ class BinaryOperator(Operator):
 
 
 class UnaryOperator(Operator):
+
     class Meta:
         verbose_name = _('Unary operator')
         verbose_name_plural = _('Unary operators')

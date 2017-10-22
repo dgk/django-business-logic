@@ -9,6 +9,7 @@ from .common import *
 
 
 class BlocklyXmlBuilderConstantTest(TestCase):
+
     def _constant_test(self, statement, block_type, field_name, value=None):
         root = Node.add_root()
         node = root.add_child(content_object=statement)
@@ -45,6 +46,7 @@ class BlocklyXmlBuilderConstantTest(TestCase):
 
 
 class BlocklyXmlBuilderReferenceConstantTest(TestCase):
+
     def test_reference_constant(self):
         root = Node.add_root()
 
@@ -74,6 +76,7 @@ class BlocklyXmlBuilderReferenceConstantTest(TestCase):
 
 
 class BlocklyXmlBuilderAssignmentTest(TestCase):
+
     def test_assignment(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#b7driq
         entry_point = variable_assign_value()
@@ -103,6 +106,7 @@ class BlocklyXmlBuilderAssignmentTest(TestCase):
 
 
 class BlocklyXmlBuilderBlockTest(TestCase):
+
     def test_block(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#h333qt
         root = Node.add_root()
@@ -162,6 +166,7 @@ class BlocklyXmlBuilderBlockTest(TestCase):
 
 
 class BlocklyXmlDateTest(TestCase):
+
     def test_block_date(self):
         today = datetime.date.today()
         root = Node.add_root(content_object=DateConstant(value=today))
@@ -179,6 +184,7 @@ class BlocklyXmlDateTest(TestCase):
 
 
 class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
+
     def _test_math_binary_operator(self, operator, block_type, operator_field_value):
         root = Node.add_root(content_object=BinaryOperator(operator=operator))
 
@@ -219,7 +225,7 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
         field = xml.xpath('/xml/block/field')[0]
         self.assertEqual('OP', field.get('name'))
         self.assertEqual(operator_field_value, field.text)
-        for field_value, field_name in ((True, 'A',), (False, 'B')):
+        for field_value, field_name in ((True, 'A'), (False, 'B')):
             value = xml.xpath('/xml/block/value[@name="{}"]'.format(field_name))[0]
             math_number = value.find('block')
             self.assertEqual('logic_boolean', math_number.get('type'))
@@ -281,6 +287,7 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
 
 
 class BlocklyXmlBuilderIfStatementTest(TestCase):
+
     def _test_statement(self, xml, statement_name, variable_name):
         self.assertEqual('statement', xml.tag)
         self.assertEqual(statement_name, xml.get('name'))
@@ -458,6 +465,7 @@ class BlocklyXmlBuilderIfStatementTest(TestCase):
 
 
 class BlocklyXmlBuilderArgumentFieldTest(TestCase):
+
     def test_argument_field_set(self):
         root = variable_assign_value(variable_name='argument.field')
         xml_str = BlocklyXmlBuilder().build(root)
@@ -476,6 +484,7 @@ class BlocklyXmlBuilderArgumentFieldTest(TestCase):
 
 
 class BlocklyXmlBuilderFunctionTest(TestCase):
+
     def test_function_without_args(self):
         function_definition = PythonCodeFunctionDefinition.objects.create(title='xxx')
 

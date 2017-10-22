@@ -4,9 +4,7 @@ from ..settings import *
 
 ROOT_URLCONF = 'sites.test.urls'
 
-INSTALLED_APPS += [
-    'tests.test_app'
-]
+INSTALLED_APPS += ['tests.test_app']
 
 DATABASES = {
     'default': {

@@ -8,6 +8,7 @@ from ..exceptions import StopInterpretationException, BreakLoopException
 
 
 class StopInterpretation(models.Model):
+
     class Meta:
         verbose_name = _('Stop instruction')
         verbose_name_plural = _('Stop instructions')
@@ -17,6 +18,7 @@ class StopInterpretation(models.Model):
 
 
 class BreakLoop(models.Model):
+
     class Meta:
         verbose_name = _('Break instruction')
         verbose_name_plural = _('Break instructions')

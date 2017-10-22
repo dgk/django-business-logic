@@ -10,6 +10,7 @@ from .variable import Variable, VariableDefinition
 
 
 class Context(NodeCacheHolder):
+
     def __init__(self, **kwargs):
         self.config = ContextConfig(**kwargs)
         self._vars = {}
@@ -104,4 +105,4 @@ class Context(NodeCacheHolder):
         setattr(current, attrs[-1], None if isinstance(value, Variable.Undefined) else value)
 
 
-__all__ = ('Context', )
+__all__ = ('Context',)

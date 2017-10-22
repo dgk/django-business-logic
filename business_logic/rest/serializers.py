@@ -9,21 +9,9 @@ from django.utils import six
 
 from rest_framework import serializers
 
-from ..models import (
-    ExceptionLog,
-    Execution,
-    ExecutionArgument,
-    ExecutionEnvironment,
-    FunctionDefinition,
-    FunctionLibrary,
-    LogEntry,
-    Program,
-    ProgramArgument,
-    ProgramArgumentField,
-    ProgramInterface,
-    ProgramVersion,
-    ReferenceDescriptor,
-    FunctionArgument, FunctionArgumentChoice)
+from ..models import (ExceptionLog, Execution, ExecutionArgument, ExecutionEnvironment, FunctionDefinition,
+                      FunctionLibrary, LogEntry, Program, ProgramArgument, ProgramArgumentField, ProgramInterface,
+                      ProgramVersion, ReferenceDescriptor, FunctionArgument, FunctionArgumentChoice)
 
 from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
 
@@ -56,7 +44,10 @@ class FunctionArgumentChoiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FunctionArgumentChoice
-        fields = ('value', 'title', )
+        fields = (
+            'value',
+            'title',
+        )
 
 
 class FunctionArgumentSerializer(serializers.ModelSerializer):
@@ -80,7 +71,7 @@ class FunctionLibrarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FunctionLibrary
-        exclude = ('id', )
+        exclude = ('id',)
 
 
 class ExecutionEnvironmentSerializer(serializers.ModelSerializer):
@@ -88,7 +79,7 @@ class ExecutionEnvironmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ExecutionEnvironment
-        exclude = ('id', )
+        exclude = ('id',)
 
 
 class ProgramInterfaceListSerializer(serializers.ModelSerializer):
@@ -100,6 +91,7 @@ class ProgramInterfaceListSerializer(serializers.ModelSerializer):
 
 
 class BlocklyXMLSerializer(serializers.CharField):
+
     def to_representation(self, instance):
         return BlocklyXmlBuilder().build(instance)
 
@@ -148,8 +140,8 @@ class ProgramVersionListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramVersion
-        read_only_fields = ('is_default', )
-        exclude = ('entry_point', )
+        read_only_fields = ('is_default',)
+        exclude = ('entry_point',)
 
 
 class ProgramVersionCreateSerializer(serializers.ModelSerializer):
@@ -168,7 +160,7 @@ class ProgramVersionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramVersion
-        exclude = ('entry_point', )
+        exclude = ('entry_point',)
 
 
 class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
@@ -179,7 +171,7 @@ class ReferenceDescriptorListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReferenceDescriptor
-        exclude = ('title', )
+        exclude = ('title',)
 
     def get_name(self, obj):
         return get_model_name(obj.content_type)
@@ -205,6 +197,7 @@ class ReferenceSerializer(serializers.ModelSerializer):
 
 
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ProgramArgumentField
 
@@ -226,11 +219,8 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
 
             if is_last_field:
                 representation['data_type'] = TYPES_FOR_DJANGO_FIELDS[field.__class__]
-                representation['content_type'] = (
-                    ContentTypeSerializer().to_representation(ContentType.objects.get_for_model(model))
-                    if is_django_model
-                    else None
-                )
+                representation['content_type'] = (ContentTypeSerializer().to_representation(
+                    ContentType.objects.get_for_model(model)) if is_django_model else None)
 
         representation['verbose_name'] = instance.get_title()
 
@@ -256,10 +246,11 @@ class ProgramInterfaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramInterface
-        exclude = ('id', )
+        exclude = ('id',)
 
 
 class ExecutionListSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Execution
         exclude = ('log',)
@@ -290,6 +281,7 @@ class ExecutionSerializer(serializers.ModelSerializer):
 
 
 class ExceptionLogSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ExceptionLog
         exclude = ('log_entry', 'id')

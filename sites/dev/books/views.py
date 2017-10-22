@@ -21,9 +21,7 @@ class PublisherCreate(generic.CreateView):
     model = Publisher
     template_name = 'books/form.html'
     success_url = '/books/publisher'
-    fields = (
-        'name',
-    )
+    fields = ('name',)
 
 
 class BookCreate(generic.CreateView):

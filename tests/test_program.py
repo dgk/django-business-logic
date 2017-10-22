@@ -4,6 +4,7 @@ from .common import *
 
 
 class ProgramTest(ProgramTestBase):
+
     def test_program_argument_variable_definition(self):
         self.assertIsInstance(self.argument.variable_definition, VariableDefinition)
         self.assertEqual(self.argument.name, self.argument.variable_definition.name)
@@ -11,8 +12,7 @@ class ProgramTest(ProgramTestBase):
     def test_program_argument_field_variable_definition(self):
         int_value_field = self.fields['int_value']
         self.assertIsInstance(int_value_field.variable_definition, VariableDefinition)
-        self.assertEqual('{}.{}'.format(self.argument.name, 'int_value'),
-                         int_value_field.variable_definition.name)
+        self.assertEqual('{}.{}'.format(self.argument.name, 'int_value'), int_value_field.variable_definition.name)
 
     def test_program_argument_field_title_declared(self):
         title = 'test'
@@ -39,8 +39,7 @@ class ProgramTest(ProgramTestBase):
         self.argument.save()
         variable_definition = VariableDefinition.objects.get(id=int_value_field.variable_definition_id)
 
-        self.assertEqual('{}.{}'.format(self.argument.name, 'int_value'),
-                         variable_definition.name)
+        self.assertEqual('{}.{}'.format(self.argument.name, 'int_value'), variable_definition.name)
 
     def test_program_argument_deletion_should_delete_variable_definition(self):
         variable_definition = self.argument.variable_definition
@@ -69,10 +68,10 @@ class ProgramTest(ProgramTestBase):
 
     def test_program_version_execute_args_check(self):
         for kwargs in [
-            dict(test_model=1),
-            dict(test_model=self.test_model, xxx=1),
-            dict(tes_moddddel=self.test_model),
-            dict(),
+                dict(test_model=1),
+                dict(test_model=self.test_model, xxx=1),
+                dict(tes_moddddel=self.test_model),
+                dict(),
         ]:
             with self.assertRaises(Exception) as exc:
                 self.program_version.execute(**kwargs)
@@ -81,8 +80,8 @@ class ProgramTest(ProgramTestBase):
         int_value_field = self.fields['int_value']
         variable_definition = int_value_field.variable_definition
         value = 5
-        self.program_version.entry_point = variable_assign_value(value=NumberConstant(value=value),
-                                                                 variable_definition=variable_definition)
+        self.program_version.entry_point = variable_assign_value(
+            value=NumberConstant(value=value), variable_definition=variable_definition)
         self.program_version.save()
 
         context = self.program_version.execute(test_model=self.test_model)
@@ -120,8 +119,8 @@ class ProgramTest(ProgramTestBase):
         int_value_field = self.fields['foreign_value.int_value']
         variable_definition = int_value_field.variable_definition
 
-        self.program_version.entry_point = variable_assign_value(value=Variable(definition=variable_definition),
-                                                                 variable_definition=variable_definition)
+        self.program_version.entry_point = variable_assign_value(
+            value=Variable(definition=variable_definition), variable_definition=variable_definition)
         self.program_version.save()
 
         self.test_model.foreign_value = RelatedModel.objects.create()
@@ -140,13 +139,14 @@ class ProgramTest(ProgramTestBase):
 
         context = self.program_version.execute(test_model=self.test_model)
 
-        self.assertIsInstance(context.get_variable(foreign_value_int_value_field.variable_definition),
-                              Variable.Undefined)
+        self.assertIsInstance(
+            context.get_variable(foreign_value_int_value_field.variable_definition), Variable.Undefined)
         self.assertIsNone(context.get_variable(int_value_field.variable_definition))
         self.assertIsNone(self.test_model.int_value)
 
 
 class ProgramAdminTest(ProgramTestBase):
+
     def setUp(self):
         super(ProgramAdminTest, self).setUp()
         self.superuser = User.objects.create_superuser('test', 't@e.st', 'test')

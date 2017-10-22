@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 #
 
-
 from .common import *
 
 
 class ConstantTest(TestCase):
+
     def test_init(self):
         integer_const = NumberConstant(value=33)
         self.failUnlessEqual(33, integer_const.value)

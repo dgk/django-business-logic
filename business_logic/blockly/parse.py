@@ -13,6 +13,7 @@ from .exceptions import BlocklyXmlParserException
 
 
 class BlocklyXmlParser(object):
+
     def parse(self, xml_str):
         """
         :param xml_str: blockly native XML string
@@ -25,7 +26,9 @@ class BlocklyXmlParser(object):
         root_node = xml.getroot()
         self.cleanup_namespace(root_node)
         self.transform_shadow(root_node)
-        return [self.visit(root_node), ]
+        return [
+            self.visit(root_node),
+        ]
 
     @staticmethod
     def cleanup_namespace(root):
@@ -71,8 +74,7 @@ class BlocklyXmlParser(object):
 
             if len(_children) != 1:
                 raise BlocklyXmlParserException(
-                    'Incorrect number of children ({}) for BlocklyXmlParser._process_next()'.format(len(_children))
-                )
+                    'Incorrect number of children ({}) for BlocklyXmlParser._process_next()'.format(len(_children)))
 
             _node = _children[0]
             children.append(_node)
@@ -108,8 +110,7 @@ class BlocklyXmlParser(object):
 
         if len(children) != 1:
             raise BlocklyXmlParserException(
-                'Incorrect number of children ({}) for BlocklyXmlParser._visit_single_child()'.format(
-                    len(children)))
+                'Incorrect number of children ({}) for BlocklyXmlParser._visit_single_child()'.format(len(children)))
 
         return self.visit(children[0])
 
@@ -234,15 +235,12 @@ class BlocklyXmlParser(object):
         children = node.getchildren()
         app_label, model = children[0].text.split('.')
 
-        data['children'] = [
-            {
-                'data': {
-                    'content_type': ContentType.objects.get(app_label=app_label, model=model.lower()).id,
-                    'object_id': children[1].text
-                }
-
+        data['children'] = [{
+            'data': {
+                'content_type': ContentType.objects.get(app_label=app_label, model=model.lower()).id,
+                'object_id': children[1].text
             }
-        ]
+        }]
         return data
 
     def visit_block_business_logic_argument_field_set(self, node):

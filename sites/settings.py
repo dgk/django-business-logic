@@ -12,7 +12,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,7 +40,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -60,7 +58,6 @@ TEMPLATES = [
     },
 ]
 
-
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
@@ -71,18 +68,13 @@ DATABASES = {
     }
 }
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
 locale_dir = os.path.join(BASE_DIR, 'business_logic/locale')
-LANGUAGES = (
-    (x, x) for x
-    in os.listdir(locale_dir)
-    if os.path.isdir(os.path.join(locale_dir, x))
-)
+LANGUAGES = ((x, x) for x in os.listdir(locale_dir) if os.path.isdir(os.path.join(locale_dir, x)))
 
 TIME_ZONE = 'UTC'
 
@@ -95,6 +87,7 @@ USE_TZ = True
 
 # http://stackoverflow.com/a/28560805/138063
 class DisableMigrations(object):
+
     def __contains__(self, item):
         return True
 

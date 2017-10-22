@@ -39,16 +39,9 @@ DJANGO_FIELDS_FOR_TYPES = {
         models.CharField,
         models.TextField,
     ),
-    'model': (
-        models.ForeignKey,
-    ),
-    'date': (
-        models.DateField,
-    ),
-    'datetime': (
-        models.DateTimeField,
-    ),
-
+    'model': (models.ForeignKey,),
+    'date': (models.DateField,),
+    'datetime': (models.DateTimeField,),
 }
 
 TYPES_FOR_DJANGO_FIELDS = {}

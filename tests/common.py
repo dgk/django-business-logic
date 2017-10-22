@@ -42,16 +42,12 @@ class ProgramTestBase(TestCase):
         self.argument = ProgramArgument.objects.create(
             program_interface=self.program_interface,
             content_type=ContentType.objects.get_for_model(Model),
-            name='test_model'
-        )
+            name='test_model')
 
         self.fields = self.create_argument_fields(self.argument)
 
-        self.program = program = Program.objects.create(program_interface=program_interface,
-                                                        title='test',
-                                                        code='test')
-        self.program_version = ProgramVersion.objects.create(program=program,
-                                                             entry_point=self.create_entry_point())
+        self.program = program = Program.objects.create(program_interface=program_interface, title='test', code='test')
+        self.program_version = ProgramVersion.objects.create(program=program, entry_point=self.create_entry_point())
 
         self.test_model = Model.objects.create()
 

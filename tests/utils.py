@@ -13,9 +13,8 @@ if six.PY2:
 else:
     from itertools import zip_longest
 
-
-from business_logic.models import * # noqa E402
-from business_logic.utils import * # noqa E402
+from business_logic.models import *  # noqa E402
+from business_logic.utils import *  # noqa E402
 
 
 def tree_1plus2mul3(parent=None):
@@ -48,8 +47,7 @@ def tree_1plus2mul3(parent=None):
     return Node.objects.get(id=add_node.id)
 
 
-def symmetric_tree(operator='+', value=1, count=2,
-                   operand_cls=NumberConstant, parent=None):
+def symmetric_tree(operator='+', value=1, count=2, operand_cls=NumberConstant, parent=None):
     assert math.modf(math.log(count, 2))[0] == 0
 
     bin_operator = BinaryOperator(operator=operator)
@@ -78,11 +76,9 @@ def symmetric_tree(operator='+', value=1, count=2,
             obj_kwargs = dict(operator=operator)
 
         level_objects = [
-            dict(data=dict(
-                object_id=obj_cls.objects.create(**obj_kwargs).id,
-                content_type_id=content_type_id
-            ))
-            for x in range(pow(2, level))]
+            dict(data=dict(object_id=obj_cls.objects.create(**obj_kwargs).id, content_type_id=content_type_id))
+            for x in range(pow(2, level))
+        ]
 
         if level == 1:
             top = level_objects
@@ -135,11 +131,11 @@ def variable_assign_value(variable_name='A', variable_definition=None, value=Non
 def print_tree_details(nodes):
     # mptt/tests/doctests.py
     opts = nodes[0]._meta
-    print('\n'.join(['%s %s %s %s %s %s' %
-                     (n.pk, getattr(n, '%s_id' % opts.parent_attr) or '-',
-                      getattr(n, opts.tree_id_attr), getattr(n, opts.level_attr),
-                      getattr(n, opts.left_attr), getattr(n, opts.right_attr))
-                     for n in nodes]))
+    print('\n'.join([
+        '%s %s %s %s %s %s' % (n.pk, getattr(n, '%s_id' % opts.parent_attr) or '-', getattr(n, opts.tree_id_attr),
+                               getattr(n, opts.level_attr), getattr(n, opts.left_attr), getattr(n, opts.right_attr))
+        for n in nodes
+    ]))
 
 
 def create_if_statement(branches_count, use_binary_operator=False, root=None):

@@ -13,6 +13,7 @@ def bin_with_context(ctx, x):
 
 
 class PythonModuleFunctionTest(TestCase):
+
     def test_import(self):
         context = Context()
         root = Node.add_root()
@@ -28,8 +29,8 @@ class PythonModuleFunctionTest(TestCase):
     def test_context_in_function(self):
         context = Context()
         root = Node.add_root()
-        func_def = PythonModuleFunctionDefinition(module=__name__, function='bin_with_context',
-                                                  is_context_required=True)
+        func_def = PythonModuleFunctionDefinition(
+            module=__name__, function='bin_with_context', is_context_required=True)
         root.add_child(content_object=func_def)
         root = Node.objects.get(id=root.id)
         func = Function(definition=func_def)
@@ -64,6 +65,7 @@ class PythonModuleFunctionTest(TestCase):
 
 
 class PythonCodeFunctionTest(TestCase):
+
     def test_arguments(self):
         context = Context()
         root = Node.add_root()
@@ -89,10 +91,12 @@ def function(arg1, another_arg):
     def test_context_in_function(self):
         context = Context()
         root = Node.add_root()
-        function_definition = PythonCodeFunctionDefinition.objects.create(code='''
+        function_definition = PythonCodeFunctionDefinition.objects.create(
+            code='''
 def function(context, arg1, another_arg):
     return (context, str(abs(another_arg)))
-        ''', is_context_required=True)
+        ''',
+            is_context_required=True)
         for i, argument_name in enumerate(('arg1', 'another_arg')):
             FunctionArgument.objects.create(name=argument_name, order=i, function=function_definition)
 

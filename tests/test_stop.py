@@ -5,6 +5,7 @@ from .common import *
 
 
 class StopTest(TestCase):
+
     def test_block(self):
         root = Node.add_root()
         node1 = root.add_child(content_object=StopInterpretation())

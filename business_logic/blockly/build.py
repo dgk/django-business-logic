@@ -23,6 +23,7 @@ def camel_case_to_snake_case(name):
 
 
 class BlocklyXmlBuilder(NodeCacheHolder):
+
     def build(self, tree_root):
         xml = etree.Element('xml')
         self.visit(tree_root, parent_xml=xml)
@@ -60,7 +61,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
             node_xml.set('id', str(node.id))
             return node_xml
 
-        if content_object.__class__ not in (VariableDefinition, ):
+        if content_object.__class__ not in (VariableDefinition,):
             logger.debug('Unsupported content_object: {}'.format(content_object.__class__))
 
     def visit_constant(self, node, parent_xml):
@@ -90,9 +91,8 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         children = self.get_children(node)
 
         if len(children) != 1:
-            raise BlocklyXmlBuilderException(
-                'Incorrect number of ReferenceConstant node children: {}'.format(len(children))
-            )
+            raise BlocklyXmlBuilderException('Incorrect number of ReferenceConstant node children: {}'.format(
+                len(children)))
 
         value_object_node = children[0]
         content_type = value_object_node.content_type

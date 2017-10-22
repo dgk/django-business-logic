@@ -4,6 +4,7 @@ from .common import *
 
 
 class BlocklyXmlParserTestCase(TestCase):
+
     def set_namespace(self, xml_str):
         return xml_str.replace('<xml>', '<xml xmlns="http://www.w3.org/1999/xhtml">')
 
@@ -12,6 +13,7 @@ class BlocklyXmlParserTestCase(TestCase):
 
 
 class BlocklyXmlParserShadowTest(BlocklyXmlParserTestCase):
+
     def test_shadow_parse(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#ny72bv
         xml_str = self.set_namespace('''
@@ -98,6 +100,7 @@ class BlocklyXmlParserConstantTest(BlocklyXmlParserTestCase):
 
 
 class BlocklyXmlParserReferenceConstantTest(BlocklyXmlParserTestCase):
+
     def setUp(self):
         self.test_model = Model.objects.create()
 
@@ -163,6 +166,7 @@ class BlocklyXmlParserAssignmentTest(BlocklyXmlParserTestCase):
 
 
 class BlocklyXmlParserBinaryOperatorTest(BlocklyXmlParserTestCase):
+
     def _test_math_binary_operator(self, operator_value):
         root = Node.add_root(content_object=BinaryOperator(operator=operator_value))
 
@@ -275,6 +279,7 @@ class BlocklyXmlParserBinaryOperatorTest(BlocklyXmlParserTestCase):
 
 
 class BlocklyXmlParserBlockTest(BlocklyXmlParserTestCase):
+
     def test_parese_assignment_block(self):
         root = Node.add_root()
         vars = ('A', 'B', 'C', 'D')
@@ -309,6 +314,7 @@ class BlocklyXmlParserBlockTest(BlocklyXmlParserTestCase):
 
 
 class BlocklyXmlParserIfStatementTest(BlocklyXmlParserTestCase):
+
     def test_if(self):
         # https://blockly-demo.appspot.com/static/demos/code/index.html#k5ygcz
         root, _ = create_if_statement(2)
@@ -355,17 +361,17 @@ class BlocklyXmlParserIfStatementTest(BlocklyXmlParserTestCase):
         self.assertEqual(5, len(children))
 
         for i, variable_name in (
-                (0, 'IfCondition'),
-                (2, 'ElseIfCondition1'),
+            (0, 'IfCondition'),
+            (2, 'ElseIfCondition1'),
         ):
             child = children[i]
             self.assertEqual(get_content_type_id(Variable), child['data']['content_type'])
             self.assertEqual(variable_name, child['data']['name'])
 
         for i, variable_name in (
-                (1, 'IfEnter'),
-                (3, 'ElseIfEnter1'),
-                (4, 'ElseEnter'),
+            (1, 'IfEnter'),
+            (3, 'ElseIfEnter1'),
+            (4, 'ElseEnter'),
         ):
             child = children[i]
             self.assertEqual(get_content_type_id(Assignment), child['data']['content_type'])
@@ -375,6 +381,7 @@ class BlocklyXmlParserIfStatementTest(BlocklyXmlParserTestCase):
 
 
 class BlocklyXmlParserArgumentFieldTest(TestCase):
+
     def test_argument_field_set(self):
         root = variable_assign_value(variable_name='argument.field')
         xml_str = BlocklyXmlBuilder().build(root)
@@ -408,6 +415,7 @@ class BlocklyXmlParserArgumentFieldTest(TestCase):
 
 
 class BlocklyXmlParserFunctionTest(TestCase):
+
     def test_parse_function(self):
         function_definition = PythonCodeFunctionDefinition.objects.create(title='xxx')
 

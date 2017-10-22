@@ -5,6 +5,7 @@ from .common import *
 
 
 class BinaryOperatorTest(TestCase):
+
     def test_init(self):
         add_operator = BinaryOperator(operator='+')
         self.failUnlessEqual('+', add_operator.operator)
@@ -93,16 +94,17 @@ class BinaryOperatorTest(TestCase):
         number_const2 = NumberConstant(value=3)
         ctx = Context()
         result = pow_operator.interpret(ctx, number_const1.interpret(ctx), number_const2.interpret(ctx))
-        self.failUnlessEqual(2 ** 3, result)
+        self.failUnlessEqual(2**3, result)
 
         number_constant1 = NumberConstant(value=1.2)
         number_constant2 = NumberConstant(value=2.3)
         ctx = Context()
         result = pow_operator.interpret(ctx, number_constant1.interpret(ctx), number_constant2.interpret(ctx))
-        self.failUnlessEqual(1.2 ** 2.3, result)
+        self.failUnlessEqual(1.2**2.3, result)
 
 
 class UnaryOperatorTest(TestCase):
+
     def test_init(self):
         neg_operator = UnaryOperator(operator='-')
         self.failUnlessEqual('-', neg_operator.operator)
@@ -120,6 +122,7 @@ class UnaryOperatorTest(TestCase):
 
 
 class BinaryOperatorDecimalOperandTest(ProgramTestBase):
+
     def create_entry_point(self):
         # result = test_model.decimal_value / 2.0
 
@@ -134,8 +137,7 @@ class BinaryOperatorDecimalOperandTest(ProgramTestBase):
 
         div_node = assignment_node.add_child(content_object=BinaryOperator(operator='/'))
         div_node.add_child(
-            content_object=Variable.objects.create(definition=self.fields['decimal_value'].variable_definition)
-        )
+            content_object=Variable.objects.create(definition=self.fields['decimal_value'].variable_definition))
         div_node = Node.objects.get(id=div_node.id)
 
         div_node.add_child(content_object=NumberConstant.objects.create(value=2.0))
@@ -146,6 +148,5 @@ class BinaryOperatorDecimalOperandTest(ProgramTestBase):
     def test_interpret_div(self):
         context = Context()
         self.program_version.execute(test_model=self.test_model, context=context)
-        self.assertEqual(
-            self.test_model.decimal_value / Decimal(2.0), context.get_variable(self.result_variable_definition)
-        )
+        self.assertEqual(self.test_model.decimal_value / Decimal(2.0),
+                         context.get_variable(self.result_variable_definition))

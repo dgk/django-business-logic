@@ -2,10 +2,12 @@
 #
 
 from .common import *
+
 # also see .assignment
 
 
 class VariableTest(TestCase):
+
     def test_definition(self):
         context = Context()
         root = Node.add_root()
@@ -57,7 +59,6 @@ class VariableTest(TestCase):
                 'test_model.not_exists',
                 'test_model.foreign_value.string_value',
                 'test_model.foreign_value.not_exists',
-
         ):
             variable_definitions[field] = VariableDefinition.objects.create(name=field)
 

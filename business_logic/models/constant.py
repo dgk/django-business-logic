@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 
 @python_2_unicode_compatible
 class Constant(models.Model):
+
     class Meta:
         abstract = True
 

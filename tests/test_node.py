@@ -11,6 +11,7 @@ from .common import *
 
 
 class NodeTest(TestCase):
+
     def test_add_root(self):
         operator = BinaryOperator(operator='+')
         operator.save()
@@ -85,6 +86,7 @@ class NodeTest(TestCase):
         node2, node3 = mul_node.get_children()
 
         class Visitor(NodeVisitor):
+
             def __init__(self):
                 self.visited = []
 
@@ -99,7 +101,13 @@ class NodeTest(TestCase):
         # postorder
         visitor = Visitor()
         visitor.postorder(add_node)
-        self.failUnlessEqual(visitor.visited, [node1, node2, node3, mul_node, add_node, ])
+        self.failUnlessEqual(visitor.visited, [
+            node1,
+            node2,
+            node3,
+            mul_node,
+            add_node,
+        ])
 
     def test_recursive_delete(self):
         root = Node.add_root()
@@ -111,10 +119,8 @@ class NodeTest(TestCase):
         root = Node.objects.get(id=root.id)
         self.failUnlessEqual(2, len(root.get_children()))
 
-        self.failUnless(NumberConstant.objects.filter(
-            pk=statement1.pk).count())
-        self.failUnless(NumberConstant.objects.filter(
-            pk=statement2.pk).count())
+        self.failUnless(NumberConstant.objects.filter(pk=statement1.pk).count())
+        self.failUnless(NumberConstant.objects.filter(pk=statement2.pk).count())
         self.failUnless(Node.objects.filter(pk=node1.pk).count())
         self.failUnless(Node.objects.filter(pk=node2.pk).count())
 
@@ -184,6 +190,7 @@ class NodeTest(TestCase):
 
 
 class NodeInterpretTest(TestCase):
+
     def test_interpret_3(self):
         add_operator = BinaryOperator(operator='+')
         add_operator.save()
@@ -245,8 +252,7 @@ class NodeInterpretTest(TestCase):
         def calculation_time(msg):
             now = datetime.now()
             calculation_time = now - start_time
-            print(msg, float(calculation_time.seconds) +
-                  float(calculation_time.microseconds) / 1000000)
+            print(msg, float(calculation_time.seconds) + float(calculation_time.microseconds) / 1000000)
             return now
 
         root = symmetric_tree(operator='+', value=1, count=count)
@@ -262,8 +268,7 @@ class NodeInterpretTest(TestCase):
         self.failUnlessEqual(count, result)
         for q in connection.queries[compilation_queries_count:]:
             print(q['sql'])
-        print('queries.count', len(connection.queries) -
-              compilation_queries_count)
+        print('queries.count', len(connection.queries) - compilation_queries_count)
 
     def test_interpret_block_should_return_none(self):
         root = Node.add_root()
@@ -291,6 +296,7 @@ class NodeInterpretTest(TestCase):
 
 
 class NodeInterpretExceptionTest(TestCase):
+
     def create_test_tree(self):
         root = Node.add_root()
         symmetric_tree(operator='/', value=0, count=2, parent=root)
@@ -320,6 +326,7 @@ class NodeInterpretExceptionTest(TestCase):
 
 
 class NodeCacheTest(TestCase):
+
     def setUp(self):
         settings.DEBUG = True
 

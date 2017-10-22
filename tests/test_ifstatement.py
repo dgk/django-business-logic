@@ -5,6 +5,7 @@ from .common import *
 
 
 class IfStatementTest(TestCase):
+
     def test_interpret_if(self):
         root, var_defs = create_if_statement(2)
         context = Context()

@@ -30,6 +30,7 @@ class Variable(models.Model):
 
     @python_2_unicode_compatible
     class Undefined(object):
+
         def __nonzero__(self):
             return False
 

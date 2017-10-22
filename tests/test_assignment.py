@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 #
 
-
 from .common import *
 
 
 class AssignmentTest(TestCase):
+
     def test_assignment(self):
         context = Context()
 

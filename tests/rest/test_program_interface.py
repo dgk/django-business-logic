@@ -4,6 +4,7 @@ from .common import *
 
 
 class ProgramInterfaceTest(ProgramRestTestBase):
+
     def test_program_interface_list(self):
         url = reverse('business-logic:rest:program-interface-list')
         response = self.client.get(url)
@@ -32,32 +33,37 @@ class ProgramInterfaceTest(ProgramRestTestBase):
         fields = dict((x['name'], x) for x in argument['fields'])
 
         expected = {
-            'int_value': dict(
+            'int_value':
+            dict(
                 data_type='number',
                 verbose_name='Test Model.Integer value',
             ),
-            'string_value': dict(
+            'string_value':
+            dict(
                 data_type='string',
                 verbose_name='Test Model.string value',
             ),
-            'date_value': dict(
+            'date_value':
+            dict(
                 data_type='date',
                 verbose_name='Test Model.date value',
             ),
-            'datetime_value': dict(
+            'datetime_value':
+            dict(
                 data_type='datetime',
                 verbose_name='Test Model.datetime value',
             ),
-            'foreign_value': dict(
+            'foreign_value':
+            dict(
                 data_type='model',
                 content_type='test_app.RelatedModel',
                 verbose_name='Test Model.foreign value',
             ),
-            'foreign_value.string_value': dict(
+            'foreign_value.string_value':
+            dict(
                 data_type='string',
                 verbose_name='Test Model.foreign value.string value',
             ),
-
         }
         for field_name, data in expected.items():
             field = fields[field_name]

@@ -59,7 +59,9 @@ class Node(NS_Node):
         return super(Node, self).add_child(**kwargs)
 
     def clone(self):
+
         class CloneVisitor(NodeVisitor):
+
             def __init__(self):
                 self.clone = None
 
@@ -67,8 +69,8 @@ class Node(NS_Node):
                 if node.object_id:
                     content_object = node.content_object
                     content_object_kwargs = dict([(field.name, getattr(content_object, field.name))
-                                                  for field in content_object._meta.fields if
-                                                  field.name not in ('id',)])
+                                                  for field in content_object._meta.fields
+                                                  if field.name not in ('id',)])
                     content_object_clone = content_object.__class__(**content_object_kwargs)
                     content_object_clone.save()
                     node_kwargs = dict(content_object=content_object_clone)
@@ -81,8 +83,8 @@ class Node(NS_Node):
                     clone.lft = node.lft
                     clone.save()
                 else:
-                    node_kwargs.update(dict([(field_name, getattr(node, field_name))
-                                             for field_name in ('rgt', 'lft', 'depth')]))
+                    node_kwargs.update(
+                        dict([(field_name, getattr(node, field_name)) for field_name in ('rgt', 'lft', 'depth')]))
                     node_kwargs.update(dict(tree_id=self.clone.tree_id))
                     clone = Node.objects.create(**node_kwargs)
                     clone.save()
@@ -159,7 +161,9 @@ class Node(NS_Node):
         return self.object_id is not None and getattr(self.content_object, 'interpret_children', False)
 
     def pprint(self):
+
         class PrettyPrintVisitor(NodeVisitor):
+
             def __init__(self):
                 self.str = ''
 
@@ -172,6 +176,7 @@ class Node(NS_Node):
 
 
 class NodeCache:
+
     def __init__(self):
         self._initialized = False
 
@@ -188,18 +193,16 @@ class NodeCache:
         objects_by_ct_id_by_id = {}
         tree = Node.objects.filter(tree_id=node.tree_id)
         content_type_ids = tree.values_list(
-            'content_type', flat=True
-        ).order_by('content_type').distinct().exclude(content_type__isnull=True)
+            'content_type', flat=True).order_by('content_type').distinct().exclude(content_type__isnull=True)
         content_types = ContentType.objects.filter(id__in=content_type_ids)
         content_type_by_id = {}
         for content_type in content_types:
             content_type_by_id[content_type.id] = content_type
             model = content_type.model_class()
             objects_by_ct_id_by_id[content_type.id] = dict(
-                [(x.id, x) for x in model.objects.filter(
-                    id__in=tree.values_list('object_id',
-                                            flat=True).filter(content_type=content_type)
-                )])
+                [(x.id, x)
+                 for x in model.objects.filter(
+                     id__in=tree.values_list('object_id', flat=True).filter(content_type=content_type))])
 
         tree = list(tree)
         tree[[x.id for x in tree].index(node.id)] = node
@@ -217,13 +220,12 @@ class NodeCache:
         for parent in tree:
             self._child_by_parent_id[parent.id] = [
                 node for node in tree
-                if node.lft >= parent.lft and
-                node.lft <= parent.rgt - 1 and
-                node.depth == parent.depth + 1
+                if node.lft >= parent.lft and node.lft <= parent.rgt - 1 and node.depth == parent.depth + 1
             ]
 
 
 class NodeCacheHolder(object):
+
     def get_children(self, node):
         if not hasattr(self, '_node_cache'):
             self._node_cache = NodeCache()
@@ -231,6 +233,7 @@ class NodeCacheHolder(object):
 
 
 class NodeVisitor(NodeCacheHolder):
+
     def visit(self, node, *args, **kwargs):
         raise NotImplementedError()
 
@@ -246,14 +249,13 @@ class NodeVisitor(NodeCacheHolder):
 
 
 class NodeAccessor(models.Model):
+
     @property
     def node(self):
         if hasattr(self, '_node_cache'):
             return self._node_cache
 
-        return Node.objects.get(
-            content_type=ContentType.objects.get_for_model(self.__class__),
-            object_id=self.id)
+        return Node.objects.get(content_type=ContentType.objects.get_for_model(self.__class__), object_id=self.id)
 
     class Meta:
         abstract = True

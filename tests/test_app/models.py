@@ -15,7 +15,7 @@ class Model(models.Model):
     foreign_value = models.ForeignKey('RelatedModel', null=True)
 
     class Meta:
-        ordering = ('id', )
+        ordering = ('id',)
         verbose_name = 'Test Model'
         verbose_name_plural = 'Test Models'
 
@@ -25,6 +25,6 @@ class RelatedModel(models.Model):
     string_value = models.CharField('string value', max_length=255, default='foreign_value.string_value')
 
     class Meta:
-        ordering = ('id', )
+        ordering = ('id',)
         verbose_name = 'Test Related Model'
         verbose_name_plural = 'Test Related Models'

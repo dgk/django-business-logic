@@ -20,6 +20,7 @@ except AttributeError:
 
 
 class Logger(object):
+
     def __init__(self):
         self.log = None
         self._stack = []
@@ -49,8 +50,7 @@ class Logger(object):
                 type=exception.__class__.__name__,
                 module=exception.__class__.__module__,
                 message=str(exception),
-                traceback=format_exception(exception.__class__, exception, traceback)
-            )
+                traceback=format_exception(exception.__class__, exception, traceback))
 
     def interpret_exception(self, node, exception, traceback, **kwargs):
         self.exceptions[node] = (exception, traceback)
@@ -94,4 +94,4 @@ class Execution(models.Model):
     finish_time = models.DateTimeField(null=True)
 
     class Meta:
-        ordering = ('-id', )
+        ordering = ('-id',)

@@ -13,7 +13,6 @@ from adminsortable2.admin import SortableInlineAdminMixin
 
 from ace_overlay.widgets import AceOverlayWidget
 
-
 from .models import (
     ProgramInterface,
     ProgramArgument,
@@ -41,8 +40,7 @@ class ProgramArgumentFieldInline(NestedStackedInline):
 
 
 class ContentTypeHolderForm(forms.ModelForm):
-    content_type = forms.ModelChoiceField(
-        queryset=get_customer_available_content_types())
+    content_type = forms.ModelChoiceField(queryset=get_customer_available_content_types())
 
 
 class ProgramArgumentInline(NestedStackedInline):
@@ -60,19 +58,18 @@ class ProgramInline(NestedStackedInline):
 
 
 class ContentTypeFilter(admin.RelatedFieldListFilter):
+
     def field_choices(self, field, request, model_admin):
         return field.get_choices(
-            include_blank=False,
-            limit_choices_to={'id__in': get_customer_available_content_types()}
-        )
+            include_blank=False, limit_choices_to={
+                'id__in': get_customer_available_content_types()
+            })
 
 
 class ProgramInterfaceAdmin(NestedModelAdmin):
     model = ProgramInterface
     inlines = [ProgramArgumentInline, ProgramInline]
-    list_filter = (
-        ('arguments__content_type', ContentTypeFilter),
-    )
+    list_filter = (('arguments__content_type', ContentTypeFilter),)
 
 
 class ProgramAdmin(admin.ModelAdmin):
@@ -107,12 +104,10 @@ class FunctionArgumentChoiceAdmin(SortableInlineAdminMixin, admin.TabularInline)
 
 class FunctionArgumentAdmin(admin.ModelAdmin):
     model = FunctionArgument
-    inlines = (FunctionArgumentChoiceAdmin, )
+    inlines = (FunctionArgumentChoiceAdmin,)
     readonly_fields = ('function', 'order')
 
-    list_filter = (
-        'function',
-    )
+    list_filter = ('function',)
 
     def has_add_permission(self, request):
         return False
@@ -125,7 +120,7 @@ class FunctionArgumentInline(SortableInlineAdminMixin, admin.StackedInline):
 
 
 class FunctionDefinitionAdmin(PolymorphicChildModelAdmin):
-    inlines = (FunctionArgumentInline, )
+    inlines = (FunctionArgumentInline,)
 
 
 class PythonModuleFunctionDefinitionAdmin(FunctionDefinitionAdmin):
@@ -141,8 +136,8 @@ class PythonCodeFunctionDefinitionAdminForm(forms.ModelForm):
                 theme='solarized_light',
                 width="850px",
                 height="800px",
-                showprintmargin=True
-            ), required=True)
+                showprintmargin=True),
+            required=True)
 
     class Meta:
         model = PythonCodeFunctionDefinition
@@ -156,10 +151,7 @@ class PythonCodeFunctionDefinitionAdmin(FunctionDefinitionAdmin):
 
 class FunctionDefinitionAdmin(PolymorphicParentModelAdmin):
     base_model = FunctionDefinition
-    child_models = (
-        PythonCodeFunctionDefinition,
-        PythonModuleFunctionDefinition
-    )
+    child_models = (PythonCodeFunctionDefinition, PythonModuleFunctionDefinition)
 
 
 admin.site.register(ExecutionEnvironment)

@@ -4,10 +4,10 @@ from .common import *
 
 
 class ReferenceDescriptorTest(TestCase):
+
     def setUp(self):
         self.reference_descriptor = ReferenceDescriptor.objects.create(
-            content_type=ContentType.objects.get_for_model(Model)
-        )
+            content_type=ContentType.objects.get_for_model(Model))
         self.client = JSONClient()
 
     def test_reference_descriptor_list(self):
@@ -38,10 +38,10 @@ class ReferenceDescriptorTest(TestCase):
 
 
 class ReferenceListTest(TestCase):
+
     def setUp(self):
         self.reference_descriptor = ReferenceDescriptor.objects.create(
-            content_type=ContentType.objects.get_for_model(Model)
-        )
+            content_type=ContentType.objects.get_for_model(Model))
         self.client = JSONClient()
 
         model = 'test_app.Model'
@@ -67,9 +67,7 @@ class ReferenceListTest(TestCase):
         self.assertEqual(400, response.status_code)
         _json = response_json(response)
         self.assertEqual(
-            ['ReferenceDescriptor for `test_app.Model` are not configured: incorrect `search_fields` field'],
-            _json
-        )
+            ['ReferenceDescriptor for `test_app.Model` are not configured: incorrect `search_fields` field'], _json)
 
     def test_reference_list_search(self):
         self.reference_descriptor.search_fields = 'string_value'
@@ -97,10 +95,10 @@ class ReferenceListTest(TestCase):
 
 
 class ReferenceViewTest(TestCase):
+
     def setUp(self):
         self.reference_descriptor = ReferenceDescriptor.objects.create(
-            content_type=ContentType.objects.get_for_model(Model)
-        )
+            content_type=ContentType.objects.get_for_model(Model))
         self.client = JSONClient()
 
         model = 'test_app.Model'

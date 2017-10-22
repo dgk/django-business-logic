@@ -13,5 +13,4 @@ urlpatterns = [
     url('book$', BookList.as_view()),
     url('book/(?P<pk>\d+)$', BookDetail.as_view(), name='book-detail'),
     url('book/add$', BookCreate.as_view()),
-
 ]

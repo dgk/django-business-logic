@@ -35,14 +35,15 @@ def format_url(_url):
 def api_root(request, format=None):
     from rest_framework.reverse import reverse
 
-    return Response(OrderedDict((
-        ('program-interface', reverse(format_url('program-interface-list'), request=request, format=format)),
-        ('program', reverse(format_url('program-list'), request=request, format=format)),
-        ('program-version', reverse(format_url('program-version-list'), request=request, format=format)),
-        ('program-version-create', reverse(format_url('program-version-create'), request=request, format=format)),
-        ('reference', reverse(format_url('reference-descriptor-list'), request=request, format=format)),
-        ('execution', reverse(format_url('execution-list'), request=request, format=format)),
-    )))
+    return Response(
+        OrderedDict((
+            ('program-interface', reverse(format_url('program-interface-list'), request=request, format=format)),
+            ('program', reverse(format_url('program-list'), request=request, format=format)),
+            ('program-version', reverse(format_url('program-version-list'), request=request, format=format)),
+            ('program-version-create', reverse(format_url('program-version-create'), request=request, format=format)),
+            ('reference', reverse(format_url('reference-descriptor-list'), request=request, format=format)),
+            ('execution', reverse(format_url('execution-list'), request=request, format=format)),
+        )))
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -123,6 +124,7 @@ class ReferenceDescriptorList(generics.ListAPIView):
 
 
 class ReferenceSearchFilter(SearchFilter):
+
     def filter_queryset(self, request, queryset, view):
         search_terms = self.get_search_terms(request)
         if not search_terms:
@@ -136,17 +138,11 @@ class ReferenceSearchFilter(SearchFilter):
                 'ReferenceDescriptor for `{}` are not configured: incorrect `search_fields` field'.format(
                     view.get_reference_model_name()))
 
-        orm_lookups = [
-            self.construct_search(six.text_type(search_field))
-            for search_field in search_fields
-        ]
+        orm_lookups = [self.construct_search(six.text_type(search_field)) for search_field in search_fields]
 
         base = queryset
         for search_term in search_terms:
-            queries = [
-                models.Q(**{orm_lookup: search_term})
-                for orm_lookup in orm_lookups
-            ]
+            queries = [models.Q(**{orm_lookup: search_term}) for orm_lookup in orm_lookups]
             queryset = queryset.filter(reduce(operator.or_, queries))
 
         if self.must_call_distinct(queryset, search_fields):
@@ -171,8 +167,7 @@ class ReferenceBaseView(object):
 
     def get_reference_descriptor(self):
         return ReferenceDescriptor.objects.get(
-            content_type=ContentType.objects.get_for_model(self.get_reference_model())
-        )
+            content_type=ContentType.objects.get_for_model(self.get_reference_model()))
 
     def get_reference_model_name(self):
         return self.kwargs['model']
