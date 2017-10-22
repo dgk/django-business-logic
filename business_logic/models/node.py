@@ -43,7 +43,7 @@ class Node(NS_Node):
 
     def delete(self):
         if (self.object_id and self.content_object and
-            self.content_type.app_label == ContentType.objects.get_for_model(self.__class__).app_label):
+                self.content_type.app_label == ContentType.objects.get_for_model(self.__class__).app_label):
             self.content_object.delete()
 
         for child in self.get_children():
