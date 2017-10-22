@@ -519,7 +519,7 @@ class BlocklyXmlBuilderFunctionTest(TestCase):
         self.assertEqual('value', arg0_value.tag)
         self.assertEqual('ARG0', arg0_value.get('name'))
 
-        arg0_value_children =  arg0_value.getchildren()
+        arg0_value_children = arg0_value.getchildren()
         self.assertEqual(1, len(arg0_value_children))
 
         arg0_value_block = arg0_value_children[0]
