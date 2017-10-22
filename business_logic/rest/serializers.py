@@ -53,6 +53,7 @@ class ContentTypeSerializer(serializers.Serializer):
 
 
 class FunctionArgumentChoiceSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = FunctionArgumentChoice
         fields = ('value', 'title', )
@@ -60,6 +61,7 @@ class FunctionArgumentChoiceSerializer(serializers.ModelSerializer):
 
 class FunctionArgumentSerializer(serializers.ModelSerializer):
     choices = FunctionArgumentChoiceSerializer(many=True)
+
     class Meta:
         model = FunctionArgument
         fields = ('name', 'description', 'choices')
@@ -67,6 +69,7 @@ class FunctionArgumentSerializer(serializers.ModelSerializer):
 
 class FunctionDefinitionSerializer(serializers.ModelSerializer):
     arguments = FunctionArgumentSerializer(many=True)
+
     class Meta:
         model = FunctionDefinition
         exclude = ('id', 'polymorphic_ctype')
@@ -74,6 +77,7 @@ class FunctionDefinitionSerializer(serializers.ModelSerializer):
 
 class FunctionLibrarySerializer(serializers.ModelSerializer):
     functions = FunctionDefinitionSerializer(many=True)
+
     class Meta:
         model = FunctionLibrary
         exclude = ('id', )
@@ -81,6 +85,7 @@ class FunctionLibrarySerializer(serializers.ModelSerializer):
 
 class ExecutionEnvironmentSerializer(serializers.ModelSerializer):
     libraries = FunctionLibrarySerializer(many=True)
+
     class Meta:
         model = ExecutionEnvironment
         exclude = ('id', )

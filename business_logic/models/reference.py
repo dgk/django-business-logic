@@ -33,6 +33,7 @@ class ReferenceDescriptor(models.Model):
 
 class ReferenceConstant(NodeAccessor):
     interpret_children = True
+
     class Meta:
         verbose_name = _('Reference constant')
         verbose_name_plural = _('Reference constants')
