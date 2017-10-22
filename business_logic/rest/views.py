@@ -170,7 +170,9 @@ class ReferenceBaseView(object):
 
 
     def get_reference_descriptor(self):
-        return ReferenceDescriptor.objects.get(content_type=ContentType.objects.get_for_model(self.get_reference_model()))
+        return ReferenceDescriptor.objects.get(
+            content_type=ContentType.objects.get_for_model(self.get_reference_model())
+        )
 
 
     def get_reference_model_name(self):

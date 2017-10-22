@@ -4,7 +4,11 @@ import sys
 
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sites.dev.heroku.settings" if 'DYNO' in os.environ else "sites.dev.settings")
+    os.environ.setdefault(
+        "DJANGO_SETTINGS_MODULE", "sites.dev.heroku.settings"
+        if 'DYNO' in os.environ
+        else "sites.dev.settings"
+    )
 
     from django.core.management import execute_from_command_line
 

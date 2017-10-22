@@ -28,7 +28,8 @@ class PythonModuleFunctionTest(TestCase):
     def test_context_in_function(self):
         context = Context()
         root = Node.add_root()
-        func_def = PythonModuleFunctionDefinition(module=__name__, function='bin_with_context', is_context_required=True)
+        func_def = PythonModuleFunctionDefinition(module=__name__, function='bin_with_context',
+                                                  is_context_required=True)
         root.add_child(content_object=func_def)
         root = Node.objects.get(id=root.id)
         func = Function(definition=func_def)

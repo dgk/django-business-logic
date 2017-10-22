@@ -133,7 +133,9 @@ class BinaryOperatorDecimalOperandTest(ProgramTestBase):
         assignment_node = Node.objects.get(id=assignment_node.id)
 
         div_node = assignment_node.add_child(content_object=BinaryOperator(operator='/'))
-        div_node.add_child(content_object=Variable.objects.create(definition=self.fields['decimal_value'].variable_definition))
+        div_node.add_child(
+            content_object=Variable.objects.create(definition=self.fields['decimal_value'].variable_definition)
+        )
         div_node = Node.objects.get(id=div_node.id)
 
         div_node.add_child(content_object=NumberConstant.objects.create(value=2.0))
@@ -144,4 +146,6 @@ class BinaryOperatorDecimalOperandTest(ProgramTestBase):
     def test_interpret_div(self):
         context = Context()
         self.program_version.execute(test_model=self.test_model, context=context)
-        self.assertEqual(self.test_model.decimal_value / Decimal(2.0), context.get_variable(self.result_variable_definition))
+        self.assertEqual(
+            self.test_model.decimal_value / Decimal(2.0), context.get_variable(self.result_variable_definition)
+        )

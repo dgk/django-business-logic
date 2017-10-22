@@ -121,7 +121,8 @@ class LogTest(TestCase):
 
 
     def test_log_variable_undefined(self):
-        # Logger().prepare_value(Variable.Undefined()) causes TypeError: coercing to Unicode: need string or buffer, __proxy__ found
+        # Logger().prepare_value(Variable.Undefined()) causes
+        # TypeError: coercing to Unicode: need string or buffer, __proxy__ found
 
         Logger().prepare_value(Variable.Undefined())
 

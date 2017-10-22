@@ -89,7 +89,9 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         children = self.get_children(node)
 
         if len(children) != 1:
-            raise BlocklyXmlBuilderException('Incorrect number of ReferenceConstant node children: {}'.format(len(children)))
+            raise BlocklyXmlBuilderException(
+                'Incorrect number of ReferenceConstant node children: {}'.format(len(children))
+            )
 
         value_object_node = children[0]
         content_type = value_object_node.content_type

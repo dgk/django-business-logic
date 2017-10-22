@@ -67,7 +67,10 @@ class ReferenceListTest(TestCase):
         response = self.client.get(self.url, dict(search='111'))
         self.assertEqual(400, response.status_code)
         _json = response_json(response)
-        self.assertEqual(['ReferenceDescriptor for `test_app.Model` are not configured: incorrect `search_fields` field'], _json)
+        self.assertEqual(
+            ['ReferenceDescriptor for `test_app.Model` are not configured: incorrect `search_fields` field'],
+            _json
+        )
 
     def test_reference_list_search(self):
         self.reference_descriptor.search_fields = 'string_value'
