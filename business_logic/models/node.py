@@ -42,11 +42,9 @@ class Node(NS_Node):
         return super(Node, cls).add_root(**kwargs)
 
     def delete(self):
-        if (
-                        self.object_id and
-                        self.content_object and
-                        self.content_type.app_label == ContentType.objects.get_for_model(self.__class__).app_label
-        ):
+        if (self.object_id and self.content_object
+            and self.content_type.app_label == ContentType.objects.get_for_model(self.__class__).app_label
+            ):
             self.content_object.delete()
 
         for child in self.get_children():
@@ -198,8 +196,8 @@ class NodeCache:
         for content_type in content_types:
             content_type_by_id[content_type.id] = content_type
             model = content_type.model_class()
-            objects_by_ct_id_by_id[content_type.id] = dict([(x.id, x) for x
-                                                            in model.objects.filter(
+            objects_by_ct_id_by_id[content_type.id] = dict(
+                [(x.id, x) for x in model.objects.filter(
                     id__in=tree.values_list('object_id',
                                             flat=True).filter(content_type=content_type)
                 )])

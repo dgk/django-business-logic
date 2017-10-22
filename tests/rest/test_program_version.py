@@ -20,10 +20,14 @@ class ProgramVersionRESTTest(TestCase):
 
     def test_program_version_create(self):
         url = reverse('business-logic:rest:program-version-create')
-        response = self.client.post(url, json.dumps(dict(
+        response = self.client.post(
+            url,
+            json.dumps(dict(
                 program=self.program.id,
                 xml=self.xml
-            )))
+                )
+            )
+        )
         self.assertEqual(201, response.status_code, response.content)
         _json = response_json(response)
         id = _json['id']
