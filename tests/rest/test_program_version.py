@@ -22,9 +22,10 @@ class ProgramVersionRESTTest(TestCase):
         url = reverse('business-logic:rest:program-version-create')
         response = self.client.post(
             url,
-            json.dumps(dict(
-                program=self.program.id,
-                xml=self.xml
+            json.dumps(
+                dict(
+                    program=self.program.id,
+                    xml=self.xml
                 )
             )
         )
