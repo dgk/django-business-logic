@@ -105,7 +105,7 @@ class NodeTreeCreator(object):
                 variable_definition_id = VariableDefinition.objects.create(name=variable_name).id
                 variable_definition = {
                     'data': {
-                        'content_type':  get_content_type_id(VariableDefinition),
+                        'content_type': get_content_type_id(VariableDefinition),
                         'object_id': variable_definition_id
                     }
                 }
