@@ -15,7 +15,7 @@ before_install:
   - export DJANGO_SETTINGS_MODULE=sites.test.settings
 
 install:
-  - pip install -r requirements.txt
+  - pip install -r requirements.dev.txt
   - pip install -q $DJANGO_VERSION
   - pip install codecov
 
