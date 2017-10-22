@@ -14,8 +14,8 @@ else:
     from itertools import zip_longest
 
 
-from business_logic.models import *
-from business_logic.utils import *
+from business_logic.models import * # noqa E402
+from business_logic.utils import * # noqa E402
 
 
 def tree_1plus2mul3(parent=None):
