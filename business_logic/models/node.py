@@ -218,8 +218,8 @@ class NodeCache:
             self._child_by_parent_id[parent.id] = [
                 node for node in tree
                 if node.lft >= parent.lft and
-                   node.lft <= parent.rgt - 1 and
-                   node.depth == parent.depth + 1
+                node.lft <= parent.rgt - 1 and
+                node.depth == parent.depth + 1
             ]
 
 
