@@ -64,13 +64,10 @@ def clean():
 if sys.argv[-1] == 'publish':
 
     clean()
-
-    #if os.system("pip freeze | grep wheel"):
-    #    print("wheel not installed.\nUse `pip install wheel`.\nExiting.")
-    #    sys.exit()
     if os.system("pip freeze | grep twine"):
         print("twine not installed.\nUse `pip install twine`.\nExiting.")
-        sys.exit()
+        sys.exit(1)
+
     os.system("python setup.py sdist bdist_wheel")
     os.system("twine upload dist/*")
     print("You probably want to also tag the version now:")
@@ -87,7 +84,7 @@ setup(
         author=AUTHOR,
         author_email=AUTHOR_EMAIL,
         url=URL,
-        #download_url='{}/archive/{}.tar.gz'.format(URL, VERSION),
+        # download_url='{}/archive/{}.tar.gz'.format(URL, VERSION),
         packages=get_packages(PACKAGE),
         package_data={
             PACKAGE: [

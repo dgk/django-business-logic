@@ -168,7 +168,7 @@ class NodeTest(TestCase):
     def test_tree_clone(self):
         root = get_test_tree()
         clone = root.clone()
-        #root.delete()
+        # root.delete()
         self.failUnless(isinstance(clone, Node))
         context = Context()
 
