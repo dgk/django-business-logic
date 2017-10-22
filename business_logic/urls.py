@@ -10,6 +10,7 @@ class Urls(object):
         url('^rest/', include(urls, namespace='rest'))
     ]
 
+
 urlpatterns = [
     url('', include(Urls, namespace='business-logic'))
 ]

@@ -103,4 +103,5 @@ class Context(NodeCacheHolder):
 
         setattr(current, attrs[-1], None if isinstance(value, Variable.Undefined) else value)
 
+
 __all__ = ('Context', )
