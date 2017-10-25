@@ -1,6 +1,12 @@
 # django-business-logic
 
-[![build-status-image]][travis] [![coverage-image]][codecov] [![license-image]][license] ![pyversions-image] ![version-image] ![status-image]
+[![travis-ci](https://img.shields.io/travis/dgk/django-business-logic/master.svg)](http://travis-ci.org/dgk/django-business-logic?branch=master)
+[![codeclimate](https://img.shields.io/codeclimate/github/dgk/django-business-logic.svg)](https://codeclimate.com/github/dgk/django-business-logic)
+[![codecov coverage](https://img.shields.io/codecov/c/github/dgk/django-business-logic.svg)](https://codecov.io/gh/dgk/django-business-logic)
+[![MIT license](https://img.shields.io/pypi/l/django-business-logic.svg)](https://github.com/dgk/django-business-logic/blob/master/LICENSE.txt)
+[![py versions](https://img.shields.io/pypi/pyversions/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
+[![pypi version](https://img.shields.io/pypi/v/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
+[![pypi version status](https://img.shields.io/pypi/status/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
 
 
 ## Introduction
@@ -148,6 +154,8 @@ St.Petersburg, Russia and personally to its CEO [Roman Kurdo](https://www.facebo
 - [x] References support
 - [x] Execution log viewer
 - [x] Imported and editable via admin interface python functions
+- [ ] Listst and Loops
+- [ ] Implicit strong static typing
 - [ ] Visually editable functions and its libraries
 - [ ] Two-dimensional constant tables (matrices)
 - [ ] Code sharing
@@ -211,18 +219,6 @@ You need to know at least one command; the one that runs all the tests:
 ```
 tox
 ```
-
-
-
-[build-status-image]: https://img.shields.io/travis/dgk/django-business-logic/master.svg
-[coverage-image]: https://img.shields.io/codecov/c/github/dgk/django-business-logic.svg
-[codecov]: https://codecov.io/gh/dgk/django-business-logic
-[travis]: http://travis-ci.org/dgk/django-business-logic?branch=master
-[license-image]: https://img.shields.io/pypi/l/django-business-logic.svg
-[license]: https://github.com/dgk/django-business-logic/blob/master/LICENSE.txt
-[pyversions-image]: https://img.shields.io/pypi/pyversions/django-business-logic.svg
-[version-image]: https://img.shields.io/pypi/v/django-business-logic.svg
-[status-image]: https://img.shields.io/pypi/status/django-business-logic.svg
 
 
 [contributors]: https://github.com/dgk/django-business-logic/graphs/contributors
