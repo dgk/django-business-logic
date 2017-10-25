@@ -1,0 +1,29 @@
+doc-warnings: false
+test-warnings: false
+strictness: veryhigh
+max-line-length: 120
+uses:
+  - django
+
+requirements:
+  - requirements.txt
+
+ignore-paths:
+  - business_logic/static/
+  - .idea/
+  - .tox/
+  - bin/
+  - build/
+  - dist/
+  - frontend/
+  - sites/
+  - tests/
+  - venv/
+  - virtualenv/
+
+ignore-patterns:
+  - .*/migrations/.*\.py$
+
+python-targets:
+  - 2
+  - 3
