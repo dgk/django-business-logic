@@ -20,9 +20,11 @@ exclude_paths:
 - "**/migrations/*.py"
 - "business_logic/static/**.*"
 - .tox/
+- bin/
 - build/
+- dist/
+- frontend/
 - sites/
 - tests/
-- frontend/
 - venv/
 - virtualenv/
