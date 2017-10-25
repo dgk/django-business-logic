@@ -52,6 +52,11 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 1000
 
 
+class ObjectList(generics.ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    filter_backends = (DjangoFilterBackend,)
+
+
 class ProgramInterfaceList(generics.ListAPIView):
     queryset = ProgramInterface.objects.all()
     serializer_class = ProgramInterfaceListSerializer
@@ -63,11 +68,9 @@ class ProgramInterfaceView(generics.RetrieveAPIView):
     serializer_class = ProgramInterfaceSerializer
 
 
-class ProgramList(generics.ListAPIView):
+class ProgramList(ObjectList):
     queryset = Program.objects.all()
     serializer_class = ProgramListSerializer
-    pagination_class = StandardResultsSetPagination
-    filter_backends = (DjangoFilterBackend,)
     filter_fields = ('program_interface',)
 
 
@@ -76,11 +79,9 @@ class ProgramView(generics.RetrieveAPIView):
     serializer_class = ProgramSerializer
 
 
-class ProgramVersionList(generics.ListAPIView):
+class ProgramVersionList(ObjectList):
     queryset = ProgramVersion.objects.all()
     serializer_class = ProgramVersionListSerializer
-    pagination_class = StandardResultsSetPagination
-    filter_backends = (DjangoFilterBackend,)
     filter_fields = ('program',)
 
 
@@ -99,11 +100,9 @@ class ProgramVersionView(generics.RetrieveUpdateDestroyAPIView):
         super(ProgramVersionView, self).perform_update(serializer)
 
 
-class ExecutionList(generics.ListAPIView):
+class ExecutionList(ObjectList):
     queryset = Execution.objects.all()
     serializer_class = ExecutionListSerializer
-    pagination_class = StandardResultsSetPagination
-    filter_backends = (DjangoFilterBackend,)
     filter_fields = ('program_version',)
 
 
