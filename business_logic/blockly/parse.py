@@ -114,6 +114,17 @@ class BlocklyXmlParser(object):
 
         return self.visit(children[0])
 
+    def _visit_simple_container(self, node, cls):
+        data = {
+            'data': {
+                'content_type': get_content_type_id(cls),
+            }
+        }
+
+        self._visit_children(node, data)
+
+        return data
+
     def _visit_binary_operator(self, node):
         operator, lft_operand, rgh_operand = node.getchildren()
         data = {
@@ -158,15 +169,7 @@ class BlocklyXmlParser(object):
         return self._visit_single_child(node)
 
     def visit_block_variables_set(self, node):
-        data = {
-            'data': {
-                'content_type': get_content_type_id(Assignment),
-            }
-        }
-
-        self._visit_children(node, data)
-
-        return data
+        return self._visit_simple_container(node, Assignment)
 
     def visit_block_variables_get(self, node):
         return self._visit_single_child(node)
@@ -187,15 +190,7 @@ class BlocklyXmlParser(object):
         return self._visit_single_child(node)
 
     def visit_block_controls_if(self, node):
-        data = {
-            'data': {
-                'content_type': get_content_type_id(IfStatement),
-            }
-        }
-
-        self._visit_children(node, data)
-
-        return data
+        return self._visit_simple_container(node, IfStatement)
 
     def visit_field(self, node):
         method_name = 'visit_field_{}'.format(node.get('name').lower())
