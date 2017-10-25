@@ -108,24 +108,22 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
     visit_reference_constant.process_children = True
 
-    def visit_variable(self, node, parent_xml):
-        if node.content_object.definition.name.find('.') == -1:
-            block_type = 'variables_get'
-        else:
-            block_type = 'business_logic_argument_field_get'
+    def _get_variable_block_type(self, node, action):
+        assert action in ('get', 'set')
 
+        if node.content_object.definition.name.find('.') != -1:
+            return 'business_logic_argument_field_{}'.format(action)
+        return 'variables_{}'.format(action)
+
+    def visit_variable(self, node, parent_xml):
+        block_type = self._get_variable_block_type(node, 'get')
         block = etree.SubElement(parent_xml, 'block', type=block_type)
         self._visit_variable(node, block)
         return block
 
     def visit_assignment(self, node, parent_xml):
         lhs_node, rhs_node = self.get_children(node)
-
-        if lhs_node.content_object.definition.name.find('.') == -1:
-            block_type = 'variables_set'
-        else:
-            block_type = 'business_logic_argument_field_set'
-
+        block_type = self._get_variable_block_type(lhs_node, 'set')
         block = etree.SubElement(parent_xml, 'block', type=block_type)
         self._visit_variable(lhs_node, block)
         value = etree.SubElement(block, 'value', name='VALUE')
