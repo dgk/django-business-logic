@@ -5,20 +5,28 @@ engines:
     config:
       languages:
       - python
+    exclude_paths:
+    - business_logic/models/constant.py
+    - business_logic/models/stop.py
+    - business_logic/models/table.py
   pep8:
     enabled: true
   fixme:
     enabled: true
+    exclude_paths:
+    - README.md
+
   radon:
     enabled: true
     config:
-      threshold: "C"
+      threshold: "A"
 ratings:
   paths:
   - "business_logic/**.py"
 exclude_paths:
 - "**/migrations/*.py"
 - "business_logic/static/**.*"
+- .idea/
 - .tox/
 - bin/
 - build/
