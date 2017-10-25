@@ -19,7 +19,7 @@ engines:
   radon:
     enabled: true
     config:
-      threshold: "A"
+      threshold: "C"
 ratings:
   paths:
   - "business_logic/**.py"

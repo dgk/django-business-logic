@@ -104,13 +104,17 @@ class Node(NS_Node):
         exception = None
         return_value = None
         children_interpreted = []
+        control_flow_exceptions = (InterpretationException, StopInterpretationException)
 
         # send signals
         if is_block:
             signals.block_interpret_enter.send(sender=ctx, node=self)
         signals.interpret_enter.send(sender=ctx, node=self, value=self.content_object)
 
-        def handle_unknown_exception(exception):
+        def handle_exception(exception):
+            if isinstance(exception, control_flow_exceptions):
+                return exception
+
             traceback = sys.exc_info()[2]
             signals.interpret_exception.send(sender=ctx, node=self, exception=exception, traceback=traceback)
             exception = InterpretationException(exception)
@@ -121,9 +125,7 @@ class Node(NS_Node):
                 try:
                     children_interpreted.append(child.interpret(ctx))
                 except Exception as e:
-                    if not isinstance(e, (InterpretationException, StopInterpretationException)):
-                        e = handle_unknown_exception(e)
-                    exception = e
+                    exception = handle_exception(e)
                     if exception_handling_policy == ExceptionHandlingPolicy.INTERRUPT:
                         break
                     elif exception_handling_policy == ExceptionHandlingPolicy.IGNORE:
@@ -133,22 +135,15 @@ class Node(NS_Node):
             try:
                 return_value = self.content_object.interpret(ctx, *children_interpreted)
             except Exception as e:
-                if not isinstance(e, (InterpretationException, StopInterpretationException)):
-                    e = handle_unknown_exception(e)
-                exception = e
+                exception = handle_exception(e)
 
         # send signals
         signals.interpret_leave.send(sender=ctx, node=self, value=return_value)
         if is_block:
             signals.block_interpret_leave.send(sender=ctx, node=self)
 
-        if exception is not None:
-            if isinstance(exception, StopInterpretationException):
-                if is_recursive_call:
-                    raise exception
-            if isinstance(exception, InterpretationException):
-                if is_recursive_call:
-                    raise exception
+        if isinstance(exception, control_flow_exceptions) and is_recursive_call:
+            raise exception
 
         return return_value
 
