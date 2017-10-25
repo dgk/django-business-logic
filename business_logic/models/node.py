@@ -33,12 +33,16 @@ class Node(NS_Node):
     def __str__(self):
         return 'Node {}({}): {}'.format(self.id, self.content_type, self.content_object)
 
-    @classmethod
-    def add_root(cls, **kwargs):
+    @staticmethod
+    def ensure_content_object_saved(**kwargs):
         if 'content_object' in kwargs:
             content_object = kwargs['content_object']
             if not content_object.id:
                 content_object.save()
+
+    @classmethod
+    def add_root(cls, **kwargs):
+        cls.ensure_content_object_saved(**kwargs)
         return super(Node, cls).add_root(**kwargs)
 
     def delete(self):
@@ -52,10 +56,7 @@ class Node(NS_Node):
         return super(Node, self).delete()
 
     def add_child(self, **kwargs):
-        if 'content_object' in kwargs:
-            content_object = kwargs['content_object']
-            if not content_object.id:
-                content_object.save()
+        self.ensure_content_object_saved(**kwargs)
         return super(Node, self).add_child(**kwargs)
 
     def clone(self):
