@@ -7,6 +7,7 @@
 [![py versions](https://img.shields.io/pypi/pyversions/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
 [![pypi version](https://img.shields.io/pypi/v/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
 [![pypi version status](https://img.shields.io/pypi/status/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdgk%2Fdjango-business-logic.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdgk%2Fdjango-business-logic?ref=badge_shield)
 
 
 ## Introduction
@@ -223,3 +224,7 @@ tox
 
 [contributors]: https://github.com/dgk/django-business-logic/graphs/contributors
 [blockly]: https://developers.google.com/blockly/
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdgk%2Fdjango-business-logic.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdgk%2Fdjango-business-logic?ref=badge_large)
