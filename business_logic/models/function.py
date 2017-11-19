@@ -100,15 +100,15 @@ class PythonCodeFunctionDefinition(FunctionDefinition):
         if self.is_context_required:
             kwargs['context'] = context
 
-        locals = dict(kwargs=kwargs, ret=None)
+        function_locals = dict(kwargs=kwargs, ret=None)
         code = compile('''{}
 ret = function(**kwargs)
 '''.format(self.code), '<string>', 'exec')
         try:
-            eval(code, {}, locals)
+            eval(code, {}, function_locals)
         except Exception as e:
             print(e)
-        return locals['ret']
+        return function_locals['ret']
 
 
 @python_2_unicode_compatible

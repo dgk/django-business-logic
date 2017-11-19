@@ -66,11 +66,11 @@ class BlocklyXmlParser(object):
         _node = node
 
         while True:
-            next = _node.find('next')
-            if next is None:
+            next_node = _node.find('next')
+            if next_node is None:
                 break
 
-            _children = next.getchildren()
+            _children = next_node.getchildren()
 
             if len(_children) != 1:
                 raise BlocklyXmlParserException(
