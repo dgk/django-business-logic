@@ -28,7 +28,7 @@ class ReferenceDescriptor(models.Model):
         if not self.search_fields:
             return []
 
-        return re.split('[^\w_]+', self.search_fields)
+        return re.split(r'[^\w_]+', self.search_fields)
 
 
 class ReferenceConstant(NodeAccessor):
