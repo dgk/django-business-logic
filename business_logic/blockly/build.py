@@ -36,9 +36,9 @@ class BlocklyXmlBuilder(NodeCacheHolder):
             last_xml = None
             for child in self.get_children(node):
                 if last_xml is not None:
-                    next = etree.Element('next')
-                    last_xml.append(next)
-                    parent_xml = next
+                    next_element = etree.Element('next')
+                    last_xml.append(next_element)
+                    parent_xml = next_element
                 last_xml = self.visit(child, parent_xml)
             return
 
@@ -80,11 +80,11 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         content_object = node.content_object
         cls = content_object.__class__
         block = etree.SubElement(parent_xml, 'block', type=block_type[cls])
-        field = etree.SubElement(block, 'field', name=field_name[cls])
+        field_element = etree.SubElement(block, 'field', name=field_name[cls])
         if isinstance(content_object, BooleanConstant):
-            field.text = str(content_object).upper()
+            field_element.text = str(content_object).upper()
         else:
-            field.text = str(content_object)
+            field_element.text = str(content_object)
         return block
 
     def visit_reference_constant(self, node, parent_xml):
@@ -134,25 +134,25 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
     def _visit_variable(self, node, parent_xml):
         variable = node.content_object
-        field = etree.SubElement(parent_xml, 'field', name='VAR')
-        field.text = variable.definition.name
+        field_element = etree.SubElement(parent_xml, 'field', name='VAR')
+        field_element.text = variable.definition.name
 
     def visit_binary_operator(self, node, parent_xml):
 
         # determine block_type
-        operator = node.content_object.operator
+        operator_value = node.content_object.operator
         block_type = None
         table = None
 
         for block_type, table in OPERATOR_TABLE.items():
-            if operator in table:
+            if operator_value in table:
                 break
         else:
-            raise BlocklyXmlBuilderException('Invalid Operator: {}'.format(operator))
+            raise BlocklyXmlBuilderException('Invalid Operator: {}'.format(operator_value))
 
         block = etree.SubElement(parent_xml, 'block', type=block_type)
-        field = etree.SubElement(block, 'field', name='OP')
-        field.text = table[operator]
+        field_element = etree.SubElement(block, 'field', name='OP')
+        field_element.text = table[operator_value]
 
         lhs_node, rhs_node = self.get_children(node)
         for value_name, child_node in (('A', lhs_node), ('B', rhs_node)):
@@ -200,8 +200,8 @@ class BlocklyXmlBuilder(NodeCacheHolder):
 
         block = etree.SubElement(parent_xml, 'block', type='business_logic_function')
         etree.SubElement(block, 'mutation', args='true')
-        field = etree.SubElement(block, 'field', name='FUNC')
-        field.text = function_definition.title
+        field_element = etree.SubElement(block, 'field', name='FUNC')
+        field_element.text = function_definition.title
 
         for i, child_node in enumerate(children):
             value = etree.SubElement(block, 'value', name='ARG{}'.format(i))
