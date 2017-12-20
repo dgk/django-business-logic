@@ -14,6 +14,7 @@
 The main goal of this project is to provide django site users (such as administrators or ordinal users) with
 ability to visually edit business logic layer. This library implements execution engine and code editor
 based on awesome [blockly library][blockly].
+See [screenshots](https://github.com/dgk/django-business-logic/wiki/Screenshots).
 
 ## Warning
 
