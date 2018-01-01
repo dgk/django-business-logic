@@ -15,8 +15,8 @@ before_install:
   - export DJANGO_SETTINGS_MODULE=sites.test.settings
 
 install:
-  - pip install -r requirements.dev.txt
   - pip install -q $DJANGO_VERSION
+  - pip install -r requirements.test.txt
   - pip install codecov
 
 script: coverage run manage.py test tests
@@ -26,3 +26,4 @@ notifications:
 
 after_success:
   - codecov
+
