@@ -2,5 +2,5 @@
 Django<1.12
 django-bootstrap3==9.1.0
 flake8
-tox==2.8.1
+tox==2.9.1
 yapf

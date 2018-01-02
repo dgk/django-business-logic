@@ -1,5 +1,5 @@
 Markdown<3.0
-django-ace-overlay==0.6
+django-ace-overlay==0.7.1
 django-admin-sortable2==0.6.18
 django-filter==1.1.0
 django-nested-inline==0.3.7
