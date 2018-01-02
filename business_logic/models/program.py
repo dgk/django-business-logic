@@ -63,7 +63,8 @@ class ProgramArgument(models.Model):
     name = models.SlugField(_('Name'), max_length=255)
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    variable_definition = models.OneToOneField(VariableDefinition, related_name='program_argument')
+    variable_definition = models.OneToOneField(VariableDefinition, related_name='program_argument',
+                                               on_delete=models.CASCADE)
 
     class Meta:
         unique_together = (('program_interface', 'name'),)
@@ -98,7 +99,8 @@ class ProgramArgumentField(models.Model):
     program_argument = models.ForeignKey(ProgramArgument, related_name='fields', on_delete=models.CASCADE)
     name = DeepAttributeField(_('Name'), max_length=255)
     title = models.CharField(_('Title'), max_length=255, null=True, blank=True)
-    variable_definition = models.OneToOneField(VariableDefinition, related_name='program_argument_field')
+    variable_definition = models.OneToOneField(VariableDefinition, related_name='program_argument_field',
+                                               on_delete=models.CASCADE)
 
     class Meta:
         unique_together = (('program_argument', 'name'),)

@@ -72,7 +72,7 @@ class LogEntry(AL_Node):
 
 
 class ExceptionLog(models.Model):
-    log_entry = models.OneToOneField('LogEntry', related_name='exception')
+    log_entry = models.OneToOneField('LogEntry', related_name='exception', on_delete=models.CASCADE)
     module = models.CharField(max_length=255)
     type = models.CharField(max_length=255)
     message = models.CharField(max_length=512)
@@ -88,7 +88,7 @@ class ExecutionArgument(models.Model):
 
 
 class Execution(models.Model):
-    log = models.OneToOneField('business_logic.LogEntry', null=True)
+    log = models.OneToOneField('business_logic.LogEntry', null=True, on_delete=models.SET_NULL)
     program_version = models.ForeignKey('business_logic.ProgramVersion', on_delete=models.CASCADE)
     start_time = models.DateTimeField(auto_now_add=True)
     finish_time = models.DateTimeField(null=True)
