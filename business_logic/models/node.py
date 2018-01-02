@@ -21,7 +21,7 @@ from ..exceptions import StopInterpretationException, InterpretationException
 @python_2_unicode_compatible
 class Node(NS_Node):
     comment = models.CharField(_('Comment'), max_length=255, null=True, blank=True)
-    content_type = models.ForeignKey(ContentType, null=True)
+    content_type = models.ForeignKey(ContentType, null=True, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField(null=True)
     content_object = GenericForeignKey('content_type', 'object_id')
 

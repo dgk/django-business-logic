@@ -63,10 +63,10 @@ class Logger(object):
 
 
 class LogEntry(AL_Node):
-    parent = models.ForeignKey('self', null=True, blank=True, related_name='children')
+    parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
     sib_order = models.PositiveIntegerField()
 
-    node = models.ForeignKey(Node, verbose_name=_('Program node'))
+    node = models.ForeignKey(Node, verbose_name=_('Program node'), on_delete=models.CASCADE)
     previous_value = models.CharField(_('Previous value'), max_length=LOG_ENTRY_VALUE_LENGTH)
     current_value = models.CharField(_('Current value'), max_length=LOG_ENTRY_VALUE_LENGTH)
 
@@ -80,16 +80,16 @@ class ExceptionLog(models.Model):
 
 
 class ExecutionArgument(models.Model):
-    execution = models.ForeignKey('business_logic.Execution', related_name='arguments')
-    program_argument = models.ForeignKey('business_logic.ProgramArgument')
-    content_type = models.ForeignKey(ContentType)
+    execution = models.ForeignKey('business_logic.Execution', related_name='arguments', on_delete=models.CASCADE)
+    program_argument = models.ForeignKey('business_logic.ProgramArgument', on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
 
 class Execution(models.Model):
     log = models.OneToOneField('business_logic.LogEntry', null=True)
-    program_version = models.ForeignKey('business_logic.ProgramVersion')
+    program_version = models.ForeignKey('business_logic.ProgramVersion', on_delete=models.CASCADE)
     start_time = models.DateTimeField(auto_now_add=True)
     finish_time = models.DateTimeField(null=True)
 

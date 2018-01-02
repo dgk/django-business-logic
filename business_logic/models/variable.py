@@ -22,7 +22,7 @@ class VariableDefinition(models.Model):
 
 @python_2_unicode_compatible
 class Variable(models.Model):
-    definition = models.ForeignKey(VariableDefinition, related_name='variables')
+    definition = models.ForeignKey(VariableDefinition, related_name='variables', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _('Variable')

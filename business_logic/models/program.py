@@ -43,7 +43,7 @@ class ProgramInterface(models.Model):
     title = models.CharField(_('Title'), max_length=255, db_index=True)
     code = models.SlugField(_('Code'), max_length=255, null=True, blank=True, unique=True, db_index=True)
 
-    environment = models.ForeignKey('ExecutionEnvironment', null=True, blank=True)
+    environment = models.ForeignKey('ExecutionEnvironment', null=True, blank=True, on_delete=models.SET_NULL)
 
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
@@ -59,10 +59,10 @@ class ProgramInterface(models.Model):
 
 @python_2_unicode_compatible
 class ProgramArgument(models.Model):
-    program_interface = models.ForeignKey(ProgramInterface, related_name='arguments')
+    program_interface = models.ForeignKey(ProgramInterface, related_name='arguments', on_delete=models.CASCADE)
     name = models.SlugField(_('Name'), max_length=255)
 
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     variable_definition = models.OneToOneField(VariableDefinition, related_name='program_argument')
 
     class Meta:
@@ -95,7 +95,7 @@ class ProgramArgument(models.Model):
 
 @python_2_unicode_compatible
 class ProgramArgumentField(models.Model):
-    program_argument = models.ForeignKey(ProgramArgument, related_name='fields')
+    program_argument = models.ForeignKey(ProgramArgument, related_name='fields', on_delete=models.CASCADE)
     name = DeepAttributeField(_('Name'), max_length=255)
     title = models.CharField(_('Title'), max_length=255, null=True, blank=True)
     variable_definition = models.OneToOneField(VariableDefinition, related_name='program_argument_field')
@@ -149,9 +149,9 @@ class Program(models.Model):
     title = models.CharField(_('Title'), max_length=255)
     code = models.SlugField(_('Code'), max_length=255, unique=True, db_index=True)
 
-    program_interface = models.ForeignKey(ProgramInterface)
+    program_interface = models.ForeignKey(ProgramInterface, on_delete=models.CASCADE)
 
-    environment = models.ForeignKey('ExecutionEnvironment', null=True, blank=True)
+    environment = models.ForeignKey('ExecutionEnvironment', null=True, blank=True, on_delete=models.SET_NULL)
 
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
@@ -159,6 +159,7 @@ class Program(models.Model):
     class Meta:
         verbose_name = _('Program')
         verbose_name_plural = _('Programs')
+        ordering = ('id',)
 
     def __str__(self):
         return '{}: {}({})'.format(self.program_interface, self.title, self.code)
@@ -171,10 +172,10 @@ class ProgramVersion(models.Model):
 
     is_default = models.BooleanField(_('Is default'), default=False)
 
-    program = models.ForeignKey(Program, related_name='versions')
-    entry_point = models.ForeignKey(Node, verbose_name=_('Entry point'))
+    program = models.ForeignKey(Program, related_name='versions', on_delete=models.CASCADE)
+    entry_point = models.ForeignKey(Node, verbose_name=_('Entry point'), on_delete=models.CASCADE)
 
-    environment = models.ForeignKey('ExecutionEnvironment', null=True, blank=True)
+    environment = models.ForeignKey('ExecutionEnvironment', null=True, blank=True, on_delete=models.SET_NULL)
 
     creation_time = models.DateTimeField(auto_now_add=True)
     modification_time = models.DateTimeField(auto_now=True)
@@ -182,6 +183,7 @@ class ProgramVersion(models.Model):
     class Meta:
         verbose_name = _('Program version')
         verbose_name_plural = _('Program versions')
+        ordering = ('id',)
 
     def __str__(self):
         return self.title

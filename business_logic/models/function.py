@@ -26,7 +26,7 @@ class FunctionDefinition(PolymorphicModel):
 
 @python_2_unicode_compatible
 class FunctionArgument(models.Model):
-    function = models.ForeignKey(FunctionDefinition, related_name='arguments')
+    function = models.ForeignKey(FunctionDefinition, related_name='arguments', on_delete=models.CASCADE)
 
     name = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(_('Description'), null=True, blank=True)
@@ -45,7 +45,7 @@ class FunctionArgument(models.Model):
 
 @python_2_unicode_compatible
 class FunctionArgumentChoice(models.Model):
-    argument = models.ForeignKey(FunctionArgument, related_name='choices')
+    argument = models.ForeignKey(FunctionArgument, related_name='choices', on_delete=models.CASCADE)
 
     value = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
@@ -125,7 +125,7 @@ class FunctionLibrary(models.Model):
 
 
 class Function(models.Model):
-    definition = models.ForeignKey('FunctionDefinition', related_name='functions')
+    definition = models.ForeignKey('FunctionDefinition', related_name='functions', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _('Function')

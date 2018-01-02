@@ -12,6 +12,7 @@ class Publisher(models.Model):
     class Meta:
         verbose_name = 'Publisher'
         verbose_name_plural = 'Publishers'
+        ordering = ('id',)
 
     def __str__(self):
         return self.name
@@ -29,6 +30,7 @@ class Author(models.Model):
     class Meta:
         verbose_name = 'Author'
         verbose_name_plural = 'Authors'
+        ordering = ('id',)
 
     def __str__(self):
         return u'%s %s' % (self.first_name, self.last_name)
@@ -41,13 +43,14 @@ class Author(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title')
     authors = models.ManyToManyField(Author, verbose_name='Authors')
-    publisher = models.ForeignKey(Publisher, related_name='books', verbose_name='Publisher')
+    publisher = models.ForeignKey(Publisher, related_name='books', verbose_name='Publisher', on_delete=models.CASCADE)
     publication_date = models.DateField(verbose_name='Publication date')
     price = models.FloatField(verbose_name='Price')
 
     class Meta:
         verbose_name = 'Book'
         verbose_name_plural = 'Books'
+        ordering = ('id',)
 
     def __str__(self):
         return self.title
