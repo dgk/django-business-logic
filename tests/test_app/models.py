@@ -12,7 +12,7 @@ class Model(models.Model):
     string_value = models.CharField(max_length=255)
     date_value = models.DateField(null=True, blank=True)
     datetime_value = models.DateTimeField(null=True, blank=True)
-    foreign_value = models.ForeignKey('RelatedModel', null=True)
+    foreign_value = models.ForeignKey('RelatedModel', null=True, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('id',)
