@@ -63,6 +63,7 @@ INSTALLED_APPS = (
     'nested_inline',
     'polymorphic',
     'rest_framework', # optional, provided browsable API for this library handy development
+    'django_filters', # ^^ same
     
     'business_logic',
     # ...
