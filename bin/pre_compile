@@ -1,2 +1,3 @@
-# force heroku to use Pipfile instead requirements.txt
-rm requirements.txt
+# prepare requirements.txt for heroku
+grep -v '^-r' requirements.dev.txt >> requirements.txt
+cat requirements.heroku.txt >> requirements.txt
