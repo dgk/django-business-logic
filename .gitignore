@@ -13,5 +13,6 @@ dist/
 /htmlcov/
 /business_logic/static/
 /old/
+/django-business-logic-*
 
 tests/reports/*.xml

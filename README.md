@@ -35,6 +35,26 @@ Assignment and so forth. Structure of syntax tree is held by class Node derived 
 Operators and operands are linked with Node objects via django contenttypes system.
 Other details are briefly described below in sections [Administrative setup](#administrative-setup) and [Execution](#execution)
 
+## Docker demo
+You can run demo app locally using docker:
+
+```bash
+docker build . -t django-business-logic-demo
+docker run --rm -it -p 8000:8000 django-business-logic-demo
+```
+or using docker-compose:
+```bash
+docker-compose up
+```
+Also you can use prebuilt image:
+```bash
+docker run --rm -it -p 8000:8000 dgksu/django-business-logic:demo
+```
+
+Now you can login into django admin interface http://localhost:8000/admin/
+with username `test` and password `test`.
+
+
 ## Heroku demo
 You can deploy demo app directly to Heroku to see the app live. Just click the button below. 
 This will walk you through getting this app up and running on Heroku in minutes.
