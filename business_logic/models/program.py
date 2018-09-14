@@ -20,6 +20,25 @@ from ..fields import DeepAttributeField
 
 @python_2_unicode_compatible
 class ExecutionEnvironment(models.Model):
+    """
+    Environment of execution.
+
+    Can be linked to any of :class:`business_logic.models.ProgramInterface` ->
+    :class:`business_logic.models.Program` -> :class:`business_logic.models.ProgramVersion` chain.
+
+    Contains list of :class:`business_logic.models.FunctionLibrary`
+    and defines parameters for :class:`business_logic.models.Context` creation.
+
+
+    Attributes:
+        title(str): human-readable name
+        description(str): description
+        libraries: list of :class:`business_logic.models.FunctionLibrary` available to execution
+        debug(bool): default=False
+        log(bool): default=False
+        cache(bool): default=True
+        exception_handling_policy(:class:`business_logic.config.ExceptionHandlingPolicy`):
+    """
     title = models.CharField(_('Title'), max_length=255, unique=True)
     description = models.TextField(_('Description'), null=True, blank=True)
     libraries = models.ManyToManyField('FunctionLibrary', related_name='environments', blank=True)
@@ -40,6 +59,17 @@ class ExecutionEnvironment(models.Model):
 
 @python_2_unicode_compatible
 class ProgramInterface(models.Model):
+    """
+    Determines interface for :class:`business_logic.models.Program`.
+    Should be configured by adding one or more :class:`business_logic.models.ProgramArgument`.
+    Can hold link to :class:`business_logic.models.ExecutionEnvironment`.
+
+    Attributes:
+        title(str): human-readable name
+        code(str): machine-readable code for programmatic access
+        environment(:class:`business_logic.models.ExecutionEnvironment`): execution environment, can be empty
+        programs(:class:`business_logic.models.Program`): queryset of child Program
+    """
     title = models.CharField(_('Title'), max_length=255, db_index=True)
     code = models.SlugField(_('Code'), max_length=255, null=True, blank=True, unique=True, db_index=True)
 
@@ -96,6 +126,14 @@ class ProgramArgument(models.Model):
 
 @python_2_unicode_compatible
 class ProgramArgumentField(models.Model):
+    """
+    Attributes:
+        program_argument(:class:`business_logic.models.ProgramArgument`): argument
+            of :class:`business_logic.models.ProgramInterface`
+        name(str): name of the field, can include dots for nested fields
+        title: human-readable name
+        variable_definition(:class:`business_logic.models.VariableDefinition`): definition for variable
+    """
     program_argument = models.ForeignKey(ProgramArgument, related_name='fields', on_delete=models.CASCADE)
     name = DeepAttributeField(_('Name'), max_length=255)
     title = models.CharField(_('Title'), max_length=255, null=True, blank=True)
@@ -148,10 +186,22 @@ class ProgramArgumentField(models.Model):
 
 @python_2_unicode_compatible
 class Program(models.Model):
+    """
+    Implements :class:`business_logic.models.ProgramInterface`.
+    Can hold link to :class:`business_logic.models.ExecutionEnvironment`.
+
+    Attributes:
+        title(str): human-readable name
+        code(str): machine-readable code for programmatic access
+        environment(:class:`business_logic.models.ExecutionEnvironment`): execution environment, can be empty
+        program_interface(:class:`business_logic.models.ProgramInterface`): implemented interface
+        versions(:class:`business_logic.models.ProgramVersion`): queryset of child ProgramVersion
+
+    """
     title = models.CharField(_('Title'), max_length=255)
     code = models.SlugField(_('Code'), max_length=255, unique=True, db_index=True)
 
-    program_interface = models.ForeignKey(ProgramInterface, on_delete=models.CASCADE)
+    program_interface = models.ForeignKey(ProgramInterface, on_delete=models.CASCADE, related_name='programs')
 
     environment = models.ForeignKey('ExecutionEnvironment', null=True, blank=True, on_delete=models.SET_NULL)
 
@@ -169,6 +219,20 @@ class Program(models.Model):
 
 @python_2_unicode_compatible
 class ProgramVersion(models.Model):
+    """
+    Acts as version of :class:`business_logic.models.Program`.
+    Main holder of visually editable code.
+    Can hold link to :class:`business_logic.models.ExecutionEnvironment`.
+
+    Attributes:
+        title(str): human-readable name
+        description(str): human-readable description
+        environment(:class:`business_logic.models.ExecutionEnvironment`): execution environment, can be empty
+        is_default(bool): default=False, can be used for choosing suitable `ProgramVersion`.
+            Only one `ProgramVersion` for given `:class:`business_logic.models.Program` can have this field value as `True`
+        entry_point(:class:`business_logic.models.Node`): entry point of visually editable code
+        program(:class:`business_logic.models.Program`): parent Program
+    """
     title = models.CharField(_('Title'), max_length=255, null=True, blank=True)
     description = models.TextField(_('Description'), null=True, blank=True)
 
@@ -191,13 +255,45 @@ class ProgramVersion(models.Model):
         return self.title
 
     def copy(self, new_title):
+        """
+        Creates a copy of self with given title.
+        Suitable for "save as" actions.
+
+        Args:
+            new_title: `str` new title
+        Returns:
+            new :class:`business_logic.models.ProgramVersion` instance
+        """
         entry_point = self.entry_point.clone()
         new_version = ProgramVersion.objects.create(title=new_title, program=self.program, entry_point=entry_point)
         new_version.save()
         return new_version
 
-    def execute(self, **kwargs):
-        context = kwargs.pop('context', Context())
+    def execute(self, context=None, **kwargs):
+        """
+        Main function for program execution
+
+        Args:
+            context(:class:`business_logic.models.Context`, optional): Context instance
+            **kwargs: program arguments
+
+        Returns:
+            :class:`business_logic.models.Context`: Context instance
+
+        Raises:
+            KeyError: If any of program argument omitted
+
+            AssertionError: if any of program argument have incorrect type,
+                if passed unregistered program argument
+
+        Todo:
+            * create own exceptions instead AssertionError/KeyError/etc
+
+        See Also:
+            * :class:`business_logic.models.Context`
+            * :class:`business_logic.models.ExecutionEnvironment`
+        """
+        context = context if context is not None else Context()
         execution = context.execution = Execution.objects.create(program_version=self) if context.config.debug else None
 
         for program_argument in self.program.program_interface.arguments.all():

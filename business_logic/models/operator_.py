@@ -40,6 +40,28 @@ class Operator(NodeAccessor):
 
 
 class BinaryOperator(Operator):
+    """
+    Implements binary operations.
+
+    Supported operators are:
+
+        * ``+``
+        * ``-``
+        * ``*``
+        * ``/``
+        * ``^``
+        * ``%``
+        * ``&``
+        * ``|``
+        * ``==``
+        * ``!=``
+        * ``>``
+        * ``>=``
+        * ``<``
+        * ``<=``
+        * ``in``
+
+    """
     operator_table = {
         '+': operator.add,
         '-': operator.sub,
@@ -79,7 +101,17 @@ class BinaryOperator(Operator):
 
 
 class UnaryOperator(Operator):
+    """
+    Implements unary operations.
 
+    Supported operators are:
+
+        * ``-``
+        * ``not``
+        * ``neg``
+        * ``abs``
+
+    """
     class Meta:
         verbose_name = _('Unary operator')
         verbose_name_plural = _('Unary operators')

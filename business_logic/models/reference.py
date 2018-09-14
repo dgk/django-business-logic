@@ -32,6 +32,7 @@ class ReferenceDescriptor(models.Model):
 
 
 class ReferenceConstant(NodeAccessor):
+    'A special type of constant that uses the value in the first child node of the node that stores it'
     interpret_children = True
 
     class Meta:

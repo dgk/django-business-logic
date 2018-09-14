@@ -1,255 +1,87 @@
 # django-business-logic
 
+
 [![travis-ci](https://img.shields.io/travis/dgk/django-business-logic/master.svg)](http://travis-ci.org/dgk/django-business-logic?branch=master)
-[![codeclimate](https://img.shields.io/codeclimate/github/dgk/django-business-logic.svg)](https://codeclimate.com/github/dgk/django-business-logic)
-[![codecov coverage](https://img.shields.io/codecov/c/github/dgk/django-business-logic.svg)](https://codecov.io/gh/dgk/django-business-logic)
-[![MIT license](https://img.shields.io/pypi/l/django-business-logic.svg)](https://github.com/dgk/django-business-logic/blob/master/LICENSE.txt)
+[![codecov](https://img.shields.io/codecov/c/github/dgk/django-business-logic.svg)](https://codecov.io/gh/dgk/django-business-logic)
+[![landscape](https://landscape.io/github/dgk/django-business-logic/master/landscape.svg?style=flat)](https://landscape.io/github/dgk/django-business-logic)
+[![readthedocs](https://readthedocs.org/projects/django-business-logic/badge/?version=latest)](https://django-business-logic.readthedocs.org/)
+[![MIT license](https://img.shields.io/pypi/l/django-business-logic.svg)](https://django-business-logic.readthedocs.io/en/latest/license.html)
 [![python versions](https://img.shields.io/pypi/pyversions/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
 [![django versions](https://img.shields.io/pypi/djversions/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
-[![pypi version](https://img.shields.io/pypi/v/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
-[![pypi version status](https://img.shields.io/pypi/status/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
-
-# FRONTEND DEVELOPER WANTED!!! 
-
-If you are familiar with react/mobx and want to help us build awesome django-business-logic library, contact us at dgk@dgk.su.
-
-# Documentation
-
-Work on documentation in the process, [see draft here](https://django-business-logic.readthedocs.io/en/latest/).
+[![pypi versions](https://img.shields.io/pypi/v/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
+[![pypi versions status](https://img.shields.io/pypi/status/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
 
 ## Introduction
 
-The main goal of this project is to provide django site users (such as administrators or ordinal users) with
-ability to visually edit business logic layer. This library implements execution engine and code editor
-based on awesome [blockly library][blockly].
-See [screenshots](https://github.com/dgk/django-business-logic/wiki/Screenshots).
-
-## Warning
-
-> Please note that this software is still Alpha/Beta quality and is not recommended for production use.
-> The library is currently in active development and any API may be changed. Migration history for models is not supported now.
-> Some internal objects are world writable!
-
-## Requirements
-This library requires the following:
-* Python (2.7, 3.4, 3.5, 3.6)
-* Django (1.11, 2.0, 2.1) (for Django 1.8, 1.9, 1.10 use 0.4.13 version)
-* django-rest-framework 3.8+
-
-## Architecture
-
-Internally program code is stored as special django models such as NumberConstant, IfStatement,
-Assignment and so forth. Structure of syntax tree is held by class Node derived from treebeard.NS_Node.
-Operators and operands are linked with Node objects via django contenttypes system.
-Other details are briefly described below in sections [Administrative setup](#administrative-setup) and [Execution](#execution)
-
-## Docker demo
-You can run demo app locally using docker:
-
-```bash
-docker build . -t django-business-logic-demo
-docker run --rm -it -p 8000:8000 django-business-logic-demo
-```
-or using docker-compose:
-```bash
-docker-compose up
-```
-Also you can use prebuilt image:
-```bash
-docker run --rm -it -p 8000:8000 dgksu/django-business-logic:demo
-```
-
-Now you can login into django admin interface http://localhost:8000/admin/
-with username `test` and password `test`.
+Processes change more often than technic. Domain Rules are situational and may
+differ from customer to customer. With diverse code and frequent changes, the code
+becomes complicated, then the probability of errors increases. One of the
+optimal strategies to avoid this situation is to isolate client logic at the
+data level.
+When this is the case, programmers need only to watch the correct interpretation
+of the rules, but not each of the rules separately. This reduces the amount of
+code base needed and reduces the possibility of introducing errors.  Another
+question is the form of the description of these rules takes. A visual graphical
+representation is optimal for users – this helps to avoid confusion with a variety
+of conditions, and helps users understand what is written without any effort.
+Many web applications need to use Domain Specific Languages (DSL) during their
+lifecycle.  Any type of project, from hobby-level to enterprise, may have this
+requirement. There are many ways to carry out this task, such as doing your own
+development using internal resources or contractors (you know the cost in both
+cases), buying a turnkey solution, (really?) or an adapted solution. In all
+cases, you will also need to be a coach for all DSL users.
 
 
-## Heroku demo
-You can deploy demo app directly to Heroku to see the app live. Just click the button below. 
-This will walk you through getting this app up and running on Heroku in minutes.
+Stop now and focus your attention here.
+The [Blockly](https://opensource.google.com/projects/blockly) visual
+programming library was released in 2012, and since 2014 it has been developed
+with the support of Google. [Code.org](https://code.org/), a related project
+that uses Blockly in its main subsystems, has had hundreds of millions of users
+of different ages in its [Hour of Code](https://hourofcode.com/) project.
+These users started as young as elementary school, and very quickly learned how
+to program using the amazing Blockly library.
+Even top universities teach block-based coding (e.g., 
+[Berkeley](http://bjc.berkeley.edu/), [Harvard](https://cs50.harvard.edu/)).
+But Blockly is not just a trainer or a toy. It is suitable for serious tasks:
+form processing, workflows, reporting, email marketing, bots, tests, surveys,
+quizzes and many other purposes.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/dgk/django-business-logic)
-
-## Install
-There are a few different ways you can install django-business-logic:
-
-* Use pip: `pip install -U django-business-logic`
-* Download the zipfile from the [releases](https://github.com/dgk/django-business-logic/releases) page and install it. 
-* Checkout the source: `git clone git://github.com/dgk/django-business-logic.git` and install it yourself.
-
-## Server setup
-
-1. Edit `settings.py` and add  `business_logic` to your `INSTALLED_APPS` 
-    
-```python
-# settings.py
-INSTALLED_APPS = (
-    # ...
-    'django.contrib.contenttypes',
-    
-    'ace_overlay', # optional, for comfortable python functions editing
-    'adminsortable2',
-    'nested_admin',
-    'polymorphic',
-    'rest_framework', # optional, provided browsable API for this library handy development
-    'django_filters', # ^^ same
-    
-    'business_logic',
-    # ...
-)
-```
-
-1. Edit `urls.py` and include `business_logic.urls`
-
-```python
-# urls.py
-urlpatterns = (
-  # ...
-  url('^nested_admin/', include('nested_admin.urls')),
-  url('^business-logic/', include('business_logic.urls')),
-  # ...
-)
-```
-1. Make migrations
-```bash
-python manage.py migrate
-```
-1. Collect static files
-```bash
-python manage.py collectstatic
-```
+The django-business-logic library tries to utilise the block programming
+approach to delegate programming tasks to non-programmers by implementing a
+framework for creating and working with Visual Domain Specific Languages.
 
 
-## Administrative setup
+The library comes with:
 
-First you should define one or more ProgramInterface objects via django admin interface ([http://localhost:8000/admin/business_logic/programinterface/](http://localhost:8000/admin/business_logic/programinterface/)).
+* pretty easy integration: minor changes in INSTALLED_APPS and root urlconf
+* support of many types of built-in django model fields: all numeric, boolean, string, foreign keys
+* logical division into interface/program/version: firstly define an "interface" object which is just a named set of django models and its fields; after you can create one or more named "programs" which implements the given interface and than release any number of the program's "versions"
+* easy invocation injecting of visually edited code: a few strings in your code, at any place - a view controller, signal handler, asynchronous task, no matter the monolith or microservice
+* dropdown controls with custom model object list; you need only register your custom models in the standard django admin interface
+* ability to easily integrate and make accessible to the visual editor two types of python functions: imported (from python built-in, third-party or your own module) and editable through django admin
+* easy to understand Blockly-based log viewer with the ability to inspect intermediate values
 
-Each ProgramInterface must contain one or more ProgramArgument objects.
-The ProgramArgument object represents one instance of django.db.Model 
-derived class specified as django.contrib.contentypes.ContentType instance (e.g. for your custom Order model) and his keyword argumet name (e.g. `order`).
-
-Each ProgramArgument object must contain one or more ProgramArgumentField 
-which represents one field of django model
-(e.g. `sum` for Order object or `delivery_address.city` for `city` field nested into Order DeliveryAddress model).
-
-If you want to use system-wide references (e.g. your custom City or ProductCategory django model)
-and you define represented ProgramArgumentField you should register referenced model via django admin interface([http://localhost:8000/admin/business_logic/referencedescriptor/](http://localhost:8000/admin/business_logic/referencedescriptor/)).
-
-Next create one or more Program objects which must implements described ProgramInterface(e.g.
-named "On Order create" with  "on_order_create" `code` field for programmatic access)
-
-## Visual Programming
-After setup you can go to web editor interface
-([http://localhost:8000/static/business_logic/index.html](http://localhost:8000/static/business_logic/index.html)),
-choose program interface, program, create and start editing your first program version.
-
-## Execution
-
-You may inject execution engine call at arbitrary place of your code, such as custom form.save, model.post_save methods, any django.dispatch.Signal handler or so on.
-Just instantiate appropriate ProgramVersion object and pass kwargs described in the ProgramInterface admin page to its execute() method .
-e.g. 
-
-```python
-
-from django.views.generic.edit import CreateView
-
-from business_logic.models import Program
-
-class OrderCreate(CreateView):
-    def form_valid(self, form):
-       order = form.save()
-       program = Program.objects.get(code="on_order_create")
-       program_version = program.versions.order_by("id").last()
-       program_version.execute(order=order)
-```
-
-ProgramVersion.execute() method can accept instance of business_logic.Context object.
-If this parameter omitted execute() method creates new instance of Context with default parameters.
-
-It can be initialized by the following parameters:
-* log(boolean) - create execution log (default - False)
-* debug(boolean) - create special Execution object contained all variables passed to execute() method, 
- ProgramVersion object, start and end execution times, and root of log objects if its created (default - False)
-
-ProgramVersion.execute() returns the Context instance. 
+Do not forget that this library is not designed with professional developers in
+mind, so the interface may look ugly and awkward in a professional developer’s
+eyes. Try to disengage from this feeling. Think like a human who gets panicked
+when seeing (our lovely) code with obscure brackets, odd commas, strange
+arrows, and so on.
+We, the development part of the team, can help our teammates from other
+departments to do more.
+Let’s bring the spirit of our successful sprints and fun development rooms to
+colleagues from management, marketing, sales, logistics and many others.
 
 
-## Credits
+## Documentation
 
-Many thanks to:
-* [contributors][contributors] of this library
-* all folks from Insurance Technologies LLC ([b2bpolis.ru](http://b2bpolis.ru/), [@b2bpolis](https://github.com/b2bpolis/)), 
-St.Petersburg, Russia and personally to its CEO [Roman Kurdo](https://www.facebook.com/roman.kurdo)
-* authors of all used opensource libraries
+See full documentation: https://django-business-logic.readthedocs.io/en/latest/
 
-## TODO
-- [x] References support
-- [x] Execution log viewer
-- [x] Imported and editable via admin interface python functions
-- [ ] Lists and Loops
-- [ ] Implicit strong static typing
-- [ ] Visually editable functions and its libraries
-- [ ] Two-dimensional constant tables (matrices)
-- [ ] Code sharing
-- [ ] Pure python code generation for execution speedup
+## Support us
 
-## Library Development
+Any feedback would be greatly appreciated.
 
-### Backend development environment
-#### virtualenv
-Virtualenv is probably what you want to use during development.
-Once you have virtualenv installed, just fire up a shell and create your own environment.
-```
-virtualenv venv
-source venv/bin/activate
-pip install -r requirements.dev.txt
-```
-#### Installing test data
-```
-python manage.py migrate
-python manage.py loaddata sites/dev/fixtures/data.json
-```
-#### Running backend dev server
-
-```
-python manage.py runserver
-```
-An instance of django dev server will be listening on http://localhost:8000/ .
-Now you can login into django admin interface http://localhost:8000/admin/
-with username `test` and password `test`.
-### Frontend development environment
-Fronted source files located under `frontend` folder.
-```
-cd frontend
-```
-#### Installing dependencies
-
-```
-npm install
-```
-#### Running webpack dev server
-
-```
-npm run server:dev:hmr
-```
-Now webpack dev server will be listening on http://localhost:3000/ .
-
-#### Building frontend files
-```
-npm run build:prod
-```
-
-### Running tests
-#### Running backend tests
-```
-python manage.py test
-```
-#### Test it all
-You need to know at least one command; the one that runs all the tests:
-
-```
-tox
-```
+If you are familiar with react/mobx and want to help us build django-business-logic library, please contact us at dgk@dgk.su.
 
 
-[contributors]: https://github.com/dgk/django-business-logic/graphs/contributors
-[blockly]: https://developers.google.com/blockly/
+## License
+MIT license

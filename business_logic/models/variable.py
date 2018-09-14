@@ -22,6 +22,9 @@ class VariableDefinition(models.Model):
 
 @python_2_unicode_compatible
 class Variable(models.Model):
+    """
+    
+    """
     definition = models.ForeignKey(VariableDefinition, related_name='variables', on_delete=models.CASCADE)
 
     class Meta:
@@ -32,9 +35,17 @@ class Variable(models.Model):
     class Undefined(object):
 
         def __nonzero__(self):
+            """
+            Called to implement truth value testing for python 2
+            :return: always False
+            """
             return False
 
         def __bool__(self):
+            """
+            Called to implement truth value testing for python 3
+            :return: always False
+            """
             return False
 
         def __str__(self):

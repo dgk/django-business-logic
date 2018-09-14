@@ -5,16 +5,16 @@ import codecs
 import re
 import sys
 import shutil
-from setuptools import setup, find_packages
+from setuptools import setup
 
-try: # for pip >= 10
+try:  # for pip >= 10
     from pip._internal.req import parse_requirements
-except ImportError: # for pip <= 9.0.3
+except ImportError:  # for pip <= 9.0.3
     from pip.req import parse_requirements
 
 PACKAGE = "business_logic"
 NAME = "django-business-logic"
-DESCRIPTION = "Visual programming framework for django"
+DESCRIPTION = "Visual DSL framework for django"
 AUTHOR = "Dmitry Kuksinsky"
 AUTHOR_EMAIL = "dgk@dgk.su"
 
@@ -36,9 +36,10 @@ def get_packages(package):
     """
     Return root package and all sub-packages.
     """
-    return [dirpath
-            for dirpath, dirnames, filenames in os.walk(package)
-            if os.path.exists(os.path.join(dirpath, '__init__.py'))]
+    return [
+        dirpath for dirpath, dirnames, filenames in os.walk(package)
+        if os.path.exists(os.path.join(dirpath, '__init__.py'))
+    ]
 
 
 def get_package_data(package):
@@ -52,12 +53,11 @@ def get_package_data(package):
 
     filepaths = []
     for base, filenames in walk:
-        filepaths.extend([os.path.join(base, filename)
-                          for filename in filenames])
+        filepaths.extend([os.path.join(base, filename) for filename in filenames])
     return {package: filepaths}
 
 
-def path(*parts):
+def abs_path(*parts):
     return os.path.join(os.path.dirname(__file__), *parts)
 
 
@@ -85,11 +85,12 @@ setup(
     name=NAME,
     version=get_version(PACKAGE),
     description=DESCRIPTION,
-    long_description=codecs.open(path('README.rst'), encoding='utf-8').read(),
+    long_description='\n'.join(
+        map(lambda x: codecs.open(abs_path(x), encoding='utf-8').read(), ['README.rst', 'README.pip.footer.rst'])),
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     url=URL,
-    # download_url='{}/archive/{}.tar.gz'.format(URL, VERSION),
+    download_url='{}/archive/{}.tar.gz'.format(URL, version),
     packages=get_packages(PACKAGE),
     package_data={
         PACKAGE: [
@@ -101,9 +102,10 @@ setup(
             'static/business_logic/src/assets/fonts/*',
         ]
     },
-
     license='MIT',
-    keywords=['django', ],
+    keywords=[
+        'django',
+    ],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
@@ -126,7 +128,7 @@ setup(
     ],
     zip_safe=False,
     install_requires=[
-        '{}; {}'.format(x.req, x.markers) if x.markers else str(x.req) for x
-        in parse_requirements(path('requirements.txt'), session=False)
+        '{}; {}'.format(x.req, x.markers) if x.markers else str(x.req)
+        for x in parse_requirements(abs_path('requirements.txt'), session=False)
     ],
 )

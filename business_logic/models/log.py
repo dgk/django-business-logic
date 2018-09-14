@@ -20,7 +20,15 @@ except AttributeError:
 
 
 class Logger(object):
+    """
+    Processed log creation during calling the :func:`business_logic.models.ProgramVersion.execute` method.
+    Will work only if ``Context.config.log`` flag is set to ``True``.
 
+    See Also:
+        * :class:`business_logic.config.ContextConfig`
+        * :class:`business_logic.models.Context`
+        * :ref:`Signals`
+    """
     def __init__(self):
         self.log = None
         self._stack = []
@@ -63,6 +71,21 @@ class Logger(object):
 
 
 class LogEntry(AL_Node):
+    """
+    Derived from `treebeard.AL_Node <https://django-treebeard.readthedocs.io/en/latest/al_tree.html#treebeard.al_tree.AL_Node>`_.
+    Stores single :class:`business_logic.models.Node` interpretation event.
+    Will be created only if ``Context.config.log`` flag is set to ``True``.
+
+    Attributes:
+        node(:class:`business_logic.models.Node`): currently interpreted node
+        previous_value(): value before interpretation (actual for :class:`business_logic.models.Variable`)
+        current_value(): value after interpretation
+        exception(:class:`business_logic.models.ExceptionLog`): exception if it raised during interpretation.
+
+    See Also:
+        * :class:`business_logic.config.ContextConfig`
+        * :class:`business_logic.models.Context`
+    """
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
     sib_order = models.PositiveIntegerField()
 
@@ -72,6 +95,17 @@ class LogEntry(AL_Node):
 
 
 class ExceptionLog(models.Model):
+    """
+    Stores information about exception raised during node interpretation.
+
+    Attributes:
+       log_entry(:class:`business_logic.models.LogEntry`): parent LogEntry
+       module(:obj:`str`): exception module
+       type(:obj:`str`): exception type
+       message(:obj:`str`): exception message
+       traceback(:obj:`str`): traceback
+
+    """
     log_entry = models.OneToOneField('LogEntry', related_name='exception', on_delete=models.CASCADE)
     module = models.CharField(max_length=255)
     type = models.CharField(max_length=255)
@@ -79,15 +113,22 @@ class ExceptionLog(models.Model):
     traceback = models.TextField()
 
 
-class ExecutionArgument(models.Model):
-    execution = models.ForeignKey('business_logic.Execution', related_name='arguments', on_delete=models.CASCADE)
-    program_argument = models.ForeignKey('business_logic.ProgramArgument', on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
-
-
 class Execution(models.Model):
+    """
+    Stores information about calling the :func:`business_logic.models.ProgramVersion.execute` method.
+    Will be created only if ``Context.config.debug`` flag is set to ``True``.
+
+    Attributes:
+        program_version(:class:`business_logic.models.ProgramVersion`): executed ProgramVersion
+        arguments(:obj:`list` of :class:`business_logic.models.ExecutionArgument`): arguments of execution
+        start_time(:obj:`datetime`): start execution time
+        finish_time(:obj:`datetime`): finish execution time
+        log(:class:`business_logic.models.LogEntry`): root node of LogEntries
+
+    See Also:
+        * :class:`business_logic.config.ContextConfig`
+        * :class:`business_logic.models.Context`
+    """
     log = models.OneToOneField('business_logic.LogEntry', null=True, on_delete=models.SET_NULL)
     program_version = models.ForeignKey('business_logic.ProgramVersion', on_delete=models.CASCADE)
     start_time = models.DateTimeField(auto_now_add=True)
@@ -95,3 +136,19 @@ class Execution(models.Model):
 
     class Meta:
         ordering = ('-id',)
+
+class ExecutionArgument(models.Model):
+    """
+    Stores information about argument passed to :func:`business_logic.models.ProgramVersion.execute`.
+
+    Attributes:
+        execution(:class:`business_logic.models.Execution`): parent Execution object
+        program_argument(:class:`business_logic.models.ProgramArgument`): parent ProgramArgument object
+        content_object(:class:`django.db.models.Model`): passed argument
+    """
+    execution = models.ForeignKey('business_logic.Execution', related_name='arguments', on_delete=models.CASCADE)
+    program_argument = models.ForeignKey('business_logic.ProgramArgument', on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+

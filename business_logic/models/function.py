@@ -85,6 +85,11 @@ class PythonModuleFunctionDefinition(FunctionDefinition):
 
 
 class PythonCodeFunctionDefinition(FunctionDefinition):
+    """
+    Todo:
+        * re-raise exception
+        * rewrite block with eval() to more safe
+    """
     code = models.TextField(_('Code'), max_length=255)
 
     class Meta:

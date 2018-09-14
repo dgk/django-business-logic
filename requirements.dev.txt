@@ -2,5 +2,7 @@
 Django>=1.11
 django-bootstrap3==11.0.0
 flake8
+Sphinx
+sphinx_rtd_theme
 tox>=3.3.0
 yapf

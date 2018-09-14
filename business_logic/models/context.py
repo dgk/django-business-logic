@@ -10,6 +10,10 @@ from .variable import Variable, VariableDefinition
 
 
 class Context(NodeCacheHolder):
+    """
+    Attributes:
+        config(:class:`business_logic.config.ContextConfig`):
+    """
 
     def __init__(self, **kwargs):
         self.config = ContextConfig(**kwargs)
@@ -64,6 +68,16 @@ class Context(NodeCacheHolder):
         return super(Context, self).get_children(node)
 
     def get_variable(self, variable_definition):
+        """
+        Get variable value in current context
+
+        Args:
+            variable_definition (:class:`business_logic.models.VariableDefinition`): definition of variable
+
+        Returns:
+            variable value
+
+        """
         assert isinstance(variable_definition, VariableDefinition)
 
         try:
@@ -90,6 +104,14 @@ class Context(NodeCacheHolder):
         return current
 
     def set_variable(self, variable_definition, value):
+        """
+        Set variable value in current context
+
+        Args:
+            variable_definition (:class:`business_logic.models.VariableDefinition`): definition of variable
+            value: variable value
+
+        """
         assert isinstance(variable_definition, VariableDefinition)
 
         if variable_definition.name.find('.') == -1:
