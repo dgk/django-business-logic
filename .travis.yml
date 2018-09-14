@@ -1,22 +1,35 @@
 language: python
 
-python:
-  - 2.7
-  - 3.4
-  - 3.5
-  - 3.6
+#Django version     Python versions
+#1.11               2.7, 3.4, 3.5, 3.6
+#2.0                3.4, 3.5, 3.6, 3.7
+#2.1, 2.2           3.5, 3.6, 3.7
 
-env:
-  - DJANGO_VERSION="Django>=1.8,<1.9"
-  - DJANGO_VERSION="Django>=1.9,<1.10"
-  - DJANGO_VERSION="Django>=1.10,<1.11"
-  - DJANGO_VERSION="Django>=1.11,<1.12"
-#  - DJANGO_VERSION=Django>=2.0,<2.1
+matrix:
 
-#matrix:
-#  exclude:
-#    - python: 2.7
-#      env: DJANGO_VERSION=Django>=2.0,<2.1
+  include:
+    - python: 2.7
+      env: DJANGO_VERSION="Django>=1.11,<1.12"
+
+    - python: 3.4
+      env: DJANGO_VERSION="Django>=2.0,<2.1"
+    - python: 3.5
+      env: DJANGO_VERSION="Django>=2.0,<2.1"
+    - python: 3.6
+      env: DJANGO_VERSION="Django>=2.0,<2.1"
+    - python: 3.7
+      env: DJANGO_VERSION="Django>=2.0,<2.1"
+      dist: xenial
+      sudo: true
+
+    - python: 3.5
+      env: DJANGO_VERSION="Django>=2.1,<2.2"
+    - python: 3.6
+      env: DJANGO_VERSION="Django>=2.1,<2.2"
+    - python: 3.7
+      env: DJANGO_VERSION="Django>=2.1,<2.2"
+      dist: xenial
+      sudo: true
 
 before_install:
   - export DJANGO_SETTINGS_MODULE=sites.test.settings

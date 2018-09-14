@@ -4,7 +4,8 @@
 [![codeclimate](https://img.shields.io/codeclimate/github/dgk/django-business-logic.svg)](https://codeclimate.com/github/dgk/django-business-logic)
 [![codecov coverage](https://img.shields.io/codecov/c/github/dgk/django-business-logic.svg)](https://codecov.io/gh/dgk/django-business-logic)
 [![MIT license](https://img.shields.io/pypi/l/django-business-logic.svg)](https://github.com/dgk/django-business-logic/blob/master/LICENSE.txt)
-[![py versions](https://img.shields.io/pypi/pyversions/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
+[![python versions](https://img.shields.io/pypi/pyversions/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
+[![django versions](https://img.shields.io/pypi/djversions/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
 [![pypi version](https://img.shields.io/pypi/v/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
 [![pypi version status](https://img.shields.io/pypi/status/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
 
@@ -25,8 +26,8 @@ See [screenshots](https://github.com/dgk/django-business-logic/wiki/Screenshots)
 ## Requirements
 This library requires the following:
 * Python (2.7, 3.4, 3.5, 3.6)
-* Django (1.8, 1.9, 1.10, 1.11)
-* django-rest-framework 3.x up to 3.6 (because 3.7 lacks Django 1.8 and 1.9 support)
+* Django (1.11, 2.0, 2.1) (for Django 1.8, 1.9, 1.10 use 0.4.13 version)
+* django-rest-framework 3.8+
 
 ## Architecture
 
@@ -176,7 +177,7 @@ St.Petersburg, Russia and personally to its CEO [Roman Kurdo](https://www.facebo
 - [x] References support
 - [x] Execution log viewer
 - [x] Imported and editable via admin interface python functions
-- [ ] Listst and Loops
+- [ ] Lists and Loops
 - [ ] Implicit strong static typing
 - [ ] Visually editable functions and its libraries
 - [ ] Two-dimensional constant tables (matrices)

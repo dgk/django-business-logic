@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url, include
 
-from .rest import urls
+urlpatterns = [url(r'^rest/', include(('business_logic.rest.urls', 'business_logic'), namespace='rest'))]
 
-
-class Urls(object):
-
-    urlpatterns = [url(r'^rest/', include(urls, namespace='rest'))]
-
-
-urlpatterns = [url('', include(Urls, namespace='business-logic'))]
+urlpatterns = [url('', include((urlpatterns, 'business_logic'), namespace='business-logic'))]

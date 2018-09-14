@@ -383,5 +383,5 @@ class NodeCacheTest(TestCase):
         cache_holder.get_children(root)
         max_num_queries = len(queries)
         content_object = root.content_object
-        self.failUnless(content_object.node is root)
+        self.failUnlessEqual(content_object.node, root)
         self.failUnlessEqual(max_num_queries, len(queries))

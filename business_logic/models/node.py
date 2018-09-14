@@ -195,10 +195,8 @@ class NodeCache:
         for content_type in content_types:
             content_type_by_id[content_type.id] = content_type
             model = content_type.model_class()
-            objects_by_ct_id_by_id[content_type.id] = dict(
-                [(x.id, x)
-                 for x in model.objects.filter(
-                     id__in=tree.values_list('object_id', flat=True).filter(content_type=content_type))])
+            objects_by_ct_id_by_id[content_type.id] = dict([(x.id, x) for x in model.objects.filter(
+                id__in=tree.values_list('object_id', flat=True).filter(content_type=content_type))])
 
         tree = list(tree)
         tree[[x.id for x in tree].index(node.id)] = node

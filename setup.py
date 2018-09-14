@@ -14,7 +14,7 @@ except ImportError: # for pip <= 9.0.3
 
 PACKAGE = "business_logic"
 NAME = "django-business-logic"
-DESCRIPTION = "visual programming for django"
+DESCRIPTION = "Visual programming framework for django"
 AUTHOR = "Dmitry Kuksinsky"
 AUTHOR_EMAIL = "dgk@dgk.su"
 
@@ -116,13 +116,13 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Framework :: Django',
-        'Framework :: Django :: 1.8',
-        'Framework :: Django :: 1.9',
-        'Framework :: Django :: 1.10',
         'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.0',
+        'Framework :: Django :: 2.1',
     ],
     zip_safe=False,
     install_requires=[

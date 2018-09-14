@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.views.defaults import page_not_found
 
 urlpatterns = [
-    url('^admin/', include(admin.site.urls)),
+    url('^admin/', admin.site.urls),
     url('^business-logic/', include('business_logic.urls')),
     url('^business-logic/', lambda request: page_not_found(request, Http404())),
     url('^books/', include('sites.dev.books.urls')),
