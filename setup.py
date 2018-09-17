@@ -126,7 +126,7 @@ setup(
     ],
     zip_safe=False,
     install_requires=[
-        str(x.req) for x
+        '{}; {}'.format(x.req, x.markers) if x.markers else str(x.req) for x
         in parse_requirements(path('requirements.txt'), session=False)
     ],
 )
