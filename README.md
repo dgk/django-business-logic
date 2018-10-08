@@ -9,6 +9,14 @@
 [![pypi version](https://img.shields.io/pypi/v/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
 [![pypi version status](https://img.shields.io/pypi/status/django-business-logic.svg)](https://pypi.org/project/django-business-logic/)
 
+# FRONTEND DEVELOPER WANTED!!! 
+
+If you are familiar with react/mobx and want to help us build awesome django-business-logic library email us at dgk@dgk.su.
+
+
+# Documentation
+
+Work on documentation in the process, [see draft here](https://django-business-logic.readthedocs.io/en/latest/).
 
 ## Introduction
 
