@@ -11,8 +11,7 @@
 
 # FRONTEND DEVELOPER WANTED!!! 
 
-If you are familiar with react/mobx and want to help us build awesome django-business-logic library email us at dgk@dgk.su.
-
+If you are familiar with react/mobx and want to help us build awesome django-business-logic library, contact us at dgk@dgk.su.
 
 # Documentation
 
