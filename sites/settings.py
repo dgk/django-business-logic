@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     #
     'rest_framework',
     'django_filters',
-    'nested_inline',
+    'nested_admin',
     'polymorphic',
     'ace_overlay',
     'adminsortable2',

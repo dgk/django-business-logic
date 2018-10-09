@@ -2,9 +2,8 @@
 from django import forms
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.admin import TabularInline
 
-from nested_inline.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
+from nested_admin.nested import NestedModelAdmin, NestedStackedInline
 
 from polymorphic.admin import PolymorphicChildModelAdmin
 from polymorphic.admin import PolymorphicParentModelAdmin

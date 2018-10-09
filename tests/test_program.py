@@ -156,3 +156,8 @@ class ProgramAdminTest(ProgramTestBase):
     def test_programinterface_changelist(self):
         url = reverse('admin:business_logic_programinterface_changelist')
         self.client.get(url)
+
+    def test_programinterface_change(self):
+        url = reverse('admin:business_logic_programinterface_change',
+                      args=(self.program_interface.id, ))
+        response = self.client.get(url)

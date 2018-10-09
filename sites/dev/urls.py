@@ -7,6 +7,8 @@ from django.views.defaults import page_not_found
 
 urlpatterns = [
     url('^admin/', admin.site.urls),
+    url('^nested_admin/', include('nested_admin.urls')),
+
     url('^business-logic/', include('business_logic.urls')),
     url('^business-logic/', lambda request: page_not_found(request, Http404())),
     url('^books/', include('sites.dev.books.urls')),

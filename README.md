@@ -88,7 +88,7 @@ INSTALLED_APPS = (
     
     'ace_overlay', # optional, for comfortable python functions editing
     'adminsortable2',
-    'nested_inline',
+    'nested_admin',
     'polymorphic',
     'rest_framework', # optional, provided browsable API for this library handy development
     'django_filters', # ^^ same
@@ -104,6 +104,7 @@ INSTALLED_APPS = (
 # urls.py
 urlpatterns = (
   # ...
+  url('^nested_admin/', include('nested_admin.urls')),
   url('^business-logic/', include('business_logic.urls')),
   # ...
 )

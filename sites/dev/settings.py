@@ -5,6 +5,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS += [
     #    'django_extensions',
+
     'bootstrap3',
     'sites.dev.books',
 ]
