@@ -174,7 +174,7 @@ class Node(NS_Node):
             for child in children:
                 try:
                     children_interpreted.append(child.interpret(ctx))
-                except BaseException as e:
+                except Exception as e:
                     exception = handle_exception(e)
                     if exception_handling_policy == ExceptionHandlingPolicy.INTERRUPT:
                         break
@@ -184,7 +184,7 @@ class Node(NS_Node):
         if not is_block and exception is None:
             try:
                 return_value = self.content_object.interpret(ctx, *children_interpreted)
-            except BaseException as e:
+            except Exception as e:
                 exception = handle_exception(e)
 
         # send signals

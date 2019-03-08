@@ -111,7 +111,7 @@ ret = function(**kwargs)
 '''.format(self.code), '<string>', 'exec')
         try:
             eval(code, {}, function_locals)
-        except BaseException as e:
+        except Exception as e:
             print(e)
         return function_locals['ret']
 

@@ -110,7 +110,7 @@ class BlocklyXMLSerializer(serializers.CharField):
 
         try:
             BlocklyXmlParser().parse(data)
-        except BaseException as e:
+        except Exception as e:
             raise serializers.ValidationError(
                 ["Xml parse error - {}: {}".format(e.__class__.__name__, six.text_type(e))])
 
