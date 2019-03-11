@@ -6,9 +6,9 @@
    :target: https://codecov.io/gh/dgk/django-business-logic
    :alt: codecov
 
-.. image:: https://landscape.io/github/dgk/django-business-logic/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/dgk/django-business-logic
-   :alt: codecov
+.. image:: https://img.shields.io/codeclimate/maintainability/dgk/django-business-logic.svg
+   :target: https://codeclimate.com/github/dgk/django-business-logic
+   :alt: codeclimate
 
 .. image:: https://readthedocs.org/projects/django-business-logic/badge/?version=latest
    :target: https://django-business-logic.readthedocs.org/
