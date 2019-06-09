@@ -85,8 +85,7 @@ setup(
     name=NAME,
     version=get_version(PACKAGE),
     description=DESCRIPTION,
-    long_description='\n'.join(
-        map(lambda x: codecs.open(abs_path(x), encoding='utf-8').read(), ['README.rst', 'README.pip.footer.rst'])),
+    long_description=codecs.open(abs_path('README.rst'), encoding='utf-8').read(),
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     url=URL,

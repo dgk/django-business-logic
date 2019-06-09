@@ -12,8 +12,9 @@ LABEL org.label-schema.schema-version="1.0" \
 
 
 RUN mkdir /app
-ADD . /app
 WORKDIR app
+
+ADD . /app
 
 RUN apk add --no-cache libxslt && \
     apk add --no-cache --virtual .build-deps g++ python-dev libxslt-dev git && \
@@ -24,7 +25,8 @@ RUN apk add --no-cache libxslt && \
 RUN python manage.py migrate && \
     python manage.py loaddata sites/dev/fixtures/data.json
 
+RUN cat sites/dev/templates/ga.html >> business_logic/static/business_logic/index.html
+
 EXPOSE 8000
 ENTRYPOINT ["python", "manage.py"]
 CMD ["runserver",  "0.0.0.0:8000"]
-

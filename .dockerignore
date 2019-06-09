@@ -6,4 +6,4 @@
 !business_logic
 !README.*
 !manage.py
-
+sites/dev/db.sqlite3

@@ -34,6 +34,13 @@
    :target: https://pypi.org/project/django-business-logic/
    :alt: pypi versions status
 
+.. image:: https://img.shields.io/gitter/room/django-business-logic/community.svg
+   :target: https://gitter.im/django-business-logic/community
+   :alt: gitter
+
+Preface
+#######
+
 Processes change more often than technic. Domain Rules are situational and may
 differ from customer to customer. With diverse code and frequent changes, the code
 becomes complicated, then the probability of errors increases. One of the
@@ -93,3 +100,27 @@ departments to do more.
 Let’s bring the spirit of our successful sprints and fun development rooms to
 colleagues from management, marketing, sales, logistics and many others.
 
+Library home
+############
+https://github.com/dgk/django-business-logic/
+
+Documentation
+#############
+
+https://django-business-logic.readthedocs.io/en/latest/
+
+Support us
+##########
+
+Any feedback and github stars would be greatly appreciated.
+
+Please feel free to ask any questions in the `gitter chat <https://gitter.im/django-business-logic/community>`_
+
+If you are familiar with react/mobx and want to help to build django-business-logic library
+(`next generation frontend code is here <https://github.com/dgk/business-logic-ui/>`_), please contact me dgk@dgk.su.
+
+
+License
+#######
+
+MIT license

@@ -1,0 +1,6 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block extrahead %}
+{{ block.super }}
+ {% include "ga.html" %}
+{% endblock %}

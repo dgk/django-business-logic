@@ -27,6 +27,11 @@ On each entering to single book view the following python code executed:
 
 You can see screenshots now: :ref:`demo_on_book_view_screenshot` and :ref:`demo_on_book_view_log_screenshot`
 
+Hosted demo
+-----------
+Hosted demo site is available here: https://django-business-logic-demo.dev.dgk.su/ . The database is reset every hour.
+
+
 Running using Docker
 --------------------
 
