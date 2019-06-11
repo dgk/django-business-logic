@@ -30,6 +30,7 @@ You can see screenshots now: :ref:`demo_on_book_view_screenshot` and :ref:`demo_
 Hosted demo
 -----------
 Hosted demo site is available here: https://django-business-logic-demo.dev.dgk.su/ . The database is reset every hour.
+You can login into django admin interface with username ``test`` and password ``test``.
 
 
 Running using Docker

@@ -21,19 +21,19 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Authors <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="/books/author">List</a></li>
-                <li><a href="/books/author/add">Create</a></li>
-              </ul>
-            </li>
+{#            <li class="dropdown">#}
+{#              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Authors <span class="caret"></span></a>#}
+{#              <ul class="dropdown-menu">#}
+{#                <li><a href="/books/author">List</a></li>#}
+{#                <li><a href="/books/author/add">Create</a></li>#}
+{#              </ul>#}
+{#            </li>#}
 
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Publishers <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="/books/publisher">List</a></li>
-                <li><a href="/books/publisher/add">Create</a></li>
+{#                <li><a href="/books/publisher/add">Create</a></li>#}
               </ul>
             </li>
 
@@ -41,13 +41,13 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Books <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="/books/book">List</a></li>
-                <li><a href="/books/book/add">Create</a></li>
+{#                  <li><a href="/books/book/add">Create</a></li>#}
               </ul>
             </li>
 
-            <li><a href="/admin/">Admin</a></li>
-            <li><a href="/business-logic/rest/">API</a></li>
-            <li><a href="{% static 'business_logic/index.html' %}">Editor</a></li>
+            <li><a href="{% static 'business_logic/index.html' %}">django-business-logic Visual Editor</a></li>
+            <li><a data-toggle="tooltip" data-placement="bottom" title="use test:test to login" href="/admin/business_logic/">Django Admin</a></li>
+            <li><a href="/business-logic/rest/">django-business-logic REST API</a></li>
 
           </ul>
         </div><!--/.nav-collapse -->
