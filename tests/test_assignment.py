@@ -24,7 +24,7 @@ class AssignmentTest(TestCase):
 
         result = root.interpret(context)
         var_value = context.get_variable(var_def)
-        self.failUnlessEqual(7, var_value)
+        self.assertEqual(7, var_value)
 
     def test_var_assignment(self):
         context = Context()
@@ -54,4 +54,4 @@ class AssignmentTest(TestCase):
         root = Node.objects.get(id=root.id)
         result = root.interpret(context)
         var_value = context.get_variable(var_def2)
-        self.failUnlessEqual(7, var_value)
+        self.assertEqual(7, var_value)

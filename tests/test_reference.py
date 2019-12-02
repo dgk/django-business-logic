@@ -29,7 +29,7 @@ class ReferenceConstantTest(TestCase):
         test_model = Model.objects.create()
         root.add_child(content_object=test_model)
         context = Context()
-        self.failUnlessEqual(test_model, constant.interpret(context))
+        self.assertEqual(test_model, constant.interpret(context))
 
     def test_operator_eq_equals(self):
         root = Node.add_root(content_object=BinaryOperator(operator='=='))

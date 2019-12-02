@@ -16,69 +16,69 @@ class NodeTest(TestCase):
         operator = BinaryOperator(operator='+')
         operator.save()
         root = Node.add_root(content_object=operator)
-        self.failUnless(root.id)
-        self.failUnless(root.content_object)
-        self.failUnlessEqual(operator.operator, root.content_object.operator)
-        self.failUnlessEqual('+', root.content_object.operator)
+        self.assertTrue(root.id)
+        self.assertTrue(root.content_object)
+        self.assertEqual(operator.operator, root.content_object.operator)
+        self.assertEqual('+', root.content_object.operator)
         root = Node.objects.get(id=root.id)
-        self.failUnless(root.content_object)
-        self.failUnlessEqual(operator.operator, root.content_object.operator)
-        self.failUnlessEqual('+', root.content_object.operator)
+        self.assertTrue(root.content_object)
+        self.assertEqual(operator.operator, root.content_object.operator)
+        self.assertEqual('+', root.content_object.operator)
 
     def test_add_child(self):
         operator = BinaryOperator(operator='+')
         operator.save()
         root = Node.add_root(content_object=operator)
-        self.failUnless(root.is_leaf())
+        self.assertTrue(root.is_leaf())
 
-        self.failUnless(root.content_object)
-        self.failUnless(root.object_id)
-        self.failUnlessEqual(operator.operator, root.content_object.operator)
-        self.failUnlessEqual('+', root.content_object.operator)
-        self.failUnlessEqual(0, len(root.get_children()))
+        self.assertTrue(root.content_object)
+        self.assertTrue(root.object_id)
+        self.assertEqual(operator.operator, root.content_object.operator)
+        self.assertEqual('+', root.content_object.operator)
+        self.assertEqual(0, len(root.get_children()))
 
         number_constant1 = NumberConstant(value=1)
         child_node = root.add_child(content_object=number_constant1)
-        self.failUnless(child_node.id)
-        self.failUnless(child_node.content_object)
+        self.assertTrue(child_node.id)
+        self.assertTrue(child_node.content_object)
 
-        self.failUnless(root.is_root())
-        self.failUnlessEqual(1, len(root.get_children()))
+        self.assertTrue(root.is_root())
+        self.assertEqual(1, len(root.get_children()))
 
         root = Node.objects.get(id=root.id)
-        self.failUnlessEqual(1, len(root.get_children()))
+        self.assertEqual(1, len(root.get_children()))
 
     def test_tree(self):
         root = Node.add_root()
-        self.failUnless(root.is_leaf())
+        self.assertTrue(root.is_leaf())
         statement1 = NumberConstant(value=33)
         statement2 = NumberConstant(value=44)
         root = Node.objects.get(id=root.id)
         node1 = root.add_child(content_object=statement1)
 
-        self.failUnless(node1.content_object.id)
-        self.failUnless(node1.content_object.value)
-        self.failUnless(node1.object_id)
+        self.assertTrue(node1.content_object.id)
+        self.assertTrue(node1.content_object.value)
+        self.assertTrue(node1.object_id)
 
-        self.failUnlessEqual(node1.content_object.id, statement1.id)
-        self.failUnlessEqual(node1.content_object.value, statement1.value)
-        self.failUnlessEqual(node1.object_id, statement1.id)
+        self.assertEqual(node1.content_object.id, statement1.id)
+        self.assertEqual(node1.content_object.value, statement1.value)
+        self.assertEqual(node1.object_id, statement1.id)
 
-        self.failUnless(root.pk)
-        self.failUnless(statement1.pk)
-        self.failUnless(root.is_root())
+        self.assertTrue(root.pk)
+        self.assertTrue(statement1.pk)
+        self.assertTrue(root.is_root())
 
         root = Node.objects.get(id=root.id)
         node2 = root.add_child(content_object=statement2)
-        self.failUnlessEqual(node2.content_object, statement2)
+        self.assertEqual(node2.content_object, statement2)
 
         root = Node.objects.get(id=root.id)
         children = root.get_descendants()
-        self.failUnlessEqual(len(children), 2)
+        self.assertEqual(len(children), 2)
 
         child_objects = [x.content_object for x in children]
-        self.failUnlessEqual(node1.content_object.value, child_objects[0].value)
-        self.failUnlessEqual(node2.content_object.value, child_objects[1].value)
+        self.assertEqual(node1.content_object.value, child_objects[0].value)
+        self.assertEqual(node2.content_object.value, child_objects[1].value)
 
     def test_traverse(self):
         add_node = tree_1plus2mul3()
@@ -96,12 +96,12 @@ class NodeTest(TestCase):
         # preoder
         visitor = Visitor()
         visitor.preorder(add_node)
-        self.failUnlessEqual(visitor.visited, [add_node, node1, mul_node, node2, node3])
+        self.assertEqual(visitor.visited, [add_node, node1, mul_node, node2, node3])
 
         # postorder
         visitor = Visitor()
         visitor.postorder(add_node)
-        self.failUnlessEqual(visitor.visited, [
+        self.assertEqual(visitor.visited, [
             node1,
             node2,
             node3,
@@ -114,22 +114,22 @@ class NodeTest(TestCase):
         statement1 = NumberConstant(value=1)
         statement2 = NumberConstant(value=2)
         node1 = root.add_child(content_object=statement1)
-        self.failUnlessEqual(1, len(root.get_children()))
+        self.assertEqual(1, len(root.get_children()))
         node2 = root.add_child(content_object=statement2)
         root = Node.objects.get(id=root.id)
-        self.failUnlessEqual(2, len(root.get_children()))
+        self.assertEqual(2, len(root.get_children()))
 
-        self.failUnless(NumberConstant.objects.filter(pk=statement1.pk).count())
-        self.failUnless(NumberConstant.objects.filter(pk=statement2.pk).count())
-        self.failUnless(Node.objects.filter(pk=node1.pk).count())
-        self.failUnless(Node.objects.filter(pk=node2.pk).count())
+        self.assertTrue(NumberConstant.objects.filter(pk=statement1.pk).count())
+        self.assertTrue(NumberConstant.objects.filter(pk=statement2.pk).count())
+        self.assertTrue(Node.objects.filter(pk=node1.pk).count())
+        self.assertTrue(Node.objects.filter(pk=node2.pk).count())
 
         root.delete()
 
-        self.failIf(NumberConstant.objects.filter(pk=statement1.pk).count())
-        self.failIf(NumberConstant.objects.filter(pk=statement2.pk).count())
-        self.failIf(Node.objects.filter(pk=node1.pk).count())
-        self.failIf(Node.objects.filter(pk=node2.pk).count())
+        self.assertFalse(NumberConstant.objects.filter(pk=statement1.pk).count())
+        self.assertFalse(NumberConstant.objects.filter(pk=statement2.pk).count())
+        self.assertFalse(Node.objects.filter(pk=node1.pk).count())
+        self.assertFalse(Node.objects.filter(pk=node2.pk).count())
 
     def test_delete_with_lost_content_object(self):
         root = Node.add_root()
@@ -152,30 +152,30 @@ class NodeTest(TestCase):
 
     def test_statement_or_block(self):
         root = Node.add_root()
-        self.failUnless(root.is_block())
-        self.failIf(root.is_statement())
+        self.assertTrue(root.is_block())
+        self.assertFalse(root.is_statement())
         node1 = tree_1plus2mul3(parent=root)
-        self.failUnless(root.is_block())
-        self.failIf(root.is_statement())
-        self.failIf(node1.is_block())
-        self.failUnless(node1.is_statement())
+        self.assertTrue(root.is_block())
+        self.assertFalse(root.is_statement())
+        self.assertFalse(node1.is_block())
+        self.assertTrue(node1.is_statement())
 
     def test_tree_1plus2mul3(self):
         add_node = tree_1plus2mul3()
-        self.failUnlessEqual(add_node.content_object.operator, '+')
+        self.assertEqual(add_node.content_object.operator, '+')
         int_1node, mul_node = add_node.get_children().all()
-        self.failUnlessEqual(int_1node.content_object.value, 1)
-        self.failUnlessEqual(mul_node.content_object.operator, '*')
+        self.assertEqual(int_1node.content_object.value, 1)
+        self.assertEqual(mul_node.content_object.operator, '*')
         int_2node, int_3node = mul_node.get_children().all()
-        self.failUnlessEqual(int_2node.content_object.value, 2)
-        self.failUnlessEqual(int_3node.content_object.value, 3)
+        self.assertEqual(int_2node.content_object.value, 2)
+        self.assertEqual(int_3node.content_object.value, 3)
 
     @unittest.skip('TODO: Node.clone() not properly implemented')
     def test_tree_clone(self):
         root = get_test_tree()
         clone = root.clone()
         # root.delete()
-        self.failUnless(isinstance(clone, Node))
+        self.assertTrue(isinstance(clone, Node))
         context = Context()
 
         clone.interpret(context)
@@ -186,7 +186,7 @@ class NodeTest(TestCase):
     def test_content_object_node_accessor(self):
         root = symmetric_tree()
         content_object = root.content_object
-        self.failUnlessEqual(content_object.node, root)
+        self.assertEqual(content_object.node, root)
 
 
 class NodeInterpretTest(TestCase):
@@ -207,7 +207,7 @@ class NodeInterpretTest(TestCase):
         context = Context(cache=False)
         result = root.interpret(context)
 
-        self.failUnlessEqual(number_constant1.value + number_constant2.value, result)
+        self.assertEqual(number_constant1.value + number_constant2.value, result)
 
     def test_interpret_tree(self):
 
@@ -231,7 +231,7 @@ class NodeInterpretTest(TestCase):
         root = Node.objects.get(id=root.id)
         result = root.interpret(context)
 
-        self.failUnlessEqual(2 + 3 * 4, result)
+        self.assertEqual(2 + 3 * 4, result)
 
     def _test_long_time_interpret(self):
         # settings.DEBUG = True
@@ -262,10 +262,10 @@ class NodeInterpretTest(TestCase):
         result = root.interpret(context)
         start_time = calculation_time('executing')
 
-        self.failUnlessEqual(count, result)
+        self.assertEqual(count, result)
         start_time = calculation_time('executing2')
 
-        self.failUnlessEqual(count, result)
+        self.assertEqual(count, result)
         for q in connection.queries[compilation_queries_count:]:
             print(q['sql'])
         print('queries.count', len(connection.queries) - compilation_queries_count)
@@ -277,7 +277,7 @@ class NodeInterpretTest(TestCase):
 
         context = Context()
         result = node1.interpret(context)
-        self.failUnlessEqual(7, result)
+        self.assertEqual(7, result)
 
         root = Node.objects.get(id=root.id)
         context = Context()
@@ -288,11 +288,11 @@ class NodeInterpretTest(TestCase):
         root = symmetric_tree()
         context = Context()
         result = root.interpret(context)
-        self.failUnlessEqual(2, result)
+        self.assertEqual(2, result)
         root = symmetric_tree(operator='*', count=4, value=5)
         context = Context()
         result = root.interpret(context)
-        self.failUnlessEqual(625, result)
+        self.assertEqual(625, result)
 
 
 class NodeInterpretExceptionTest(TestCase):
@@ -339,23 +339,23 @@ class NodeCacheTest(TestCase):
         node = symmetric_tree()
         not_cached_children = node.get_children().all()
         cached_children = cache_holder.get_children(node)
-        self.failUnless(isinstance(cache_holder._node_cache, NodeCache))
+        self.assertTrue(isinstance(cache_holder._node_cache, NodeCache))
         for i, child in enumerate(not_cached_children):
-            self.failUnlessEqual(child.id, cached_children[i].id)
+            self.assertEqual(child.id, cached_children[i].id)
         max_num_queries = len(queries)
-        self.failUnlessEqual(max_num_queries, len(queries))
+        self.assertEqual(max_num_queries, len(queries))
         content_object = node.content_object
-        self.failUnlessEqual(max_num_queries, len(queries))
+        self.assertEqual(max_num_queries, len(queries))
         content_object = cached_children[0].content_object
-        self.failUnlessEqual(max_num_queries, len(queries))
+        self.assertEqual(max_num_queries, len(queries))
         content_object = cached_children[1].content_object
-        self.failUnlessEqual(max_num_queries, len(queries))
+        self.assertEqual(max_num_queries, len(queries))
 
     def test_init_node_in_cache(self):
         cache_holder = NodeCacheHolder()
         node = symmetric_tree()
         cached_children = cache_holder.get_children(node)
-        self.failUnless(node is cache_holder._node_cache._node_by_id[node.id])
+        self.assertTrue(node is cache_holder._node_cache._node_by_id[node.id])
 
     def test_medium_tree_cache(self):
         queries = connection.queries
@@ -369,12 +369,12 @@ class NodeCacheTest(TestCase):
         max_num_queries = len(queries)
         cached_lft_lft_child, cached_rgh_lft_child = cache_holder.get_children(cached_lft_mul_node)
         cached_lft_rgh_child, cached_rgh_rgh_child = cache_holder.get_children(cached_rgh_mul_node)
-        self.failUnlessEqual(max_num_queries, len(queries))
+        self.assertEqual(max_num_queries, len(queries))
         cached_lft_rgh_child, cached_rgh_rgh_child = cache_holder.get_children(rgh_mul_node)
         content_object = cached_rgh_mul_node.content_object
         content_object = cached_lft_rgh_child.content_object
         content_object = cached_rgh_rgh_child.content_object
-        self.failUnlessEqual(max_num_queries, len(queries))
+        self.assertEqual(max_num_queries, len(queries))
 
     def test_content_object_node_accessor(self):
         queries = connection.queries
@@ -383,5 +383,5 @@ class NodeCacheTest(TestCase):
         cache_holder.get_children(root)
         max_num_queries = len(queries)
         content_object = root.content_object
-        self.failUnlessEqual(content_object.node, root)
-        self.failUnlessEqual(max_num_queries, len(queries))
+        self.assertEqual(content_object.node, root)
+        self.assertEqual(max_num_queries, len(queries))

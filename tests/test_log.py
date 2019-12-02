@@ -9,8 +9,8 @@ class LogTest(TestCase):
 
     def test_logger(self):
         context = Context(log=True)
-        self.failUnless(context.logger)
-        self.failUnless(context.logger.log is None)
+        self.assertTrue(context.logger)
+        self.assertTrue(context.logger.log is None)
 
     def test_log_tree(self):
         root = tree_1plus2mul3()
@@ -18,9 +18,9 @@ class LogTest(TestCase):
         context = Context(log=True)
         result = root.interpret(context)
 
-        self.failUnless(context.logger.log)
-        self.failUnless(isinstance(context.logger.log, LogEntry))
-        self.failUnlessEqual(context.logger.log.node, root)
+        self.assertTrue(context.logger.log)
+        self.assertTrue(isinstance(context.logger.log, LogEntry))
+        self.assertEqual(context.logger.log.node, root)
 
     def test_log_values(self):
         root = tree_1plus2mul3()
@@ -28,11 +28,11 @@ class LogTest(TestCase):
         context = Context(log=True)
         result = root.interpret(context)
 
-        self.failUnless(context.logger.log)
-        self.failUnless(isinstance(context.logger.log, LogEntry))
-        self.failUnlessEqual(context.logger.log.node, root)
-        self.failUnlessEqual(context.logger.log.previous_value, '+')
-        self.failUnlessEqual(context.logger.log.current_value, '7.0')
+        self.assertTrue(context.logger.log)
+        self.assertTrue(isinstance(context.logger.log, LogEntry))
+        self.assertEqual(context.logger.log.node, root)
+        self.assertEqual(context.logger.log.previous_value, '+')
+        self.assertEqual(context.logger.log.current_value, '7.0')
 
     def test_log_current_long_values(self):
         add_operator = BinaryOperator(operator='+')
@@ -53,8 +53,8 @@ class LogTest(TestCase):
         context = Context(log=True)
         result = root.interpret(context)
 
-        self.failUnlessEqual(context.logger.log.previous_value, '+')
-        self.failUnless(context.logger.log.current_value.endswith('aaab...'))
+        self.assertEqual(context.logger.log.previous_value, '+')
+        self.assertTrue(context.logger.log.current_value.endswith('aaab...'))
 
     def test_log_previous_long_values(self):
         add_operator = BinaryOperator(operator='+')
@@ -76,7 +76,7 @@ class LogTest(TestCase):
         result = root.interpret(context)
 
         log = LogEntry.objects.get(id=context.logger.log.id)
-        self.failUnless(log.get_children()[0].previous_value.endswith('aaa...'))
+        self.assertTrue(log.get_children()[0].previous_value.endswith('aaa...'))
 
     def test_log_disabled(self):
         root = tree_1plus2mul3()
@@ -84,7 +84,7 @@ class LogTest(TestCase):
         context = Context(log=False)
         result = root.interpret(context)
 
-        self.failUnless(context.logger.log is None)
+        self.assertTrue(context.logger.log is None)
 
     def test_log_block(self):
         root = Node.add_root()
@@ -94,10 +94,10 @@ class LogTest(TestCase):
 
         context = Context(log=True)
         result = root.interpret(context)
-        self.failUnlessEqual(context.logger.log.node, root)
-        self.failUnlessEqual(context.logger.log.get_children().count(), 2)
-        self.failUnlessEqual(context.logger.log.get_children()[0].node, node1)
-        self.failUnlessEqual(context.logger.log.get_children()[1].node, node2)
+        self.assertEqual(context.logger.log.node, root)
+        self.assertEqual(context.logger.log.get_children().count(), 2)
+        self.assertEqual(context.logger.log.get_children()[0].node, node1)
+        self.assertEqual(context.logger.log.get_children()[1].node, node2)
 
     def test_log_exception(self):
         root = symmetric_tree(operator='/', value=0, count=2)

@@ -24,7 +24,7 @@ class PythonModuleFunctionTest(TestCase):
         func_node = root.add_child(content_object=func)
         func_node.add_child(content_object=NumberConstant(value=3))
         result = func_node.interpret(context)
-        self.failUnlessEqual(result, '0b11')
+        self.assertEqual(result, '0b11')
 
     def test_context_in_function(self):
         context = Context()
@@ -37,7 +37,7 @@ class PythonModuleFunctionTest(TestCase):
         func_node = root.add_child(content_object=func)
         func_node.add_child(content_object=NumberConstant(value=3))
         result = func_node.interpret(context)
-        self.failUnlessEqual(result, (context, '0b11'))
+        self.assertEqual(result, (context, '0b11'))
 
     def test_builtins(self):
         context = Context()
@@ -49,7 +49,7 @@ class PythonModuleFunctionTest(TestCase):
         func_node = root.add_child(content_object=func)
         func_node.add_child(content_object=NumberConstant(value=3.0))
         result = func_node.interpret(context)
-        self.failUnlessEqual(result, '3.0')
+        self.assertEqual(result, '3.0')
 
     def test_builtins_if_empty_module(self):
         context = Context()
@@ -61,7 +61,7 @@ class PythonModuleFunctionTest(TestCase):
         func_node = root.add_child(content_object=func)
         func_node.add_child(content_object=NumberConstant(value=3.0))
         result = func_node.interpret(context)
-        self.failUnlessEqual(result, '3.0')
+        self.assertEqual(result, '3.0')
 
 
 class PythonCodeFunctionTest(TestCase):
@@ -86,7 +86,7 @@ def function(arg1, another_arg):
             func_node = Node.objects.get(id=func_node.id)
 
         result = func_node.interpret(context)
-        self.failUnlessEqual('3.0', result)
+        self.assertEqual('3.0', result)
 
     def test_context_in_function(self):
         context = Context()
@@ -110,4 +110,4 @@ def function(context, arg1, another_arg):
             func_node = Node.objects.get(id=func_node.id)
 
         result = func_node.interpret(context)
-        self.failUnlessEqual((context, '3.0'), result)
+        self.assertEqual((context, '3.0'), result)

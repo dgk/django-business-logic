@@ -8,8 +8,8 @@ class FrameTest(TestCase):
 
     def test_context_init(self):
         context = Context()
-        self.failUnless(context.frame is None)
-        self.failUnlessEqual(context.frames, [])
+        self.assertTrue(context.frame is None)
+        self.assertEqual(context.frames, [])
 
     def test_single_expression(self):
         root = tree_1plus2mul3()
@@ -18,15 +18,15 @@ class FrameTest(TestCase):
         def on_interpret_leave(**kwargs):
             node = kwargs['node']
             if node == root:
-                self.failUnlessEqual(1, len(context.frames))
-                self.failUnless(isinstance(context.frame, Frame))
-                self.failUnless(context.frames)
-                self.failUnlessEqual(len(context.frames), 1)
-                self.failUnless(context.frame is context.frames[0])
+                self.assertEqual(1, len(context.frames))
+                self.assertTrue(isinstance(context.frame, Frame))
+                self.assertTrue(context.frames)
+                self.assertEqual(len(context.frames), 1)
+                self.assertTrue(context.frame is context.frames[0])
 
         signals.interpret_leave.connect(on_interpret_leave)
         root.interpret(context)
-        self.failIf(context.frame)
+        self.assertFalse(context.frame)
 
     def test_switch_frames(self):
         # root + node1 + node1_1
@@ -43,31 +43,31 @@ class FrameTest(TestCase):
         def on_interpret_enter(**kwargs):
             node = kwargs['node']
             if node == root:
-                self.failUnlessEqual(1, len(context.frames))
+                self.assertEqual(1, len(context.frames))
             elif node == node1:
-                self.failUnlessEqual(2, len(context.frames))
+                self.assertEqual(2, len(context.frames))
             elif node == node2:
-                self.failUnlessEqual(2, len(context.frames))
+                self.assertEqual(2, len(context.frames))
             elif node == node1_1:
-                self.failUnlessEqual(2, len(context.frames))
+                self.assertEqual(2, len(context.frames))
             elif node == node2_1:
-                self.failUnlessEqual(2, len(context.frames))
+                self.assertEqual(2, len(context.frames))
 
         def on_interpret_leave(**kwargs):
             node = kwargs['node']
             if node == root:
-                self.failUnlessEqual(1, len(context.frames))
+                self.assertEqual(1, len(context.frames))
             elif node == node1:
-                self.failUnlessEqual(2, len(context.frames))
+                self.assertEqual(2, len(context.frames))
             elif node == node2:
-                self.failUnlessEqual(2, len(context.frames))
+                self.assertEqual(2, len(context.frames))
             elif node == node1_1:
-                self.failUnlessEqual(2, len(context.frames))
+                self.assertEqual(2, len(context.frames))
             elif node == node2_1:
-                self.failUnlessEqual(2, len(context.frames))
+                self.assertEqual(2, len(context.frames))
 
         signals.block_interpret_enter.connect(on_interpret_enter)
         signals.interpret_leave.connect(on_interpret_leave)
         root.interpret(context)
-        self.failIf(context.frame)
-        self.failIf(context.frames)
+        self.assertFalse(context.frame)
+        self.assertFalse(context.frames)

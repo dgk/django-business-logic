@@ -19,7 +19,7 @@ class VariableTest(TestCase):
 
     def test_variable_undefined(self):
         undefined = Variable.Undefined()
-        self.failIf(undefined)
+        self.assertFalse(undefined)
 
     def test_get_variable_returns_variable_undefined(self):
         context = Context()
