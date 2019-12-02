@@ -16,3 +16,4 @@ dist/
 /django-business-logic-*
 
 tests/reports/*.xml
+.python-version

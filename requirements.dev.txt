@@ -1,8 +1,10 @@
 -r requirements.test.txt
-Django>=1.11
+Django>=1.11,<3
 django-bootstrap3==11.0.0
 flake8
+pluggy>=0.12.0
 Sphinx
 sphinx_rtd_theme
 tox>=3.3.0
+tox-pyenv
 yapf

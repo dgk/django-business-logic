@@ -1,9 +1,9 @@
 Markdown<3.0
 django-ace-overlay==0.8.0
-django-admin-sortable2==0.6.21
+django-admin-sortable2==0.7.4
 django-filter==1.1 ; python_version=="2.7"
 django-filter>=2.0 ; python_version>"2.7"
-django-nested-admin==3.1.2
+django-nested-admin==3.2.4
 django-polymorphic>=2.0.0
 django-treebeard==4.3
 djangorestframework>=3.8
