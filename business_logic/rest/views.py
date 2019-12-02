@@ -72,7 +72,7 @@ class ProgramInterfaceView(generics.RetrieveAPIView):
 class ProgramList(ObjectList):
     queryset = Program.objects.all()
     serializer_class = ProgramListSerializer
-    filter_fields = ('program_interface',)
+    filterset_fields = ('program_interface',)
 
 
 class ProgramView(generics.RetrieveAPIView):
@@ -83,7 +83,7 @@ class ProgramView(generics.RetrieveAPIView):
 class ProgramVersionList(ObjectList):
     queryset = ProgramVersion.objects.all()
     serializer_class = ProgramVersionListSerializer
-    filter_fields = ('program',)
+    filterset_fields = ('program',)
 
 
 class ProgramVersionCreate(generics.CreateAPIView):
@@ -104,7 +104,7 @@ class ProgramVersionView(generics.RetrieveUpdateDestroyAPIView):
 class ExecutionList(ObjectList):
     queryset = Execution.objects.all()
     serializer_class = ExecutionListSerializer
-    filter_fields = ('program_version',)
+    filterset_fields = ('program_version',)
 
 
 class ExecutionView(generics.RetrieveDestroyAPIView):
