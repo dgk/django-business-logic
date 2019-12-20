@@ -37,7 +37,7 @@ Edit ``settings.py`` and add following apps to your ``INSTALLED_APPS``
     )
 
 
-Edit ``urls.py`` and include ``business_logic.urls``
+Edit ``urls.py`` and include required urls
 
 .. code:: python
 
@@ -45,6 +45,7 @@ Edit ``urls.py`` and include ``business_logic.urls``
     urlpatterns = (
       # ...
       url('^business-logic/', include('business_logic.urls')),
+      url('^nested_admin/', include('nested_admin.urls')),
       # ...
     )
 
