@@ -7,4 +7,6 @@ Sphinx
 sphinx_rtd_theme
 tox>=3.3.0
 tox-pyenv
+twine
+wheel
 yapf

@@ -68,14 +68,9 @@ def clean():
 
 
 if sys.argv[-1] == 'publish':
-
     clean()
-    if os.system("pip freeze | grep twine"):
-        print("twine not installed.\nUse `pip install twine`.\nExiting.")
-        sys.exit(1)
-
-    os.system("python setup.py sdist bdist_wheel")
-    os.system("twine upload dist/*")
+    os.system("python setup.py sdist bdist_wheel") and sys.exit(1)
+    os.system("twine upload dist/*") and sys.exit(1)
     print("You probably want to also tag the version now:")
     print("  git tag -a %s -m 'version %s'" % (version, version))
     print("  git push --tags")
