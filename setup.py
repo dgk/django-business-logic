@@ -132,6 +132,7 @@ setup(
         "django-polymorphic",
         "django-treebeard",
         "djangorestframework",
-        "lxml"
+        "lxml",
+        "django-nested-inline"
     ],
 )
