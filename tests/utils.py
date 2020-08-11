@@ -6,7 +6,7 @@ import math
 
 from django.contrib.contenttypes.models import ContentType
 
-from django.utils import six
+import six
 
 if six.PY2:
     from itertools import izip_longest as zip_longest

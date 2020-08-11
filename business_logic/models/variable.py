@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible, force_text
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
-@python_2_unicode_compatible
+
 class VariableDefinition(models.Model):
     name = models.TextField(_('Variable name'), blank=False, null=False)
 
@@ -20,7 +19,7 @@ class VariableDefinition(models.Model):
         pass
 
 
-@python_2_unicode_compatible
+
 class Variable(models.Model):
     """
     
@@ -31,7 +30,7 @@ class Variable(models.Model):
         verbose_name = _('Variable')
         verbose_name_plural = _('Variables')
 
-    @python_2_unicode_compatible
+    
     class Undefined(object):
 
         def __nonzero__(self):
@@ -49,7 +48,7 @@ class Variable(models.Model):
             return False
 
         def __str__(self):
-            return force_text(_('Undefined'))
+            return 'Undefined'
 
     def __str__(self):
         return self.definition.name

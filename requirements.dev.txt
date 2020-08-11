@@ -1,11 +1,11 @@
 -r requirements.test.txt
-Django>=1.11,<3
-django-bootstrap3==11.0.0
+Django==3.0.8
+django-bootstrap3
 flake8
-pluggy>=0.12.0
+pluggy
 Sphinx
 sphinx_rtd_theme
-tox>=3.3.0
+tox
 tox-pyenv
 twine
 wheel

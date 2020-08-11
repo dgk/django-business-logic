@@ -2,7 +2,7 @@
 
 import json
 
-from django.utils import six
+import six
 
 from ..common import *
 

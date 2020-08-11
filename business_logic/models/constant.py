@@ -2,11 +2,10 @@
 #
 
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
-@python_2_unicode_compatible
+
 class Constant(models.Model):
     'Abstract class for constants storing'
 
