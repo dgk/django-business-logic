@@ -4,13 +4,13 @@
 from importlib import import_module
 
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _
+
+from django.utils.translation import gettext_lazy as _
 
 from polymorphic.models import PolymorphicModel
 
 
-@python_2_unicode_compatible
+
 class FunctionDefinition(PolymorphicModel):
     title = models.CharField(_('Title'), max_length=255, unique=True)
     description = models.TextField(_('Description'), null=True, blank=True)
@@ -24,7 +24,7 @@ class FunctionDefinition(PolymorphicModel):
         raise NotImplementedError()
 
 
-@python_2_unicode_compatible
+
 class FunctionArgument(models.Model):
     function = models.ForeignKey(FunctionDefinition, related_name='arguments', on_delete=models.CASCADE)
 
@@ -43,7 +43,7 @@ class FunctionArgument(models.Model):
         return self.name or '*'
 
 
-@python_2_unicode_compatible
+
 class FunctionArgumentChoice(models.Model):
     argument = models.ForeignKey(FunctionArgument, related_name='choices', on_delete=models.CASCADE)
 
@@ -116,7 +116,7 @@ ret = function(**kwargs)
         return function_locals['ret']
 
 
-@python_2_unicode_compatible
+
 class FunctionLibrary(models.Model):
     title = models.CharField(_('Function library title'), max_length=255, unique=True)
     functions = models.ManyToManyField('FunctionDefinition', related_name='libraries')

@@ -20,7 +20,7 @@ from rest_framework import generics, exceptions
 from rest_framework.compat import distinct
 from rest_framework.decorators import api_view
 from rest_framework.filters import SearchFilter
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import CursorPagination
 from rest_framework.response import Response
 
 from django_filters.rest_framework import DjangoFilterBackend
@@ -47,10 +47,11 @@ def api_root(request, format=None):
         )))
 
 
-class StandardResultsSetPagination(PageNumberPagination):
+class StandardResultsSetPagination(CursorPagination):
     page_size = 50
     page_size_query_param = 'page_size'
     max_page_size = 1000
+    ordering = "id"
 
 
 class ObjectList(generics.ListAPIView):
@@ -119,6 +120,7 @@ class LogView(generics.RetrieveAPIView):
 
 
 class ReferenceDescriptorList(generics.ListAPIView):
+    pagination_class = None
     queryset = ReferenceDescriptor.objects.all()
     serializer_class = ReferenceDescriptorListSerializer
 

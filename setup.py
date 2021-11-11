@@ -124,7 +124,15 @@ setup(
     ],
     zip_safe=False,
     install_requires=[
-        '{}; {}'.format(x.req, x.markers) if x.markers else str(x.req)
-        for x in parse_requirements(abs_path('requirements.txt'), session=False)
+        "Markdown",
+        "django-ace-overlay",
+        "django-admin-sortable2",
+        "django-filter",
+        "django-nested-admin",
+        "django-polymorphic",
+        "django-treebeard",
+        "djangorestframework",
+        "lxml",
+        "django-nested-inline"
     ],
 )

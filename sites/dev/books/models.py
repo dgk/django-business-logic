@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.urls import reverse
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 
 
-@python_2_unicode_compatible
+
+
 class Publisher(models.Model):
     name = models.CharField(max_length=30, verbose_name='Publisher name')
     rank = models.IntegerField(default=0, verbose_name='Publisher rank')
@@ -21,7 +21,7 @@ class Publisher(models.Model):
         return reverse('publisher-detail', kwargs={'pk': self.pk})
 
 
-@python_2_unicode_compatible
+
 class Author(models.Model):
     first_name = models.CharField(max_length=30, verbose_name='First name')
     last_name = models.CharField(max_length=40, verbose_name='Last name')
@@ -39,7 +39,7 @@ class Author(models.Model):
         return reverse('author-detail', kwargs={'pk': self.pk})
 
 
-@python_2_unicode_compatible
+
 class Book(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title')
     authors = models.ManyToManyField(Author, verbose_name='Authors')
