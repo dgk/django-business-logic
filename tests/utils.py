@@ -76,9 +76,15 @@ def symmetric_tree(operator='+', value=1, count=2, operand_cls=NumberConstant, p
             obj_kwargs = dict(operator=operator)
 
         level_objects = [
-            dict(data=dict(object_id=obj_cls.objects.create(**obj_kwargs).id, content_type_id=content_type_id))
-            for x in range(pow(2, level))
+            dict(
+                data=dict(
+                    object_id=obj_cls.objects.create(**obj_kwargs).id,
+                    content_type_id=content_type_id,
+                )
+            )
+            for _ in range(pow(2, level))
         ]
+
 
         if level == 1:
             top = level_objects
@@ -131,11 +137,14 @@ def variable_assign_value(variable_name='A', variable_definition=None, value=Non
 def print_tree_details(nodes):
     # mptt/tests/doctests.py
     opts = nodes[0]._meta
-    print('\n'.join([
-        '%s %s %s %s %s %s' % (n.pk, getattr(n, '%s_id' % opts.parent_attr) or '-', getattr(n, opts.tree_id_attr),
-                               getattr(n, opts.level_attr), getattr(n, opts.left_attr), getattr(n, opts.right_attr))
-        for n in nodes
-    ]))
+    print(
+        '\n'.join(
+            [
+                f"{n.pk} {getattr(n, f'{opts.parent_attr}_id') or '-'} {getattr(n, opts.tree_id_attr)} {getattr(n, opts.level_attr)} {getattr(n, opts.left_attr)} {getattr(n, opts.right_attr)}"
+                for n in nodes
+            ]
+        )
+    )
 
 
 def create_if_statement(branches_count, use_binary_operator=False, root=None):

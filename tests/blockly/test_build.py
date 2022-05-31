@@ -153,7 +153,7 @@ class BlocklyXmlBuilderBlockTest(TestCase):
     def test_block_if_sequence(self):
         root = Node.add_root()
 
-        for i in range(2):
+        for _ in range(2):
             root, var_defs = create_if_statement(2, root=root)
 
         xml_str = BlocklyXmlBuilder().build(root)
@@ -202,7 +202,7 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
         self.assertEqual('OP', field.get('name'))
         self.assertEqual(operator_field_value, field.text)
         for field_value, field_name in enumerate(('A', 'B'), 1):
-            value = xml.xpath('/xml/block/value[@name="{}"]'.format(field_name))[0]
+            value = xml.xpath(f'/xml/block/value[@name="{field_name}"]')[0]
             math_number = value.find('block')
             self.assertEqual('math_number', math_number.get('type'))
             field, = math_number.getchildren()
@@ -226,7 +226,7 @@ class BlocklyXmlBuilderBinaryOperatorTest(TestCase):
         self.assertEqual('OP', field.get('name'))
         self.assertEqual(operator_field_value, field.text)
         for field_value, field_name in ((True, 'A'), (False, 'B')):
-            value = xml.xpath('/xml/block/value[@name="{}"]'.format(field_name))[0]
+            value = xml.xpath(f'/xml/block/value[@name="{field_name}"]')[0]
             math_number = value.find('block')
             self.assertEqual('logic_boolean', math_number.get('type'))
             field, = math_number.getchildren()

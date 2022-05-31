@@ -10,19 +10,34 @@ from ..common import *
 class JSONClient(Client):
 
     def post(self, path, data={}, content_type='application/json', follow=False, **extra):
-        ret = super(Client, self).post(
-            path, data=data, content_type=content_type, follow=follow, HTTP_X_REQUESTED_WITH='XMLHttpRequest', **extra)
-        return ret
+        return super(Client, self).post(
+            path,
+            data=data,
+            content_type=content_type,
+            follow=follow,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            **extra
+        )
 
     def put(self, path, data={}, content_type='application/json', follow=False, **extra):
-        ret = super(Client, self).put(
-            path, data=data, content_type=content_type, follow=follow, HTTP_X_REQUESTED_WITH='XMLHttpRequest', **extra)
-        return ret
+        return super(Client, self).put(
+            path,
+            data=data,
+            content_type=content_type,
+            follow=follow,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            **extra
+        )
 
     def delete(self, path, data={}, content_type='application/json', follow=False, **extra):
-        ret = super(Client, self).delete(
-            path, data=data, content_type=content_type, follow=follow, HTTP_X_REQUESTED_WITH='XMLHttpRequest', **extra)
-        return ret
+        return super(Client, self).delete(
+            path,
+            data=data,
+            content_type=content_type,
+            follow=follow,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            **extra
+        )
 
 
 def response_json(response):

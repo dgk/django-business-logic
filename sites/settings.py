@@ -82,7 +82,4 @@ class DisableMigrations(object):
         return True
 
     def __getitem__(self, item):
-        if django.VERSION[1] < 9:
-            # django < 1.9
-            return "notmigrations"
-        return None
+        return "notmigrations" if django.VERSION[1] < 9 else None

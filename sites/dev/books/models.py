@@ -33,7 +33,7 @@ class Author(models.Model):
         ordering = ('id',)
 
     def __str__(self):
-        return u'%s %s' % (self.first_name, self.last_name)
+        return f'{self.first_name} {self.last_name}'
 
     def get_absolute_url(self):
         return reverse('author-detail', kwargs={'pk': self.pk})

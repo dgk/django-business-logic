@@ -29,7 +29,7 @@ from .serializers import *
 
 
 def format_url(_url):
-    return 'business-logic:rest:{}'.format(_url)
+    return f'business-logic:rest:{_url}'
 
 
 @api_view(('GET',))
@@ -135,8 +135,9 @@ class ReferenceSearchFilter(SearchFilter):
 
         if not search_fields:
             raise exceptions.ValidationError(
-                'ReferenceDescriptor for `{}` are not configured: incorrect `search_fields` field'.format(
-                    view.get_reference_model_name()))
+                f'ReferenceDescriptor for `{view.get_reference_model_name()}` are not configured: incorrect `search_fields` field'
+            )
+
 
         orm_lookups = [self.construct_search(six.text_type(search_field)) for search_field in search_fields]
 

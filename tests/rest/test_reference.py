@@ -47,10 +47,10 @@ class ReferenceListTest(TestCase):
         model = 'test_app.Model'
         self.url = reverse('business-logic:rest:reference-list', kwargs=dict(model=model))
 
-        self.test_models = []
-
-        for i in range(11):
-            self.test_models.append(Model.objects.create(string_value='str_{}'.format(str(i) * 3)))
+        self.test_models = [
+            Model.objects.create(string_value=f'str_{str(i) * 3}')
+            for i in range(11)
+        ]
 
     def test_reference_list(self):
         response = self.client.get(self.url)

@@ -44,26 +44,14 @@ class FrameTest(TestCase):
             node = kwargs['node']
             if node == root:
                 self.assertEqual(1, len(context.frames))
-            elif node == node1:
-                self.assertEqual(2, len(context.frames))
-            elif node == node2:
-                self.assertEqual(2, len(context.frames))
-            elif node == node1_1:
-                self.assertEqual(2, len(context.frames))
-            elif node == node2_1:
+            elif node in [node1, node2, node1_1, node2_1]:
                 self.assertEqual(2, len(context.frames))
 
         def on_interpret_leave(**kwargs):
             node = kwargs['node']
             if node == root:
                 self.assertEqual(1, len(context.frames))
-            elif node == node1:
-                self.assertEqual(2, len(context.frames))
-            elif node == node2:
-                self.assertEqual(2, len(context.frames))
-            elif node == node1_1:
-                self.assertEqual(2, len(context.frames))
-            elif node == node2_1:
+            elif node in [node1, node2, node1_1, node2_1]:
                 self.assertEqual(2, len(context.frames))
 
         signals.block_interpret_enter.connect(on_interpret_enter)

@@ -66,7 +66,7 @@ class Logger(object):
     def prepare_value(self, value):
         value = six.text_type(value)
         if len(value) > LOG_ENTRY_VALUE_LENGTH:
-            value = value[:LOG_ENTRY_VALUE_LENGTH - 3] + '...'
+            value = f'{value[:LOG_ENTRY_VALUE_LENGTH - 3]}...'
         return value
 
 
