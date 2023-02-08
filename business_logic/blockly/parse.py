@@ -53,13 +53,13 @@ class BlocklyXmlParser(object):
     def visit(self, node):
         parent = node.getparent()
 
-        if parent is not None and parent.tag != 'next' and node.find('next') is not None:
-            # start of code block
-            data = self._process_next(node)
-        else:
-            data = self._call_method(node)
-
-        return data
+        return (
+            self._process_next(node)
+            if parent is not None
+            and parent.tag != 'next'
+            and node.find('next') is not None
+            else self._call_method(node)
+        )
 
     def _process_next(self, node):
         children = []
@@ -74,7 +74,9 @@ class BlocklyXmlParser(object):
 
             if len(_children) != 1:
                 raise BlocklyXmlParserException(
-                    'Incorrect number of children ({}) for BlocklyXmlParser._process_next()'.format(len(_children)))
+                    f'Incorrect number of children ({len(_children)}) for BlocklyXmlParser._process_next()'
+                )
+
 
             _node = _children[0]
             children.append(_node)
@@ -89,13 +91,11 @@ class BlocklyXmlParser(object):
         if node.tag in ('next', 'mutation'):
             return
 
-        method_name = 'visit_{}'.format(node.tag)
-        method = getattr(self, method_name, None)
-
-        if method:
+        method_name = f'visit_{node.tag}'
+        if method := getattr(self, method_name, None):
             return method(node)
 
-        raise BlocklyXmlParserException('Unknown tag: {}'.format(node.tag))
+        raise BlocklyXmlParserException(f'Unknown tag: {node.tag}')
 
     def _visit_children(self, node, data, children=None):
         if 'children' not in data:
@@ -110,7 +110,9 @@ class BlocklyXmlParser(object):
 
         if len(children) != 1:
             raise BlocklyXmlParserException(
-                'Incorrect number of children ({}) for BlocklyXmlParser._visit_single_child()'.format(len(children)))
+                f'Incorrect number of children ({len(children)}) for BlocklyXmlParser._visit_single_child()'
+            )
+
 
         return self.visit(children[0])
 
@@ -161,7 +163,7 @@ class BlocklyXmlParser(object):
         return self._visit_single_child(node)
 
     def visit_block(self, node):
-        method_name = 'visit_block_{}'.format(node.get('type'))
+        method_name = f"visit_block_{node.get('type')}"
         method = getattr(self, method_name)
         return method(node)
 
@@ -193,7 +195,7 @@ class BlocklyXmlParser(object):
         return self._visit_simple_container(node, IfStatement)
 
     def visit_field(self, node):
-        method_name = 'visit_field_{}'.format(node.get('name').lower())
+        method_name = f"visit_field_{node.get('name').lower()}"
         method = getattr(self, method_name)
         return method(node)
 

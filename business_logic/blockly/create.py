@@ -78,11 +78,11 @@ class NodeTreeCreator(object):
             return
 
         node_kwargs = [x.name for x in Node._meta.get_fields()]
-        content_object_kwargs = dict(((k, v) for k, v in data.items() if k not in node_kwargs))
+        content_object_kwargs = {k: v for k, v in data.items() if k not in node_kwargs}
 
         content_object = model_class.objects.create(**content_object_kwargs)
         data['object_id'] = content_object.id
-        for kwarg in content_object_kwargs.keys():
+        for kwarg in content_object_kwargs:
             del data[kwarg]
 
         return data

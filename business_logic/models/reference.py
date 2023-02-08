@@ -25,10 +25,7 @@ class ReferenceDescriptor(models.Model):
         return force_text(self.content_type)
 
     def get_search_fields(self):
-        if not self.search_fields:
-            return []
-
-        return re.split(r'[^\w_]+', self.search_fields)
+        return re.split(r'[^\w_]+', self.search_fields) if self.search_fields else []
 
 
 class ReferenceConstant(NodeAccessor):

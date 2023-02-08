@@ -52,15 +52,16 @@ class VariableTest(TestCase):
     def test_get_variable_returns_recursive_attribute_undefined(self):
         test_model_variable_definition = VariableDefinition.objects.create(name='test_model')
 
-        variable_definitions = {}
-
-        for field in (
+        variable_definitions = {
+            field: VariableDefinition.objects.create(name=field)
+            for field in (
                 'test_model.int_value',
                 'test_model.not_exists',
                 'test_model.foreign_value.string_value',
                 'test_model.foreign_value.not_exists',
-        ):
-            variable_definitions[field] = VariableDefinition.objects.create(name=field)
+            )
+        }
+
 
         context = Context()
 

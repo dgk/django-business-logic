@@ -43,7 +43,7 @@ class Node(NS_Node):
         verbose_name_plural = _('Program nodes')
 
     def __str__(self):
-        return 'Node {}({}): {}'.format(self.id, self.content_type, self.content_object)
+        return f'Node {self.id}({self.content_type}): {self.content_object}'
 
     @staticmethod
     def ensure_content_object_saved(**kwargs):
@@ -117,19 +117,24 @@ class Node(NS_Node):
                     content_object_clone.save()
                     node_kwargs = dict(content_object=content_object_clone)
                 else:
-                    node_kwargs = dict()
+                    node_kwargs = {}
 
                 if self.clone is None:
                     clone = self.clone = Node.add_root(**node_kwargs)
                     clone.rgt = node.rgt
                     clone.lft = node.lft
-                    clone.save()
                 else:
-                    node_kwargs.update(
-                        dict([(field_name, getattr(node, field_name)) for field_name in ('rgt', 'lft', 'depth')]))
-                    node_kwargs.update(dict(tree_id=self.clone.tree_id))
+                    node_kwargs |= dict(
+                        [
+                            (field_name, getattr(node, field_name))
+                            for field_name in ('rgt', 'lft', 'depth')
+                        ]
+                    )
+
+                    node_kwargs |= dict(tree_id=self.clone.tree_id)
                     clone = Node.objects.create(**node_kwargs)
-                    clone.save()
+
+                clone.save()
 
         visitor = CloneVisitor()
         visitor.preorder(self)
@@ -279,12 +284,16 @@ class NodeCache:
                 node._content_object_cache = content_object
                 node._content_type_cache = content_type_by_id[node.content_type_id]
 
-        self._child_by_parent_id = {}
-        for parent in tree:
-            self._child_by_parent_id[parent.id] = [
-                node for node in tree
-                if node.lft >= parent.lft and node.lft <= parent.rgt - 1 and node.depth == parent.depth + 1
+        self._child_by_parent_id = {
+            parent.id: [
+                node
+                for node in tree
+                if node.lft >= parent.lft
+                and node.lft <= parent.rgt - 1
+                and node.depth == parent.depth + 1
             ]
+            for parent in tree
+        }
 
 
 class NodeCacheHolder(object):

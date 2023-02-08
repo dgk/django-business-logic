@@ -46,7 +46,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
             if cls == Model:
                 break
 
-            method_name = 'visit_{}'.format(camel_case_to_snake_case(cls.__name__))
+            method_name = f'visit_{camel_case_to_snake_case(cls.__name__)}'
             method = getattr(self, method_name, None)
 
             if not method:
@@ -62,7 +62,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
             return node_xml
 
         if content_object.__class__ not in (VariableDefinition,):
-            logger.debug('Unsupported content_object: {}'.format(content_object.__class__))
+            logger.debug(f'Unsupported content_object: {content_object.__class__}')
 
     def visit_constant(self, node, parent_xml):
         block_type = {
@@ -91,8 +91,10 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         children = self.get_children(node)
 
         if len(children) != 1:
-            raise BlocklyXmlBuilderException('Incorrect number of ReferenceConstant node children: {}'.format(
-                len(children)))
+            raise BlocklyXmlBuilderException(
+                f'Incorrect number of ReferenceConstant node children: {len(children)}'
+            )
+
 
         value_object_node = children[0]
         content_type = value_object_node.content_type
@@ -100,7 +102,10 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         block = etree.SubElement(parent_xml, 'block', type='business_logic_reference')
 
         type_field = etree.SubElement(block, 'field', name='TYPE')
-        type_field.text = '{}.{}'.format(content_type.app_label, content_type.model_class().__name__)
+        type_field.text = (
+            f'{content_type.app_label}.{content_type.model_class().__name__}'
+        )
+
 
         value_field = etree.SubElement(block, 'field', name='VALUE')
         value_field.text = str(value_object_node.object_id)
@@ -112,8 +117,8 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         assert action in ('get', 'set')
 
         if node.content_object.definition.name.find('.') != -1:
-            return 'business_logic_argument_field_{}'.format(action)
-        return 'variables_{}'.format(action)
+            return f'business_logic_argument_field_{action}'
+        return f'variables_{action}'
 
     def visit_variable(self, node, parent_xml):
         block_type = self._get_variable_block_type(node, 'get')
@@ -148,7 +153,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
             if operator_value in table:
                 break
         else:
-            raise BlocklyXmlBuilderException('Invalid Operator: {}'.format(operator_value))
+            raise BlocklyXmlBuilderException(f'Invalid Operator: {operator_value}')
 
         block = etree.SubElement(parent_xml, 'block', type=block_type)
         field_element = etree.SubElement(block, 'field', name='OP')
@@ -171,8 +176,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
             mutation = etree.SubElement(block, 'mutation')
             if len(children) % 2:
                 mutation.set('else', '1')
-            elifs = (len(children) - 2 - len(children) % 2) / 2
-            if elifs:
+            if elifs := (len(children) - 2 - len(children) % 2) / 2:
                 mutation.set('elseif', str(int(elifs)))
 
         for i, pair in enumerate(pairs(children)):
@@ -183,10 +187,10 @@ class BlocklyXmlBuilder(NodeCacheHolder):
                 break
 
             if_condition = pair[0]
-            if_value = etree.SubElement(block, 'value', name='IF{}'.format(i))
+            if_value = etree.SubElement(block, 'value', name=f'IF{i}')
             self.visit(if_condition, if_value)
 
-            statement = etree.SubElement(block, 'statement', name='DO{}'.format(i))
+            statement = etree.SubElement(block, 'statement', name=f'DO{i}')
             self.visit(pair[1], statement)
 
         return block
@@ -204,7 +208,7 @@ class BlocklyXmlBuilder(NodeCacheHolder):
         field_element.text = function_definition.title
 
         for i, child_node in enumerate(children):
-            value = etree.SubElement(block, 'value', name='ARG{}'.format(i))
+            value = etree.SubElement(block, 'value', name=f'ARG{i}')
             self.visit(child_node, value)
 
         return block

@@ -31,11 +31,11 @@ author = 'Dmitry Kuksinsky'
 init_py = open(os.path.join(parent_dir, 'business_logic/__init__.py')).read()
 
 # The full version, including alpha/beta/rc tags
-release = re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
+release = re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py)[1]
 
 # The short X.Y version
 version_parts = release.split('.')
-version = '{}.{}'.format(version_parts[0], version_parts[1])
+version = f'{version_parts[0]}.{version_parts[1]}'
 
 
 # -- General configuration ---------------------------------------------------

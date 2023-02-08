@@ -34,9 +34,7 @@ class Context(NodeCacheHolder):
             signals.interpret_exception.connect(self.logger.interpret_exception, sender=self)
 
     def _frame(self):
-        if not self.frames:
-            return None
-        return self.frames[-1]
+        return self.frames[-1] if self.frames else None
 
     frame = property(_frame)
 
@@ -62,10 +60,11 @@ class Context(NodeCacheHolder):
         pass
 
     def get_children(self, node):
-        if not self.config.cache:
-            return node.get_children().all()
-
-        return super(Context, self).get_children(node)
+        return (
+            super(Context, self).get_children(node)
+            if self.config.cache
+            else node.get_children().all()
+        )
 
     def get_variable(self, variable_definition):
         """

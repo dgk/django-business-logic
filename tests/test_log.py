@@ -110,7 +110,7 @@ class LogTest(TestCase):
         self.assertIsInstance(exception_log, ExceptionLog)
 
         try:
-            0.0 // 0.0
+            1.0
         except Exception as e:
             exception = e
 

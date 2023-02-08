@@ -21,7 +21,7 @@ from ..blockly.parse import BlocklyXmlParser
 
 
 def get_model_name(content_type):
-    return '{}.{}'.format(content_type.app_label, content_type.model_class().__name__)
+    return f'{content_type.app_label}.{content_type.model_class().__name__}'
 
 
 def get_model_verbose_name(content_type):
@@ -112,7 +112,9 @@ class BlocklyXMLSerializer(serializers.CharField):
             BlocklyXmlParser().parse(data)
         except Exception as e:
             raise serializers.ValidationError(
-                ["Xml parse error - {}: {}".format(e.__class__.__name__, six.text_type(e))])
+                [f"Xml parse error - {e.__class__.__name__}: {six.text_type(e)}"]
+            )
+
 
         value = self.to_internal_value(data)
         self.run_validators(value)
@@ -188,8 +190,7 @@ class ReferenceSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
 
     def get_fields(self):
-        declared_fields = copy.deepcopy(self._declared_fields)
-        return declared_fields
+        return copy.deepcopy(self._declared_fields)
 
     def get_name(self, obj):
         reference_descriptor = self.context['view'].get_reference_descriptor()
@@ -202,9 +203,7 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
         model = ProgramArgumentField
 
     def to_representation(self, instance):
-        representation = {}
-        representation['name'] = instance.name
-
+        representation = {'name': instance.name}
         argument = instance.program_argument
         model = argument.content_type.model_class()
 

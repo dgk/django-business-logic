@@ -30,7 +30,7 @@ class ProgramInterfaceTest(ProgramRestTestBase):
         self.assertEqual(Model._meta.verbose_name, content_type['verbose_name'])
         self.assertEqual(ContentType.objects.get_for_model(Model).id, content_type['id'])
 
-        fields = dict((x['name'], x) for x in argument['fields'])
+        fields = {x['name']: x for x in argument['fields']}
 
         expected = {
             'int_value':

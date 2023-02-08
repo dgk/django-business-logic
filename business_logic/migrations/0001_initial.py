@@ -7,6 +7,8 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+
+
 class Migration(migrations.Migration):
 
     initial = True
@@ -19,7 +21,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Assignment',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Assignment',
@@ -29,8 +39,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BinaryOperator',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('operator', models.CharField(max_length=3, verbose_name='Operator')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'operator',
+                    models.CharField(max_length=3, verbose_name='Operator'),
+                ),
             ],
             options={
                 'verbose_name': 'Binary operator',
@@ -40,7 +61,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BooleanConstant',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('value', models.BooleanField(verbose_name='Value')),
             ],
             options={
@@ -51,7 +80,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BreakLoop',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Break instruction',
@@ -61,7 +98,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DateConstant',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('value', models.DateField(verbose_name='Value')),
             ],
             options={
@@ -72,7 +117,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ExceptionLog',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('module', models.CharField(max_length=255)),
                 ('type', models.CharField(max_length=255)),
                 ('message', models.CharField(max_length=512)),
@@ -82,7 +135,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Execution',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('start_time', models.DateTimeField(auto_now_add=True)),
                 ('finish_time', models.DateTimeField(null=True)),
             ],
@@ -93,28 +154,87 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ExecutionArgument',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('object_id', models.PositiveIntegerField()),
-                ('content_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
-                ('execution', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='arguments', to='business_logic.Execution')),
+                (
+                    'content_type',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='contenttypes.ContentType',
+                    ),
+                ),
+                (
+                    'execution',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='arguments',
+                        to='business_logic.Execution',
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='ExecutionEnvironment',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, unique=True, verbose_name='Title')),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Description')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'title',
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name='Title'
+                    ),
+                ),
+                (
+                    'description',
+                    models.TextField(
+                        blank=True, null=True, verbose_name='Description'
+                    ),
+                ),
                 ('debug', models.BooleanField(default=False)),
                 ('log', models.BooleanField(default=False)),
                 ('cache', models.BooleanField(default=True)),
-                ('exception_handling_policy', models.CharField(choices=[(b'IGNORE', 'Ignore'), (b'INTERRUPT', 'Interrupt'), (b'RAISE', 'Raise')], default=b'INTERRUPT', max_length=15, verbose_name='Exception handling policy')),
+                (
+                    'exception_handling_policy',
+                    models.CharField(
+                        choices=[
+                            (b'IGNORE', 'Ignore'),
+                            (b'INTERRUPT', 'Interrupt'),
+                            (b'RAISE', 'Raise'),
+                        ],
+                        default=b'INTERRUPT',
+                        max_length=15,
+                        verbose_name='Exception handling policy',
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='ForeachStatement',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Foreach statement',
@@ -124,7 +244,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Function',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Function',
@@ -134,10 +262,29 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FunctionArgument',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, max_length=255, null=True)),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Description')),
-                ('order', models.PositiveIntegerField(db_index=True, default=0)),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'name',
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
+                (
+                    'description',
+                    models.TextField(
+                        blank=True, null=True, verbose_name='Description'
+                    ),
+                ),
+                (
+                    'order',
+                    models.PositiveIntegerField(db_index=True, default=0),
+                ),
             ],
             options={
                 'ordering': ('order',),
@@ -148,11 +295,29 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FunctionArgumentChoice',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('value', models.CharField(max_length=255)),
                 ('title', models.CharField(max_length=255)),
-                ('order', models.PositiveIntegerField(db_index=True, default=0)),
-                ('argument', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='choices', to='business_logic.FunctionArgument')),
+                (
+                    'order',
+                    models.PositiveIntegerField(db_index=True, default=0),
+                ),
+                (
+                    'argument',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='choices',
+                        to='business_logic.FunctionArgument',
+                    ),
+                ),
             ],
             options={
                 'ordering': ('order',),
@@ -163,11 +328,39 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FunctionDefinition',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, unique=True, verbose_name='Title')),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Description')),
-                ('is_context_required', models.BooleanField(default=False, verbose_name='Is Context required')),
-                ('is_returns_value', models.BooleanField(default=True, verbose_name='Is returns value')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'title',
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name='Title'
+                    ),
+                ),
+                (
+                    'description',
+                    models.TextField(
+                        blank=True, null=True, verbose_name='Description'
+                    ),
+                ),
+                (
+                    'is_context_required',
+                    models.BooleanField(
+                        default=False, verbose_name='Is Context required'
+                    ),
+                ),
+                (
+                    'is_returns_value',
+                    models.BooleanField(
+                        default=True, verbose_name='Is returns value'
+                    ),
+                ),
             ],
             options={
                 'abstract': False,
@@ -176,8 +369,23 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FunctionLibrary',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, unique=True, verbose_name='Function library title')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'title',
+                    models.CharField(
+                        max_length=255,
+                        unique=True,
+                        verbose_name='Function library title',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Function library',
@@ -187,7 +395,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='IfStatement',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'If statement',
@@ -197,10 +413,28 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='LogEntry',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('sib_order', models.PositiveIntegerField()),
-                ('previous_value', models.CharField(max_length=255, verbose_name='Previous value')),
-                ('current_value', models.CharField(max_length=255, verbose_name='Current value')),
+                (
+                    'previous_value',
+                    models.CharField(
+                        max_length=255, verbose_name='Previous value'
+                    ),
+                ),
+                (
+                    'current_value',
+                    models.CharField(
+                        max_length=255, verbose_name='Current value'
+                    ),
+                ),
             ],
             options={
                 'abstract': False,
@@ -209,14 +443,37 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Node',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('lft', models.PositiveIntegerField(db_index=True)),
                 ('rgt', models.PositiveIntegerField(db_index=True)),
                 ('tree_id', models.PositiveIntegerField(db_index=True)),
                 ('depth', models.PositiveIntegerField(db_index=True)),
-                ('comment', models.CharField(blank=True, max_length=255, null=True, verbose_name='Comment')),
+                (
+                    'comment',
+                    models.CharField(
+                        blank=True,
+                        max_length=255,
+                        null=True,
+                        verbose_name='Comment',
+                    ),
+                ),
                 ('object_id', models.PositiveIntegerField(null=True)),
-                ('content_type', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
+                (
+                    'content_type',
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='contenttypes.ContentType',
+                    ),
+                ),
             ],
             options={
                 'ordering': ['tree_id', 'lft'],
@@ -227,7 +484,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='NumberConstant',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('value', models.FloatField(verbose_name='Value')),
             ],
             options={
@@ -238,12 +503,36 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Program',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, verbose_name='Title')),
-                ('code', models.SlugField(max_length=255, unique=True, verbose_name='Code')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'title',
+                    models.CharField(max_length=255, verbose_name='Title'),
+                ),
+                (
+                    'code',
+                    models.SlugField(
+                        max_length=255, unique=True, verbose_name='Code'
+                    ),
+                ),
                 ('creation_time', models.DateTimeField(auto_now_add=True)),
                 ('modification_time', models.DateTimeField(auto_now=True)),
-                ('environment', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='business_logic.ExecutionEnvironment')),
+                (
+                    'environment',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to='business_logic.ExecutionEnvironment',
+                    ),
+                ),
             ],
             options={
                 'ordering': ('id',),
@@ -254,9 +543,26 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProgramArgument',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.SlugField(max_length=255, verbose_name='Name')),
-                ('content_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'name',
+                    models.SlugField(max_length=255, verbose_name='Name'),
+                ),
+                (
+                    'content_type',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='contenttypes.ContentType',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Program argument',
@@ -266,10 +572,38 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProgramArgumentField',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', business_logic.fields.DeepAttributeField(max_length=255, verbose_name='Name')),
-                ('title', models.CharField(blank=True, max_length=255, null=True, verbose_name='Title')),
-                ('program_argument', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='fields', to='business_logic.ProgramArgument')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'name',
+                    business_logic.fields.DeepAttributeField(
+                        max_length=255, verbose_name='Name'
+                    ),
+                ),
+                (
+                    'title',
+                    models.CharField(
+                        blank=True,
+                        max_length=255,
+                        null=True,
+                        verbose_name='Title',
+                    ),
+                ),
+                (
+                    'program_argument',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='fields',
+                        to='business_logic.ProgramArgument',
+                    ),
+                ),
             ],
             options={
                 'ordering': ('name',),
@@ -280,12 +614,42 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProgramInterface',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(db_index=True, max_length=255, verbose_name='Title')),
-                ('code', models.SlugField(blank=True, max_length=255, null=True, unique=True, verbose_name='Code')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'title',
+                    models.CharField(
+                        db_index=True, max_length=255, verbose_name='Title'
+                    ),
+                ),
+                (
+                    'code',
+                    models.SlugField(
+                        blank=True,
+                        max_length=255,
+                        null=True,
+                        unique=True,
+                        verbose_name='Code',
+                    ),
+                ),
                 ('creation_time', models.DateTimeField(auto_now_add=True)),
                 ('modification_time', models.DateTimeField(auto_now=True)),
-                ('environment', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='business_logic.ExecutionEnvironment')),
+                (
+                    'environment',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to='business_logic.ExecutionEnvironment',
+                    ),
+                ),
             ],
             options={
                 'ordering': ('id',),
@@ -296,15 +660,63 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProgramVersion',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(blank=True, max_length=255, null=True, verbose_name='Title')),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Description')),
-                ('is_default', models.BooleanField(default=False, verbose_name='Is default')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'title',
+                    models.CharField(
+                        blank=True,
+                        max_length=255,
+                        null=True,
+                        verbose_name='Title',
+                    ),
+                ),
+                (
+                    'description',
+                    models.TextField(
+                        blank=True, null=True, verbose_name='Description'
+                    ),
+                ),
+                (
+                    'is_default',
+                    models.BooleanField(
+                        default=False, verbose_name='Is default'
+                    ),
+                ),
                 ('creation_time', models.DateTimeField(auto_now_add=True)),
                 ('modification_time', models.DateTimeField(auto_now=True)),
-                ('entry_point', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='business_logic.Node', verbose_name='Entry point')),
-                ('environment', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='business_logic.ExecutionEnvironment')),
-                ('program', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='versions', to='business_logic.Program')),
+                (
+                    'entry_point',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='business_logic.Node',
+                        verbose_name='Entry point',
+                    ),
+                ),
+                (
+                    'environment',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to='business_logic.ExecutionEnvironment',
+                    ),
+                ),
+                (
+                    'program',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='versions',
+                        to='business_logic.Program',
+                    ),
+                ),
             ],
             options={
                 'ordering': ('id',),
@@ -315,7 +727,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ReferenceConstant',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Reference constant',
@@ -325,11 +745,31 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ReferenceDescriptor',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(blank=True, max_length=255, null=True)),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'title',
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
                 ('search_fields', models.TextField(blank=True, null=True)),
-                ('name_field', models.SlugField(blank=True, max_length=255, null=True)),
-                ('content_type', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
+                (
+                    'name_field',
+                    models.SlugField(blank=True, max_length=255, null=True),
+                ),
+                (
+                    'content_type',
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='contenttypes.ContentType',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Reference descriptor',
@@ -339,7 +779,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='StopInterpretation',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Stop instruction',
@@ -349,7 +797,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='StringConstant',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('value', models.TextField(default=b'', verbose_name='Value')),
             ],
             options={
@@ -360,7 +816,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Table',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Table',
@@ -370,8 +834,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UnaryOperator',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('operator', models.CharField(max_length=3, verbose_name='Operator')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'operator',
+                    models.CharField(max_length=3, verbose_name='Operator'),
+                ),
             ],
             options={
                 'verbose_name': 'Unary operator',
@@ -381,7 +856,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Variable',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Variable',
@@ -391,7 +874,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='VariableDefinition',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('name', models.TextField(verbose_name='Variable name')),
             ],
             options={
@@ -402,8 +893,21 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PythonCodeFunctionDefinition',
             fields=[
-                ('functiondefinition_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='business_logic.FunctionDefinition')),
-                ('code', models.TextField(max_length=255, verbose_name='Code')),
+                (
+                    'functiondefinition_ptr',
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to='business_logic.FunctionDefinition',
+                    ),
+                ),
+                (
+                    'code',
+                    models.TextField(max_length=255, verbose_name='Code'),
+                ),
             ],
             options={
                 'verbose_name': 'Python code function definition',
@@ -414,9 +918,31 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PythonModuleFunctionDefinition',
             fields=[
-                ('functiondefinition_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='business_logic.FunctionDefinition')),
-                ('module', models.CharField(default=b'__builtins__', max_length=255, verbose_name='Module name')),
-                ('function', models.CharField(max_length=255, verbose_name='Function name')),
+                (
+                    'functiondefinition_ptr',
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to='business_logic.FunctionDefinition',
+                    ),
+                ),
+                (
+                    'module',
+                    models.CharField(
+                        default=b'__builtins__',
+                        max_length=255,
+                        verbose_name='Module name',
+                    ),
+                ),
+                (
+                    'function',
+                    models.CharField(
+                        max_length=255, verbose_name='Function name'
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Python module function definition',
@@ -427,89 +953,153 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='variable',
             name='definition',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='variables', to='business_logic.VariableDefinition'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='variables',
+                to='business_logic.VariableDefinition',
+            ),
         ),
         migrations.AddField(
             model_name='programargumentfield',
             name='variable_definition',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='program_argument_field', to='business_logic.VariableDefinition'),
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='program_argument_field',
+                to='business_logic.VariableDefinition',
+            ),
         ),
         migrations.AddField(
             model_name='programargument',
             name='program_interface',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='arguments', to='business_logic.ProgramInterface'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='arguments',
+                to='business_logic.ProgramInterface',
+            ),
         ),
         migrations.AddField(
             model_name='programargument',
             name='variable_definition',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='program_argument', to='business_logic.VariableDefinition'),
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='program_argument',
+                to='business_logic.VariableDefinition',
+            ),
         ),
         migrations.AddField(
             model_name='program',
             name='program_interface',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='business_logic.ProgramInterface'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='business_logic.ProgramInterface',
+            ),
         ),
         migrations.AddField(
             model_name='logentry',
             name='node',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='business_logic.Node', verbose_name='Program node'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='business_logic.Node',
+                verbose_name='Program node',
+            ),
         ),
         migrations.AddField(
             model_name='logentry',
             name='parent',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='business_logic.LogEntry'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='children',
+                to='business_logic.LogEntry',
+            ),
         ),
         migrations.AddField(
             model_name='functionlibrary',
             name='functions',
-            field=models.ManyToManyField(related_name='libraries', to='business_logic.FunctionDefinition'),
+            field=models.ManyToManyField(
+                related_name='libraries',
+                to='business_logic.FunctionDefinition',
+            ),
         ),
         migrations.AddField(
             model_name='functiondefinition',
             name='polymorphic_ctype',
-            field=models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='polymorphic_business_logic.functiondefinition_set+', to='contenttypes.ContentType'),
+            field=models.ForeignKey(
+                editable=False,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='polymorphic_business_logic.functiondefinition_set+',
+                to='contenttypes.ContentType',
+            ),
         ),
         migrations.AddField(
             model_name='functionargument',
             name='function',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='arguments', to='business_logic.FunctionDefinition'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='arguments',
+                to='business_logic.FunctionDefinition',
+            ),
         ),
         migrations.AddField(
             model_name='function',
             name='definition',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='functions', to='business_logic.FunctionDefinition'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='functions',
+                to='business_logic.FunctionDefinition',
+            ),
         ),
         migrations.AddField(
             model_name='executionenvironment',
             name='libraries',
-            field=models.ManyToManyField(blank=True, related_name='environments', to='business_logic.FunctionLibrary'),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='environments',
+                to='business_logic.FunctionLibrary',
+            ),
         ),
         migrations.AddField(
             model_name='executionargument',
             name='program_argument',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='business_logic.ProgramArgument'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='business_logic.ProgramArgument',
+            ),
         ),
         migrations.AddField(
             model_name='execution',
             name='log',
-            field=models.OneToOneField(null=True, on_delete=django.db.models.deletion.SET_NULL, to='business_logic.LogEntry'),
+            field=models.OneToOneField(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to='business_logic.LogEntry',
+            ),
         ),
         migrations.AddField(
             model_name='execution',
             name='program_version',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='business_logic.ProgramVersion'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='business_logic.ProgramVersion',
+            ),
         ),
         migrations.AddField(
             model_name='exceptionlog',
             name='log_entry',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='exception', to='business_logic.LogEntry'),
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='exception',
+                to='business_logic.LogEntry',
+            ),
         ),
         migrations.AlterUniqueTogether(
             name='programargumentfield',
-            unique_together=set([('program_argument', 'name')]),
+            unique_together={('program_argument', 'name')},
         ),
         migrations.AlterUniqueTogether(
             name='programargument',
-            unique_together=set([('program_interface', 'name')]),
+            unique_together={('program_interface', 'name')},
         ),
     ]

@@ -159,7 +159,7 @@ class ProgramArgumentField(models.Model):
         return self.get_variable_name()
 
     def get_variable_name(self):
-        return '{}.{}'.format(self.program_argument.name, self.name)
+        return f'{self.program_argument.name}.{self.name}'
 
     def get_title(self):
         if self.title:
@@ -214,7 +214,7 @@ class Program(models.Model):
         ordering = ('id',)
 
     def __str__(self):
-        return '{}: {}({})'.format(self.program_interface, self.title, self.code)
+        return f'{self.program_interface}: {self.title}({self.code})'
 
 
 @python_2_unicode_compatible

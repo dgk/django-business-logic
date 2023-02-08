@@ -52,14 +52,13 @@ class ProgramTestBase(TestCase):
         self.test_model = Model.objects.create()
 
     def create_argument_fields(self, argument):
-        fields = {}
-        for field in self.field_list:
-            fields[field] = ProgramArgumentField.objects.create(
+        return {
+            field: ProgramArgumentField.objects.create(
                 name=field,
                 program_argument=argument,
             )
-
-        return fields
+            for field in self.field_list
+        }
 
     def create_entry_point(self):
         return get_test_tree()
