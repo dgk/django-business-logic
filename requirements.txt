@@ -9,3 +9,4 @@ django-treebeard==4.3
 djangorestframework>=3.8
 lxml<4.4.0 ; python_version=="3.4"
 lxml<5.0 ; python_version!="3.4"
+django>=3.2.19 # not directly required, pinned by Snyk to avoid a vulnerability
