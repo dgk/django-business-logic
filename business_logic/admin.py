@@ -8,7 +8,7 @@ from nested_admin.nested import NestedModelAdmin, NestedStackedInline
 from polymorphic.admin import PolymorphicChildModelAdmin
 from polymorphic.admin import PolymorphicParentModelAdmin
 
-from adminsortable2.admin import SortableInlineAdminMixin, SortableAdminMixin
+from adminsortable2.admin import SortableInlineAdminMixin, SortableAdminMixin, SortableAdminBase
 
 from ace_overlay.widgets import AceOverlayWidget
 
@@ -116,7 +116,7 @@ class FunctionArgumentInline(SortableInlineAdminMixin, admin.StackedInline):
     show_change_link = True
 
 
-class FunctionDefinitionAdmin(PolymorphicChildModelAdmin):
+class FunctionDefinitionAdmin(PolymorphicChildModelAdmin, SortableAdminBase):
     inlines = (FunctionArgumentInline,)
 
 
