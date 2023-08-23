@@ -4,13 +4,11 @@ import re
 
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible, force_text
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .node import NodeAccessor
 
 
-@python_2_unicode_compatible
 class ReferenceDescriptor(models.Model):
     content_type = models.OneToOneField(ContentType, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, null=True, blank=True)

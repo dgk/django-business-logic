@@ -5,7 +5,7 @@ import copy
 
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
-from django.utils import six
+import six
 
 from rest_framework import serializers
 

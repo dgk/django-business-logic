@@ -5,8 +5,7 @@ from __future__ import unicode_literals
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
-from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .context import Context
 from .log import Execution, ExecutionArgument
@@ -18,7 +17,6 @@ from ..config import ExceptionHandlingPolicy
 from ..fields import DeepAttributeField
 
 
-@python_2_unicode_compatible
 class ExecutionEnvironment(models.Model):
     """
     Environment of execution.
@@ -57,7 +55,6 @@ class ExecutionEnvironment(models.Model):
         return self.title
 
 
-@python_2_unicode_compatible
 class ProgramInterface(models.Model):
     """
     Determines interface for :class:`business_logic.models.Program`.
@@ -87,7 +84,6 @@ class ProgramInterface(models.Model):
         return self.title
 
 
-@python_2_unicode_compatible
 class ProgramArgument(models.Model):
     program_interface = models.ForeignKey(ProgramInterface, related_name='arguments', on_delete=models.CASCADE)
     name = models.SlugField(_('Name'), max_length=255)
@@ -124,7 +120,6 @@ class ProgramArgument(models.Model):
         super(ProgramArgument, self).delete(**kwargs)
 
 
-@python_2_unicode_compatible
 class ProgramArgumentField(models.Model):
     """
     Attributes:
@@ -184,7 +179,6 @@ class ProgramArgumentField(models.Model):
         super(ProgramArgumentField, self).delete(**kwargs)
 
 
-@python_2_unicode_compatible
 class Program(models.Model):
     """
     Implements :class:`business_logic.models.ProgramInterface`.
@@ -217,7 +211,6 @@ class Program(models.Model):
         return '{}: {}({})'.format(self.program_interface, self.title, self.code)
 
 
-@python_2_unicode_compatible
 class ProgramVersion(models.Model):
     """
     Acts as version of :class:`business_logic.models.Program`.

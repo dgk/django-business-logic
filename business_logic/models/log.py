@@ -6,8 +6,8 @@ from django.db import models
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
-from django.utils import six
-from django.utils.translation import ugettext_lazy as _
+import six
+from django.utils.translation import gettext_lazy as _
 
 from treebeard.al_tree import AL_Node
 

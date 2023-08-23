@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import datetime
 from lxml import etree, objectify
 
-from django.utils.six import StringIO
+from six import StringIO
 
 from ..models import *
 from ..utils import get_content_type_id

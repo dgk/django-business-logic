@@ -8,7 +8,7 @@ from nested_admin.nested import NestedModelAdmin, NestedStackedInline
 from polymorphic.admin import PolymorphicChildModelAdmin
 from polymorphic.admin import PolymorphicParentModelAdmin
 
-from adminsortable2.admin import SortableInlineAdminMixin
+from adminsortable2.admin import SortableInlineAdminMixin, SortableAdminMixin
 
 from ace_overlay.widgets import AceOverlayWidget
 
@@ -99,7 +99,7 @@ class FunctionArgumentChoiceAdmin(SortableInlineAdminMixin, admin.TabularInline)
     extra = 1
 
 
-class FunctionArgumentAdmin(admin.ModelAdmin):
+class FunctionArgumentAdmin(SortableAdminMixin, admin.ModelAdmin):
     model = FunctionArgument
     inlines = (FunctionArgumentChoiceAdmin,)
     readonly_fields = ('function', 'order')

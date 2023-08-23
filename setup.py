@@ -7,10 +7,10 @@ import sys
 import shutil
 from setuptools import setup
 
-try:  # for pip >= 10
-    from pip._internal.req import parse_requirements
-except ImportError:  # for pip <= 9.0.3
-    from pip.req import parse_requirements
+from pip._internal.req import parse_requirements
+from pip._internal.req.constructors import (
+        install_req_from_parsed_requirement,
+    )
 
 PACKAGE = "business_logic"
 NAME = "django-business-logic"
@@ -124,7 +124,7 @@ setup(
     ],
     zip_safe=False,
     install_requires=[
-        '{}; {}'.format(x.req, x.markers) if x.markers else str(x.req)
+        x.requirement
         for x in parse_requirements(abs_path('requirements.txt'), session=False)
     ],
 )
