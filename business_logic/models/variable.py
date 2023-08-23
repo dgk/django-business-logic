@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils.encoding import force_str
 
 
 class VariableDefinition(models.Model):
@@ -45,7 +46,7 @@ class Variable(models.Model):
             return False
 
         def __str__(self):
-            return force_text(_('Undefined'))
+            return force_str(_('Undefined'))
 
     def __str__(self):
         return self.definition.name
