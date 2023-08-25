@@ -222,7 +222,8 @@ class ProgramVersion(models.Model):
         description(str): human-readable description
         environment(:class:`business_logic.models.ExecutionEnvironment`): execution environment, can be empty
         is_default(bool): default=False, can be used for choosing suitable `ProgramVersion`.
-            Only one `ProgramVersion` for given `:class:`business_logic.models.Program` can have this field value as `True`
+            Only one `ProgramVersion` for given `:class:`business_logic.models.Program`
+            can have this field value as `True`
         entry_point(:class:`business_logic.models.Node`): entry point of visually editable code
         program(:class:`business_logic.models.Program`): parent Program
     """

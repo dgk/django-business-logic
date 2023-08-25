@@ -20,7 +20,7 @@ class ReferenceDescriptor(models.Model):
         verbose_name_plural = _('Reference descriptors')
 
     def __str__(self):
-        return force_text(self.content_type)
+        return str(self.content_type)
 
     def get_search_fields(self):
         if not self.search_fields:

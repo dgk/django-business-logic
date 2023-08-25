@@ -21,7 +21,7 @@ class VariableDefinition(models.Model):
 
 class Variable(models.Model):
     """
-    
+
     """
     definition = models.ForeignKey(VariableDefinition, related_name='variables', on_delete=models.CASCADE)
 
