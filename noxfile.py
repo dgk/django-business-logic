@@ -18,8 +18,6 @@ DJANGO_VERSIONS = [
     '4.2',
 ]
 
-nox.options.sessions = ['unittest', 'flake8']
-
 
 @nox.session
 def dev(session: nox.Session) -> None:
@@ -32,7 +30,7 @@ def dev(session: nox.Session) -> None:
     session.run(python, '-m', 'pip', 'install', '-r', 'requirements.dev.txt', external=True)
 
 
-@nox.session(name='python', python=PYTHON_VERSIONS, tags=['unittests'])
+@nox.session(python=PYTHON_VERSIONS, tags=['unittests'])
 @nox.parametrize('django', DJANGO_VERSIONS)
 def unittest(session, django):
     major, minor = map(lambda x: int(x), django.split('.'))
@@ -41,7 +39,7 @@ def unittest(session, django):
     if django == '3.2':
         session.install('django-admin-sortable2==1.0.4')
 
-    session.install('-r requirements.test.txt')
+    session.install('-r', 'requirements.test.txt')
 
     session.env['DJANGO_SETTINGS_MODULE'] = 'sites.test.settings'
     session.run('py.test', 'tests')
