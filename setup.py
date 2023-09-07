@@ -7,10 +7,10 @@ import sys
 import shutil
 from setuptools import setup
 
-try:  # for pip >= 10
-    from pip._internal.req import parse_requirements
-except ImportError:  # for pip <= 9.0.3
-    from pip.req import parse_requirements
+from pip._internal.req import parse_requirements
+from pip._internal.req.constructors import (
+        install_req_from_parsed_requirement,
+    )
 
 PACKAGE = "business_logic"
 NAME = "django-business-logic"
@@ -106,33 +106,22 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Framework :: Django',
-        'Framework :: Django :: 1.11',
-        'Framework :: Django :: 2.0',
-        'Framework :: Django :: 2.1',
-        'Framework :: Django :: 2.2',
+        'Framework :: Django :: 3.2',
+        'Framework :: Django :: 4.0',
+        'Framework :: Django :: 4.1',
+        'Framework :: Django :: 4.2',
     ],
     zip_safe=False,
     install_requires=[
-        "Markdown",
-        "django-ace-overlay",
-        "django-admin-sortable2",
-        "django-filter",
-        "django-nested-admin",
-        "django-polymorphic",
-        "django-treebeard",
-        "djangorestframework",
-        "lxml",
-        "django-nested-inline"
+        x.requirement
+        for x in parse_requirements(abs_path('requirements.txt'), session=False)
     ],
 )

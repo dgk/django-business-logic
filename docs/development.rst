@@ -89,4 +89,4 @@ You need to know at least one command; the one that runs all the tests:
 
 .. code:: bash
 
-    tox
+    nox

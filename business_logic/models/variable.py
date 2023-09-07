@@ -2,7 +2,7 @@
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+from django.utils.encoding import force_str
 
 
 class VariableDefinition(models.Model):
@@ -19,10 +19,9 @@ class VariableDefinition(models.Model):
         pass
 
 
-
 class Variable(models.Model):
     """
-    
+
     """
     definition = models.ForeignKey(VariableDefinition, related_name='variables', on_delete=models.CASCADE)
 
@@ -30,7 +29,6 @@ class Variable(models.Model):
         verbose_name = _('Variable')
         verbose_name_plural = _('Variables')
 
-    
     class Undefined(object):
 
         def __nonzero__(self):
@@ -48,7 +46,7 @@ class Variable(models.Model):
             return False
 
         def __str__(self):
-            return 'Undefined'
+            return force_str(_('Undefined'))
 
     def __str__(self):
         return self.definition.name

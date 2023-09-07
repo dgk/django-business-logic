@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
-
 from django.utils.translation import gettext_lazy as _
 
 from .context import Context
@@ -16,7 +15,6 @@ from .types_ import DJANGO_FIELDS_FOR_TYPES
 
 from ..config import ExceptionHandlingPolicy
 from ..fields import DeepAttributeField
-
 
 
 class ExecutionEnvironment(models.Model):
@@ -57,7 +55,6 @@ class ExecutionEnvironment(models.Model):
         return self.title
 
 
-
 class ProgramInterface(models.Model):
     """
     Determines interface for :class:`business_logic.models.Program`.
@@ -85,7 +82,6 @@ class ProgramInterface(models.Model):
 
     def __str__(self):
         return self.title
-
 
 
 class ProgramArgument(models.Model):
@@ -122,7 +118,6 @@ class ProgramArgument(models.Model):
 
         self.variable_definition.delete()
         super(ProgramArgument, self).delete(**kwargs)
-
 
 
 class ProgramArgumentField(models.Model):
@@ -184,7 +179,6 @@ class ProgramArgumentField(models.Model):
         super(ProgramArgumentField, self).delete(**kwargs)
 
 
-
 class Program(models.Model):
     """
     Implements :class:`business_logic.models.ProgramInterface`.
@@ -217,7 +211,6 @@ class Program(models.Model):
         return '{}: {}({})'.format(self.program_interface, self.title, self.code)
 
 
-
 class ProgramVersion(models.Model):
     """
     Acts as version of :class:`business_logic.models.Program`.
@@ -229,7 +222,8 @@ class ProgramVersion(models.Model):
         description(str): human-readable description
         environment(:class:`business_logic.models.ExecutionEnvironment`): execution environment, can be empty
         is_default(bool): default=False, can be used for choosing suitable `ProgramVersion`.
-            Only one `ProgramVersion` for given `:class:`business_logic.models.Program` can have this field value as `True`
+            Only one `ProgramVersion` for given `:class:`business_logic.models.Program`
+            can have this field value as `True`
         entry_point(:class:`business_logic.models.Node`): entry point of visually editable code
         program(:class:`business_logic.models.Program`): parent Program
     """

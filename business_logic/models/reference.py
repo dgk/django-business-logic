@@ -9,7 +9,6 @@ from django.utils.translation import gettext_lazy as _
 from .node import NodeAccessor
 
 
-
 class ReferenceDescriptor(models.Model):
     content_type = models.OneToOneField(ContentType, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, null=True, blank=True)

@@ -3,8 +3,6 @@ from django.urls import reverse
 from django.db import models
 
 
-
-
 class Publisher(models.Model):
     name = models.CharField(max_length=30, verbose_name='Publisher name')
     rank = models.IntegerField(default=0, verbose_name='Publisher rank')
@@ -19,7 +17,6 @@ class Publisher(models.Model):
 
     def get_absolute_url(self):
         return reverse('publisher-detail', kwargs={'pk': self.pk})
-
 
 
 class Author(models.Model):
@@ -37,7 +34,6 @@ class Author(models.Model):
 
     def get_absolute_url(self):
         return reverse('author-detail', kwargs={'pk': self.pk})
-
 
 
 class Book(models.Model):

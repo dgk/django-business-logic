@@ -2,7 +2,6 @@
 
 import json
 
-import six
 
 from ..common import *
 

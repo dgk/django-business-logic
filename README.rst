@@ -1,6 +1,6 @@
-.. image:: https://img.shields.io/travis/dgk/django-business-logic/master.svg
-   :target: http://travis-ci.org/dgk/django-business-logic?branch=master
-   :alt: travis-ci
+.. image:: https://img.shields.io/github/actions/workflow/status/dgk/django-business-logic/unittests.yml
+   :target: https://github.com/dgk/django-business-logic/actions/workflows/unittests.yml
+   :alt: github-build
 
 .. image:: https://img.shields.io/codecov/c/github/dgk/django-business-logic.svg
    :target: https://codecov.io/gh/dgk/django-business-logic
@@ -33,10 +33,6 @@
 .. image:: https://img.shields.io/pypi/status/django-business-logic.svg
    :target: https://pypi.org/project/django-business-logic/
    :alt: pypi versions status
-
-.. image:: https://img.shields.io/gitter/room/django-business-logic/community.svg
-   :target: https://gitter.im/django-business-logic/community
-   :alt: gitter
 
 Preface
 #######
@@ -113,8 +109,6 @@ Support us
 ##########
 
 Any feedback and github stars would be greatly appreciated.
-
-Please feel free to ask any questions in the `gitter chat <https://gitter.im/django-business-logic/community>`_
 
 If you are familiar with react/mobx and want to help to build django-business-logic library
 (`next generation frontend code is here <https://github.com/dgk/business-logic-ui/>`_), please contact me dgk@dgk.su.

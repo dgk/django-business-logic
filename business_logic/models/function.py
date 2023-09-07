@@ -4,11 +4,9 @@
 from importlib import import_module
 
 from django.db import models
-
 from django.utils.translation import gettext_lazy as _
 
 from polymorphic.models import PolymorphicModel
-
 
 
 class FunctionDefinition(PolymorphicModel):
@@ -22,7 +20,6 @@ class FunctionDefinition(PolymorphicModel):
 
     def call(self, context, *args):
         raise NotImplementedError()
-
 
 
 class FunctionArgument(models.Model):
@@ -41,7 +38,6 @@ class FunctionArgument(models.Model):
 
     def __str__(self):
         return self.name or '*'
-
 
 
 class FunctionArgumentChoice(models.Model):
@@ -114,7 +110,6 @@ ret = function(**kwargs)
         except Exception as e:
             print(e)
         return function_locals['ret']
-
 
 
 class FunctionLibrary(models.Model):

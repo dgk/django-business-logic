@@ -64,9 +64,8 @@ TEMPLATES = [
 LANGUAGE_CODE = 'en-us'
 
 locale_dir = os.path.join(BASE_DIR, 'business_logic/locale')
-# LANGUAGES = ((x, x) for x in os.listdir(locale_dir) if os.path.isdir(os.path.join(locale_dir, x)))
-LANGUAGES = [("en-us","en-us")]
-
+LANGUAGES = [(x, x) for x in os.listdir(locale_dir) if os.path.isdir(os.path.join(locale_dir, x))]
+LANGUAGES += [('en', 'en')]
 
 TIME_ZONE = 'UTC'
 

@@ -1,4 +1,4 @@
-FROM python:3.6-alpine
+FROM python:3.9-alpine
 
 ARG VERSION
 ARG VCS_REF
@@ -14,11 +14,12 @@ LABEL org.label-schema.schema-version="1.0" \
 RUN mkdir /app
 WORKDIR app
 
+RUN apk add --no-cache libxslt && \
+    apk add --no-cache --virtual .build-deps g++ python3-dev libffi-dev openssl-dev libxslt-dev git
+
 ADD . /app
 
-RUN apk add --no-cache libxslt && \
-    apk add --no-cache --virtual .build-deps g++ python-dev libffi-dev openssl-dev libxslt-dev git && \
-    pip install -r requirements.dev.txt && \
+RUN pip install -r requirements.dev.txt && \
     python setup.py install && \
     apk del .build-deps
 

@@ -137,6 +137,7 @@ class Execution(models.Model):
     class Meta:
         ordering = ('-id',)
 
+
 class ExecutionArgument(models.Model):
     """
     Stores information about argument passed to :func:`business_logic.models.ProgramVersion.execute`.
@@ -151,4 +152,3 @@ class ExecutionArgument(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-
