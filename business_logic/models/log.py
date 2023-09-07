@@ -64,7 +64,7 @@ class Logger(object):
         self.exceptions[node] = (exception, traceback)
 
     def prepare_value(self, value):
-        value = six.text_type(value)
+        value = str(value)
         if len(value) > LOG_ENTRY_VALUE_LENGTH:
             value = value[:LOG_ENTRY_VALUE_LENGTH - 3] + '...'
         return value
