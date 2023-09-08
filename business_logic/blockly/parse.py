@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import datetime
-from lxml import etree, objectify
+from io import StringIO
 
-from six import StringIO
+from lxml import etree, objectify
 
 from ..models import *
 from ..utils import get_content_type_id

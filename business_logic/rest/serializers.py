@@ -5,7 +5,6 @@ import copy
 
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
-import six
 
 from rest_framework import serializers
 
@@ -99,7 +98,7 @@ class BlocklyXMLSerializer(serializers.CharField):
         return NodeTreeCreator().create(BlocklyXmlParser().parse(data)[0])
 
     def run_validation(self, data=serializers.empty):
-        if data == '' or (self.trim_whitespace and six.text_type(data).strip() == ''):
+        if data == '' or (self.trim_whitespace and str(data).strip() == ''):
             if not self.allow_blank:
                 self.fail('blank')
             return ''
@@ -112,7 +111,7 @@ class BlocklyXMLSerializer(serializers.CharField):
             BlocklyXmlParser().parse(data)
         except Exception as e:
             raise serializers.ValidationError(
-                ["Xml parse error - {}: {}".format(e.__class__.__name__, six.text_type(e))])
+                ["Xml parse error - {}: {}".format(e.__class__.__name__, str(e))])
 
         value = self.to_internal_value(data)
         self.run_validators(value)
@@ -193,7 +192,7 @@ class ReferenceSerializer(serializers.ModelSerializer):
 
     def get_name(self, obj):
         reference_descriptor = self.context['view'].get_reference_descriptor()
-        return six.text_type(getattr(obj, reference_descriptor.name_field) if reference_descriptor.name_field else obj)
+        return str(getattr(obj, reference_descriptor.name_field) if reference_descriptor.name_field else obj)
 
 
 class ProgramArgumentFieldSerializer(serializers.ModelSerializer):

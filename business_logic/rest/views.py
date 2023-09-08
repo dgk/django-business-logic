@@ -138,7 +138,7 @@ class ReferenceSearchFilter(SearchFilter):
                 'ReferenceDescriptor for `{}` are not configured: incorrect `search_fields` field'.format(
                     view.get_reference_model_name()))
 
-        orm_lookups = [self.construct_search(six.text_type(search_field)) for search_field in search_fields]
+        orm_lookups = [self.construct_search(str(search_field)) for search_field in search_fields]
 
         base = queryset
         for search_term in search_terms:
