@@ -18,6 +18,10 @@
    :target: https://django-business-logic.readthedocs.io/en/latest/license.html
    :alt: MIT license
 
+.. image:: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdgk%2Fdjango-business-logic.svg?type=shield&issueType=license
+   :target: https://app.fossa.com/projects/git%2Bgithub.com%2Fdgk%2Fdjango-business-logic?ref=badge_shield
+   :alt: FOSSA Status
+
 .. image:: https://img.shields.io/pypi/pyversions/django-business-logic.svg
    :target: https://pypi.org/project/django-business-logic/
    :alt: python versions
