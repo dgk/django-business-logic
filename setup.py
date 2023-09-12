@@ -8,9 +8,7 @@ import shutil
 from setuptools import setup
 
 from pip._internal.req import parse_requirements
-from pip._internal.req.constructors import (
-        install_req_from_parsed_requirement,
-    )
+
 
 PACKAGE = "business_logic"
 NAME = "django-business-logic"
