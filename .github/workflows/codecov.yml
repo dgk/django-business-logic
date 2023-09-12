@@ -1,0 +1,43 @@
+name: codecov
+
+on:
+  pull_request:
+    branches:
+      - master
+      - develop
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    env:
+      DJANGO_SETTINGS_MODULE: sites.test.settings
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "Django>=4.2,<4.3"
+          python -m pip install -r requirements.test.txt
+          python -m pip install codecov
+
+      - name: Test
+        run: |
+          python -m pip install "Django>=4.2,<4.3"
+          python -m pip install -r requirements.test.txt
+          python -m pip install codecov
+
+      - name: Run tests and collect coverage
+        run: |
+          coverage run manage.py test tests
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3

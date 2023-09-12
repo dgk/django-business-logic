@@ -1,18 +1,11 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 
 import operator
 
 from collections import OrderedDict
 from functools import reduce
 
-try:
-    from django.apps import apps
-
-    get_model = apps.get_model
-except ImportError:
-    from django.db.models.loading import get_model
-
+from django.apps import apps
 from django.db import models
 
 from rest_framework import generics, exceptions
@@ -138,7 +131,7 @@ class ReferenceSearchFilter(SearchFilter):
                 'ReferenceDescriptor for `{}` are not configured: incorrect `search_fields` field'.format(
                     view.get_reference_model_name()))
 
-        orm_lookups = [self.construct_search(six.text_type(search_field)) for search_field in search_fields]
+        orm_lookups = [self.construct_search(str(search_field)) for search_field in search_fields]
 
         base = queryset
         for search_term in search_terms:
@@ -175,7 +168,7 @@ class ReferenceBaseView(object):
     def get_reference_model(self):
         try:
             app_name, model_name = self.get_reference_model_name().split('.')
-            model = get_model(app_name, model_name)
+            model = apps.get_model(app_name, model_name)
         except (ValueError, LookupError):
             raise exceptions.NotFound()
 

@@ -6,18 +6,20 @@ Library Development
 Backend development environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-virtualenv
+nox
 ^^^^^^^^^^
 
-Virtualenv is probably what you want to use during development. Once you
-have virtualenv installed, just fire up a shell and create your own
-environment.
+Install `nox <https://nox.thea.codes/en/stable/>`_.
+
+This tool will help you to setup dev environment and run tests.
+
+Following command will create a virtual environment and install all dependencies:
 
 .. code:: bash
 
-    virtualenv venv
-    source venv/bin/activate
-    pip install -r requirements.dev.txt
+    nox -s dev
+
+Do not forget to activate the virtual environment before run any further commands.
 
 Installing test data
 ^^^^^^^^^^^^^^^^^^^^
@@ -89,4 +91,4 @@ You need to know at least one command; the one that runs all the tests:
 
 .. code:: bash
 
-    tox
+    nox -s unittest

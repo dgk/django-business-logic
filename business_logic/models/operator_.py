@@ -6,14 +6,11 @@ import operator
 from decimal import Decimal
 
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
-
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .node import NodeAccessor
 
 
-@python_2_unicode_compatible
 class Operator(NodeAccessor):
     operator = models.CharField(_('Operator'), null=False, max_length=3)
     operator_table = {}

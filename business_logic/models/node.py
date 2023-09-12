@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals, print_function
-
 import sys
 
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -18,7 +15,6 @@ from ..config import ExceptionHandlingPolicy
 from ..exceptions import StopInterpretationException, InterpretationException
 
 
-@python_2_unicode_compatible
 class Node(NS_Node):
     """
     Derived from `treebeard.NS_Node <https://django-treebeard.readthedocs.io/en/latest/ns_tree.html#treebeard.ns_tree.NS_Node>`_.

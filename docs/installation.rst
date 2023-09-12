@@ -44,8 +44,8 @@ Edit ``urls.py`` and include required urls
     # urls.py
     urlpatterns = (
       # ...
-      url('^business-logic/', include('business_logic.urls')),
-      url('^nested_admin/', include('nested_admin.urls')),
+      re_path('^business-logic/', include('business_logic.urls')),
+      re_path('^nested_admin/', include('nested_admin.urls')),
       # ...
     )
 

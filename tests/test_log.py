@@ -118,7 +118,7 @@ class LogTest(TestCase):
         self.assertEqual(exception.__class__.__module__, exception_log.module)
         self.assertEqual(str(exception), exception_log.message)
         self.assertIn('Traceback (most recent call last):', exception_log.traceback)
-        self.assertIn('ZeroDivisionError: float divmod()', exception_log.traceback)
+        self.assertIn(f'{exception.__class__.__name__}: {exception.args[0]}', exception_log.traceback)
 
     def test_log_variable_undefined(self):
         # Logger().prepare_value(Variable.Undefined()) causes

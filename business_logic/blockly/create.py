@@ -96,8 +96,8 @@ class NodeTreeCreator(object):
                 if not isinstance(variable_definition, VariableDefinition):
                     raise NodeTreeCreatorException('Invalid variable_definition argument type')
 
-                variable_by_name[variable_definition.name] = dict(
-                    variables=[], variable_definition=variable_definition.id)
+                variable_by_name[variable_definition.name] = dict(variables=[],
+                                                                  variable_definition=variable_definition.id)
 
         variables = self.collect_objects(data, get_content_type_id(Variable))
 

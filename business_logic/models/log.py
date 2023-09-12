@@ -6,8 +6,8 @@ from django.db import models
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
-from django.utils import six
-from django.utils.translation import ugettext_lazy as _
+
+from django.utils.translation import gettext_lazy as _
 
 from treebeard.al_tree import AL_Node
 
@@ -64,7 +64,7 @@ class Logger(object):
         self.exceptions[node] = (exception, traceback)
 
     def prepare_value(self, value):
-        value = six.text_type(value)
+        value = str(value)
         if len(value) > LOG_ENTRY_VALUE_LENGTH:
             value = value[:LOG_ENTRY_VALUE_LENGTH - 3] + '...'
         return value
@@ -137,6 +137,7 @@ class Execution(models.Model):
     class Meta:
         ordering = ('-id',)
 
+
 class ExecutionArgument(models.Model):
     """
     Stores information about argument passed to :func:`business_logic.models.ProgramVersion.execute`.
@@ -151,4 +152,3 @@ class ExecutionArgument(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-

@@ -1,17 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
-
 import math
 
 from django.contrib.contenttypes.models import ContentType
 
-from django.utils import six
-
-if six.PY2:
-    from itertools import izip_longest as zip_longest
-else:
-    from itertools import zip_longest
+from itertools import zip_longest
 
 from business_logic.models import *  # noqa E402
 from business_logic.utils import *  # noqa E402
@@ -196,4 +189,4 @@ def create_if_statement(branches_count, use_binary_operator=False, root=None):
 
 
 def cleanup_xml_ids(xml):
-    return re.sub(' id="\d+"', '', xml, re.MULTILINE | re.DOTALL)
+    return re.sub(r' id="\d+"', '', xml, re.MULTILINE | re.DOTALL)

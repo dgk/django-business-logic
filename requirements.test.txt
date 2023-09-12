@@ -1,7 +1,6 @@
 -r requirements.txt
-coverage==4.4.2
-pip>=19.0
-pytest-cov==2.8.1
-pytest-django==3.7.0
-pytest==4.6.6 ; python_version<"3.5"
-pytest==5.3.1 ; python_version>"3.5"
+coverage==7.3.0
+pip>=21.0
+pytest-cov==4.1.0
+pytest-django==4.5.2
+pytest==7.4.0
