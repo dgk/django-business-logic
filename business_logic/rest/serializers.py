@@ -10,7 +10,7 @@ from ..models import (ExceptionLog, Execution, ExecutionArgument, ExecutionEnvir
                       FunctionLibrary, LogEntry, Program, ProgramArgument, ProgramArgumentField, ProgramInterface,
                       ProgramVersion, ReferenceDescriptor, FunctionArgument, FunctionArgumentChoice)
 
-from ..models.types_ import TYPES_FOR_DJANGO_FIELDS, DJANGO_FIELDS_FOR_TYPES
+from ..models.types_ import get_data_type, is_model_field
 
 from ..blockly.build import BlocklyXmlBuilder
 from ..blockly.create import NodeTreeCreator
@@ -203,23 +203,35 @@ class ProgramArgumentFieldSerializer(serializers.ModelSerializer):
         representation['name'] = instance.name
 
         argument = instance.program_argument
+        print('argument', argument)
+        print('argument.content_type', argument.content_type)
         model = argument.content_type.model_class()
+        print('model', model)
 
         field_names = instance.name.split('.')
+        print('field_names', field_names)
         for i, field_name in enumerate(field_names):
             field = model._meta.get_field(field_name)
             is_last_field = i == len(field_names) - 1
-            is_django_model = field.__class__ in DJANGO_FIELDS_FOR_TYPES['model']
+            if not is_last_field:
+                assert is_model_field(field.__class__)
+                model = field.related_model
+                continue
+
+            data_type = get_data_type(field.__class__)
+            is_django_model = data_type == 'model'
 
             if is_django_model:
                 model = field.related_model
 
             if is_last_field:
-                representation['data_type'] = TYPES_FOR_DJANGO_FIELDS[field.__class__]
+                representation['data_type'] = data_type
                 representation['content_type'] = (ContentTypeSerializer().to_representation(
                     ContentType.objects.get_for_model(model)) if is_django_model else None)
 
         representation['verbose_name'] = instance.get_title()
+
+        print('representation', representation)
 
         return representation
 
