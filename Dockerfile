@@ -19,7 +19,7 @@ RUN apk add --no-cache libxslt && \
 
 ADD . /app
 
-RUN pip install -r requirements.dev.txt && \
+RUN pip install --no-cache-dir -r requirements.dev.txt && \
     python setup.py install && \
     apk del .build-deps
 
