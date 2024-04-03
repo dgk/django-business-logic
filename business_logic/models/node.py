@@ -18,11 +18,11 @@ from ..exceptions import StopInterpretationException, InterpretationException
 class Node(NS_Node):
     """
     Derived from `treebeard.NS_Node <https://django-treebeard.readthedocs.io/en/latest/ns_tree.html#treebeard.ns_tree.NS_Node>`_.
-    Holds structure of syntax tree. All objects are linked using the
+    Holds the structure of the syntax tree. All objects are linked using the
     `django contenttypes framework <https://docs.djangoproject.com/en/2.1/ref/contrib/contenttypes/>`_.
     Interprets code using the :func:`business_logic.models.Node.interpret` method.
-    Can acts as parent of code block if not contains content_object.
-    Can contains comment.
+    Can act as a parent of a code block if it does not contain a content_object.
+    Can contain a comment.
 
     See Also:
         * :class:`business_logic.models.NodeCache`
@@ -54,7 +54,7 @@ class Node(NS_Node):
     @classmethod
     def add_root(cls, **kwargs):
         """
-        Adds a root node to the tree. Saves content_objects if needed.
+        Adds a root node to the tree. Saves content_objects if necessary.
         Args:
             **kwargs: kwargs for :class:`business_logic.models.Node` constructor
 
@@ -66,7 +66,7 @@ class Node(NS_Node):
 
     def add_child(self, **kwargs):
         """
-        Adds a child to the node. Saves content_objects if needed.
+        Adds a child to the node. Saves content_objects if necessary.
 
         Args:
             **kwargs: kwargs for :class:`business_logic.models.Node` constructor
@@ -79,7 +79,7 @@ class Node(NS_Node):
 
     def delete(self):
         """
-        Removes a node and all it’s descendants, and content_objects if needed.
+        Removes a node and all its descendants, and content_objects if necessary.
         """
         if (self.object_id and self.content_object and
                 self.content_type.app_label == ContentType.objects.get_for_model(self.__class__).app_label):
@@ -92,10 +92,10 @@ class Node(NS_Node):
 
     def clone(self):
         """
-        Creates a clone of entire tree starting from self
+        Creates a clone of the entire tree starting from self.
 
         Returns:
-            :class:`business_logic.models.Node`: root node of cloned tree
+            :class:`business_logic.models.Node`: root node of the cloned tree.
 
         """
         class CloneVisitor(NodeVisitor):
@@ -133,7 +133,7 @@ class Node(NS_Node):
 
     def interpret(self, ctx):
         """
-        Interprets the held code.
+        Interprets the code held.
 
         Args:
             ctx(:class:`business_logic.models.Context`): execution context
@@ -204,7 +204,7 @@ class Node(NS_Node):
 
     def pprint(self):
         """
-        Prints entire tree starting from self to stdout.
+        Prints the entire tree starting from self to stdout.
 
         Utility function for development purposes.
         """
@@ -223,10 +223,10 @@ class Node(NS_Node):
 
 class NodeCache:
     """
-    Creates cache with preloaded content objects for entire tree
-    on first call of get_children().
+    Creates a cache with preloaded content objects for the entire tree
+    on the first call of get_children().
 
-    Uses `1 + n` SQL queries, where n is count of used content types.
+    Uses `1 + n` SQL queries, where n is the count of used content types.
 
     """
     def __init__(self):
@@ -234,7 +234,7 @@ class NodeCache:
 
     def get_children(self, node):
         """
-        Returns cached child nodes
+        Returns the cached child nodes.
 
         Args:
             node(:class:`business_logic.models.Node`): parent node
@@ -285,11 +285,11 @@ class NodeCache:
 
 class NodeCacheHolder(object):
     """
-    Implements get_children() function using :class:`business_logic.models.NodeCache`
+    Implements the get_children() function using :class:`business_logic.models.NodeCache`.
     """
     def get_children(self, node):
         """
-        Returns cached child nodes
+        Returns the cached child nodes.
 
         Args:
             node(:class:`business_logic.models.Node`): parent node
@@ -306,8 +306,8 @@ class NodeVisitor(NodeCacheHolder):
     """
     Utility class for tree traversal.
 
-    Derived class should implement the :func:`business_logic.models.NodeVisitor.visit` method.
-    Traversal is made by executing :func:`business_logic.models.NodeVisitor.preorder`
+    The derived class should implement the :func:`business_logic.models.NodeVisitor.visit` method.
+    Traversal is made by executing the :func:`business_logic.models.NodeVisitor.preorder`
     or :func:`business_logic.models.NodeVisitor.postorder` method.
 
     Examples:
@@ -316,7 +316,7 @@ class NodeVisitor(NodeCacheHolder):
     """
     def visit(self, node, *args, **kwargs):
         """
-        Main method which should be realised in derived classes
+        Main method which should be implemented in derived classes.
 
         Args:
             node(:class:`business_logic.models.Node`): currently processed node
@@ -332,7 +332,7 @@ class NodeVisitor(NodeCacheHolder):
         Tree traversal from top to bottom.
 
         Args:
-            node(:class:`business_logic.models.Node`): node for starting tree traversal
+            node(:class:`business_logic.models.Node`): node for starting the tree traversal
             *args: arbitrary args which should be passed to :func:`business_logic.models.NodeVisitor.visit`
             **kwargs: arbitrary kwargs which should be passed to :func:`business_logic.models.NodeVisitor.visit`
         """
@@ -345,7 +345,7 @@ class NodeVisitor(NodeCacheHolder):
         Tree traversal from bottom to top.
 
         Args:
-            node(:class:`business_logic.models.Node`): node for starting tree traversal
+            node(:class:`business_logic.models.Node`): node for starting the tree traversal
             *args: arbitrary args which should be passed to :func:`business_logic.models.NodeVisitor.visit`
             **kwargs: arbitrary kwargs which should be passed to :func:`business_logic.models.NodeVisitor.visit`
         """
