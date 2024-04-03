@@ -1,9 +1,10 @@
 *
+!business_logic
+!docs/requirements.txt
+!manage.py
+!README.*
 !requirements.*
 !setup.*
-!tests
 !sites
-!business_logic
-!README.*
-!manage.py
+!tests
 sites/dev/db.sqlite3
