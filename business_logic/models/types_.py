@@ -44,8 +44,17 @@ DJANGO_FIELDS_FOR_TYPES = {
     'datetime': (models.DateTimeField,),
 }
 
-TYPES_FOR_DJANGO_FIELDS = {}
 
-for _type, fields in DJANGO_FIELDS_FOR_TYPES.items():
-    for field in fields:
-        TYPES_FOR_DJANGO_FIELDS[field] = _type
+def is_model_field(cls):
+    field_types in DJANGO_FIELDS_FOR_TYPES['model']
+    for field_type in field_types:
+        if issubclass(cls, field_type):
+            return True
+    return False
+
+
+def get_data_type(cls):
+    for data_type, field_types in DJANGO_FIELDS_FOR_TYPES.items():
+        for field_type in field_types:
+            if issubclass(cls, field_type):
+                return data_type
