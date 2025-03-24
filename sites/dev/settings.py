@@ -18,7 +18,7 @@ WSGI_APPLICATION = 'sites.dev.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(os.path.dirname(__file__), 'db.sqlite3'),
+        'NAME': os.environ.get('SQLITE_DB_PATH', os.path.join(os.path.dirname(__file__), 'db.sqlite3')),
     }
 }
 
